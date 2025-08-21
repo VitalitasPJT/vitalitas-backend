@@ -1,0 +1,456 @@
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\Vitalitas.exe
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\Vitalitas.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Relational.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.SqlServer.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\Microsoft.Identity.Client.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\System.Configuration.ConfigurationManager.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\runtimes\win\lib\net6.0\Microsoft.Data.SqlClient.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\appsettings.Development.json
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\appsettings.json
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\Vitalitas.staticwebassets.runtime.json
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\Vitalitas.staticwebassets.endpoints.json
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\Azure.Core.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\Azure.Identity.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\Humanizer.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\Microsoft.Build.Locator.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\Microsoft.CodeAnalysis.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\Microsoft.CodeAnalysis.CSharp.Workspaces.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.MSBuild.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\Microsoft.Data.SqlClient.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Design.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\Microsoft.Extensions.Caching.Abstractions.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\Microsoft.Extensions.Caching.Memory.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\Microsoft.Extensions.Configuration.Abstractions.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\Microsoft.Extensions.DependencyModel.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\Microsoft.Extensions.Logging.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\Microsoft.Extensions.Options.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\Microsoft.Extensions.Primitives.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\Microsoft.Identity.Client.Extensions.Msal.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\Microsoft.SqlServer.Server.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\Mono.TextTemplating.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\System.ClientModel.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\System.CodeDom.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\System.Composition.AttributedModel.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\System.Composition.Convention.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\System.Composition.Hosting.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\System.Composition.Runtime.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\System.Composition.TypedParts.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\System.Drawing.Common.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\System.Memory.Data.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\System.Runtime.Caching.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\System.Security.Permissions.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\System.Windows.Extensions.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.CSharp.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.CSharp.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.CSharp.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.CSharp.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.CSharp.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.CSharp.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.CSharp.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.CSharp.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.CSharp.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.CSharp.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\runtimes\unix\lib\net6.0\Microsoft.Data.SqlClient.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\Vitalitas.csproj.AssemblyReference.cache
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\Vitalitas.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\Vitalitas.AssemblyInfoInputs.cache
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\Vitalitas.AssemblyInfo.cs
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\Vitalitas.csproj.CoreCompileInputs.cache
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\Vitalitas.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\Vitalitas.RazorAssemblyInfo.cache
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\Vitalitas.RazorAssemblyInfo.cs
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\Vitalitas.sourcelink.json
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\scopedcss\Pages\Shared\_Layout.cshtml.rz.scp.css
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\scopedcss\bundle\Vitalitas.styles.css
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\scopedcss\projectbundle\Vitalitas.bundle.scp.css
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\jyb0nfltw1-mlv21k5csn.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\mci9q8shao-87fc7y1x7t.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\btgbzw7wiy-muycvpuwrr.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\u63qk5lvjh-2z0ns9nrw6.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\wt32ihjfsi-ttgo8qnofa.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\avw1aotzkc-o1o13a6vjx.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\askdg428yh-0i3buxo5is.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\8iv30gp5s6-x0q3zqp4vz.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\3uwaskhffd-ag7o75518u.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\r5fqqdzlem-lzl9nlhx6b.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\xoghp631mb-mrlpezrjn3.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\aw189b7nqs-83jwlth58m.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\szxxrw9aw2-356vix0kms.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\lr46lgpnyd-4v8eqarkd7.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\55mrqaw4y9-47otxtyo56.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\j4dx579xw6-0j3bgjxly4.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\ihsk6fo73g-63fj8s7r0e.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\e5c012becd-h1s4sie4z3.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\tqf33cozic-notf2xhcfb.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\2j4w6jkf6b-y7v9cxd14o.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\zkru3icw8s-jj8uyg4cgr.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\ydm2a1my11-kbrnm935zg.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\4xokmcwnvc-vr1egmr9el.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\fcqvnw2fdm-iovd86k7lj.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\8g7l5r5ikb-493y06b0oq.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\7pa2o9edv9-6pdc2jztkx.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\wzg6zdf5m5-6cfz1n2cew.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\mx4kxuylfd-ft3s53vfgj.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\qeeuo0agqg-pk9g2wxc8p.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\t6w7lmot17-hrwsygsryq.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\8s83h7icyk-37tfw0ft22.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\rg8t0n5f41-v0zj4ognzu.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\9j3hso1pu4-46ein0sx1k.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\5vxuotin3c-pj5nd1wqec.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\pvs20jqp39-s35ty4nyc5.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\2vjukrxenp-nvvlpmu67g.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\8z5ydk6ta1-06098lyss8.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\slb5n2wb1p-j5mq2jizvt.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\rlc173frno-tdbxkamptv.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\8gryhw2auo-c2oey78nd0.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\lznu34s4d8-lcd1t2u6c8.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\rje1e2fp6p-r4e9w2rdcm.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\8mk741hnv1-khv3u5hwcm.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\ajdu4h8npe-jd9uben2k1.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\ubsaz1nd8m-dxx9fxp4il.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\xnoistu6ph-ee0r1s7dh0.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\rrgy5m4bwf-rzd6atqjts.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\62r3r0p9pt-fsbi9cje9m.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\xc7955dm3m-b7pk76d08c.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\l1d79shebd-fvhpjtyr6v.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\4gfzx4ebhx-ub07r2b239.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\cvpi9e25q0-cosvhxvwiu.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\1o6u8yetr2-k8d9w2qqmf.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\kd6pxufqg0-ausgxo2sd3.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\m6srnaf2f5-d7shbmvgxk.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\4ydwha6ukx-aexeepp0ev.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\c2cgff8ljk-erw9l3u2r3.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\o4ndyab88o-c2jlpeoesf.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\kfipdn8esn-bqjiyaj88i.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\yddyxk0h9c-xtxxf3hu2r.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\8vrbohloyo-61n19gt1b8.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\raie0gbtwd-b9sayid5wm.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\3v8q4vqyiw-h0km42tet7.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\compressed\rk2651pegj-h0km42tet7.gz
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\staticwebassets.build.json
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\staticwebassets.build.json.cache
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\staticwebassets.development.json
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\staticwebassets.build.endpoints.json
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\Vitalitas.csproj.Up2Date
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\Vitalitas.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\refint\Vitalitas.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\Vitalitas.pdb
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\Vitalitas.deps.json
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\Vitalitas.runtimeconfig.json
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\Vitalitas.pdb
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\Vitalitas.genruntimeconfig.cache
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\obj\Debug\net9.0\ref\Vitalitas.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\Npgsql.dll
+C:\Users\sande\DevOper\Code - Faculdade\5 Semestre\Projeto\back_end_devoper\Vitalitas\bin\Debug\net9.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\appsettings.Development.json
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\appsettings.json
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\Vitalitas.staticwebassets.runtime.json
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\Vitalitas.staticwebassets.endpoints.json
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\Vitalitas.exe
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\Vitalitas.deps.json
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\Vitalitas.runtimeconfig.json
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\Vitalitas.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\Vitalitas.pdb
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\Azure.Core.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\Azure.Identity.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\Humanizer.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\Microsoft.Bcl.AsyncInterfaces.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\Microsoft.Build.Locator.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\Microsoft.CodeAnalysis.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\Microsoft.CodeAnalysis.CSharp.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\Microsoft.CodeAnalysis.CSharp.Workspaces.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.MSBuild.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\Microsoft.Data.SqlClient.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Design.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Relational.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.SqlServer.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\Microsoft.Extensions.Caching.Abstractions.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\Microsoft.Extensions.Caching.Memory.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\Microsoft.Extensions.Configuration.Abstractions.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\Microsoft.Extensions.DependencyInjection.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\Microsoft.Extensions.DependencyModel.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\Microsoft.Extensions.Logging.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\Microsoft.Extensions.Logging.Abstractions.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\Microsoft.Extensions.Options.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\Microsoft.Extensions.Primitives.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\Microsoft.Identity.Client.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\Microsoft.Identity.Client.Extensions.Msal.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\Microsoft.IdentityModel.Abstractions.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\Microsoft.IdentityModel.JsonWebTokens.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\Microsoft.IdentityModel.Logging.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\Microsoft.IdentityModel.Tokens.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\Microsoft.SqlServer.Server.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\Microsoft.Win32.SystemEvents.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\Mono.TextTemplating.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\Npgsql.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\System.ClientModel.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\System.CodeDom.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\System.Composition.AttributedModel.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\System.Composition.Convention.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\System.Composition.Hosting.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\System.Composition.Runtime.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\System.Composition.TypedParts.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\System.Configuration.ConfigurationManager.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\System.Drawing.Common.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\System.Memory.Data.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\System.Runtime.Caching.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\System.Security.Cryptography.ProtectedData.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\System.Security.Permissions.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\System.Windows.Extensions.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.CSharp.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.CSharp.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.CSharp.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.CSharp.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.CSharp.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.CSharp.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.CSharp.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.CSharp.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.CSharp.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.CSharp.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.Workspaces.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.Workspaces.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.Workspaces.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.Workspaces.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.Workspaces.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.Workspaces.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.Workspaces.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.Workspaces.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\runtimes\unix\lib\net6.0\Microsoft.Data.SqlClient.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\runtimes\win\lib\net6.0\Microsoft.Data.SqlClient.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\Vitalitas.csproj.AssemblyReference.cache
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\Vitalitas.GeneratedMSBuildEditorConfig.editorconfig
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\Vitalitas.AssemblyInfoInputs.cache
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\Vitalitas.AssemblyInfo.cs
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\Vitalitas.csproj.CoreCompileInputs.cache
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\Vitalitas.MvcApplicationPartsAssemblyInfo.cache
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\Vitalitas.RazorAssemblyInfo.cache
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\Vitalitas.RazorAssemblyInfo.cs
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\Vitalitas.sourcelink.json
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\scopedcss\Pages\Shared\_Layout.cshtml.rz.scp.css
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\scopedcss\bundle\Vitalitas.styles.css
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\scopedcss\projectbundle\Vitalitas.bundle.scp.css
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\raie0gbtwd-b9sayid5wm.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\8vrbohloyo-61n19gt1b8.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\yddyxk0h9c-xtxxf3hu2r.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\kfipdn8esn-t1cqhe9u97.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\o4ndyab88o-c2jlpeoesf.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\c2cgff8ljk-sejl45xvog.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\4ydwha6ukx-aexeepp0ev.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\m6srnaf2f5-xvp3kq03qx.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\kd6pxufqg0-ausgxo2sd3.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\1o6u8yetr2-22vffe00uq.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\cvpi9e25q0-cosvhxvwiu.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\4gfzx4ebhx-qesaa3a1fm.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\l1d79shebd-fvhpjtyr6v.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\xc7955dm3m-tmc1g35s3z.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\62r3r0p9pt-fsbi9cje9m.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\rrgy5m4bwf-rxsg74s51o.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\xnoistu6ph-ee0r1s7dh0.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\ubsaz1nd8m-q9ht133ko3.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\ajdu4h8npe-jd9uben2k1.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\8mk741hnv1-gye83jo8yx.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\rje1e2fp6p-r4e9w2rdcm.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\lznu34s4d8-wl58j5mj3v.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\8gryhw2auo-c2oey78nd0.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\rlc173frno-d4r6k3f320.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\slb5n2wb1p-j5mq2jizvt.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\8z5ydk6ta1-keugtjm085.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\2vjukrxenp-nvvlpmu67g.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\pvs20jqp39-zub09dkrxp.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\5vxuotin3c-pj5nd1wqec.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\9j3hso1pu4-43atpzeawx.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\rg8t0n5f41-v0zj4ognzu.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\8s83h7icyk-ynyaa8k90p.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\t6w7lmot17-hrwsygsryq.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\qeeuo0agqg-c63t5i9ira.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\mx4kxuylfd-ft3s53vfgj.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\wzg6zdf5m5-4094rpi4f9.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\7pa2o9edv9-6pdc2jztkx.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\8g7l5r5ikb-hd3gran6i8.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\fcqvnw2fdm-iovd86k7lj.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\4xokmcwnvc-ltid2c489k.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\ydm2a1my11-kbrnm935zg.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\zkru3icw8s-8vyfqsqgz1.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\2j4w6jkf6b-y7v9cxd14o.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\tqf33cozic-u9q1upor1n.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\e5c012becd-h1s4sie4z3.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\ihsk6fo73g-4d85u1mtcx.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\j4dx579xw6-0j3bgjxly4.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\55mrqaw4y9-03hjc8e09r.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\lr46lgpnyd-48y08845bh.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\szxxrw9aw2-356vix0kms.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\aw189b7nqs-83jwlth58m.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\xoghp631mb-mrlpezrjn3.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\r5fqqdzlem-worgj0nhwm.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\3uwaskhffd-gk0pw8i4co.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\8iv30gp5s6-x0q3zqp4vz.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\askdg428yh-d6nrnj6jjx.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\avw1aotzkc-m9qm4tazc0.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\wt32ihjfsi-ttgo8qnofa.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\u63qk5lvjh-jjsuc0puko.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\btgbzw7wiy-9vr69e8ynj.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\mci9q8shao-87fc7y1x7t.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\jyb0nfltw1-mlv21k5csn.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\3v8q4vqyiw-h0km42tet7.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\compressed\rk2651pegj-h0km42tet7.gz
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\staticwebassets.build.json
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\staticwebassets.build.json.cache
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\staticwebassets.development.json
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\staticwebassets.build.endpoints.json
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\Vitalitas.csproj.Up2Date
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\Vitalitas.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\refint\Vitalitas.dll
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\Vitalitas.pdb
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\Vitalitas.genruntimeconfig.cache
+c:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\ref\Vitalitas.dll
+C:\Users\sande\DevOper\Vitalitas\Back\vitalitas-backend\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
