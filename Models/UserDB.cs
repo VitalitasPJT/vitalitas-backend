@@ -8,26 +8,25 @@ namespace Vitalitas.Models
     public class UsuarioC
     {
         [Key]
-        [Column("ID")]
-        public required string Id { get; set; }
+        [Column("ID_USUARIO")]
+        public string Id_Usuario { get; set; }
 
         [Required]
-        public required string Nome { get; set; }
+        public DateOnly Data_Nascimento { get; set; }
 
         [Required]
-        public required string Usuario { get; set; }
+        public string Senha { get; set; }
 
         [Required]
-        public required string Email { get; set; }
+        public string Cpf { get; set; }
+        [Required]
+        public string Nome { get; set; }
 
         [Required]
-        public required string Senha { get; set; }
+        public string Telefone { get; set; }
 
         [Required]
-        public required string Telefone { get; set; }
-
-        [Required]
-        public required string Tipo { get; set; }
+        public string Email { get; set; }
     }
 
     public class LoginUser
@@ -94,8 +93,7 @@ namespace Vitalitas.Models
         public string Objetivo { get; set; }
 
         [Key]
-        [Required]
-        public string Cpf { get; set; }
+        
 
         [Required]
         public DateTime Data_Nascimento { get; set; }

@@ -26,7 +26,7 @@ public class UserController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<Responser<List<UsuarioC>>>> Get()
     {
-        var listadeusuarios = await(_context.Usuarios).ToListAsync();
+        var listadeusuarios = await(_context.Usuario).ToListAsync();
         return Ok(new Responser<List<UsuarioC>>("Listagem de todos usuarios feito com sucesso", true, listadeusuarios));
     }
 
@@ -34,7 +34,7 @@ public class UserController : ControllerBase
     [HttpGet("{id}")]
     public ActionResult<Responser<dynamic>> Get(string id)
     {
-        var user = _context.Usuarios.Find(id);
+        var user = _context.Usuario.Find(id);
         if (user == null)
             return NotFound(new Responser<dynamic>("Usuario nao encontrado com esse id", false, null));
 
@@ -44,12 +44,11 @@ public class UserController : ControllerBase
     [HttpGet("sexo")]
     public ActionResult<Responser<dynamic>> GetSexo([FromQuery] string id)
     {
-        var user = (from u in _context.Usuarios
-                    join j in _context.Alunos on u.Id equals j.Id_Usuario
-                    where u.Id == id
+        var user = (from u in _context.Usuario
+                    join j in _context.Alunos on u.Id_Usuario equals j.Id_Usuario
+                    where u.Id_Usuario == id
                     select new
                     {
-                        u.Usuario,
                         u.Nome,
                         j.Sexo
                     }).FirstOrDefault();
@@ -60,10 +59,10 @@ public class UserController : ControllerBase
         return Ok(new Responser<dynamic>("Sexo do aluno encontrado", true, user.Sexo));
     }
 
-    [HttpPost("loginadm")]
+    /*[HttpPost("loginadm")]
     public ActionResult<LoginResponseAdm> LoginAdm([FromBody] LoginAdm login)
     {
-        var usuario = (from u in _context.Usuarios
+        var usuario = (from u in _context.Usuario
                        join j in _context.Administradores on login.Id_Acesso equals j.Id_Acesso
                        where u.Usuario == login.Usuario
                        && u.Senha == login.Password
@@ -95,7 +94,7 @@ public class UserController : ControllerBase
     [HttpPost("loginuser")]
     public ActionResult<LoginResponseUser> LoginUser([FromBody] LoginUser login)
     {
-        var usuario = _context.Usuarios
+        var usuario = _context.Usuario
             .Where(u => u.Usuario == login.Usuario && u.Senha == login.Password)
             .Select(u => new { u.Tipo, u.Id })
             .FirstOrDefault();
@@ -122,13 +121,13 @@ public class UserController : ControllerBase
                 Id = null,
             });
         }
-    }
+    }*/
 
 
     [HttpPost]
     public ActionResult<Responser<UsuarioC>> Post(UsuarioC user)
     {
-        _context.Usuarios.Add(user);
+        _context.Usuario.Add(user);
         _context.SaveChanges();
 
         return CreatedAtAction(nameof(Get), new Responser<UsuarioC>("Usuario criado com sucesso", true, user));
@@ -165,13 +164,11 @@ public class UserController : ControllerBase
     public async Task<ActionResult<Responser<List<ProfessorDados>>>> getProfessores()
     {
         var professores = await (
-            from u in _context.Usuarios
-            where u.Tipo == "P"
+            from u in _context.Usuario
             select new ProfessorDados
             {
                 Nome = u.Nome,
-                Usuario = u.Usuario,
-                Id = u.Id,
+                Id = u.Id_Usuario,
             }
             ).ToListAsync();
 
@@ -182,22 +179,20 @@ public class UserController : ControllerBase
     public async Task<ActionResult<Responser<List<object>>>> getAlunos([FromQuery] string prof)
     {
         var alunos = await (
-            from u in _context.Usuarios
-            join p in _context.Alunos on u.Id equals p.Id_Usuario
+            from u in _context.Usuario
+            join p in _context.Alunos on u.Id_Usuario equals p.Id_Usuario
             where p.Responsavel == prof
             select new 
             {
-                Id = u.Id,
+                Id = u.Id_Usuario,
                 Nome = u.Nome,
-                Usuario = u.Usuario,
                 Email = u.Email,
                 Telefone = u.Telefone,
-                Tipo = u.Tipo,
 
                 Status =  p.Status,
                 Data_Inscricao = p.Data_Inscricao,
                 Objetivo = p.Objetivo,
-                Cpf = p.Cpf,
+                //Cpf = p.Cpf,
                 Data_Nascimento = p.Data_Nascimento,
                 Responsavel = p.Responsavel
             }
@@ -213,7 +208,7 @@ public class UserController : ControllerBase
     [HttpPut("{id}")]
     public IActionResult Put(string id, UsuarioC user)
     {
-        if (id != user.Id)
+        if (id != user.Id_Usuario)
             return BadRequest();
 
         _context.Entry(user).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
@@ -225,11 +220,11 @@ public class UserController : ControllerBase
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)
     {
-        var user = _context.Usuarios.Find(id);
+        var user = _context.Usuario.Find(id);
         if (user == null)
             return NotFound();
 
-        _context.Usuarios.Remove(user);
+        _context.Usuario.Remove(user);
         _context.SaveChanges();
         return NoContent();
     }
