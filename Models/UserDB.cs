@@ -4,42 +4,95 @@ using System.Globalization;
 
 namespace Vitalitas.Models
 {
-    [Table("USUARIO")]
-    public class UsuarioC
+    [Table("usuario")]
+    public class Usuario
     {
         [Key]
-        [Column("ID_USUARIO")]
-        public string Id_Usuario { get; set; }
+        [Column("[id_usuario]")]
+        public int IdUsuario { get; set; }
 
         [Required]
-        public DateOnly Data_Nascimento { get; set; }
-
-        [Required]
-        public string Senha { get; set; }
-
-        [Required]
-        public string Cpf { get; set; }
-        [Required]
+        [Column("[nome]")]
         public string Nome { get; set; }
 
         [Required]
-        public string Telefone { get; set; }
+        [Column("[cpf]")]
+        public string Cpf { get; set; }
 
         [Required]
+        [Column("[email]")]
         public string Email { get; set; }
+
+        [Required]
+        [Column("[senha]")]
+        public string Senha { get; set; }
+
+        [Required]
+        [Column("[data_nascimento]")]
+        public DateOnly DataNascimento { get; set; }
+
+        [Required]
+        [Column("[rua]")]
+        public string Rua { get; set; }
+
+        [Required]
+        [Column("[bairro]")]
+        public string Bairro { get; set; }
+
+        [Required]
+        [Column("[cidade]")]
+        public string Cidade { get; set; }
+
+        [Required]
+        [Column("[estado]")]
+        public string Estado { get; set; }
+
+        [Required]
+        [Column("[cep]")]
+        public string Cep { get; set; }
+
+        [Required]
+        [Column("[quadra]")]
+        public string Quadra { get; set; }
+
     }
 
-    public class LoginUser
+    [Table("usuario_telefone")]
+    public class UsarioTelefone
+    {
+        [Required]
+        [Key]
+        [Column("[id_telefone]")]
+        public int IdTelefone { get; set; }
+
+        [Required]
+        [Column("[id_usuario]")]
+        public int IdUsuario { get; set; }
+
+        [Required]
+        [Column("[telefone]")]
+        public string Telefone { get; set; }
+    }
+
+    [Table("administrador")]
+    public class Administrador
+    {
+        [Key]
+        [Required]
+        [Column("[id_adm]")]
+        public int IdAdm { get; set; }
+
+        [Required]
+        [Column("[id_usuario]")]
+        public int IdUsuario { get; set; }
+    }
+    
+    
+
+    public class Login
     {
         public string Usuario { get; set; }
         public string Password { get; set; }
-    }
-
-    public class LoginAdm
-    {
-        public string Usuario { get; set; }
-        public string Password { get; set; }
-        public string Id_Acesso {  get; set; }
     }
 
     public class LoginResponseUser
@@ -117,20 +170,5 @@ namespace Vitalitas.Models
   
     }
 
-    [Table("ADMINISTRADOR")]
-    public class Administrador
-    {
-        [Required]
-        public string Id_Usuario { get; set; }
-
-        [Required]
-        public string Nivel { get; set; }
-        
-        [Key]
-        [Required]
-        public long Registro { get; set; }
-
-        [Required]
-        public string Id_Acesso { get; set; }
-    }
+    
 }

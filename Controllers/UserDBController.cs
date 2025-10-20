@@ -24,28 +24,29 @@ public class UserController : ControllerBase
 
 
     [HttpGet]
-    public async Task<ActionResult<Responser<List<UsuarioC>>>> Get()
+    public async Task<ActionResult<Responser<List<Usuario>>>> Get()
     {
-        var listadeusuarios = await(_context.Usuario).ToListAsync();
-        return Ok(new Responser<List<UsuarioC>>("Listagem de todos usuarios feito com sucesso", true, listadeusuarios));
+        var listadeusuarios = await (_context.Usuarios).ToListAsync();
+        return Ok(new Responser<List<Usuario>>("Listagem de todos usuarios feito com sucesso", true, listadeusuarios));
     }
 
 
     [HttpGet("{id}")]
     public ActionResult<Responser<dynamic>> Get(string id)
     {
-        var user = _context.Usuario.Find(id);
+        var user = _context.Usuarios.Find(id);
         if (user == null)
             return NotFound(new Responser<dynamic>("Usuario nao encontrado com esse id", false, null));
 
         return Ok(new Responser<dynamic>("Usuario com o id encontrado", true, user));
     }
+}
 
-    [HttpGet("sexo")]
+    /*[HttpGet("sexo")]
     public ActionResult<Responser<dynamic>> GetSexo([FromQuery] string id)
     {
-        var user = (from u in _context.Usuario
-                    join j in _context.Alunos on u.Id_Usuario equals j.Id_Usuario
+        var user = (from u in _context.Usuarios
+                    join j in _context.Alunos on u.IdUsuario equals j.Id_Usuario
                     where u.Id_Usuario == id
                     select new
                     {
@@ -59,7 +60,7 @@ public class UserController : ControllerBase
         return Ok(new Responser<dynamic>("Sexo do aluno encontrado", true, user.Sexo));
     }
 
-    /*[HttpPost("loginadm")]
+    [HttpPost("loginadm")]
     public ActionResult<LoginResponseAdm> LoginAdm([FromBody] LoginAdm login)
     {
         var usuario = (from u in _context.Usuario
@@ -121,16 +122,15 @@ public class UserController : ControllerBase
                 Id = null,
             });
         }
-    }*/
-
+    } AQUII PRE SELECT
 
     [HttpPost]
-    public ActionResult<Responser<UsuarioC>> Post(UsuarioC user)
+    public ActionResult<Responser<Usuario>> Post(Usuario user)
     {
-        _context.Usuario.Add(user);
+        _context.Usuarios.Add(user);
         _context.SaveChanges();
 
-        return CreatedAtAction(nameof(Get), new Responser<UsuarioC>("Usuario criado com sucesso", true, user));
+        return CreatedAtAction(nameof(Get), new Responser<Usuario>("Usuario criado com sucesso", true, user));
     }
 
     [HttpPost("aluno")]
@@ -164,11 +164,11 @@ public class UserController : ControllerBase
     public async Task<ActionResult<Responser<List<ProfessorDados>>>> getProfessores()
     {
         var professores = await (
-            from u in _context.Usuario
+            from u in _context.Usuarios
             select new ProfessorDados
             {
                 Nome = u.Nome,
-                Id = u.Id_Usuario,
+                Id = u.IdUsuario,
             }
             ).ToListAsync();
 
@@ -179,8 +179,8 @@ public class UserController : ControllerBase
     public async Task<ActionResult<Responser<List<object>>>> getAlunos([FromQuery] string prof)
     {
         var alunos = await (
-            from u in _context.Usuario
-            join p in _context.Alunos on u.Id_Usuario equals p.Id_Usuario
+            from u in _context.Usuarios
+            join p in _context.Alunos on u.IdUsuario equals p.Id_Usuario
             where p.Responsavel == prof
             select new 
             {
@@ -206,9 +206,9 @@ public class UserController : ControllerBase
     
 
     [HttpPut("{id}")]
-    public IActionResult Put(string id, UsuarioC user)
+    public IActionResult Put(string id, Usuario user)
     {
-        if (id != user.Id_Usuario)
+        if (id != user.IdUsuario)
             return BadRequest();
 
         _context.Entry(user).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
@@ -220,11 +220,11 @@ public class UserController : ControllerBase
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)
     {
-        var user = _context.Usuario.Find(id);
+        var user = _context.Usuarios.Find(id);
         if (user == null)
             return NotFound();
 
-        _context.Usuario.Remove(user);
+        _context.Usuarios.Remove(user);
         _context.SaveChanges();
         return NoContent();
     }
