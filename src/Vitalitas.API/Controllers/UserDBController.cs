@@ -40,9 +40,9 @@ public class UserController : ControllerBase
 
         return Ok(new Responser<dynamic>("Usuario com o id encontrado", true, user));
     }
-}
 
-    /*[HttpGet("sexo")]
+
+/*[HttpGet("sexo")]
     public ActionResult<Responser<dynamic>> GetSexo([FromQuery] string id)
     {
         var user = (from u in _context.Usuarios
@@ -228,4 +228,5 @@ public class UserController : ControllerBase
         _context.SaveChanges();
         return NoContent();
     }
+    */
 }
