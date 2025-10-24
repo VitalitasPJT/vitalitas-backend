@@ -1,6 +1,32 @@
+################################
+# Padrões Gerados pelo .NET CLI
+################################
+[Bb]in/
+[Oo]bj/
+*.log
+*.pfx
+temp/
+
+# Pacotes
+**/node_modules
+*.nuget.props
+
+# Diretórios de compilação
+**/[Bb]in/
+**/[Oo]bj/
+
+################################
+# Configurações do Visual Studio
+################################
 .vs/
-bin/
-obj/
-appsettings.Development.json
+*.user
+*.user.*
 Vitalitas.csproj.user
-*.sln
+*.suo
+
+################################
+# Configurações de Ambiente/Segredos
+################################
+# Se você tiver SEGREDOS no Development, use isso:
+# appsettings.Development.json 
+# Se você NÃO tem secrets aqui, REMOVA a linha acima.
