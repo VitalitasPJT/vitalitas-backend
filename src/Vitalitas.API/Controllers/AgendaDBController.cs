@@ -1,4 +1,4 @@
-﻿using Azure;
+﻿/*using Azure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
@@ -59,3 +59,4 @@ public class AgendaController : ControllerBase
 
 
 }
+*/

@@ -8,6 +8,27 @@ USE VITALITAS_DEV;
 GO
 
 -- =========================
+-- Script de Deleção das Tabelas
+-- =========================
+
+DROP TABLE treino_exercicio;
+DROP TABLE exercicio;
+DROP TABLE treino;
+DROP TABLE ficha;
+DROP TABLE avaliacao;
+DROP TABLE agenda;
+DROP TABLE professor;
+DROP TABLE mensalidade;
+DROP TABLE contrato;
+DROP TABLE aluno;
+DROP TABLE administracao;
+DROP TABLE academia_telefone;
+DROP TABLE academia;
+DROP TABLE administrador;
+DROP TABLE usuario_telefone;
+DROP TABLE usuario;
+
+-- =========================
 -- Script de Criação das Tabelas
 -- =========================
 

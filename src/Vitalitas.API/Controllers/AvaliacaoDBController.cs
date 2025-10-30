@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿/*using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 using Vitalitas.Calculations;
@@ -210,3 +210,4 @@ namespace Vitalitas.Controllers
         }
     }
 }
+*/

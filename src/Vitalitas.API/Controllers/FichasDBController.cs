@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿/*using Microsoft.AspNetCore.Mvc;
 using Vitalitas.Models;
 using System.Collections.Generic;
 using System.Linq;
@@ -105,3 +105,4 @@ public class FichaController : ControllerBase
         return Ok(new Responser<List<TreinoExercicio>>("Listagem feita com sucesso", true, exercicio));
     }
 }
+*/

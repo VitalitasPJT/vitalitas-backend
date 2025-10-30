@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
+﻿using Azure;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -21,8 +22,34 @@ public class UserController : ControllerBase
     {
         return Ok(new { message = "Hello World", success = true });
     }
+    
+    [HttpPost("login")]
+    public ActionResult<LoginResponse> Login([FromBody] LoginRequest login)
+    {
+        var usuario = (from u in _context.Usuarios
+                       where u.Email == login.Email
+                       && u.Senha == login.Senha
+                       select new
+                       {
+                           u.IdUsuario,
+                           u.TipoUsuario
+                       }).FirstOrDefault();
 
+        if (usuario != null)
+        {
+            Status status = new Status("Usuario encontrado", 200, true);
+            LoginResponse response = new LoginResponse(usuario.TipoUsuario, usuario.IdUsuario, status);
+            return Ok(response);
+        }
+        else
+        {
+            Status status = new Status("Usuario não encontrado", 404, false);
+            LoginResponse response = new LoginResponse(null, 0, status);
+            return Unauthorized(response);
+        }
+    }
 
+    /*
     [HttpGet]
     public async Task<ActionResult<Responser<List<Usuario>>>> Get()
     {
@@ -42,7 +69,7 @@ public class UserController : ControllerBase
     }
 
 
-/*[HttpGet("sexo")]
+    [HttpGet("sexo")]
     public ActionResult<Responser<dynamic>> GetSexo([FromQuery] string id)
     {
         var user = (from u in _context.Usuarios
@@ -60,37 +87,7 @@ public class UserController : ControllerBase
         return Ok(new Responser<dynamic>("Sexo do aluno encontrado", true, user.Sexo));
     }
 
-    [HttpPost("loginadm")]
-    public ActionResult<LoginResponseAdm> LoginAdm([FromBody] LoginAdm login)
-    {
-        var usuario = (from u in _context.Usuario
-                       join j in _context.Administradores on login.Id_Acesso equals j.Id_Acesso
-                       where u.Usuario == login.Usuario
-                       && u.Senha == login.Password
-                       select new
-                       {
-                           u.Id
-                       }).FirstOrDefault();
-
-        if (usuario != null)
-        {
-            var response = new LoginResponseAdm
-            {
-                Sucesso = "true",
-                Id = usuario.Id
-            };
-
-            return Ok(response);
-        }
-        else
-        {
-            return Unauthorized(new LoginResponseAdm
-            {
-                Sucesso = "false",
-                Id = null,
-            });
-        }
-    }
+    
 
     [HttpPost("loginuser")]
     public ActionResult<LoginResponseUser> LoginUser([FromBody] LoginUser login)
