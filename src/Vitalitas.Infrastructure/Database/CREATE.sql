@@ -1,15 +1,16 @@
 -- =========================
 -- Criação do Banco de Dados
 -- =========================
---CREATE DATABASE Vitalitas;
---GO
+CREATE DATABASE VITALITAS_DEV;
+GO
 
 USE VITALITAS_DEV;
---GO
+GO
 
 -- =========================
--- Script de Criação das Tabelas
+-- Script de Deleção das Tabelas
 -- =========================
+
 DROP TABLE treino_exercicio;
 DROP TABLE exercicio;
 DROP TABLE treino;
@@ -26,7 +27,10 @@ DROP TABLE academia;
 DROP TABLE administrador;
 DROP TABLE usuario_telefone;
 DROP TABLE usuario;
-GO
+
+-- =========================
+-- Script de Criação das Tabelas
+-- =========================
 
 CREATE TABLE [usuario] (
   [id_usuario] INT PRIMARY KEY,
@@ -40,7 +44,8 @@ CREATE TABLE [usuario] (
   [cidade] NVARCHAR(255),
   [estado] NVARCHAR(255),
   [cep] NVARCHAR(255),
-  [quadra] NVARCHAR(255)
+  [quadra] NVARCHAR(255),
+  [tipo_usuario] NVARCHAR(255)
 );
 GO
 
@@ -91,14 +96,10 @@ CREATE TABLE [administracao] (
 );
 GO
 
---Aqui precisa colocar os atributos no aluno: 
-	--objetivo
-	--professor_responsavel
-	--sexo
-
 CREATE TABLE [aluno] (
   [id_aluno] INT PRIMARY KEY,
   [id_usuario] INT,
+  [objetivo] NVARCHAR(255),
   FOREIGN KEY ([id_usuario]) REFERENCES [usuario]([id_usuario])
 );
 GO
@@ -133,17 +134,10 @@ CREATE TABLE [professor] (
 );
 GO
 
---Aqui precisa colocar os atributos no agenda: 
-	--id_aluno
-	--status
-	--data
-	-- *Retirar dia da semana e colcocar data do tipo dd/mm/aaaa
-
 CREATE TABLE [agenda] (
   [id_agenda] INT PRIMARY KEY,
   [id_professor] INT,
-  [hora] TIME,
-  [dia_semana] NVARCHAR(255),
+  [data] DATETIME,
   [status] NVARCHAR(255),
   FOREIGN KEY ([id_professor]) REFERENCES [professor]([id_professor])
 );
@@ -156,6 +150,7 @@ CREATE TABLE [avaliacao] (
   [data] DATE,
   [hora] TIME,
   [peso] DECIMAL(10,2),
+  [sexo] NVARCHAR(255),
   [altura] DECIMAL(10,2),
   [idade] INT,
   [glicemia] DECIMAL(10,2),
@@ -193,14 +188,10 @@ CREATE TABLE [avaliacao] (
 );
 GO
 
---Aqui precisa colocar os atributos na ficha: 
-	--data de validade
-	--nome da ficha*
-	--observacoes
-
 CREATE TABLE [ficha] (
   [id_ficha] INT PRIMARY KEY,
-  [nome_treino] NVARCHAR(255),
+  [nome_ficha] NVARCHAR(255),
+  [observacoes] NVARCHAR(255),
   [id_avaliacao] INT,
   FOREIGN KEY ([id_avaliacao]) REFERENCES [avaliacao]([id_avaliacao])
 );
@@ -209,6 +200,7 @@ GO
 CREATE TABLE [treino] (
   [id_treino] INT PRIMARY KEY,
   [tipo] NVARCHAR(255),
+  [nome_treino] NVARCHAR(255),
   [id_ficha] INT UNIQUE NOT NULL,
   FOREIGN KEY ([id_ficha]) REFERENCES [ficha]([id_ficha])
 );
