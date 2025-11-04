@@ -19,7 +19,7 @@ namespace Vitalitas.Controllers
             _context = context;
         }
 
-        [HttpPost]
+        /*[HttpPost]
         public ActionResult<Responser<Avaliacao>> PostAvaliacao([FromBody] Avaliacao avaliacao)
         {
             _context.Avaliacoes.Add(avaliacao);
@@ -207,6 +207,6 @@ namespace Vitalitas.Controllers
                 ).FirstOrDefaultAsync();
 
             return Ok(new Responser<dynamic>("", true, resultados));
-        }
+        }*/
     }
 }

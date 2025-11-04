@@ -14,7 +14,7 @@ public class AgendaController : ControllerBase
         _context = context;
     }
 
-    [HttpPost]
+    /*[HttpPost]
     public async Task<ActionResult<Responser<Agenda>>> PostAgenda([FromBody] Agenda agenda)
     {
         var existe = await _context.Agendas.FirstOrDefaultAsync(e => (e.Data == agenda.Data) && (e.Hora == agenda.Hora));
@@ -55,7 +55,7 @@ public class AgendaController : ControllerBase
         }
 
         return Ok(new Responser<List<Agenda>>("Agendas carregadas com sucesso", true, agendas));
-    }
+    }*/
 
 
 }

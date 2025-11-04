@@ -17,7 +17,7 @@ public class FichaController : ControllerBase
         _context = context;
     }
 
-    [HttpPost]
+    /*[HttpPost]
     public ActionResult<Responser<FichaDeTreino>> PostFicha([FromBody] FichaDeTreino fichaDeTreino)
     {
 
@@ -103,5 +103,5 @@ public class FichaController : ControllerBase
             }).ToListAsync();
 
         return Ok(new Responser<List<TreinoExercicio>>("Listagem feita com sucesso", true, exercicio));
-    }
+    }*/
 }
