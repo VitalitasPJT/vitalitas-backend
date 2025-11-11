@@ -8,55 +8,55 @@ namespace Vitalitas.Models
     public class Usuario
     {
         [Key]
-        [Column("[id_usuario]")]
+        [Column("id_usuario")]
         public int IdUsuario { get; set; }
 
         [Required]
-        [Column("[nome]")]
+        [Column("nome")]
         public string Nome { get; set; }
 
         [Required]
-        [Column("[cpf]")]
+        [Column("cpf")]
         public string Cpf { get; set; }
 
         [Required]
-        [Column("[email]")]
+        [Column("email")]
         public string Email { get; set; }
 
         [Required]
-        [Column("[senha]")]
+        [Column("senha")]
         public string Senha { get; set; }
 
         [Required]
-        [Column("[data_nascimento]")]
+        [Column("data_nascimento")]
         public DateOnly DataNascimento { get; set; }
 
         [Required]
-        [Column("[rua]")]
+        [Column("rua")]
         public string Rua { get; set; }
 
         [Required]
-        [Column("[bairro]")]
+        [Column("bairro")]
         public string Bairro { get; set; }
 
         [Required]
-        [Column("[cidade]")]
+        [Column("cidade")]
         public string Cidade { get; set; }
 
         [Required]
-        [Column("[estado]")]
+        [Column("estado")]
         public string Estado { get; set; }
 
         [Required]
-        [Column("[cep]")]
+        [Column("cep")]
         public string Cep { get; set; }
 
         [Required]
-        [Column("[quadra]")]
+        [Column("quadra")]
         public string Quadra { get; set; }
 
         [Required]
-        [Column("[tipo_usuario]")]
+        [Column("tipo_usuario")]
         public string TipoUsuario { get; set; }
 
     }

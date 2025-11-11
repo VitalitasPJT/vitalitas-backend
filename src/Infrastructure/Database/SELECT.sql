@@ -1,0 +1,4 @@
+USE VITALITAS_DEV;
+GO
+
+SELECT * FROM usuario;

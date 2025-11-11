@@ -28,24 +28,24 @@ public class UserController : ControllerBase
     {
         var usuario = (from u in _context.Usuarios
                        where u.Email == login.Email
-                       && u.Senha == login.Senha
+                       && u.Senha == login.Password
                        select new
                        {
                            u.IdUsuario,
                            u.TipoUsuario
                        }).FirstOrDefault();
 
-        if (usuario != null)
-        {
-            Status status = new Status("Usuario encontrado", 200, true);
-            LoginResponse response = new LoginResponse(usuario.TipoUsuario, usuario.IdUsuario, status);
-            return Ok(response);
-        }
-        else
+        if (usuario == null)
         {
             Status status = new Status("Usuario não encontrado", 404, false);
             LoginResponse response = new LoginResponse(null, 0, status);
             return Unauthorized(response);
+        }
+        else
+        {
+            Status status = new Status("Usuario encontrado", 200, true);
+            LoginResponse response = new LoginResponse(usuario.TipoUsuario, usuario.IdUsuario, status);
+            return Ok(response);
         }
     }
 
