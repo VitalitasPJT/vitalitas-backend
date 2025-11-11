@@ -30,8 +30,10 @@ namespace Vitalitas.Backend.API.Controllers
         public ActionResult<LoginResponse> Login([FromBody] LoginRequest login)
         {
             var usuario = _context.Usuarios
-                        .Where(u => u.Email == login.Email && u.Senha == login.Password)
-                        .Select(u => new { u.TipoUsuario, u.IdUsuario }).FirstOrDefault();
+                                    .Where(u => u.Email == login.Email && u.Senha == login.Password)
+                                    .Select(u => new { u.TipoUsuario, u.IdUsuario }).FirstOrDefault();
+            bool existe = _context.Usuarios.Any(u => u.Email == login.Email);
+
 
             if (usuario != null)
             {
@@ -39,12 +41,19 @@ namespace Vitalitas.Backend.API.Controllers
                 LoginResponse response = new LoginResponse(usuario.TipoUsuario, usuario.IdUsuario, status);
                 return Ok(response);
             }
-            else
+            else if (existe)
+            {
+                Status status = new Status("Senha incorreta", 403, false);
+                LoginResponse response = new LoginResponse(null, 0, status);
+                return BadRequest(response);
+            } else
             {
                 Status status = new Status("Usuario não encontrado", 404, false);
                 LoginResponse response = new LoginResponse(null, 0, status);
-                return BadRequest(response);
+                return Unauthorized(response);
             }
+
+
         }
 
         /*

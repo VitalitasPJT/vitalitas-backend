@@ -4,9 +4,9 @@ namespace Vitalitas.Backend.Application.DTOs
 {
     public class Status
     {
-        public string Message;
-        public int Code;
-        public bool Sucess;
+        public string Message { get; set; }
+        public int Code { get; set;}
+        public bool Sucess { get; set;}
 
         public Status(string v1, int code, bool v2)
         {
