@@ -1,11 +1,11 @@
 using Microsoft.Identity.Client;
-using Vitalitas.Models;
+using Vitalitas.Backend.Domain.Entities;
 
-namespace Vitalitas.Models
+namespace Vitalitas.Backend.Application.DTOs
 {
     public class LoginRequest
     {
-        public string Email;
-        public string Password;
+        public string Email { get; set;}
+        public string Password { get; set;}
     }
 }

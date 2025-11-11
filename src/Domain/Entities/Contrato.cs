@@ -2,7 +2,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Vitalitas.Models
+namespace Vitalitas.Backend.Domain.Entities
 {
     [Table("contrato")]
     public class Contrato

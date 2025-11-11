@@ -1,11 +1,11 @@
-namespace Vitalitas.Models
+namespace Vitalitas.Backend.Application.DTOs
 {
     public class LoginResponse
     {
-        public string Tipo;
-        public int Id;
+        public string Tipo { get; set;}
+        public int Id { get; set;}
 
-        public Status status;
+        public Status status { get; set;}
      
 
         public LoginResponse(string tipoUsuario, int idUsuario, Status status)

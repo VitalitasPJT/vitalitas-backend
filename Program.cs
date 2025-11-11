@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
+using Vitalitas.Backend.Infrastructure.Persistence.Contexts;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,4 +1,4 @@
-﻿namespace Vitalitas.Calculations
+﻿namespace Vitalitas.Backend.Application.Features
 {
     public class CalculosFeminino
     {

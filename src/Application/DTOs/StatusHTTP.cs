@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace Vitalitas.Models
+namespace Vitalitas.Backend.Application.DTOs
 {
     public class Status
     {

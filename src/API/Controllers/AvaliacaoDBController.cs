@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
-using Vitalitas.Calculations;
-using Vitalitas.Models;
+using Vitalitas.Backend.Application.Features;
+using Vitalitas.Backend.Infrastructure.Persistence.Contexts;
 
-namespace Vitalitas.Controllers
+namespace Vitalitas.Backend.API.Controllers
 {
     [ApiController]
     [Route("vitalitas/avaliacao")]
