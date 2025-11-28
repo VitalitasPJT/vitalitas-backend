@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Vitalitas.Backend.Application.DTOs;
 using Vitalitas.Backend.Infrastructure.Persistence.Contexts;
+using Vitalitas.Backend.API.Services.JwtService;
+
 
 namespace Vitalitas.Backend.API.Controllers
 {
@@ -25,6 +27,13 @@ namespace Vitalitas.Backend.API.Controllers
         {
             return Ok(new { message = "Hello World", success = true });
         }
+        [HttpGet("test-token")]
+        public IActionResult TestToken([FromServices] IJwtService jwt)
+    {
+        var token = jwt.GenerateToken("1", "Pedro");
+        return Ok(new { token });
+    }
+
 
         [HttpPost("login")]
         public ActionResult<LoginResponse> Login([FromBody] LoginRequest login)
@@ -55,6 +64,8 @@ namespace Vitalitas.Backend.API.Controllers
 
 
         }
+
+        
 
         /*
         [HttpGet]
