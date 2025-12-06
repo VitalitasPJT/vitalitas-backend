@@ -1,11 +1,13 @@
 using Azure;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using Vitalitas.Backend.Application.DTOs;
 using Vitalitas.Backend.Infrastructure.Persistence.Contexts;
+using LoginRequest = Vitalitas.Backend.Application.DTOs.LoginRequest;
 
 namespace Vitalitas.Backend.API.Controllers
 {
@@ -40,7 +42,7 @@ namespace Vitalitas.Backend.API.Controllers
             if (usuario != null)
             {
                 Status status = new Status("Usuario encontrado", 200, true);
-                LoginResponse response = new LoginResponse(usuario.TipoUsuario, usuario.IdUsuario, status);
+                LoginResponse response = new LoginResponse(usuario.TipoUsuario, usuario.IdUsuario, usuario.SenhaFlag, status);
                 return Ok(response);
             }
             else if (existe)
@@ -60,6 +62,29 @@ namespace Vitalitas.Backend.API.Controllers
 
 
         }
+
+        [HttpPut("resetpassword")]
+        public ActionResult<PasswordResetResponse> ResetPassword([FromBody] PasswordResetRequest reset)
+        {
+            var usuario = _context.Usuarios.FirstOrDefault(u => u.IdUsuario == reset.Id);
+
+            if (usuario != null)
+            {
+                usuario.Senha = reset.NewPassword;
+                usuario.SenhaFlag = false;
+                _context.SaveChanges();
+                Status status = new Status("Senha atualizada com sucesso", 200, true);
+                PasswordResetResponse response = new PasswordResetResponse(status);
+                return Ok(response);
+            } else
+            {
+                Status status = new Status("Usuario não encontrado", 404, false);
+                PasswordResetResponse response = new PasswordResetResponse(status);
+                return BadRequest(response);
+            }
+        }
+    }
+}
 
         /*
         [HttpGet]
@@ -238,5 +263,3 @@ namespace Vitalitas.Backend.API.Controllers
             return NoContent();
         }
         */
-    }
-}
