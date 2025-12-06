@@ -38,6 +38,7 @@ CREATE TABLE [usuario] (
   [cpf] NVARCHAR(255),
   [email] NVARCHAR(255),
   [senha] NVARCHAR(255),
+  [senha_flag] BIT,
   [data_nascimento] DATE,
   [rua] NVARCHAR(255),
   [bairro] NVARCHAR(255),

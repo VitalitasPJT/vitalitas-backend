@@ -28,6 +28,11 @@ namespace Vitalitas.Backend.Domain.Entities
         public string Senha { get; set; }
 
         [Required]
+
+        [Column("senha_flag")]
+        public bool SenhaFlag { get; set; }
+
+        [Required]
         [Column("data_nascimento")]
         public DateOnly DataNascimento { get; set; }
 

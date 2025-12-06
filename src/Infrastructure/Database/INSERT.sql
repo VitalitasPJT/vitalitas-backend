@@ -6,19 +6,20 @@ GO
 -- =========================
 
 -- Usuário (12 usuários: 7 Alunos, 3 Professores, 2 Administradores)
-INSERT INTO usuario (id_usuario, nome, cpf, email, senha, data_nascimento, rua, bairro, cidade, estado, cep, quadra, tipo_usuario) VALUES
-(1,'Carlos Silva','12345678901','carlos@email.com','senha123','1990-01-10','Rua A','Bairro A','Cidade A','SP','01000-000','Q1','Aluno'),
-(2,'Ana Souza','23456789012','ana@email.com','senha123','1992-03-15','Rua B','Bairro B','Cidade B','RJ','02000-000','Q2','Aluno'),
-(3,'Pedro Lima','34567890123','pedro@email.com','senha123','1988-06-20','Rua C','Bairro C','Cidade C','MG','03000-000','Q3','Professor'),
-(4,'Mariana Rocha','45678901234','mariana@email.com','senha123','1995-11-05','Rua D','Bairro D','Cidade D','BA','04000-000','Q4','Administrador'),
-(5,'Lucas Martins','56789012345','lucas@email.com','senha123','1993-09-12','Rua E','Bairro E','Cidade E','RS','05000-000','Q5','Aluno'),
-(6,'Fernanda Costa','67890123456','fernanda@email.com','senha123','1998-02-25','Rua K','Bairro K','Cidade A','SP','01100-000','Q6','Aluno'),
-(7,'Ricardo Alves','78901234567','ricardo@email.com','senha123','2000-07-30','Rua L','Bairro L','Cidade B','RJ','02200-000','Q7','Aluno'),
-(8,'Beatriz Santos','89012345678','beatriz@email.com','senha123','1991-04-18','Rua M','Bairro M','Cidade C','MG','03300-000','Q8','Professor'),
-(9,'Tiago Pereira','90123456789','tiago@email.com','senha123','1997-12-01','Rua N','Bairro N','Cidade D','BA','04400-000','Q9','Aluno'),
-(10,'Julia Ferreira','01234567890','julia@email.com','senha123','1985-08-14','Rua O','Bairro O','Cidade E','RS','05500-000','Q10','Administrador'),
-(11,'Roberto Dias','11223344556','roberto@email.com','senha123','1994-05-22','Rua P','Bairro P','Cidade A','SP','01200-000','Q11','Aluno'),
-(12,'Sandra Nunes','22334455667','sandra@email.com','senha123','1989-10-03','Rua Q','Bairro Q','Cidade B','RJ','02300-000','Q12','Professor');
+
+INSERT INTO usuario (id_usuario, nome, cpf, email, senha, senha_flag, data_nascimento, rua, bairro, cidade, estado, cep, quadra, tipo_usuario) VALUES
+(1,'Carlos Silva','12345678901','carlos@email.com','senha123', '1','1990-01-10','Rua A','Bairro A','Cidade A','SP','01000-000','Q1','Aluno'),
+(2,'Ana Souza','23456789012','ana@email.com','senha123', '1','1992-03-15','Rua B','Bairro B','Cidade B','RJ','02000-000','Q2','Aluno'),
+(3,'Pedro Lima','34567890123','pedro@email.com','senha123', '0','1988-06-20','Rua C','Bairro C','Cidade C','MG','03000-000','Q3','Professor'),
+(4,'Mariana Rocha','45678901234','mariana@email.com','senha123', '0','1995-11-05','Rua D','Bairro D','Cidade D','BA','04000-000','Q4','Administrador'),
+(5,'Lucas Martins','56789012345','lucas@email.com','senha123', '1','1993-09-12','Rua E','Bairro E','Cidade E','RS','05000-000','Q5','Aluno'),
+(6,'Fernanda Costa','67890123456','fernanda@email.com','senha123', '1','1998-02-25','Rua K','Bairro K','Cidade A','SP','01100-000','Q6','Aluno'),
+(7,'Ricardo Alves','78901234567','ricardo@email.com','senha123', '0','2000-07-30','Rua L','Bairro L','Cidade B','RJ','02200-000','Q7','Aluno'),
+(8,'Beatriz Santos','89012345678','beatriz@email.com','senha123', '0','1991-04-18','Rua M','Bairro M','Cidade C','MG','03300-000','Q8','Professor'),
+(9,'Tiago Pereira','90123456789','tiago@email.com','senha123', '0','1997-12-01','Rua N','Bairro N','Cidade D','BA','04400-000','Q9','Aluno'),
+(10,'Julia Ferreira','01234567890','julia@email.com','senha123', '1','1985-08-14','Rua O','Bairro O','Cidade E','RS','05500-000','Q10','Administrador'),
+(11,'Roberto Dias','11223344556','roberto@email.com','senha123', '1','1994-05-22','Rua P','Bairro P','Cidade A','SP','01200-000','Q11','Aluno'),
+(12,'Sandra Nunes','22334455667','sandra@email.com','senha123', '1','1989-10-03','Rua Q','Bairro Q','Cidade B','RJ','02300-000','Q12','Professor');
 GO
 
 -- Usuario_telefone
