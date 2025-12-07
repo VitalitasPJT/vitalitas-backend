@@ -44,6 +44,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 var app = builder.Build();
+Console.WriteLine("JWT KEY (DEBUG): " + builder.Configuration["Jwt:Key"]);
+
 
 app.UseCors("AllowReact");
 app.UseHttpsRedirection();
