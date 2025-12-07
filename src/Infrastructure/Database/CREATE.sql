@@ -49,6 +49,9 @@ CREATE TABLE [usuario] (
 );
 GO
 
+
+
+
 CREATE TABLE [usuario_telefone] (
   [id_telefone] INT PRIMARY KEY,
   [id_usuario] INT,
