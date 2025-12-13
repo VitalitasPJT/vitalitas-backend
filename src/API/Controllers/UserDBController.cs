@@ -37,7 +37,7 @@ namespace Vitalitas.Backend.API.Controllers
         }
 
 
-        [HttpGet("login")]
+        [HttpPost("login")]
         public ActionResult<LoginResponse> Login([FromBody] LoginRequest login, IJwtService jwt)
         {
             var usuario = _context.Usuarios
