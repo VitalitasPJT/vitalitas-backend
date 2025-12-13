@@ -82,7 +82,7 @@ namespace Vitalitas.Backend.API.Controllers
             if (usuario != null)
             {
                 usuario.Senha = reset.NewPassword;
-                usuario.SenhaFlag = false;
+                usuario.SenhaFlag = true;
                 _context.SaveChanges();
                 Status status = new Status("Senha atualizada com sucesso", 200, true);
                 PasswordResetResponse response = new PasswordResetResponse(status);
