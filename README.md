@@ -1,4 +1,4 @@
-# ⚙️ Vitalitas - Backend API
+# Vitalitas - Backend API
 
 > **API RESTful para gestão integrada de academias.**
 
