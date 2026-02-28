@@ -1,4 +1,4 @@
-# 🏋️‍♂️ Vitalitas - Backend API
+# Vitalitas - Backend API
 
 > **Sistema Web Integrado de Gestão para Academias**
 
@@ -9,15 +9,13 @@
 
 ---
 
-## 🎓 Contexto Acadêmico
+## Contexto Acadêmico
 
 Este projeto é desenvolvido como parte da disciplina de **Projeto Integrador** do curso de Ciência da Computação/Sistemas de Informação do **Centro Universitário de Brasília (UniCEUB)**.
 
 O desenvolvimento ocorre em um ambiente controlado, com supervisão docente, visando aplicar boas práticas de Engenharia de Software na solução de um problema real de mercado.
 
----
-
-## 💎 Proposta de Valor
+## Proposta de Valor
 
 O **Vitalitas** não é apenas um sistema de cadastro; é uma solução estratégica para modernizar a gestão de academias.
 
@@ -32,55 +30,51 @@ O Vitalitas centraliza todas as informações operacionais e técnicas em uma ú
 * **Foco no Aluno:** Melhor acompanhamento de treinos e avaliações físicas, permitindo uma experiência mais personalizada.
 * **Escalabilidade:** Arquitetura preparada para crescimento e futuras integrações mobile.
 
----
-
-## 🚀 O Projeto (MVP)
+## O Projeto (MVP)
 
 O escopo atual do projeto foca no **Produto Mínimo Viável (MVP)**. O objetivo desta etapa é entregar um conjunto mínimo de funcionalidades que permita a operação básica da academia, gerando valor imediato ao cliente e permitindo a validação técnica da solução em ambiente real.
 
-### 📦 Funcionalidades Entregues
+### Funcionalidades Entregues
 
 O MVP foi estruturado para cobrir os fluxos críticos da academia:
 
-#### 1. 🔐 Autenticação e Segurança
+#### 1. Autenticação e Segurança
 Garante que apenas usuários autorizados acessem o sistema, protegendo os dados sensíveis dos alunos.
 * **Login Seguro:** Autenticação via e-mail e senha com criptografia.
 * **Controle de Acesso (RBAC):** Identificação e redirecionamento automático por perfil (Administrador, Professor, Aluno).
 * **Primeiro Acesso:** Fluxo obrigatório de alteração de senha para novos usuários.
 
-#### 2. 👥 Gestão Administrativa (Backoffice)
+#### 2. Gestão Administrativa (Backoffice)
 Centraliza o cadastro de pessoas, eliminando fichas de papel e planilhas desconexas.
 * **CRUD de Usuários:** Criação, edição e desativação de Administradores, Funcionários, Professores e Alunos.
 * **Regras de Negócio:** Implementação de hierarquia onde funcionários não podem criar outros funcionários ou administradores.
 * **Dados de Saúde:** Criação e monitoramento obrigatório da ficha médica do aluno no ato do cadastro.
 
-#### 3. 🏋️‍♀️ Gestão Técnica e Treinos
+#### 3. Gestão Técnica e Treinos
 O coração da operação da academia, focado na experiência do professor e do aluno.
 * **Fichas de Treino:** Criação e edição completa de rotinas de exercícios.
 * **Histórico de Evolução:** Funcionalidade para comparar a ficha atual com a anterior.
 * **Agendamento:** Sistema de agenda para marcar avaliações físicas.
 
-#### 4. 📱 Portais Específicos
+#### 4. Portais Específicos
 Interfaces dedicadas para cada tipo de usuário.
 * **Visão do Professor:** Acesso aos alunos vinculados e ferramentas de edição de dados.
 * **Visão do Aluno:** Visualização da ficha de treino ativa, agenda de avaliações e dados cadastrais.
 
-### 🚫 Fora do Escopo (MVP)
+### Fora do Escopo (MVP)
 Para garantir a entrega dentro do prazo acadêmico e focar na qualidade das funcionalidades principais, os seguintes itens serão desenvolvidos em etapas futuras (V2):
 * Gamificação e Ranking por XP.
 * Integração financeira e pagamentos online.
 * Funcionalidades avançadas de Inteligência Artificial.
 * Cadastro complexo de bioimpedância.
 
----
-
-## 🏗️ Arquitetura e Design
+## Arquitetura e Design
 
 > 🚧 **EM REVISÃO ACADÊMICA:** Os diagramas e decisões arquiteturais abaixo estão em fase de validação pelos orientadores do projeto e podem sofrer alterações.
 
 O projeto foi concebido seguindo os princípios de desenvolvimento de software moderno, priorizando a escalabilidade, a segurança e a manutenibilidade do código.
 
-### 🏛️ Padrão Arquitetural
+### Padrão Arquitetural
 O backend do Vitalitas é desenvolvido como uma **API RESTful**, operando de forma *stateless* (sem estado). Isso significa que cada requisição HTTP contém todas as informações necessárias para ser processada, facilitando a escalabilidade horizontal na nuvem.
 
 A estrutura do projeto segue a separação de responsabilidades (ex: `src/Infrastructure`), garantindo que as regras de negócio não estejam acopladas aos detalhes de banco de dados ou interface.
@@ -89,7 +83,7 @@ A estrutura do projeto segue a separação de responsabilidades (ex: `src/Infras
 * **Application/Domain:** Regras de negócio e entidades principais.
 * **Infrastructure:** Acesso a dados, configurações de banco e integrações externas.
 
-### 🗄️ Modelagem de Dados
+### Modelagem de Dados
 O sistema utiliza um **Banco de Dados Relacional (SQL Server)** para garantir a integridade das informações críticas, como dados de saúde e histórico de treinos.
 
 As principais entidades mapeadas incluem:
@@ -97,14 +91,12 @@ As principais entidades mapeadas incluem:
 * **Treinos e Fichas:** Estrutura de exercícios e rotinas de treino.
 * **Avaliações Físicas:** Histórico de medidas e composição corporal.
 
-### ☁️ Infraestrutura e Deploy
+### Infraestrutura e Deploy
 O ambiente de produção e homologação é hospedado no **Microsoft Azure**, utilizando:
 * **Azure App Service:** Para hospedagem da API.
 * **Azure SQL Database:** Para armazenamento dos dados relacionais.
 
----
-
-## ⚙️ Configuração do Ambiente de Desenvolvimento
+## Configuração do Ambiente de Desenvolvimento
 
 Siga este guia para configurar o ambiente local, o banco de dados e as credenciais de segurança.
 
@@ -133,7 +125,7 @@ Certifique-se de ter as seguintes ferramentas instaladas:
 
 ### 2. Configuração da Aplicação (Backend)
 
-#### 🔐 Segredos do Usuário (User Secrets)
+#### Segredos do Usuário (User Secrets)
 Para garantir a segurança da chave de assinatura do Token JWT, não a armazenamos no código fonte. Utilizamos o recurso de **User Secrets**.
 
 Abra o terminal na pasta raiz do projeto (`vitalitas-backend`) e execute:
@@ -143,7 +135,7 @@ dotnet user-secrets init
 dotnet user-secrets set "Jwt:Key" "SUA_CHAVE_SECRETA_AQUI"
 ```
 
-#### 🔗 String de Conexão
+#### String de Conexão
 Abra o arquivo `appsettings.json` e localize a seção ConnectionStrings. Atualize o parâmetro `DefaultConnection` com as credenciais do usuário que você criou no passo 1 :
 
 ```json
@@ -163,19 +155,17 @@ dotnet run
 
 A API estará disponível em https://localhost:7167 (ou porta similar).
 
----
-
-## 📖 Documentação da API
+## Documentação da API
 
 A API segue o padrão RESTful e sua documentação interativa é gerada automaticamente via **Swagger/OpenAPI**.
 
-### 🔗 Acesso ao Swagger
+### Acesso ao Swagger
 Após iniciar a aplicação localmente, a documentação completa dos endpoints, esquemas de requisição e tipos de resposta estará disponível em:
 
 > **https://localhost:7167/swagger**
 > *(A porta pode variar dependendo da sua configuração local no `launchSettings.json`)*
 
-### 🔐 Autenticação e Segurança
+### Autenticação e Segurança
 O sistema utiliza **JSON Web Tokens (JWT)** para segurança. A maioria dos endpoints é protegida e requer um token válido.
 
 #### Como se Autenticar
@@ -187,9 +177,7 @@ O sistema utiliza **JSON Web Tokens (JWT)** para segurança. A maioria dos endpo
 Authorization: Bearer <seu_token_aqui>
 ```
 
----
-
-## 👥 Equipe do Projeto
+## Equipe do Projeto
 
 Este projeto foi desenvolvido pelos alunos:
 
@@ -204,9 +192,8 @@ Este projeto foi desenvolvido pelos alunos:
 * **Pedro Luis de Souza Abreu** - *Desenvolvedor*
     * [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](LINK_DO_LINKEDIN_AQUI)
     * [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](LINK_DO_GITHUB_AQUI)
----
 
-## 📝 Licença
+## Licença
 
 Este projeto foi desenvolvido para fins acadêmicos na disciplina de **Projeto Integrador** do **UniCEUB**.
 
