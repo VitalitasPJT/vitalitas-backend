@@ -1,10 +1,6 @@
 USE VITALITAS_DEV;
 GO
 
--- ======================================================
--- 1. NÍVEL 0: TABELAS SEM DEPENDÊNCIAS (PAIS)
--- ======================================================
-
 INSERT INTO Usuário (ID_usuario, Nome, Email, Endereço, Senha, Data_nascimento, CPF, Tipo_usuario, Flag) VALUES
 (1, 'João Silva', 'joao@email.com', 'Rua das Flores, 123', 'senha123', '1990-05-15', '111.111.111-11', 'Aluno', 1),
 (2, 'Maria Santos', 'maria@email.com', 'Av. Central, 456', 'senha456', '1992-08-22', '222.222.222-22', 'Aluno', 1),
@@ -76,10 +72,6 @@ INSERT INTO Lembrete (Id_lembrete, Ativo, Horario) VALUES
 (7, 'Sim', '2024-01-03 15:00:00'), (8, 'Sim', '2024-01-04 09:00:00'),
 (9, 'Não', '2024-01-05 10:00:00'), (10, 'Sim', '2024-01-05 20:00:00');
 
--- ======================================================
--- 2. NÍVEL 1: PERFIS (DEPENDEM DE USUÁRIO)
--- ======================================================
-
 INSERT INTO Aluno (Id_aluno, Objetivo, Id_usuario) VALUES 
 (1, 1, 1), (2, 2, 2), (3, 1, 4), (4, 3, 6), (5, 2, 8), (6, 1, 9), (7, 3, 10), (8, 1, 5), (9, 2, 1), (10, 1, 2);
 
@@ -91,10 +83,6 @@ INSERT INTO Professor (ID_professor, CREF, Id_usuario) VALUES
 INSERT INTO Administrador (Id_adm, Id_usuario) VALUES (1, 5), (2, 1), (3, 2), (4, 3), (5, 4), (6, 6), (7, 7), (8, 8), (9, 9), (10, 10);
 
 INSERT INTO Funcionario (Id_funcionario, Id_usuario) VALUES (1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6), (7, 7), (8, 8), (9, 9), (10, 10);
-
--- ======================================================
--- 3. NÍVEL 2: DEPENDEM DE ACADEMIA, PLANOS E PERFIS
--- ======================================================
 
 INSERT INTO Licenca (Id_licenca, Status, Tipo, Data_fim, Caminho_pdf, Data_assinatura, Id_plano) VALUES
 (1, 'Ativo', 'Anual', '20250101', 'lic_01.pdf', GETDATE(), 1),
@@ -122,10 +110,6 @@ INSERT INTO Avaliacao (Id_avaliacao, Id_professor, Id_aluno, Sexo, Data, Peso, A
 (7, 2, 7, 'Feminino', GETDATE(), 55.0, 1.62), (8, 1, 8, 'Feminino', GETDATE(), 68.4, 1.71),
 (9, 2, 9, 'Masculino', GETDATE(), 85.0, 1.78), (10, 1, 10, 'Feminino', GETDATE(), 63.0, 1.66);
 
--- ======================================================
--- 4. NÍVEL 3: DEPENDEM DE AVALIAÇÃO E FICHA
--- ======================================================
-
 INSERT INTO Ficha (Id_ficha, Nome_ficha, Observacoes, Id_avaliacao) VALUES
 (1, 'Adaptação A', 'Treino leve', 1), (2, 'Adaptação B', 'Cuidado ombro', 2),
 (3, 'Hipertrofia 1', 'Foco peito', 3), (4, 'Emagrecimento', 'Aerobico', 4),
@@ -139,10 +123,6 @@ INSERT INTO Treinos (Id_treinos, Tipo, Nome_treino, Id_ficha) VALUES
 (5, 'C', 'Ombros', 3), (6, 'A', 'Peito', 4),
 (7, 'B', 'Braços', 5), (8, 'A', 'Geral', 6),
 (9, 'B', 'Core', 7), (10, 'C', 'Lombar', 8);
-
--- ======================================================
--- 5. NÍVEL 4: RELACIONAMENTOS FINAIS
--- ======================================================
 
 INSERT INTO Video (Id_video, Data_upload, Titulo, Caminho_arquivo, Id_academia) VALUES
 (1, GETDATE(), 'Tutorial Supino', 'vid01.mp4', 1), (2, GETDATE(), 'Postura Squat', 'vid02.mp4', 1),

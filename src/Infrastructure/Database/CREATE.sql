@@ -1,9 +1,34 @@
 CREATE DATABASE VITALITAS_DEV;
 GO
+
 USE VITALITAS_DEV;
 GO
 
--- Tabelas principais (Nível 0 - Sem FKs)
+DROP TABLE Academia_licenca;
+DROP TABLE Treino_exercicio;
+DROP TABLE Aluno_lembrete;
+DROP TABLE Ficha_medica;
+DROP TABLE Telefone_usuario;
+DROP TABLE Video;
+DROP TABLE Treinos;
+DROP TABLE Ficha;
+DROP TABLE Avaliacao;
+DROP TABLE Contrato;
+DROP TABLE Licenca;
+DROP TABLE Funcionario;
+DROP TABLE Professor;
+DROP TABLE Administrador;
+DROP TABLE Aluno;
+DROP TABLE Lembrete;
+DROP TABLE Xp_historico;
+DROP TABLE Log_atividade;
+DROP TABLE Agenda;
+DROP TABLE Exercicios;
+DROP TABLE Plano_contrato;
+DROP TABLE Plano_licenca;
+DROP TABLE Academia;
+DROP TABLE Usuário;
+
 CREATE TABLE Usuário ( 
     ID_usuario INT PRIMARY KEY,
     Nome VARCHAR(100),  
@@ -73,7 +98,6 @@ CREATE TABLE Lembrete (
     Horario DATETIME
 ); 
 
--- Tabelas de Perfil (Dependem de Usuário)
 CREATE TABLE Aluno ( 
     Id_aluno INT PRIMARY KEY,  
     Objetivo INT,  
@@ -96,7 +120,6 @@ CREATE TABLE Funcionario (
     Id_usuario INT REFERENCES Usuário(ID_usuario)
 ); 
 
--- Tabelas Dependentes (Contratos, Licenças e Avaliações)
 CREATE TABLE Licenca ( 
     Id_licenca INT PRIMARY KEY,
     Status VARCHAR(20),  
@@ -129,7 +152,6 @@ CREATE TABLE Avaliacao (
     Perna_E FLOAT, Deltoide FLOAT
 ); 
 
--- Tabelas de Fichas e Exercícios
 CREATE TABLE Ficha ( 
     Id_ficha INT PRIMARY KEY,  
     Nome_ficha VARCHAR(100),  
@@ -144,7 +166,6 @@ CREATE TABLE Treinos (
     Id_ficha INT REFERENCES Ficha(Id_ficha)
 ); 
 
--- Tabelas de Relacionamento e Atributos
 CREATE TABLE Video ( 
     Id_video INT PRIMARY KEY,
     Data_upload DATETIME,  
@@ -183,7 +204,6 @@ CREATE TABLE Treino_exercicio (
     Id_treinos INT REFERENCES Treinos(Id_treinos)
 ); 
 
--- Outras tabelas de ligação (Reduzido para brevidade, mas com VARCHAR corrigido)
 CREATE TABLE Academia_licenca ( 
     Id_mensalidade INT PRIMARY KEY,
     Id_licenca INT REFERENCES Licenca(Id_licenca),
