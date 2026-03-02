@@ -1,227 +1,212 @@
--- =========================
--- Criação do Banco de Dados
--- =========================
 CREATE DATABASE VITALITAS_DEV;
 GO
 
 USE VITALITAS_DEV;
 GO
 
--- =========================
--- Script de Deleção das Tabelas
--- =========================
+DROP TABLE Academia_licenca;
+DROP TABLE Treino_exercicio;
+DROP TABLE Aluno_lembrete;
+DROP TABLE Ficha_medica;
+DROP TABLE Telefone_usuario;
+DROP TABLE Video;
+DROP TABLE Treinos;
+DROP TABLE Ficha;
+DROP TABLE Avaliacao;
+DROP TABLE Contrato;
+DROP TABLE Licenca;
+DROP TABLE Funcionario;
+DROP TABLE Professor;
+DROP TABLE Administrador;
+DROP TABLE Aluno;
+DROP TABLE Lembrete;
+DROP TABLE Xp_historico;
+DROP TABLE Log_atividade;
+DROP TABLE Agenda;
+DROP TABLE Exercicios;
+DROP TABLE Plano_contrato;
+DROP TABLE Plano_licenca;
+DROP TABLE Academia;
+DROP TABLE Usuário;
 
-DROP TABLE treino_exercicio;
-DROP TABLE exercicio;
-DROP TABLE treino;
-DROP TABLE ficha;
-DROP TABLE avaliacao;
-DROP TABLE agenda;
-DROP TABLE professor;
-DROP TABLE mensalidade;
-DROP TABLE contrato;
-DROP TABLE aluno;
-DROP TABLE administracao;
-DROP TABLE academia_telefone;
-DROP TABLE academia;
-DROP TABLE administrador;
-DROP TABLE usuario_telefone;
-DROP TABLE usuario;
+CREATE TABLE Usuário ( 
+    ID_usuario INT PRIMARY KEY,
+    Nome VARCHAR(100),  
+    Email VARCHAR(100),  
+    Endereço VARCHAR(255),  
+    Senha VARCHAR(50),  
+    Data_nascimento DATE,  
+    CPF VARCHAR(20),  
+    Tipo_usuario VARCHAR(20),  
+    Flag INT
+); 
 
--- =========================
--- Script de Criação das Tabelas
--- =========================
+CREATE TABLE Academia ( 
+    Id_academia INT PRIMARY KEY,
+    Nome_academia VARCHAR(100),  
+    CNPJ VARCHAR(20),  
+    Email_institucional VARCHAR(100),  
+    Tipo_academia VARCHAR(50),  
+    CEP VARCHAR(15)
+); 
 
-CREATE TABLE [usuario] (
-  [id_usuario] INT PRIMARY KEY,
-  [nome] NVARCHAR(255),
-  [cpf] NVARCHAR(255),
-  [email] NVARCHAR(255),
-  [senha] NVARCHAR(255),
-  [senha_flag] BIT,
-  [data_nascimento] DATE,
-  [rua] NVARCHAR(255),
-  [bairro] NVARCHAR(255),
-  [cidade] NVARCHAR(255),
-  [estado] NVARCHAR(255),
-  [cep] NVARCHAR(255),
-  [quadra] NVARCHAR(255),
-  [tipo_usuario] NVARCHAR(255)
+CREATE TABLE Plano_licenca ( 
+    Id_plano INT PRIMARY KEY,  
+    Nome VARCHAR(100),  
+    Descricao VARCHAR(255),  
+    Valor FLOAT
+); 
+
+CREATE TABLE Plano_contrato ( 
+    Id_plano INT PRIMARY KEY,  
+    Nome VARCHAR(100),  
+    Descricao VARCHAR(255),  
+    Valor FLOAT
+); 
+
+CREATE TABLE Exercicios ( 
+    Id_exercicios INT PRIMARY KEY,
+    Numero_series INT,  
+    Nome VARCHAR(100),  
+    Numero_repeticoes INT,  
+    Aparelho VARCHAR(50),  
+    Musculo VARCHAR(50)
+); 
+
+CREATE TABLE Agenda ( 
+    Id_agenda INT PRIMARY KEY,
+    Status VARCHAR(20),  
+    Data DATETIME
+); 
+
+CREATE TABLE Log_atividade ( 
+    Id_log INT PRIMARY KEY,  
+    Acao VARCHAR(100),  
+    Data_hora DATETIME
+); 
+
+CREATE TABLE Xp_historico ( 
+    Id_xp INT PRIMARY KEY,
+    Motivo VARCHAR(255),  
+    Data DATETIME,  
+    Xp_ganho FLOAT
+); 
+
+CREATE TABLE Lembrete ( 
+    Id_lembrete INT PRIMARY KEY,
+    Ativo VARCHAR(10),  
+    Horario DATETIME
+); 
+
+CREATE TABLE Aluno ( 
+    Id_aluno INT PRIMARY KEY,  
+    Objetivo INT,  
+    Id_usuario INT REFERENCES Usuário(ID_usuario)
+); 
+
+CREATE TABLE Administrador ( 
+    Id_adm INT PRIMARY KEY,  
+    Id_usuario INT REFERENCES Usuário(ID_usuario)
+); 
+
+CREATE TABLE Professor ( 
+    ID_professor INT PRIMARY KEY,  
+    CREF VARCHAR(30),  
+    Id_usuario INT REFERENCES Usuário(ID_usuario)
+); 
+
+CREATE TABLE Funcionario ( 
+    Id_funcionario INT PRIMARY KEY,  
+    Id_usuario INT REFERENCES Usuário(ID_usuario)
+); 
+
+CREATE TABLE Licenca ( 
+    Id_licenca INT PRIMARY KEY,
+    Status VARCHAR(20),  
+    Tipo VARCHAR(50),  
+    Data_fim DATETIME,  
+    Caminho_pdf VARCHAR(255),  
+    Data_assinatura DATETIME,  
+    Id_plano INT REFERENCES Plano_licenca(Id_plano)
+); 
+
+CREATE TABLE Contrato ( 
+    Id_contrato INT PRIMARY KEY,  
+    Status VARCHAR(20),  
+    Data_fim DATETIME,  
+    Data_assinatura DATETIME,  
+    Id_plano INT REFERENCES Plano_contrato(Id_plano)
+); 
+
+CREATE TABLE Avaliacao ( 
+    Id_avaliacao INT PRIMARY KEY,
+    Id_professor INT REFERENCES Professor(ID_professor),  
+    Id_aluno INT REFERENCES Aluno(Id_aluno),  
+    Sexo VARCHAR(10),  
+    Data DATETIME,  
+    Peso FLOAT, Altura FLOAT, Idade INT, IMC FLOAT, Glicemia FLOAT, PA FLOAT,
+    Densidade FLOAT, TR FLOAT, SE FLOAT, PT FLOAT, AX FLOAT, SI FLOAT, AB FLOAT,
+    CX FLOAT, PTrrlh FLOAT, Umero FLOAT, Femur FLOAT, P_magro FLOAT, P_gordo FLOAT,
+    P_viscera FLOAT, P_osseo FLOAT, Torax FLOAT, Abdomen FLOAT, Quadril FLOAT,
+    Braco_D FLOAT, Braco_E FLOAT, Coxa_D FLOAT, Coxa_E FLOAT, Perna_D FLOAT,
+    Perna_E FLOAT, Deltoide FLOAT
+); 
+
+CREATE TABLE Ficha ( 
+    Id_ficha INT PRIMARY KEY,  
+    Nome_ficha VARCHAR(100),  
+    Observacoes VARCHAR(255),  
+    Id_avaliacao INT REFERENCES Avaliacao(Id_avaliacao)
+); 
+
+CREATE TABLE Treinos ( 
+    Id_treinos INT PRIMARY KEY,  
+    Tipo VARCHAR(10),  
+    Nome_treino VARCHAR(100),  
+    Id_ficha INT REFERENCES Ficha(Id_ficha)
+); 
+
+CREATE TABLE Video ( 
+    Id_video INT PRIMARY KEY,
+    Data_upload DATETIME,  
+    Titulo VARCHAR(150),  
+    Caminho_arquivo VARCHAR(255),  
+    Id_academia INT REFERENCES Academia(Id_academia)
+); 
+
+CREATE TABLE Telefone_usuario ( 
+    Telefone VARCHAR(20),  
+    ID_usuario INT REFERENCES Usuário(ID_usuario)
+); 
+
+CREATE TABLE Ficha_medica ( 
+    Id_ficha INT PRIMARY KEY,  
+    Id_aluno INT REFERENCES Aluno(Id_aluno),  
+    Alergia VARCHAR(100),  
+    Restricao VARCHAR(255),  
+    Lesao VARCHAR(255),  
+    Cirurgia VARCHAR(255),  
+    Problema_saude VARCHAR(255),  
+    Uso_medicamento VARCHAR(255)
+); 
+
+CREATE TABLE Aluno_lembrete ( 
+    Id_aluno_lembrete INT PRIMARY KEY,
+    Id_lembrete INT REFERENCES Lembrete(Id_lembrete),  
+    Id_aluno INT REFERENCES Aluno(Id_aluno),  
+    Horario DATETIME,  
+    Ativo VARCHAR(10),  
+    Descricao VARCHAR(255)
+); 
+
+CREATE TABLE Treino_exercicio ( 
+    Id_exercicios INT REFERENCES Exercicios(Id_exercicios),  
+    Id_treinos INT REFERENCES Treinos(Id_treinos)
+); 
+
+CREATE TABLE Academia_licenca ( 
+    Id_mensalidade INT PRIMARY KEY,
+    Id_licenca INT REFERENCES Licenca(Id_licenca),
+    Id_academia INT REFERENCES Academia(Id_academia),
+    Status VARCHAR(20), Valor FLOAT, Data_pagamento DATETIME, Data_vencimento DATETIME
 );
-GO
-
-CREATE TABLE [usuario_telefone] (
-  [id_telefone] INT PRIMARY KEY,
-  [id_usuario] INT,
-  [telefone] NVARCHAR(255),
-  FOREIGN KEY ([id_usuario]) REFERENCES [usuario]([id_usuario])
-);
-GO
-
-CREATE TABLE [administrador] (
-  [id_adm] INT PRIMARY KEY,
-  [id_usuario] INT,
-  FOREIGN KEY ([id_usuario]) REFERENCES [usuario]([id_usuario])
-);
-GO
-
-CREATE TABLE [academia] (
-  [id_academia] INT PRIMARY KEY,
-  [nome_academia] NVARCHAR(255),
-  [tipo_academia] NVARCHAR(255),
-  [cnpj] NVARCHAR(255),
-  [email_institucional] NVARCHAR(255),
-  [rua] NVARCHAR(255),
-  [bairro] NVARCHAR(255),
-  [cidade] NVARCHAR(255),
-  [estado] NVARCHAR(255),
-  [cep] NVARCHAR(255),
-  [quadra] NVARCHAR(255)
-);
-GO
-
-CREATE TABLE [academia_telefone] (
-  [id_telefone] INT PRIMARY KEY,
-  [id_academia] INT,
-  [telefone] NVARCHAR(255),
-  FOREIGN KEY ([id_academia]) REFERENCES [academia]([id_academia])
-);
-GO
-
-CREATE TABLE [administracao] (
-  [id_adm] INT,
-  [id_academia] INT,
-  PRIMARY KEY (id_adm, id_academia),
-  FOREIGN KEY ([id_adm]) REFERENCES [administrador]([id_adm]),
-  FOREIGN KEY ([id_academia]) REFERENCES [academia]([id_academia])
-);
-GO
-
-CREATE TABLE [aluno] (
-  [id_aluno] INT PRIMARY KEY,
-  [id_usuario] INT,
-  [objetivo] NVARCHAR(255),
-  FOREIGN KEY ([id_usuario]) REFERENCES [usuario]([id_usuario])
-);
-GO
-
-CREATE TABLE [contrato] (
-  [id_assinatura] INT PRIMARY KEY,
-  [id_aluno] INT,
-  [tipo] NVARCHAR(255),
-  [data_assinatura] DATE,
-  [status] NVARCHAR(255),
-  FOREIGN KEY ([id_aluno]) REFERENCES [aluno]([id_aluno])
-);
-GO
-
-CREATE TABLE [mensalidade] (
-  [id_mensalidade] INT PRIMARY KEY,
-  [id_assinatura] INT UNIQUE,
-  [valor] DECIMAL(10,2),
-  [status] NVARCHAR(255),
-  [data_vencimento] DATE,
-  [data_pagamento] DATE,
-  [referencia] NVARCHAR(255),
-  FOREIGN KEY ([id_assinatura]) REFERENCES [contrato]([id_assinatura])
-);
-GO
-
-CREATE TABLE [professor] (
-  [id_professor] INT PRIMARY KEY,
-  [id_usuario] INT,
-  [cref] NVARCHAR(255),
-  FOREIGN KEY ([id_usuario]) REFERENCES [usuario]([id_usuario])
-);
-GO
-
-CREATE TABLE [agenda] (
-  [id_agenda] INT PRIMARY KEY,
-  [id_professor] INT,
-  [data] DATETIME,
-  [status] NVARCHAR(255),
-  FOREIGN KEY ([id_professor]) REFERENCES [professor]([id_professor])
-);
-GO
-
-CREATE TABLE [avaliacao] (
-  [id_avaliacao] INT PRIMARY KEY,
-  [id_professor] INT,
-  [id_aluno] INT,
-  [data] DATE,
-  [hora] TIME,
-  [peso] DECIMAL(10,2),
-  [sexo] NVARCHAR(255),
-  [altura] DECIMAL(10,2),
-  [idade] INT,
-  [glicemia] DECIMAL(10,2),
-  [pa] NVARCHAR(255),
-  [densidade] DECIMAL(10,2),
-  [ax] DECIMAL(10,2),
-  [pt] DECIMAL(10,2),
-  [se] DECIMAL(10,2),
-  [tr] DECIMAL(10,2),
-  [ab] DECIMAL(10,2),
-  [si] DECIMAL(10,2),
-  [ub] DECIMAL(10,2),
-  [ur] DECIMAL(10,2),
-  [rt] DECIMAL(10,2),
-  [pr] DECIMAL(10,2),
-  [px] DECIMAL(10,2),
-  [femur] DECIMAL(10,2),
-  [abdomen] DECIMAL(10,2),
-  [torax] DECIMAL(10,2),
-  [quadril] DECIMAL(10,2),
-  [braco_d] DECIMAL(10,2),
-  [braco_e] DECIMAL(10,2),
-  [coxa_d] DECIMAL(10,2),
-  [coxa_e] DECIMAL(10,2),
-  [perna_d] DECIMAL(10,2),
-  [perna_e] DECIMAL(10,2),
-  [deltoide] DECIMAL(10,2),
-  [peitoral] DECIMAL(10,2),
-  [p_magro] DECIMAL(10,2),
-  [p_gordo] DECIMAL(10,2),
-  [p_osseo] DECIMAL(10,2),
-  [p_viscera] DECIMAL(10,2),
-  FOREIGN KEY ([id_professor]) REFERENCES [professor]([id_professor]),
-  FOREIGN KEY ([id_aluno]) REFERENCES [aluno]([id_aluno])
-);
-GO
-
-CREATE TABLE [ficha] (
-  [id_ficha] INT PRIMARY KEY,
-  [nome_ficha] NVARCHAR(255),
-  [observacoes] NVARCHAR(255),
-  [id_avaliacao] INT,
-  FOREIGN KEY ([id_avaliacao]) REFERENCES [avaliacao]([id_avaliacao])
-);
-GO
-
-CREATE TABLE [treino] (
-  [id_treino] INT PRIMARY KEY,
-  [tipo] NVARCHAR(255),
-  [nome_treino] NVARCHAR(255),
-  [id_ficha] INT UNIQUE NOT NULL,
-  FOREIGN KEY ([id_ficha]) REFERENCES [ficha]([id_ficha])
-);
-GO
-
-CREATE TABLE [exercicio] (
-  [id_exercicio] INT PRIMARY KEY,
-  [nome] NVARCHAR(255),
-  [numero_serie] INT,
-  [numero_repeticao] INT,
-  [musculo] NVARCHAR(255),
-  [aparelho] NVARCHAR(255)
-);
-GO
-
-CREATE TABLE [treino_exercicio] (
-  [id_treino] INT,
-  [id_exercicio] INT,
-  PRIMARY KEY (id_treino, id_exercicio),
-  FOREIGN KEY ([id_treino]) REFERENCES [treino]([id_treino]),
-  FOREIGN KEY ([id_exercicio]) REFERENCES [exercicio]([id_exercicio])
-);
-GO

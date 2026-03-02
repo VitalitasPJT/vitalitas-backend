@@ -1,197 +1,159 @@
 USE VITALITAS_DEV;
 GO
 
--- =========================
--- Inserção de dados fictícios
--- =========================
+INSERT INTO Usuário (ID_usuario, Nome, Email, Endereço, Senha, Data_nascimento, CPF, Tipo_usuario, Flag) VALUES
+(1, 'João Silva', 'joao@email.com', 'Rua das Flores, 123', 'senha123', '1990-05-15', '111.111.111-11', 'Aluno', 1),
+(2, 'Maria Santos', 'maria@email.com', 'Av. Central, 456', 'senha456', '1992-08-22', '222.222.222-22', 'Aluno', 1),
+(3, 'Ricardo Oliveira', 'ricardo@email.com', 'Rua B, 78', 'prof123', '1985-03-10', '333.333.333-33', 'Professor', 1),
+(4, 'Ana Costa', 'ana@email.com', 'Rua C, 90', 'senha789', '1995-12-01', '444.444.444-44', 'Aluno', 1),
+(5, 'Carlos Eduardo', 'carlos@email.com', 'Av. Paulista, 1000', 'adm001', '1980-01-20', '555.555.555-55', 'Admin', 1),
+(6, 'Fernanda Lima', 'fer@email.com', 'Rua D, 12', 'senha000', '1998-07-11', '666.666.666-66', 'Aluno', 1),
+(7, 'Gabriel Souza', 'gabriel@email.com', 'Rua E, 34', 'prof456', '1988-11-25', '777.777.777-77', 'Professor', 1),
+(8, 'Juliana Paes', 'ju@email.com', 'Av. Brasil, 500', 'senha555', '1993-02-14', '888.888.888-88', 'Aluno', 1),
+(9, 'Roberto Carlos', 'beto@email.com', 'Rua F, 56', 'senha222', '1991-09-05', '999.999.999-99', 'Aluno', 1),
+(10, 'Sandra Mello', 'sandra@email.com', 'Rua G, 78', 'senha333', '1994-10-10', '000.000.000-00', 'Aluno', 1);
 
--- Usuário (12 usuários: 7 Alunos, 3 Professores, 2 Administradores)
+INSERT INTO Academia (Id_academia, Nome_academia, CNPJ, Email_institucional, Tipo_academia, CEP) VALUES
+(1, 'Vitalitas Matriz', '12.345.678/0001-01', 'matriz@vitalitas.com', 'Musculação', '01001-000'),
+(2, 'Vitalitas Sul', '12.345.678/0001-02', 'sul@vitalitas.com', 'Crossfit', '04002-000'),
+(3, 'Vitalitas Norte', '12.345.678/0001-03', 'norte@vitalitas.com', 'Natação', '02003-000'),
+(4, 'Vitalitas Leste', '12.345.678/0001-04', 'leste@vitalitas.com', 'Artes Marciais', '03004-000'),
+(5, 'Vitalitas Oeste', '12.345.678/0001-05', 'oeste@vitalitas.com', 'Funcional', '05005-000'),
+(6, 'Vitalitas Fit', '12.345.678/0001-06', 'fit@vitalitas.com', 'Musculação', '06006-000'),
+(7, 'Vitalitas Prime', '12.345.678/0001-07', 'prime@vitalitas.com', 'Premium', '07007-000'),
+(8, 'Vitalitas Beach', '12.345.678/0001-08', 'beach@vitalitas.com', 'Outdoor', '08008-000'),
+(9, 'Vitalitas Yoga', '12.345.678/0001-09', 'yoga@vitalitas.com', 'Yoga', '09009-000'),
+(10, 'Vitalitas Express', '12.345.678/0001-10', 'express@vitalitas.com', '24 Horas', '10010-000');
 
-INSERT INTO usuario (id_usuario, nome, cpf, email, senha, senha_flag, data_nascimento, rua, bairro, cidade, estado, cep, quadra, tipo_usuario) VALUES
-(1,'Carlos Silva','12345678901','carlos@email.com','senha123', '1','1990-01-10','Rua A','Bairro A','Cidade A','SP','01000-000','Q1','Aluno'),
-(2,'Ana Souza','23456789012','ana@email.com','senha123', '1','1992-03-15','Rua B','Bairro B','Cidade B','RJ','02000-000','Q2','Aluno'),
-(3,'Pedro Lima','34567890123','pedro@email.com','senha123', '0','1988-06-20','Rua C','Bairro C','Cidade C','MG','03000-000','Q3','Professor'),
-(4,'Mariana Rocha','45678901234','mariana@email.com','senha123', '0','1995-11-05','Rua D','Bairro D','Cidade D','BA','04000-000','Q4','Administrador'),
-(5,'Lucas Martins','56789012345','lucas@email.com','senha123', '1','1993-09-12','Rua E','Bairro E','Cidade E','RS','05000-000','Q5','Aluno'),
-(6,'Fernanda Costa','67890123456','fernanda@email.com','senha123', '1','1998-02-25','Rua K','Bairro K','Cidade A','SP','01100-000','Q6','Aluno'),
-(7,'Ricardo Alves','78901234567','ricardo@email.com','senha123', '0','2000-07-30','Rua L','Bairro L','Cidade B','RJ','02200-000','Q7','Aluno'),
-(8,'Beatriz Santos','89012345678','beatriz@email.com','senha123', '0','1991-04-18','Rua M','Bairro M','Cidade C','MG','03300-000','Q8','Professor'),
-(9,'Tiago Pereira','90123456789','tiago@email.com','senha123', '0','1997-12-01','Rua N','Bairro N','Cidade D','BA','04400-000','Q9','Aluno'),
-(10,'Julia Ferreira','01234567890','julia@email.com','senha123', '1','1985-08-14','Rua O','Bairro O','Cidade E','RS','05500-000','Q10','Administrador'),
-(11,'Roberto Dias','11223344556','roberto@email.com','senha123', '1','1994-05-22','Rua P','Bairro P','Cidade A','SP','01200-000','Q11','Aluno'),
-(12,'Sandra Nunes','22334455667','sandra@email.com','senha123', '1','1989-10-03','Rua Q','Bairro Q','Cidade B','RJ','02300-000','Q12','Professor');
-GO
+INSERT INTO Plano_licenca (Id_plano, Nome, Descricao, Valor) VALUES
+(1, 'Bronze', 'Acesso básico', 500.00), (2, 'Silver', 'Acesso intermediário', 800.00),
+(3, 'Gold', 'Acesso completo', 1200.00), (4, 'Platinum', 'Rede nacional', 2000.00),
+(5, 'Diamond', 'VIP Experience', 5000.00), (6, 'Anual Basic', 'Pagamento único', 4500.00),
+(7, 'Semestral', '6 meses de uso', 2500.00), (8, 'Trimestral', '3 meses de uso', 1400.00),
+(9, 'Trial', '7 dias teste', 0.00), (10, 'Promocional', 'Black Friday', 350.00);
 
--- Usuario_telefone
-INSERT INTO usuario_telefone (id_telefone, id_usuario, telefone) VALUES
-(1,1,'11999990001'),
-(2,2,'21999990002'),
-(3,3,'31999990003'),
-(4,4,'41999990004'),
-(5,5,'51999990005'),
-(6,6,'11999990006'),
-(7,7,'21999990007'),
-(8,8,'31999990008'),
-(9,9,'41999990009'),
-(10,10,'51999990010'),
-(11,11,'11999990011'),
-(12,12,'21999990012'),
-(13,1,'11988880001'); -- Telefone adicional para Carlos
-GO
+INSERT INTO Plano_contrato (Id_plano, Nome, Descricao, Valor) VALUES
+(1, 'Mensal', 'Cobrança todo mês', 100.00), (2, 'Trimestral', 'Plano 90 dias', 270.00),
+(3, 'Semestral', 'Plano 180 dias', 500.00), (4, 'Anual', 'Plano 365 dias', 900.00),
+(5, 'Recorrente', 'No cartão', 85.00), (6, 'Fidélidade', '2 anos contrato', 70.00),
+(7, 'Estudante', 'Desconto 20%', 80.00), (8, 'Corporativo', 'Grupos 5+', 75.00),
+(9, 'Master', 'Acesso livre 24h', 150.00), (10, 'Social', 'Baixa renda', 50.00);
 
--- Administrador (Mapeia id_usuario para um id_adm)
-INSERT INTO administrador (id_adm, id_usuario) VALUES
-(1,4),  -- Mariana Rocha
-(2,10); -- Julia Ferreira
-GO
+INSERT INTO Exercicios (Id_exercicios, Numero_series, Nome, Numero_repeticoes, Aparelho, Musculo) VALUES
+(1, 3, 'Supino Reto', 12, 'Banco Supino', 'Peitoral'), (2, 4, 'Agachamento', 10, 'Gaiola', 'Pernas'),
+(3, 3, 'Rosca Direta', 12, 'Barra W', 'Bíceps'), (4, 3, 'Puxada Frente', 15, 'Pulley', 'Costas'),
+(5, 4, 'Leg Press', 12, 'Máquina Leg', 'Pernas'), (6, 3, 'Elevação Lateral', 15, 'Halteres', 'Ombros'),
+(7, 3, 'Tríceps Corda', 12, 'Polia', 'Tríceps'), (8, 4, 'Levantamento Terra', 8, 'Barra', 'Lombar'),
+(9, 3, 'Extensora', 15, 'Cadeira', 'Pernas'), (10, 3, 'Flexora', 15, 'Mesa', 'Pernas');
 
--- Aluno (Mapeia id_usuario para um id_aluno)
-INSERT INTO aluno (id_aluno, id_usuario, objetivo) VALUES
-(1,1,'Perder peso'),
-(2,2,'Ganho de massa'),
-(3,5,'Melhora de resistência'),
-(4,6,'Definição muscular'),
-(5,7,'Saúde geral'),
-(6,9,'Condicionamento'),
-(7,11,'Hipertrofia');
-GO
+INSERT INTO Agenda (Id_agenda, Status, Data) VALUES
+(1, 'Agendado', '2024-05-01 08:00:00'), (2, 'Concluído', '2024-05-01 09:00:00'),
+(3, 'Cancelado', '2024-05-01 10:00:00'), (4, 'Agendado', '2024-05-02 14:00:00'),
+(5, 'Agendado', '2024-05-02 15:00:00'), (6, 'Agendado', '2024-05-03 07:00:00'),
+(7, 'Pendente', '2024-05-03 08:00:00'), (8, 'Concluído', '2024-05-03 10:30:00'),
+(9, 'Agendado', '2024-05-04 16:00:00'), (10, 'Agendado', '2024-05-04 17:00:00');
 
--- Professor (Mapeia id_usuario para um id_professor)
-INSERT INTO professor (id_professor, id_usuario, cref) VALUES
-(1,3,'CREF12345'),  -- Pedro Lima
-(2,8,'CREF67890'),  -- Beatriz Santos
-(3,12,'CREF11223'); -- Sandra Nunes
-GO
+INSERT INTO Log_atividade (Id_log, Acao, Data_hora) VALUES
+(1, 'Login', GETDATE()), (2, 'Logout', GETDATE()), (3, 'Cadastro Aluno', GETDATE()),
+(4, 'Edição Ficha', GETDATE()), (5, 'Exclusão Treino', GETDATE()), (6, 'Visualização Avaliação', GETDATE()),
+(7, 'Update Perfil', GETDATE()), (8, 'Troca Senha', GETDATE()), (9, 'Nova Matrícula', GETDATE()), (10, 'Inativar Usuário', GETDATE());
 
--- Academia (5 academias)
-INSERT INTO academia (id_academia, nome_academia, tipo_academia, cnpj, email_institucional, rua, bairro, cidade, estado, cep, quadra) VALUES
-(1,'Academia Alpha','Musculação','12345678000199','alpha@email.com','Rua F','Bairro F','Cidade F','SP','06000-000','Q6'),
-(2,'Academia Beta','Funcional','22345678000199','beta@email.com','Rua G','Bairro G','Cidade G','RJ','07000-000','Q7'),
-(3,'Academia Gamma','Crossfit','32345678000199','gamma@email.com','Rua H','Bairro H','Cidade H','MG','08000-000','Q8'),
-(4,'Academia Delta','Pilates','42345678000199','delta@email.com','Rua I','Bairro I','Cidade I','BA','09000-000','Q9'),
-(5,'Academia Epsilon','Musculação','52345678000199','epsilon@email.com','Rua J','Bairro J','Cidade J','RS','10000-000','Q10');
-GO
+INSERT INTO Xp_historico (Id_xp, Motivo, Data, Xp_ganho) VALUES
+(1, 'Treino Completo', GETDATE(), 10.0), (2, 'Frequência Semanal', GETDATE(), 50.0),
+(3, 'Novo Recorde Supino', GETDATE(), 20.0), (4, 'Indicação Amigo', GETDATE(), 100.0),
+(5, 'Avaliação Física', GETDATE(), 30.0), (6, 'Aniversário', GETDATE(), 200.0),
+(7, 'Frequência Mensal', GETDATE(), 500.0), (8, 'Update Foto', GETDATE(), 5.0),
+(9, 'Compartilhamento', GETDATE(), 15.0), (10, 'Desafio 30 dias', GETDATE(), 1000.0);
 
--- Academia_telefone
-INSERT INTO academia_telefone (id_telefone, id_academia, telefone) VALUES
-(1,1,'1133330001'),
-(2,2,'2133330002'),
-(3,3,'3133330003'),
-(4,4,'4133330004'),
-(5,5,'5133330005'),
-(6,1,'1133331001'), -- Telefone adicional
-(7,3,'3133331003'); -- Telefone adicional
-GO
+INSERT INTO Lembrete (Id_lembrete, Ativo, Horario) VALUES
+(1, 'Sim', '2024-01-01 08:00:00'), (2, 'Não', '2024-01-01 12:00:00'),
+(3, 'Sim', '2024-01-01 18:00:00'), (4, 'Sim', '2024-01-02 07:00:00'),
+(5, 'Não', '2024-01-02 21:00:00'), (6, 'Sim', '2024-01-03 06:00:00'),
+(7, 'Sim', '2024-01-03 15:00:00'), (8, 'Sim', '2024-01-04 09:00:00'),
+(9, 'Não', '2024-01-05 10:00:00'), (10, 'Sim', '2024-01-05 20:00:00');
 
--- Administracao (Quem administra qual academia)
-INSERT INTO administracao (id_adm, id_academia) VALUES
-(1,1), -- Admin 1 (Mariana) cuida da Academia 1
-(1,2), -- Admin 1 (Mariana) cuida da Academia 2
-(2,3), -- Admin 2 (Julia) cuida da Academia 3
-(2,4), -- Admin 2 (Julia) cuida da Academia 4
-(2,5); -- Admin 2 (Julia) cuida da Academia 5
-GO
+INSERT INTO Aluno (Id_aluno, Objetivo, Id_usuario) VALUES 
+(1, 1, 1), (2, 2, 2), (3, 1, 4), (4, 3, 6), (5, 2, 8), (6, 1, 9), (7, 3, 10), (8, 1, 5), (9, 2, 1), (10, 1, 2);
 
--- Contrato (Referencia id_aluno da tabela aluno)
-INSERT INTO contrato (id_assinatura, id_aluno, tipo, data_assinatura, status) VALUES
-(1,1,'Mensal','2025-01-01','Ativo'),      -- Aluno 1 (Carlos)
-(2,2,'Trimestral','2025-02-01','Ativo'),  -- Aluno 2 (Ana)
-(3,3,'Semestral','2025-03-01','Inativo'), -- Aluno 3 (Lucas)
-(4,4,'Anual','2025-04-01','Ativo'),       -- Aluno 4 (Fernanda)
-(5,5,'Mensal','2025-05-01','Ativo'),      -- Aluno 5 (Ricardo)
-(6,6,'Mensal','2025-06-01','Ativo'),      -- Aluno 6 (Tiago)
-(7,7,'Anual','2025-07-01','Ativo'),       -- Aluno 7 (Roberto)
-(8,1,'Trimestral','2025-08-01','Ativo');  -- Aluno 1 (Carlos) tem um segundo contrato
-GO
+INSERT INTO Professor (ID_professor, CREF, Id_usuario) VALUES 
+(1, '123456-G/SP', 3), (2, '654321-G/RJ', 7), (3, '999999-G/MG', 1), (4, '888888-G/SC', 2),
+(5, '777777-G/PR', 4), (6, '666666-G/RS', 6), (7, '555555-G/MT', 8), (8, '444444-G/BA', 9),
+(9, '333333-G/PE', 10), (10, '222222-G/CE', 5);
 
--- Mensalidade (Referencia id_assinatura da tabela contrato)
-INSERT INTO mensalidade (id_mensalidade, id_assinatura, valor, status, data_vencimento, data_pagamento, referencia) VALUES
-(1,1,150.00,'Paga','2025-02-01','2025-01-31','Janeiro'),
-(2,2,450.00,'Paga','2025-05-01','2025-04-30','Fevereiro'),
-(3,3,900.00,'Pendente','2025-09-01',NULL,'Março'),
-(4,4,1800.00,'Paga','2026-04-01','2025-03-31','Abril'),
-(5,5,150.00,'Paga','2025-06-01','2025-05-31','Maio'),
-(6,6,160.00,'Paga','2025-07-01','2025-06-30','Junho'),
-(7,7,1900.00,'Pendente','2026-07-01',NULL,'Julho'),
-(8,8,480.00,'Pendente','2025-11-01',NULL,'Agosto');
-GO
+INSERT INTO Administrador (Id_adm, Id_usuario) VALUES (1, 5), (2, 1), (3, 2), (4, 3), (5, 4), (6, 6), (7, 7), (8, 8), (9, 9), (10, 10);
 
--- Agenda (Referencia id_professor da tabela professor)
-INSERT INTO agenda (id_agenda, id_professor, data, status) VALUES
-(1,1,'2025-10-25T08:00:00','Disponível'), -- Prof 1 (Pedro)
-(2,2,'2025-10-25T09:00:00','Agendado'),   -- Prof 2 (Beatriz)
-(3,3,'2025-10-25T10:00:00','Disponível'), -- Prof 3 (Sandra)
-(4,1,'2025-10-25T11:00:00','Agendado'),   -- Prof 1 (Pedro)
-(5,2,'2025-10-25T12:00:00','Disponível'), -- Prof 2 (Beatriz)
-(6,3,'2025-10-26T08:00:00','Disponível'), -- Prof 3 (Sandra)
-(7,1,'2025-10-26T09:00:00','Disponível'), -- Prof 1 (Pedro)
-(8,2,'2025-10-26T10:00:00','Agendado');   -- Prof 2 (Beatriz)
-GO
+INSERT INTO Funcionario (Id_funcionario, Id_usuario) VALUES (1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6), (7, 7), (8, 8), (9, 9), (10, 10);
 
--- Avaliacao (Referencia id_aluno e id_professor)
-INSERT INTO avaliacao (id_avaliacao, id_professor, id_aluno, data, hora, peso, sexo, altura, idade, glicemia, pa, densidade, ax, pt, se, tr, ab, si, ub, ur, rt, pr, px, femur, abdomen, torax, quadril, braco_d, braco_e, coxa_d, coxa_e, perna_d, perna_e, deltoide, peitoral, p_magro, p_gordo, p_osseo, p_viscera) VALUES
-(1,1,1,'2025-10-20','08:00',70.0,'Masculino',1.75,30,90.5, '120/80',1.05,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0,11.0,12.0,13.0,14.0,15.0,16.0,17.0,18.0,19.0,20.0,21.0,22.0,23.0,24.0,21.0,22.0,23.0,24.0),
-(2,2,2,'2025-10-21','09:00',65.0,'Feminino',1.65,28,85.0, '110/70',1.02,2.1,3.1,4.1,5.1,6.1,7.1,8.1,9.1,10.1,11.1,12.1,13.1,14.1,15.1,16.1,17.1,18.1,19.1,20.1,21.1,22.1,23.1,24.1,21.1,22.1,23.1,24.1),
-(3,3,3,'2025-10-22','10:00',80.0,'Masculino',1.80,32,95.0,'130/85',1.06,2.2,3.2,4.2,5.2,6.2,7.2,8.2,9.2,10.2,11.2,12.2,13.2,14.2,15.2,16.2,17.2,18.2,19.2,20.2,21.2,22.2,23.2,24.2,21.2,22.2,23.2,24.2),
-(4,1,4,'2025-10-23','11:00',75.0,'Feminino',1.70,31,88.0,'115/75',1.04,2.3,3.3,4.3,5.3,6.3,7.3,8.3,9.3,10.3,11.3,12.3,13.3,14.3,15.3,16.3,17.3,18.3,19.3,20.3,21.3,22.3,23.3,24.3,21.3,22.3,23.3,24.3),
-(5,2,5,'2025-10-24','12:00',68.0,'Masculino',1.78,29,92.0,'118/78',1.03,2.4,3.4,4.4,5.4,6.4,7.4,8.4,9.4,10.4,11.4,12.4,13.4,14.4,15.4,16.4,17.4,18.4,19.4,20.4,21.4,22.4,23.4,24.4,21.4,22.4,23.4,24.4),
-(6,3,6,'2025-10-25','14:00',82.0,'Masculino',1.85,27,80.0,'122/82',1.07,2.5,3.5,4.5,5.5,6.5,7.5,8.5,9.5,10.5,11.5,12.5,13.5,14.5,15.5,16.5,17.5,18.5,19.5,20.5,21.5,22.5,23.5,24.5,21.5,22.5,23.5,24.5),
-(7,1,7,'2025-10-25','15:00',63.0,'Feminino',1.60,24,75.0,'108/68',1.01,2.6,3.6,4.6,5.6,6.6,7.6,8.6,9.6,10.6,11.6,12.6,13.6,14.6,15.6,16.6,17.6,18.6,19.6,20.6,21.6,22.6,23.6,24.6,21.6,22.6,23.6,24.6);
-GO
+INSERT INTO Licenca (Id_licenca, Status, Tipo, Data_fim, Caminho_pdf, Data_assinatura, Id_plano) VALUES
+(1, 'Ativo', 'Anual', '20250101', 'lic_01.pdf', GETDATE(), 1),
+(2, 'Ativo', 'Mensal', '20240601', 'lic_02.pdf', GETDATE(), 2),
+(3, 'Inativo', 'Anual', '20240101', 'lic_03.pdf', GETDATE(), 3),
+(4, 'Ativo', 'Anual', '20250201', 'lic_04.pdf', GETDATE(), 4),
+(5, 'Ativo', 'VIP', '20260101', 'lic_05.pdf', GETDATE(), 5),
+(6, 'Ativo', 'Anual', '20250301', 'lic_06.pdf', GETDATE(), 6),
+(7, 'Pendente', 'Mensal', '20240515', 'lic_07.pdf', GETDATE(), 7),
+(8, 'Ativo', 'Trial', '20240510', 'lic_08.pdf', GETDATE(), 8),
+(9, 'Ativo', 'Anual', '20250501', 'lic_09.pdf', GETDATE(), 9),
+(10, 'Ativo', 'Promo', '20241201', 'lic_10.pdf', GETDATE(), 10);
 
--- Ficha (Referencia id_avaliacao)
-INSERT INTO ficha (id_ficha, nome_ficha, observacoes, id_avaliacao) VALUES
-(1,'Ficha A','Observação A',1), -- Ficha da Avaliação 1 (Aluno 1)
-(2,'Ficha B','Observação B',2), -- Ficha da Avaliação 2 (Aluno 2)
-(3,'Ficha C','Observação C',3), -- Ficha da Avaliação 3 (Aluno 3)
-(4,'Ficha D','Observação D',4), -- Ficha da Avaliação 4 (Aluno 4)
-(5,'Ficha E','Observação E',5), -- Ficha da Avaliação 5 (Aluno 5)
-(6,'Ficha F','Observação F',6), -- Ficha da Avaliação 6 (Aluno 6)
-(7,'Ficha G','Observação G',7); -- Ficha da Avaliação 7 (Aluno 7)
-GO
+INSERT INTO Contrato (Id_contrato, Status, Data_fim, Data_assinatura, Id_plano) VALUES
+(1, 'Vigente', '2025-05-01', GETDATE(), 4), (2, 'Vigente', '2024-08-01', GETDATE(), 2),
+(3, 'Finalizado', '2024-04-01', GETDATE(), 1), (4, 'Vigente', '2024-11-01', GETDATE(), 3),
+(5, 'Suspenso', '2025-05-01', GETDATE(), 5), (6, 'Vigente', '2026-05-01', GETDATE(), 6),
+(7, 'Vigente', '2025-01-01', GETDATE(), 7), (8, 'Vigente', '2024-07-01', GETDATE(), 8),
+(9, 'Cancelado', '2024-05-01', GETDATE(), 9), (10, 'Vigente', '2024-12-01', GETDATE(), 10);
 
--- Treino (Referencia id_ficha)
--- *** CORRIGIDO: Removido o id_treino = 8, que duplicava o id_ficha = 1 ***
-INSERT INTO treino (id_treino, tipo, nome_treino, id_ficha) VALUES
-(1,'Musculação','Treino A - Peito/Tríceps',1),
-(2,'Funcional','Treino B - Full Body',2),
-(3,'Crossfit','Treino C - WOD',3),
-(4,'Pilates','Treino D - Solo',4),
-(5,'Musculação','Treino E - Perna',5),
-(6,'Aeróbico','Treino F - Condicionamento',6),
-(7,'Resistência','Treino G - Hipertrofia',7);
-GO
+INSERT INTO Avaliacao (Id_avaliacao, Id_professor, Id_aluno, Sexo, Data, Peso, Altura) VALUES
+(1, 1, 1, 'Masculino', GETDATE(), 80.5, 1.80), (2, 2, 2, 'Feminino', GETDATE(), 65.2, 1.65),
+(3, 1, 3, 'Feminino', GETDATE(), 70.0, 1.70), (4, 2, 4, 'Feminino', GETDATE(), 58.0, 1.60),
+(5, 1, 5, 'Feminino', GETDATE(), 62.5, 1.68), (6, 1, 6, 'Masculino', GETDATE(), 90.1, 1.85),
+(7, 2, 7, 'Feminino', GETDATE(), 55.0, 1.62), (8, 1, 8, 'Feminino', GETDATE(), 68.4, 1.71),
+(9, 2, 9, 'Masculino', GETDATE(), 85.0, 1.78), (10, 1, 10, 'Feminino', GETDATE(), 63.0, 1.66);
 
--- Exercicio (10 exercícios)
-INSERT INTO exercicio (id_exercicio, nome, numero_serie, numero_repeticao, musculo, aparelho) VALUES
-(1,'Supino',3,12,'Peito','Banco'),
-(2,'Agachamento',4,10,'Perna','Barra'),
-(3,'Rosca Bíceps',3,15,'Braço','Halteres'),
-(4,'Leg Press',4,12,'Perna','Máquina'),
-(5,'Abdominal',3,20,'Abdômen','Colchonete'),
-(6,'Puxada Frontal',3,12,'Costas','Máquina'),
-(7,'Elevação Lateral',4,15,'Ombro','Halteres'),
-(8,'Cadeira Extensora',4,10,'Perna','Máquina'),
-(9,'Rosca Martelo',3,12,'Braço','Halteres'),
-(10,'Prancha',3,60,'Abdômen','Colchonete'); -- Repetição 60 = 60 segundos
-GO
+INSERT INTO Ficha (Id_ficha, Nome_ficha, Observacoes, Id_avaliacao) VALUES
+(1, 'Adaptação A', 'Treino leve', 1), (2, 'Adaptação B', 'Cuidado ombro', 2),
+(3, 'Hipertrofia 1', 'Foco peito', 3), (4, 'Emagrecimento', 'Aerobico', 4),
+(5, 'Definição', 'Alta repetição', 5), (6, 'Força', 'Carga máxima', 6),
+(7, 'Funcional', 'Mobilidade', 7), (8, 'Pernas Hard', 'Foco quadriceps', 8),
+(9, 'Costas V', 'Foco dorsal', 9), (10, 'ABC Completo', 'Geral', 10);
 
--- Treino_exercicio (Linka treinos e exercícios)
--- *** CORRIGIDO: Removidas as referências ao id_treino = 8, que não existe mais ***
-INSERT INTO treino_exercicio (id_treino, id_exercicio) VALUES
-(1,1), -- Treino 1 (Peito/Tríceps) -> Supino
-(1,7), -- Treino 1 (Peito/Tríceps) -> Elevação Lateral (Ombro)
-(2,2), -- Treino 2 (Funcional) -> Agachamento
-(2,5), -- Treino 2 (Funcional) -> Abdominal
-(2,10),-- Treino 2 (Funcional) -> Prancha
-(3,3), -- Treino 3 (Crossfit) -> Rosca Bíceps
-(3,6), -- Treino 3 (Crossfit) -> Puxada Frontal
-(4,10),-- Treino 4 (Pilates) -> Prancha
-(5,2), -- Treino 5 (Perna) -> Agachamento
-(5,4), -- Treino 5 (Perna) -> Leg Press
-(5,8), -- Treino 5 (Perna) -> Cadeira Extensora
-(6,5), -- Treino 6 (Aeróbico) -> Abdominal
-(6,10),-- Treino 6 (Aeróbico) -> Prancha
-(7,2), -- Treino 7 (Resistência) -> Agachamento
-(7,4); -- Treino 7 (Resistência) -> Leg Press
-GO
+INSERT INTO Treinos (Id_treinos, Tipo, Nome_treino, Id_ficha) VALUES
+(1, 'A', 'Peito e Tríceps', 1), (2, 'B', 'Costas e Bíceps', 1),
+(3, 'A', 'Pernas', 2), (4, 'B', 'Superior', 2),
+(5, 'C', 'Ombros', 3), (6, 'A', 'Peito', 4),
+(7, 'B', 'Braços', 5), (8, 'A', 'Geral', 6),
+(9, 'B', 'Core', 7), (10, 'C', 'Lombar', 8);
+
+INSERT INTO Video (Id_video, Data_upload, Titulo, Caminho_arquivo, Id_academia) VALUES
+(1, GETDATE(), 'Tutorial Supino', 'vid01.mp4', 1), (2, GETDATE(), 'Postura Squat', 'vid02.mp4', 1),
+(3, GETDATE(), 'Dicas Dieta', 'vid03.mp4', 2), (4, GETDATE(), 'Uso Pulley', 'vid04.mp4', 2),
+(5, GETDATE(), 'Warmup', 'vid05.mp4', 3), (6, GETDATE(), 'Yoga Basic', 'vid06.mp4', 9),
+(7, GETDATE(), 'Crossfit 101', 'vid07.mp4', 2), (8, GETDATE(), 'Luta Movimento', 'vid08.mp4', 4),
+(9, GETDATE(), 'Funcional em casa', 'vid09.mp4', 5), (10, GETDATE(), 'Tour Academia', 'vid10.mp4', 7);
+
+INSERT INTO Telefone_usuario (Telefone, ID_usuario) VALUES
+('11-9999-0001', 1), ('11-9999-0002', 2), ('11-9999-0003', 3), ('11-9999-0004', 4),
+('11-9999-0005', 5), ('11-9999-0006', 6), ('11-9999-0007', 7), ('11-9999-0008', 8),
+('11-9999-0009', 9), ('11-9999-0010', 10);
+
+INSERT INTO Ficha_medica (Id_ficha, Id_aluno, Alergia, Restricao) VALUES
+(1, 1, 'Poeira', 'Asma'), (2, 2, 'Nenhuma', 'Joelho'), (3, 3, 'Iodo', 'Nenhuma'),
+(4, 4, 'Nenhuma', 'Coluna'), (5, 5, 'Lactose', 'Nenhuma'), (6, 6, 'Nenhuma', 'Nenhuma'),
+(7, 7, 'Nenhuma', 'Grávida'), (8, 8, 'Peixe', 'Hipertensa'), (9, 9, 'Nenhuma', 'Diabetes'),
+(10, 10, 'Nenhuma', 'Labirintite');
+
+INSERT INTO Aluno_lembrete (Id_aluno_lembrete, Id_lembrete, Id_aluno, Horario, Ativo, Descricao) VALUES
+(1, 1, 1, GETDATE(), 'Sim', 'Beber Água'), (2, 2, 2, GETDATE(), 'Não', 'Tomar Whey'),
+(3, 3, 3, GETDATE(), 'Sim', 'Treinar'), (4, 4, 4, GETDATE(), 'Sim', 'Avaliação'),
+(5, 5, 5, GETDATE(), 'Não', 'Pagar Mensalidade'), (6, 6, 6, GETDATE(), 'Sim', 'Aeróbico'),
+(7, 7, 7, GETDATE(), 'Sim', 'Mobilidade'), (8, 8, 8, GETDATE(), 'Sim', 'Dormir cedo'),
+(9, 9, 9, GETDATE(), 'Não', 'Dieta'), (10, 10, 10, GETDATE(), 'Sim', 'Checkup');
+
+INSERT INTO Treino_exercicio (Id_exercicios, Id_treinos) VALUES
+(1, 1), (2, 3), (3, 2), (4, 2), (5, 3), (6, 5), (7, 1), (8, 8), (9, 3), (10, 3);
+
+INSERT INTO Academia_licenca (Id_mensalidade, Id_licenca, Id_academia, Status, Valor) VALUES
+(1, 1, 1, 'Pago', 1200.00), (2, 2, 2, 'Pendente', 800.00), (3, 3, 3, 'Pago', 1500.00),
+(4, 4, 4, 'Pago', 2000.00), (5, 5, 5, 'Atrasado', 500.00), (6, 6, 6, 'Pago', 900.00),
+(7, 7, 7, 'Pago', 3000.00), (8, 8, 8, 'Pago', 600.00), (9, 9, 9, 'Pago', 1100.00),
+(10, 10, 10, 'Pago', 700.00);
