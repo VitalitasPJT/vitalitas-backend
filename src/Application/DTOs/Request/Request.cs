@@ -1,7 +1,6 @@
-using Microsoft.Identity.Client;
 using Vitalitas.Backend.Domain.Entities;
 
-namespace Vitalitas.Backend.Application.DTOs
+namespace Vitalitas.Application.DTOs.Request
 {
     public class LoginRequest
     {

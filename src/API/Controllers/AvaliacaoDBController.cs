@@ -1,23 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 using Vitalitas.Backend.Application.Features;
-using Vitalitas.Backend.Infrastructure.Persistence.Contexts;
 
-namespace Vitalitas.Backend.API.Controllers
+namespace Vitalitas.API.Controllers
 {
     [ApiController]
     [Route("vitalitas/avaliacao")]
     public class AvaliacaoController : ControllerBase
     {
-        private readonly Contexto _context;
+        //private readonly Contexto _context;
         private readonly CalculosFeminino _calculosFeminino;
         private readonly CalculosMasculino _calculosMasculino;
 
-        public AvaliacaoController(Contexto context)
+        /*public AvaliacaoController(Contexto context)
         {
             _context = context;
-        }
+        }*/
 
         /*[HttpPost]
         public ActionResult<Responser<Avaliacao>> PostAvaliacao([FromBody] Avaliacao avaliacao)

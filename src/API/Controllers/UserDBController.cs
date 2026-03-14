@@ -2,26 +2,23 @@ using Azure;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using Vitalitas.Backend.API.Services.JwtService;
 using Vitalitas.Backend.Application.DTOs;
-using Vitalitas.Backend.Infrastructure.Persistence.Contexts;
-using LoginRequest = Vitalitas.Backend.Application.DTOs.LoginRequest;
 
-namespace Vitalitas.Backend.API.Controllers
+namespace Vitalitas.API.Controllers
 {
     [ApiController]
     [Route("vitalitas/user")]
     public class UserController : ControllerBase
     {
-        private readonly Contexto _context;
+        /*private readonly Contexto _context;
 
         public UserController(Contexto context)
         {
             _context = context;
-        }
+        }*/
 
         [HttpGet("test")]
         public IActionResult Test()
@@ -38,7 +35,7 @@ namespace Vitalitas.Backend.API.Controllers
 
 
         [HttpPost("login")]
-        public ActionResult<LoginResponse> Login([FromBody] LoginRequest login, IJwtService jwt)
+        public ActionResult<LoginResponse> Login([FromBody] Vitalitas.Application.DTOs.Request.LoginRequest login, IJwtService jwt)
         {
             var usuario = _context.Usuarios
                                     .Where(u => u.Email == login.Email && u.Senha == login.Password)
@@ -75,7 +72,7 @@ namespace Vitalitas.Backend.API.Controllers
         }
 
         [HttpPut("resetpassword")]
-        public ActionResult<PasswordResetResponse> ResetPassword([FromBody] PasswordResetRequest reset)
+        public ActionResult<PasswordResetResponse> ResetPassword([FromBody] Vitalitas.Application.DTOs.Request.PasswordResetRequest reset)
         {
             var usuario = _context.Usuarios.FirstOrDefault(u => u.IdUsuario == reset.Id);
 

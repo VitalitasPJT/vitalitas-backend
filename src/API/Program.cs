@@ -1,6 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-using Vitalitas.Backend.Infrastructure.Persistence.Contexts;
-using Vitalitas.Backend.API.Services.JwtService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;

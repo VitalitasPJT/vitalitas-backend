@@ -2,22 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using Vitalitas.Backend.Infrastructure.Persistence.Contexts;
 
-namespace Vitalitas.Backend.API.Controllers
+namespace Vitalitas.API.Controllers
 {
     [ApiController]
     [Route("vitalitas/fichas")]
     public class FichaController : ControllerBase
     {
-        private readonly Contexto _context;
+       /* private readonly Contexto _context;
 
         public FichaController(Contexto context)
         {
             _context = context;
-        }
+        }*/
 
         /*[HttpPost]
         public ActionResult<Responser<FichaDeTreino>> PostFicha([FromBody] FichaDeTreino fichaDeTreino)

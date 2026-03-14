@@ -1,22 +1,19 @@
 ﻿using Azure;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
-using Vitalitas.Backend.Domain.Entities;
-using Vitalitas.Backend.Infrastructure.Persistence.Contexts;
 
-namespace Vitalitas.Backend.API.Controllers
+namespace Vitalitas.API.Controllers
 {
     [ApiController]
 
     [Route("vitalitas/agenda")]
     public class AgendaController : ControllerBase
     {
-        private readonly Contexto _context;
+        /*private readonly Contexto _context;
         public AgendaController(Contexto context)
         {
             _context = context;
-        }
+        }*/
 
         /*[HttpPost]
         public async Task<ActionResult<Responser<Agenda>>> PostAgenda([FromBody] Agenda agenda)

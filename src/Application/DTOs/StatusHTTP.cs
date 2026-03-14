@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Mvc;
 
 namespace Vitalitas.Backend.Application.DTOs
 {
