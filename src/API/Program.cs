@@ -4,10 +4,10 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddScoped<IJwtService, JwtService>();
+//builder.Services.AddScoped<IJwtService, JwtService>();
 
-builder.Services.AddDbContext<Contexto>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("ConexaoPadrao")));
+/*builder.Services.AddDbContext<Contexto>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ConexaoPadrao")));*/
 
 builder.Services.AddCors(options =>
 {

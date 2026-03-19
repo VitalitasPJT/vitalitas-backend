@@ -4,13 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Vitalitas.Backend.Domain.Entities
 {
-    [Table("contrato")]
     public class Contrato
     {
-        [Key]
-        [Required]
-        [Column("[id_assinatura]")]
-        public int IdAssinatura { get; set; }
+        public Guid IdAssinatura { get; set; }
 
         [Required]
         [Column("id_aluno")]

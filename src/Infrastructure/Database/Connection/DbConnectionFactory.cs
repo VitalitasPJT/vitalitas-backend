@@ -21,5 +21,6 @@ namespace Vitalitas.Infrastructure.Database.Connection
         {
             return new SqlConnection(_connectionString);
         }
+  
     }
 }

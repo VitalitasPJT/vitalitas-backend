@@ -1,24 +1,21 @@
-using Azure;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Linq;
 using Vitalitas.Backend.API.Services.JwtService;
-using Vitalitas.Backend.Application.DTOs;
+using static Application.DTOs.UsuarioRQ;
+using static Application.DTOs.UsuarioRP;
+using LoginRequest = Application.DTOs.UsuarioRQ.LoginRequest;
+using Application.Interfaces;
 
-namespace Vitalitas.API.Controllers
-{
+namespace API.Controllers
+{    
     [ApiController]
     [Route("vitalitas/user")]
     public class UserController : ControllerBase
     {
-        /*private readonly Contexto _context;
-
-        public UserController(Contexto context)
+        private readonly IUsuarioUseCase _usuarioUseCase;
+        public UserController(IUsuarioUseCase usuarioUseCase)
         {
-            _context = context;
-        }*/
+            _usuarioUseCase = usuarioUseCase;
+        }
 
         [HttpGet("test")]
         public IActionResult Test()
@@ -35,9 +32,19 @@ namespace Vitalitas.API.Controllers
 
 
         [HttpPost("login")]
-        public ActionResult<LoginResponse> Login([FromBody] Vitalitas.Application.DTOs.Request.LoginRequest login, IJwtService jwt)
+        public ActionResult<LoginResponse> Login([FromBody] LoginRequest login /*, IJwtService jwt*/)
         {
-            var usuario = _context.Usuarios
+            try
+            {
+                var response = _usuarioUseCase.Login(login.Email, login.Senha);
+                return Ok(response);
+            }
+            catch
+            {
+                return StatusCode(500, new { message = "Erro interno do servidor" });
+            }
+
+            /*var usuario = _context.Usuarios
                                     .Where(u => u.Email == login.Email && u.Senha == login.Password)
 
                                     .Select(u => new { u.TipoUsuario, u.IdUsuario, u.SenhaFlag, u.Email }).FirstOrDefault();
@@ -66,15 +73,24 @@ namespace Vitalitas.API.Controllers
 
                 LoginResponse response = new LoginResponse(null, 0, false, status);
                 return Unauthorized(response);
-            }
+            }*/
 
 
         }
 
-        [HttpPut("resetpassword")]
-        public ActionResult<PasswordResetResponse> ResetPassword([FromBody] Vitalitas.Application.DTOs.Request.PasswordResetRequest reset)
+        [HttpPut("trocar-senha")]
+        public ActionResult<TrocarSenhaResponse> TrocarSenha([FromBody] TrocarSenhaRequest reset)
         {
-            var usuario = _context.Usuarios.FirstOrDefault(u => u.IdUsuario == reset.Id);
+            try
+            {
+                var response = _usuarioUseCase.TrocarSenha(reset.IdUsuario, reset.NovaSenha);
+                return Ok(response);
+            }
+            catch
+            {
+                return StatusCode(500, new { message = "Erro interno do servidor" });
+            }
+            /*var usuario = _context.Usuarios.FirstOrDefault(u => u.IdUsuario == reset.Id);
 
             if (usuario != null)
             {
@@ -90,7 +106,7 @@ namespace Vitalitas.API.Controllers
                 Status status = new Status("Usuario não encontrado", 404, false);
                 PasswordResetResponse response = new PasswordResetResponse(status);
                 return BadRequest(response);
-            }
+            }*/
         }
     }
 }
@@ -244,9 +260,6 @@ public async Task<ActionResult<Responser<List<object>>>> getAlunos([FromQuery] s
 
     return Ok(new Responser<List<object>>("", true, alunos.Cast<object>().ToList()));
 }
-
-
-
 
 [HttpPut("{id}")]
 public IActionResult Put(string id, Usuario user)
