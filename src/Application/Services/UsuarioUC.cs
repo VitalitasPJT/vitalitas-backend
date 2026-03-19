@@ -19,7 +19,11 @@ namespace Application.Services
         }
         public LoginResponse Login(Email email, string senha)
         {
-            throw new NotImplementedException();
+            var usuario = _usuarioRepository.Login(email, senha);
+            var status = new StatusHTTP("Login realizado com sucesso", 200, true);
+            var response = new LoginResponse(usuario.TipoUsuario, usuario.IdUsuario, usuario.Flag, status);
+            return response;
+
         }
 
         public TrocarSenhaResponse TrocarSenha(Guid idusaurio, string novasenha)
