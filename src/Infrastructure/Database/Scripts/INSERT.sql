@@ -1,17 +1,14 @@
-USE VITALITAS_DEV;
-GO
-
 INSERT INTO Usuario VALUES
-(1,'João Silva','[joao@email.com](mailto:joao@email.com)','Rua A','123','19900515','11111111111','Aluno',1),
-(2,'Maria Santos','[maria@email.com](mailto:maria@email.com)','Rua B','123','19920822','22222222222','Aluno',1),
-(3,'Ricardo Oliveira','[ric@email.com](mailto:ric@email.com)','Rua C','123','19850310','33333333333','Instrutor',1),
-(4,'Ana Costa','[ana@email.com](mailto:ana@email.com)','Rua D','123','19951201','44444444444','Aluno',1),
-(5,'Carlos Eduardo','[carlos@email.com](mailto:carlos@email.com)','Rua E','123','19800120','55555555555','Gestor',1),
-(6,'Fernanda Lima','[fer@email.com](mailto:fer@email.com)','Rua F','123','19980711','66666666666','Aluno',1),
-(7,'Gabriel Souza','[gab@email.com](mailto:gab@email.com)','Rua G','123','19881125','77777777777','Instrutor',1),
-(8,'Juliana Paes','[ju@email.com](mailto:ju@email.com)','Rua H','123','19930214','88888888888','Aluno',1),
-(9,'Roberto Carlos','[rob@email.com](mailto:rob@email.com)','Rua I','123','19910905','99999999999','Aluno',1),
-(10,'Sandra Mello','[sand@email.com](mailto:sand@email.com)','Rua J','123','19941010','00000000000','Aluno',1);
+(1,'João Silva','joao@email.com','Q1','Rua A','Centro','Brasilia','DF','01001000','123','19900515','11111111111',1,1),
+(2,'Maria Santos','maria@email.com','Q2','Rua B','Centro','Brasilia','DF','02002000','123','19920822','22222222222',1,1),
+(3,'Ricardo Oliveira','ric@email.com','Q3','Rua C','Centro','Brasilia','DF','03003000','123','19850310','33333333333',2,1),
+(4,'Ana Costa','ana@email.com','Q4','Rua D','Centro','Brasilia','DF','04004000','123','19951201','44444444444',1,1),
+(5,'Carlos Eduardo','carlos@email.com','Q5','Rua E','Centro','Brasilia','DF','05005000','123','19800120','55555555555',3,1),
+(6,'Fernanda Lima','fer@email.com','Q6','Rua F','Centro','Brasilia','DF','06006000','123','19980711','66666666666',1,1),
+(7,'Gabriel Souza','gab@email.com','Q7','Rua G','Centro','Brasilia','DF','07007000','123','19881125','77777777777',2,1),
+(8,'Juliana Paes','ju@email.com','Q8','Rua H','Centro','Brasilia','DF','08008000','123','19930214','88888888888',1,1),
+(9,'Roberto Carlos','rob@email.com','Q9','Rua I','Centro','Brasilia','DF','09009000','123','19910905','99999999999',1,1),
+(10,'Sandra Mello','sand@email.com','Q10','Rua J','Centro','Brasilia','DF','10010000','123','19941010','00000000000',1,1);
 
 INSERT INTO Gestor VALUES
 (1,5);
@@ -36,8 +33,8 @@ INSERT INTO Licenca VALUES
 (3,'Ativo','Anual','20260101','lic3.pdf',GETDATE(),3,1200);
 
 INSERT INTO Academia VALUES
-(1,'Vitalitas Matriz','12345678000101','[matriz@email.com](mailto:matriz@email.com)','Musculação','01001000',1,1),
-(2,'Vitalitas Sul','12345678000102','[sul@email.com](mailto:sul@email.com)','Crossfit','02002000',2,1);
+(1,'Vitalitas Matriz','12345678000101','matriz@email.com','Musculação','01001000',1,1),
+(2,'Vitalitas Sul','12345678000102','sul@email.com','Crossfit','02002000',2,1);
 
 INSERT INTO Contrato VALUES
 (1,'Vigente','20250501',GETDATE(),1,100),
@@ -45,10 +42,10 @@ INSERT INTO Contrato VALUES
 (3,'Vigente','20260101',GETDATE(),3,900);
 
 INSERT INTO Aluno VALUES
-(1,1,1,1,1),
-(2,2,2,2,1),
-(3,1,4,1,1),
-(4,3,6,2,1);
+(1,'Perder peso',1,1,1),
+(2,'Perder peso',2,2,1),
+(3,'Perder peso',4,1,1),
+(4,'Perder peso',6,2,1);
 
 INSERT INTO Funcionario VALUES
 (1,5,'Gerente'),
@@ -80,11 +77,9 @@ INSERT INTO Xp_aluno VALUES
 (1,1),
 (2,2);
 
-INSERT INTO Avaliacao
-(Id_avaliacao,Id_aluno,Sexo,Data,Peso,Altura,Id_instrutor)
-VALUES
-(1,1,'Masculino',GETDATE(),80,1.80,1),
-(2,2,'Feminino',GETDATE(),65,1.65,2);
+INSERT INTO Avaliacao VALUES 
+(1,1,'Masculino',GETDATE(),80,1.80,30,24.7,90,12,1.2,1,1,1,1,1,1,1,1,1,1,1,1,70,10,5,15,95,85,90,30,30,50,50,35,1),
+(2,2,'Feminino',GETDATE(),65,1.65,28,23.8,85,11,1.1,1,1,1,1,1,1,1,1,1,1,1,1,55,12,4,14,90,80,95,28,28,48,48,34,2);
 
 INSERT INTO Ficha VALUES
 (1,'Ficha A','Inicial',1),
