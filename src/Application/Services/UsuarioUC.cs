@@ -17,18 +17,22 @@ namespace Application.Services
         {
             _usuarioRepository = usuarioRepository;
         }
-        public LoginResponse Login(Email email, string senha)
+        public LoginResponse Login(string email, string senha)
         {
             var usuario = _usuarioRepository.Login(email, senha);
+            if (usuario == null)
+            {
+                throw new Exception("Usuário ou senha inválidos");
+            }
             var status = new StatusHTTP("Login realizado com sucesso", 200, true);
             var response = new LoginResponse(usuario.TipoUsuario, usuario.IdUsuario, usuario.Flag, status);
             return response;
-
         }
 
         public TrocarSenhaResponse TrocarSenha(Guid idusaurio, string novasenha)
         {
             throw new NotImplementedException();
         }
+
     }
 }

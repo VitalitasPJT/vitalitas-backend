@@ -1,3 +1,6 @@
+USE VITALITAS_DEV;
+GO
+
 INSERT INTO Usuario VALUES
 (1,'João Silva','joao@email.com','Q1','Rua A','Centro','Brasilia','DF','01001000','123','19900515','11111111111',1,1),
 (2,'Maria Santos','maria@email.com','Q2','Rua B','Centro','Brasilia','DF','02002000','123','19920822','22222222222',1,1),

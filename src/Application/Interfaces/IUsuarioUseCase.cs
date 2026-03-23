@@ -9,7 +9,7 @@ namespace Application.Interfaces
 {
     public interface IUsuarioUseCase
     {
-        LoginResponse Login(Email email, string senha);
+        LoginResponse Login(string email, string senha);
         TrocarSenhaResponse TrocarSenha(Guid idusuario, string novasenha);
     }
 }

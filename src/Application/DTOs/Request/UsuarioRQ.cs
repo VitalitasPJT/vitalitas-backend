@@ -10,7 +10,7 @@ namespace Application.DTOs
     {
         public class LoginRequest
         {
-            public Email Email { get; set;}
+            public string Email { get; set;}
             public string Senha { get; set;}
         }
 

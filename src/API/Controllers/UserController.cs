@@ -4,6 +4,7 @@ using static Application.DTOs.UsuarioRQ;
 using static Application.DTOs.UsuarioRP;
 using LoginRequest = Application.DTOs.UsuarioRQ.LoginRequest;
 using Application.Interfaces;
+using System.Diagnostics;
 
 namespace API.Controllers
 {    
@@ -39,9 +40,9 @@ namespace API.Controllers
                 var response = _usuarioUseCase.Login(login.Email, login.Senha);
                 return Ok(response);
             }
-            catch
+            catch (Exception ex)
             {
-                return StatusCode(500, new { message = "Erro interno do servidor" });
+                return StatusCode(500, new { message = "Erro interno do servidor", detalhe = ex.Message, StackTrace = ex.StackTrace });
             }
 
             /*var usuario = _context.Usuarios

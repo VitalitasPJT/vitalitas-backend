@@ -9,7 +9,7 @@ namespace Domain.Interfaces
 {
     public interface IUsuario
     {
-        Usuario Login(Email email, string senha);
+        Usuario Login(string email, string senha);
         void TrocarSenha(Guid idusuario, string novasenha);
         
     }

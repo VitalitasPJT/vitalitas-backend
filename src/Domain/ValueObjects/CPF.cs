@@ -7,6 +7,11 @@ namespace Domain.ValueObjects
 {
     public class CPF
     {
-        
+        private string cpf;
+
+        public CPF(string cpf)
+        {
+            this.cpf = cpf;
+        }
     }
 }

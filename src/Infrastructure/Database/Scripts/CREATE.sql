@@ -32,20 +32,20 @@ DROP TABLE IF EXISTS Academia;
 DROP TABLE IF EXISTS Usuario;
 
 CREATE TABLE Usuario (
-    idUsuario INT PRIMARY KEY,
-    nome VARCHAR(100),
-    email VARCHAR(100),
+    idUsuario UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
     quadra VARCHAR(100),
     rua VARCHAR(100),
     bairro VARCHAR(100),
     cidade VARCHAR(100),
     estado VARCHAR(100),
     cep VARCHAR(100),
-    senha VARCHAR(50),
-    dataNscimento DATETIME,
-    cpf VARCHAR(20),
-    tipoUsuario INT,
-    flag INT
+    senha VARCHAR(255) NOT NULL,
+    dataNascimento DATE,
+    cpf VARCHAR(20) NOT NULL UNIQUE,
+    tipoUsuario INT NOT NULL,
+    flag BIT NOT NULL DEFAULT 1,
 );
 
 CREATE TABLE Plano_licenca (

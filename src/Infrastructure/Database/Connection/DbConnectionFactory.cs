@@ -13,8 +13,8 @@ namespace Vitalitas.Infrastructure.Database.Connection
         {
             _configuration = configuration;
             // Ele vai buscar a string de conexão no seu appsettings.json da API
-            _connectionString = _configuration.GetConnectionString("DefaultConnection") 
-                                ?? throw new InvalidOperationException("String de conexão 'DefaultConnection' não encontrada.");
+            _connectionString = _configuration.GetConnectionString("ConexaoPadrao") 
+                                ?? throw new InvalidOperationException("String de conexão 'ConexaoPadrao' não encontrada.");
         }
 
         public IDbConnection CreateConnection()
