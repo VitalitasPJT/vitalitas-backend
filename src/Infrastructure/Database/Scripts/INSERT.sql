@@ -2,16 +2,16 @@ USE VITALITAS_DEV;
 GO
 
 INSERT INTO Usuario VALUES
-(1,'João Silva','joao@email.com','Q1','Rua A','Centro','Brasilia','DF','01001000','123','19900515','11111111111',1,1),
-(2,'Maria Santos','maria@email.com','Q2','Rua B','Centro','Brasilia','DF','02002000','123','19920822','22222222222',1,1),
-(3,'Ricardo Oliveira','ric@email.com','Q3','Rua C','Centro','Brasilia','DF','03003000','123','19850310','33333333333',2,1),
-(4,'Ana Costa','ana@email.com','Q4','Rua D','Centro','Brasilia','DF','04004000','123','19951201','44444444444',1,1),
-(5,'Carlos Eduardo','carlos@email.com','Q5','Rua E','Centro','Brasilia','DF','05005000','123','19800120','55555555555',3,1),
-(6,'Fernanda Lima','fer@email.com','Q6','Rua F','Centro','Brasilia','DF','06006000','123','19980711','66666666666',1,1),
-(7,'Gabriel Souza','gab@email.com','Q7','Rua G','Centro','Brasilia','DF','07007000','123','19881125','77777777777',2,1),
-(8,'Juliana Paes','ju@email.com','Q8','Rua H','Centro','Brasilia','DF','08008000','123','19930214','88888888888',1,1),
-(9,'Roberto Carlos','rob@email.com','Q9','Rua I','Centro','Brasilia','DF','09009000','123','19910905','99999999999',1,1),
-(10,'Sandra Mello','sand@email.com','Q10','Rua J','Centro','Brasilia','DF','10010000','123','19941010','00000000000',1,1);
+('230e0d15-3fe0-4a23-ad1f-562d47de2b12','João Silva','joao@email.com','Q1','Rua A','Centro','Brasilia','DF','01001000','123','19900515','11111111111',1,1),
+('de18ef7e-7f09-4c39-a2fb-1ba0ae699efb','Maria Santos','maria@email.com','Q2','Rua B','Centro','Brasilia','DF','02002000','123','19920822','22222222222',1,1),
+('5dbe34dc-4d6e-4caf-a2af-eb63cc6bc78e','Ricardo Oliveira','ric@email.com','Q3','Rua C','Centro','Brasilia','DF','03003000','123','19850310','33333333333',2,1),
+('d5879c82-0a58-4211-aedf-1eebb3462935','Ana Costa','ana@email.com','Q4','Rua D','Centro','Brasilia','DF','04004000','123','19951201','44444444444',1,1),
+('0cadf8ca-20d2-4e8e-8f80-de475c099a28','Carlos Eduardo','carlos@email.com','Q5','Rua E','Centro','Brasilia','DF','05005000','123','19800120','55555555555',3,1),
+('97a15c3b-76ea-4634-8326-5f143d6ebcaf','Fernanda Lima','fer@email.com','Q6','Rua F','Centro','Brasilia','DF','06006000','123','19980711','66666666666',1,1),
+('e6d17569-462f-4b0b-aa05-9f9d88c13ea2','Gabriel Souza','gab@email.com','Q7','Rua G','Centro','Brasilia','DF','07007000','123','19881125','77777777777',2,1),
+('dce060f9-6fe9-47f4-909c-3e967d1d9da5','Juliana Paes','ju@email.com','Q8','Rua H','Centro','Brasilia','DF','08008000','123','19930214','88888888888',1,1),
+('e227b311-2d64-47d6-9ebe-de9900f04887','Roberto Carlos','rob@email.com','Q9','Rua I','Centro','Brasilia','DF','09009000','123','19910905','99999999999',1,1),
+('ec92a9d5-8f45-4613-99a7-6218200c392a','Sandra Mello','sand@email.com','Q10','Rua J','Centro','Brasilia','DF','10010000','123','19941010','00000000000',1,1);
 
 INSERT INTO Gestor VALUES
 (1,5);
