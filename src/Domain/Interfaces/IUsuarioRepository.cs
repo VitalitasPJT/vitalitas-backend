@@ -10,7 +10,7 @@ namespace Domain.Interfaces
     public interface IUsuario
     {
         Usuario Login(string email, string senha);
-        void TrocarSenha(Guid idusuario, string novasenha);
+        dynamic TrocarSenha(Guid idusuario, string novasenha);
         
     }
 }

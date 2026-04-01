@@ -71,12 +71,14 @@ namespace Infrastructure.Persistence
             return usuarioEncontrado;
         }
 
-        public void TrocarSenha(Guid idusuario, string novasenha)
+        public dynamic TrocarSenha(Guid idusuario, string novasenha)
         {
             using var connection = _connectionFactory.CreateConnection();
             connection.Open();
-            // Implementar a lógica de troca de senha aqui, utilizando o ID do usuário e a nova senha fornecida.
-
+            string query = @"UPDATE Usuario SET Senha = @NovaSenha WHERE IdUsuario = @IdUsuario";
+            
+            var record = connection.Execute(query, new { NovaSenha = novasenha, IdUsuario = idusuario });
+            return record;
         }
     }
 }
