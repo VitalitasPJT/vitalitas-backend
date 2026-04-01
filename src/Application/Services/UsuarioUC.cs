@@ -31,7 +31,15 @@ namespace Application.Services
 
         public TrocarSenhaResponse TrocarSenha(Guid idusaurio, string novasenha)
         {
-            throw new NotImplementedException();
+            var usuario = _usuarioRepository.TrocarSenha(idusaurio, novasenha);
+            if (usuario == null)
+            {
+                throw new Exception("Erro ao trocar senha");
+            }
+            var status = new StatusHTTP("Senha trocada com sucesso", 200, true);
+            var response = new TrocarSenhaResponse(status);
+            return response;
+            //throw new NotImplementedException();
         }
 
     }
