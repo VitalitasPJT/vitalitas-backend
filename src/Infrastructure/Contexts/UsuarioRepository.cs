@@ -5,6 +5,7 @@ using Dapper;
 using Vitalitas.Infrastructure.Database.Connection;
 using Infrastructure.Records;
 using Domain.Enums;
+using System.Data;
 
 namespace Infrastructure.Persistence
 {
@@ -14,6 +15,39 @@ namespace Infrastructure.Persistence
         public UsuarioRepository(DbConnectionFactory connectionFactory)
         {
             _connectionFactory = connectionFactory;
+        }
+
+        public Guid CriarUsuario(string nome, string email, string senha, string quadra, string rua, string bairro, string cidade, string estado, string cep, DateOnly dataNascimento, string cpf, TipoUsuario tipoUsuario)
+        {
+            using var connection = _connectionFactory.CreateConnection();
+            connection.Open();
+
+            var id = Guid.NewGuid();
+
+            string query = @"INSERT INTO Usuario 
+            (IdUsuario, Nome, Email, Senha, Quadra, Rua, Bairro, Cidade, Estado, Cep, DataNascimento, Cpf, TipoUsuario, Flag) 
+            VALUES 
+            (@IdUsuario, @Nome, @Email, @Senha, @Quadra, @Rua, @Bairro, @Cidade, @Estado, @Cep, @DataNascimento, @Cpf, @TipoUsuario, @Flag);";
+
+            connection.Execute(query, new
+            {
+                IdUsuario = id,
+                Nome = nome,
+                Email = email,
+                Senha = senha,
+                Quadra = quadra,
+                Rua = rua,
+                Bairro = bairro,
+                Cidade = cidade,
+                Estado = estado,
+                Cep = cep,
+                DataNascimento = dataNascimento.ToDateTime(TimeOnly.MinValue),
+                Cpf = cpf,
+                TipoUsuario = (int)tipoUsuario,
+                Flag = true
+            });
+
+            return id;
         }
 
         public Usuario Login(string email, string senha)
@@ -76,7 +110,7 @@ namespace Infrastructure.Persistence
             using var connection = _connectionFactory.CreateConnection();
             connection.Open();
             string query = @"UPDATE Usuario SET Senha = @NovaSenha, flag = @Flag WHERE IdUsuario = @IdUsuario";
-            
+
             var record = connection.Execute(query, new { NovaSenha = novasenha, Flag = false, IdUsuario = idusuario });
             return record;
         }

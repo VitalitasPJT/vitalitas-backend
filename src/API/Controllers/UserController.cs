@@ -7,7 +7,7 @@ using Application.Interfaces;
 using System.Diagnostics;
 
 namespace API.Controllers
-{    
+{
     [ApiController]
     [Route("vitalitas/user")]
     public class UserController : ControllerBase
@@ -76,6 +76,25 @@ namespace API.Controllers
                 return BadRequest(response);
             }*/
         }
+
+        [HttpPost]
+        public ActionResult<CriarUsuarioResponse> CriarUsuario(CriarUsuarioRequest user)
+        {
+            try
+            {
+                var response = _usuarioUseCase.CriarUsuario(user.Nome, user.Email, user.Senha, user.Quadra, user.Rua, user.Bairro, user.Cidade, user.Estado, user.Cep, user.DataNascimento, user.Cpf, user.TipoUsuario);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Erro interno do servidor", detalhe = ex.Message, StackTrace = ex.StackTrace });
+            }
+            /*_context.Usuarios.Add(user);
+            _context.SaveChanges();
+
+            return CreatedAtAction(nameof(Get), new Responser<Usuario>("Usuario criado com sucesso", true, user));*/
+        }
+
     }
 }
 
@@ -116,40 +135,6 @@ public ActionResult<Responser<dynamic>> GetSexo([FromQuery] string id)
 
     return Ok(new Responser<dynamic>("Sexo do aluno encontrado", true, user.Sexo));
 }
-
-
-
-[HttpPost("loginuser")]
-public ActionResult<LoginResponseUser> LoginUser([FromBody] LoginUser login)
-{
-    var usuario = _context.Usuario
-        .Where(u => u.Usuario == login.Usuario && u.Senha == login.Password)
-        .Select(u => new { u.Tipo, u.Id })
-        .FirstOrDefault();
-
-    if (usuario != null)
-    {
-        var response = new LoginResponseUser
-        {
-            Sucesso = "true",
-            Tipo = usuario.Tipo,
-            Mensagem = "Login efetuado",
-            Id = usuario.Id
-        };
-
-        return Ok(response);
-    }
-    else
-    {
-        return Unauthorized(new LoginResponseUser
-        {
-            Sucesso = "false",
-            Tipo = null,
-            Mensagem = "Usuário ou senha inválidos",
-            Id = null,
-        });
-    }
-} AQUII PRE SELECT
 
 [HttpPost]
 public ActionResult<Responser<Usuario>> Post(Usuario user)

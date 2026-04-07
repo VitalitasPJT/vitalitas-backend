@@ -25,11 +25,21 @@ namespace Application.DTOs
 
         public class TrocarSenhaResponse
         {
-        
             public StatusHTTP status { get; set;}
             public TrocarSenhaResponse(StatusHTTP status)
             {
                 this.status = status;
+            }
+        }
+
+        public class CriarUsuarioResponse
+        {
+            public Guid IdUsuario { get; set;}
+            public StatusHTTP Status { get; set;}
+            public CriarUsuarioResponse(Guid idUsuario, StatusHTTP status)
+            {
+                this.IdUsuario = idUsuario;
+                this.Status = status;
             }
         }
     }

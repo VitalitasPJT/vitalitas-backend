@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Application.DTOs;
 using Application.Interfaces;
+using Domain.Enums;
 using Domain.Interfaces;
 using Domain.ValueObjects;
 using static Application.DTOs.UsuarioRP;
@@ -17,6 +18,13 @@ namespace Application.Services
         {
             _usuarioRepository = usuarioRepository;
         }
+
+        public CriarUsuarioResponse CriarUsuario(string nome, string email, string senha, string quadra, string rua, string bairro, string cidade, string estado, string cep, DateOnly dataNascimento, string cpf, TipoUsuario tipoUsuario)
+        {
+            var idUsuario = _usuarioRepository.CriarUsuario(nome, email, senha, quadra, rua, bairro, cidade, estado, cep, dataNascimento, cpf, tipoUsuario);
+            return new CriarUsuarioResponse(idUsuario, new StatusHTTP("Usuário criado com sucesso", 201, true));
+        }
+
         public LoginResponse Login(string email, string senha)
         {
             var usuario = _usuarioRepository.Login(email, senha);
@@ -39,8 +47,7 @@ namespace Application.Services
             var status = new StatusHTTP("Senha trocada com sucesso", 200, true);
             var response = new TrocarSenhaResponse(status);
             return response;
-            //throw new NotImplementedException();
         }
-
+        //throw new NotImplementedException();
     }
 }

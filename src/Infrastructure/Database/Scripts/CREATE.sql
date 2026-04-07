@@ -46,43 +46,20 @@ CREATE TABLE usuario (
     flag BIT NOT NULL DEFAULT 1,
 );
 
-<<<<<<< HEAD
-CREATE TABLE Plano_licenca (
-=======
 CREATE TABLE planoLicenca (
->>>>>>> aebb072d482b9fcdd47b0b41ed5ee5152ad93f17
     idPlano INT PRIMARY KEY,
     nome VARCHAR(100),
     descricao VARCHAR(255),
     valor FLOAT
 );
 
-<<<<<<< HEAD
-CREATE TABLE Plano_contrato (
-=======
 CREATE TABLE planoContrato (
->>>>>>> aebb072d482b9fcdd47b0b41ed5ee5152ad93f17
     idPlano INT PRIMARY KEY,
     nome VARCHAR(100),
     descricao VARCHAR(255),
     valor FLOAT
 );
 
-<<<<<<< HEAD
-CREATE TABLE Gestor (
-    idGestor INT PRIMARY KEY,
-    idUsuario INT REFERENCES Usuario(idUsuario)
-);
-
-CREATE TABLE Instrutor (
-    idInstrutor INT PRIMARY KEY,
-    cref VARCHAR(30),
-    idUsuario INT REFERENCES Usuario(idUsuario)
-);
-
-CREATE TABLE Academia (
-    idAcademia INT PRIMARY KEY,
-=======
 CREATE TABLE gestor (
     idGestor UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
     idUsuario UNIQUEIDENTIFIER REFERENCES usuario(idUsuario)
@@ -96,76 +73,31 @@ CREATE TABLE instrutor (
 
 CREATE TABLE academia (
     idAcademia UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
->>>>>>> aebb072d482b9fcdd47b0b41ed5ee5152ad93f17
     nomeAcademia VARCHAR(100),
     cnpj VARCHAR(20),
     emailInstitucional VARCHAR(100),
     tipoAcademia VARCHAR(50),
     cep VARCHAR(15),
     idLicenca INT,
-<<<<<<< HEAD
-    idGestor INT REFERENCES Gestor(idGestor)
-);
-
-CREATE TABLE Licenca (
-=======
     idGestor UNIQUEIDENTIFIER REFERENCES gestor(idGestor)
 );
 
 CREATE TABLE licenca (
->>>>>>> aebb072d482b9fcdd47b0b41ed5ee5152ad93f17
     idLicenca INT PRIMARY KEY,
     status VARCHAR(20),
     tipo VARCHAR(50),
     dataFim DATETIME,
     caminhoPdf VARCHAR(255),
     dataAssinatura DATETIME,
-<<<<<<< HEAD
-    idPlano INT REFERENCES Plano_licenca(idPlano),
-    mensalidade FLOAT
-);
-
-CREATE TABLE Contrato (
-=======
     idPlano INT REFERENCES planoLicenca(idPlano),
     mensalidade FLOAT
 );
 
 CREATE TABLE contrato (
->>>>>>> aebb072d482b9fcdd47b0b41ed5ee5152ad93f17
     idContrato INT PRIMARY KEY,
     status VARCHAR(20),
     dataFim DATETIME,
     dataAssinatura DATETIME,
-<<<<<<< HEAD
-    idPlano INT REFERENCES Plano_contrato(idPlano),
-    mensalidade FLOAT
-);
-
-CREATE TABLE Aluno (
-    idAluno INT PRIMARY KEY,
-    objetivo VARCHAR(255),
-    idUsuario INT REFERENCES Usuario(idUsuario),
-    idContrato INT REFERENCES Contrato(idContrato),
-    idAcademia INT REFERENCES Academia(idAcademia)
-);
-
-CREATE TABLE Funcionario (
-    idFuncionario INT PRIMARY KEY,
-    idUsuario INT REFERENCES Usuario(idUsuario),
-    cargo VARCHAR(100)
-);
-
-CREATE TABLE Exercicios (
-    idExercicio INT PRIMARY KEY,
-    numerioSeries INT,
-    nome VARCHAR(100),
-    numeroRepeticoes INT,
-    aparelho VARCHAR(50),
-    musculo VARCHAR(50)
-);
-
-=======
     idPlano INT REFERENCES planoContrato(idPlano),
     mensalidade FLOAT
 );
@@ -184,43 +116,28 @@ CREATE TABLE funcionario (
     cargo VARCHAR(100)
 );
 
->>>>>>> aebb072d482b9fcdd47b0b41ed5ee5152ad93f17
 CREATE TABLE Agenda (
     idAgenda INT PRIMARY KEY,
     status VARCHAR(20),
     data DATETIME
 );
 
-<<<<<<< HEAD
-CREATE TABLE Log_atividade (
-=======
 CREATE TABLE logAtividade (
->>>>>>> aebb072d482b9fcdd47b0b41ed5ee5152ad93f17
     idLog INT PRIMARY KEY,
     acao VARCHAR(100),
     dataHora DATETIME
 );
 
-<<<<<<< HEAD
-CREATE TABLE Xp_historico (
-=======
 CREATE TABLE xpHistorico (
->>>>>>> aebb072d482b9fcdd47b0b41ed5ee5152ad93f17
     idXp INT PRIMARY KEY,
     motivop VARCHAR(255),
     data DATETIME,
     xpGanho FLOAT
 );
 
-<<<<<<< HEAD
-CREATE TABLE Avaliacao (
-    idAvaliacao INT PRIMARY KEY,
-    idAluno INT REFERENCES Aluno(idAluno),
-=======
 CREATE TABLE avaliacao (
     idAvaliacao INT PRIMARY KEY,
     idAluno UNIQUEIDENTIFIER REFERENCES aluno(idAluno),
->>>>>>> aebb072d482b9fcdd47b0b41ed5ee5152ad93f17
     sexo VARCHAR(10),
     data DATETIME,
     peso FLOAT,
@@ -254,31 +171,6 @@ CREATE TABLE avaliacao (
     pernaD FLOAT,
     pernaE FLOAT,
     deltoide FLOAT,
-<<<<<<< HEAD
-    idInstrutor INT REFERENCES Instrutor(idInstrutor)
-);
-
-CREATE TABLE Ficha (
-    idFicha INT PRIMARY KEY,
-    nomeFicha VARCHAR(100),
-    observacoes VARCHAR(255),
-    idAvaliacao INT REFERENCES Avaliacao(idAvaliacao)
-);
-
-CREATE TABLE Treinos (
-    idTreino INT PRIMARY KEY,
-    tipo VARCHAR(20),
-    nomeTreino VARCHAR(100),
-    idFicha INT REFERENCES Ficha(idFicha)
-);
-
-CREATE TABLE Treino_exercicio (
-    idExercicio INT REFERENCES Exercicios(idExercicio),
-    idTreino INT REFERENCES Treinos(idTreino)
-);
-
-CREATE TABLE Video (
-=======
     idInstrutor UNIQUEIDENTIFIER REFERENCES instrutor(idInstrutor)
 );
 
@@ -298,29 +190,10 @@ CREATE TABLE treino (
 );
 
 CREATE TABLE video (
->>>>>>> aebb072d482b9fcdd47b0b41ed5ee5152ad93f17
     idVideo INT PRIMARY KEY,
     dataUpload DATETIME,
     titulo VARCHAR(150),
     caminhoArquivo VARCHAR(255),
-<<<<<<< HEAD
-    idAcademia INT REFERENCES Academia(idAcademia)
-);
-
-CREATE TABLE Telefone_usuario (
-    telefone VARCHAR(20),
-    idUsuario INT REFERENCES Usuario(idUsuario)
-);
-
-CREATE TABLE Telefone_academia (
-    telefone VARCHAR(20),
-    idAcademia INT REFERENCES Academia(idAcademia)
-);
-
-CREATE TABLE Frequencia (
-    idFrequencia INT PRIMARY KEY,
-    idAluno INT REFERENCES Aluno(idAluno),
-=======
     idAcademia UNIQUEIDENTIFIER REFERENCES academia(idAcademia)
 );
 
@@ -337,31 +210,10 @@ CREATE TABLE telefoneAcademia (
 CREATE TABLE frequencia (
     idFrequencia INT PRIMARY KEY,
     idAluno UNIQUEIDENTIFIER REFERENCES aluno(idAluno),
->>>>>>> aebb072d482b9fcdd47b0b41ed5ee5152ad93f17
     data DATE,
     tempoTreino INT
 );
 
-<<<<<<< HEAD
-CREATE TABLE Usuario_log (
-    idUsuario INT REFERENCES Usuario(idUsuario),
-    idLog INT REFERENCES Log_atividade(idLog)
-);
-
-CREATE TABLE Agenda_professor (
-    idAgenda INT REFERENCES Agenda(idAgenda),
-    idInstrutor INT REFERENCES Instrutor(idInstrutor)
-);
-
-CREATE TABLE Xp_aluno (
-    idXp INT REFERENCES Xp_historico(idXp),
-    idAluno INT REFERENCES Aluno(idAluno)
-);
-
-CREATE TABLE Ficha_medica (
-    idFicha INT PRIMARY KEY,
-    idAluno INT REFERENCES Aluno(idAluno),
-=======
 CREATE TABLE usuarioLog (
     idUsuario UNIQUEIDENTIFIER REFERENCES usuario(idUsuario),
     idLog INT REFERENCES logAtividade(idLog)
@@ -380,7 +232,6 @@ CREATE TABLE xpAluno (
 CREATE TABLE fichaMedica (
     idFicha INT PRIMARY KEY,
     idAluno UNIQUEIDENTIFIER REFERENCES aluno(idAluno),
->>>>>>> aebb072d482b9fcdd47b0b41ed5ee5152ad93f17
     alergia VARCHAR(100),
     restricao VARCHAR(255),
     lesao VARCHAR(255),
