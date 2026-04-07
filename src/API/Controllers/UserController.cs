@@ -44,39 +44,6 @@ namespace API.Controllers
             {
                 return StatusCode(500, new { message = "Erro interno do servidor", detalhe = ex.Message, StackTrace = ex.StackTrace });
             }
-
-            /*var usuario = _context.Usuarios
-                                    .Where(u => u.Email == login.Email && u.Senha == login.Password)
-
-                                    .Select(u => new { u.TipoUsuario, u.IdUsuario, u.SenhaFlag, u.Email }).FirstOrDefault();
-
-            bool existe = _context.Usuarios.Any(u => u.Email == login.Email);
-
-
-            if (usuario != null)
-            {
-                Status status = new Status("Usuario encontrado", 200, true);
-                LoginResponse response = new LoginResponse(usuario.TipoUsuario, usuario.IdUsuario, usuario.SenhaFlag, status);
-                var token = jwt.GenerateToken(Convert.ToString(usuario.IdUsuario), usuario.Email);
-                return Ok(new{ response, token});
-            }
-            else if (existe)
-            {
-                Status status = new Status("Senha incorreta", 403, false);
-
-                LoginResponse response = new LoginResponse(null, 0, false, status);
-
-                return BadRequest(response);
-            }
-            else
-            {
-                Status status = new Status("Usuario não encontrado", 404, false);
-
-                LoginResponse response = new LoginResponse(null, 0, false, status);
-                return Unauthorized(response);
-            }*/
-
-
         }
 
         [HttpPut("trocar-senha")]
