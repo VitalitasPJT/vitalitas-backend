@@ -75,9 +75,9 @@ namespace Infrastructure.Persistence
         {
             using var connection = _connectionFactory.CreateConnection();
             connection.Open();
-            string query = @"UPDATE Usuario SET Senha = @NovaSenha WHERE IdUsuario = @IdUsuario";
+            string query = @"UPDATE Usuario SET Senha = @NovaSenha, flag = @Flag WHERE IdUsuario = @IdUsuario";
             
-            var record = connection.Execute(query, new { NovaSenha = novasenha, IdUsuario = idusuario });
+            var record = connection.Execute(query, new { NovaSenha = novasenha, Flag = false, IdUsuario = idusuario });
             return record;
         }
     }
