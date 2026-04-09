@@ -43,19 +43,32 @@ Certifique-se de ter as seguintes ferramentas instaladas:
 * **[SQL Server Management Studio (SSMS)](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms)** 
 
 ### 1. Configuração do Banco de Dados
-1.  **Conexão Inicial:** Abra o SSMS e conecte-se à sua instância local (ex: `(localdb)\MSSQLLocalDB` ou `.\SQLEXPRESS`).
-2.  **Configuração de Usuário:**
-    *Crie um novo Login com **Autenticação SQL** (não use apenas a do Windows).
+1.  **Primeiramente:** Após baixar o SQL Server 2022 e o SQL Server Management Studio (SSMS), certifique-se de que você possui o LocalDB em sua máquina. Para isso, abra o PowerShell:
+
+```bash
+sqllocaldb info
+```
+
+Se aparecer MSSQLLocalDB, o LocalDB está funcionando corretamente.
+
+1.2 **Caso não apareça:** Instale o Visual Studio Community 2022 e certifique-se de que ativou a opção LocalDB na área de componentes individuais.
+
+2.  **Conexão Inicial:** Abra o SSMS e conecte-se à sua instância local (ex: `(localdb)\MSSQLLocalDB` ou `.\SQLEXPRESS`).
+
+3.  **Configuração de Usuário:**
+    * Crie um novo Login com **Autenticação SQL** (não use apenas a do Windows).
     * Desmarque a opção *"Impor política de senha"* para facilitar o desenvolvimento.
     * Defina o banco de dados padrão como `master` e garanta que a função de servidor `public` esteja marcada.
-3.  **Criação do Banco:**
+
+4.  **Criação do Banco:**
     * Crie um novo banco de dados com o nome: `[VITALITAS_DEV]`.
     * Defina o "Proprietário" (Owner) como o usuário que você acabou de criar.
-4.  **Carga de Dados:**
-    * No SSMS, abra e execute o script de criação:
+
+5.  **Carga de Dados:**
+    * No SSMS, abra o menu superior esquerdo, selecione o arquivo e execute os scripts:
         `vitalitas-backend\src\Infrastructure\Database\CREATE.sql`
-    * Em seguida, execute o script de população de dados:
-        `vitalitas-backend\src\Infrastructure\Database\INSERT.sql` 
+    * Em seguida, abra e execute o script de população de dados:
+        `vitalitas-backend\src\Infrastructure\Database\INSERT.sql`
 
 > **Nota:** Verifique no *SQL Server Configuration Manager* se o protocolo **TCP/IP** está habilitado para o SQLEXPRESS.
 
