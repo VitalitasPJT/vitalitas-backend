@@ -95,16 +95,18 @@ namespace API.Controllers
             return CreatedAtAction(nameof(Get), new Responser<Usuario>("Usuario criado com sucesso", true, user));*/
         }
 
+        [HttpGet]
+        public async Task<ActionResult<Responser<List<Usuario>>>> Get()
+        {
+            var listadeusuarios = await (_context.Usuarios).ToListAsync();
+            return Ok(new Responser<List<Usuario>>("Listagem de todos usuarios feito com sucesso", true, listadeusuarios));
+        }
+
+
     }
 }
 
 /*
-[HttpGet]
-public async Task<ActionResult<Responser<List<Usuario>>>> Get()
-{
-    var listadeusuarios = await (_context.Usuarios).ToListAsync();
-    return Ok(new Responser<List<Usuario>>("Listagem de todos usuarios feito com sucesso", true, listadeusuarios));
-}
 
 
 [HttpGet("{id}")]
