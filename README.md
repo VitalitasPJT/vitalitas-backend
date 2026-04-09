@@ -51,7 +51,7 @@ sqllocaldb info
 
 Se aparecer MSSQLLocalDB, o LocalDB está funcionando corretamente.
 
-1.2 **Caso não apareça:** Instale o Visual Studio Community 2026 e certifique-se de que ativou a opção LocalDB na área de componentes individuais.
+1.2 **Caso não apareça:** Instale o Visual Studio Community 2026 (ou a versão que aparecer dentro do seu VS) e certifique-se de que ativou a opção LocalDB na área de componentes individuais.
 
 2.  **Conexão Inicial:** Abra o SSMS e conecte-se à sua instância local `(localdb)\MSSQLLocalDB` ou `.\SQLEXPRESS`.
 
