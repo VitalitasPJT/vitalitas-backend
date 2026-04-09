@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Vitalitas.Backend.API.Services.JwtService;
 using static Application.DTOs.UsuarioRQ;
@@ -19,12 +20,14 @@ namespace API.Controllers
         }
 
         [HttpGet("test")]
+        [Authorize]
         public IActionResult Test()
         {
             return Ok(new { message = "Hello World", success = true });
         }
 
         [HttpGet("test-token")]
+        [AllowAnonymous]
         public IActionResult TestToken([FromServices] IJwtService jwt)
         {
             var token = jwt.GenerateToken("1", "Administrador");
@@ -33,6 +36,7 @@ namespace API.Controllers
 
 
         [HttpPost("login")]
+        [AllowAnonymous]
         public ActionResult<LoginResponse> Login([FromBody] LoginRequest login, [FromServices] IJwtService jwt)
         {
             try
