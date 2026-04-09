@@ -53,7 +53,7 @@ Se aparecer MSSQLLocalDB, o LocalDB está funcionando corretamente.
 
 1.2 **Caso não apareça:** Instale o Visual Studio Community 2022 e certifique-se de que ativou a opção LocalDB na área de componentes individuais.
 
-2.  **Conexão Inicial:** Abra o SSMS e conecte-se à sua instância local (ex: `(localdb)\MSSQLLocalDB` ou `.\SQLEXPRESS`).
+2.  **Conexão Inicial:** Abra o SSMS e conecte-se à sua instância local `(localdb)\MSSQLLocalDB` ou `.\SQLEXPRESS`.
 
 3.  **Configuração de Usuário:**
     * Crie um novo Login com **Autenticação SQL** (não use apenas a do Windows).
