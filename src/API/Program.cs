@@ -4,10 +4,12 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+ValidateJwtConfiguration(builder.Configuration);
+
 builder.Services.AddSingleton<Vitalitas.Infrastructure.Database.Connection.DbConnectionFactory>();
 builder.Services.AddScoped<Domain.Interfaces.IUsuario, Infrastructure.Persistence.UsuarioRepository>();
 builder.Services.AddScoped<Application.Interfaces.IUsuarioUseCase, Application.Services.UsuarioUC>();
-//builder.Services.AddScoped<IJwtService, JwtService>();
+builder.Services.AddScoped<Vitalitas.Backend.API.Services.JwtService.IJwtService, Vitalitas.Backend.API.Services.JwtService.JwtService>();
 
 /*builder.Services.AddDbContext<Contexto>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ConexaoPadrao")));*/
@@ -62,3 +64,35 @@ app.UseHttpsRedirection();
 app.MapControllers();
 
 app.Run();
+
+static void ValidateJwtConfiguration(IConfiguration configuration)
+{
+    var jwtKey = configuration["Jwt:Key"];
+    var jwtIssuer = configuration["Jwt:Issuer"];
+    var jwtAudience = configuration["Jwt:Audience"];
+    var jwtDuration = configuration["Jwt:DurationInMinutes"];
+
+    if (string.IsNullOrWhiteSpace(jwtKey))
+    {
+        throw new InvalidOperationException(
+            "JWT configuration is invalid: 'Jwt:Key' is missing or empty. Configure it in the API project settings or user-secrets.");
+    }
+
+    if (string.IsNullOrWhiteSpace(jwtIssuer))
+    {
+        throw new InvalidOperationException(
+            "JWT configuration is invalid: 'Jwt:Issuer' is missing or empty.");
+    }
+
+    if (string.IsNullOrWhiteSpace(jwtAudience))
+    {
+        throw new InvalidOperationException(
+            "JWT configuration is invalid: 'Jwt:Audience' is missing or empty.");
+    }
+
+    if (!int.TryParse(jwtDuration, out var durationInMinutes) || durationInMinutes <= 0)
+    {
+        throw new InvalidOperationException(
+            "JWT configuration is invalid: 'Jwt:DurationInMinutes' must be a positive integer.");
+    }
+}

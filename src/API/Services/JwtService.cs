@@ -21,7 +21,7 @@ namespace Vitalitas.Backend.API.Services.JwtService
             _durationMinutes = int.Parse(configuration["Jwt:DurationInMinutes"]!);
         }
 
-        public string GenerateToken(string userId, string userEmail)
+        public string GenerateToken(string userId, string tipoUsuario)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_key));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -29,7 +29,8 @@ namespace Vitalitas.Backend.API.Services.JwtService
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, userId),
-                new Claim(JwtRegisteredClaimNames.Email, userEmail),
+                new Claim("IdUsuario", userId),
+                new Claim("TipoUsuario", tipoUsuario),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 

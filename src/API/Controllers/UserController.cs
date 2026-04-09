@@ -27,17 +27,18 @@ namespace API.Controllers
         [HttpGet("test-token")]
         public IActionResult TestToken([FromServices] IJwtService jwt)
         {
-            var token = jwt.GenerateToken("1", "Pedro");
+            var token = jwt.GenerateToken("1", "Administrador");
             return Ok(new { token });
         }
 
 
         [HttpPost("login")]
-        public ActionResult<LoginResponse> Login([FromBody] LoginRequest login /*, IJwtService jwt*/)
+        public ActionResult<LoginResponse> Login([FromBody] LoginRequest login, [FromServices] IJwtService jwt)
         {
             try
             {
                 var response = _usuarioUseCase.Login(login.Email, login.Senha);
+                response.Token = jwt.GenerateToken(response.IdUsuario.ToString(), response.TipoUsuario.ToString());
                 return Ok(response);
             }
             catch (Exception ex)

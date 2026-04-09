@@ -13,6 +13,7 @@ namespace Application.DTOs
             public TipoUsuario TipoUsuario { get; set; }
             public Guid IdUsuario { get; set;}
             public bool Flag {get; set;}
+            public string? Token { get; set; }
             public StatusHTTP Status { get; set;}
             public LoginResponse(TipoUsuario tipoUsuario, Guid idUsuario, bool flag, StatusHTTP status)
             {
@@ -20,6 +21,7 @@ namespace Application.DTOs
                 this.IdUsuario = idUsuario;
                 this.Flag = flag;
                 this.Status = status;
+                this.Token = null;
             }
         }
 
