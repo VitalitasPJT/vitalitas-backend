@@ -13,6 +13,6 @@ namespace Domain.Interfaces
         Usuario Login(string email, string senha);
         dynamic TrocarSenha(Guid idusuario, string novasenha);
         Guid CriarUsuario(string nome, string email, string senha, string quadra, string rua, string bairro, string cidade, string estado, string cep, DateOnly dataNascimento, string cpf, TipoUsuario tipoUsuario);
-        List<Usuario> GetAllUsuarios(Guid idacademia);
+        //List<Usuario> GetAllUsuarios(Guid idacademia);
     }
 }
