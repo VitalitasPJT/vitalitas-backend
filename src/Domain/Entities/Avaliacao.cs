@@ -1,29 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Vitalitas.Backend.Domain.Entities
+namespace Domain.Entities
 {
-    [Table("agenda")]
-    public class Agenda
-    {
-        [Key]
-        [Required]
-        [Column("[id_agenda]")]
-        public int IdAgenda { get; set; }
-
-        [Required]
-        [Column("[id_professor]")]
-        public int IdProfessor { get; set; }
-
-        [Required]
-        [Column("[data]")]
-        public DateTime Data { get; set; }
-
-        [Required]
-        [Column("[status]")]
-        public string Status { get; set; }
-    }
-
     [Table("avaliacao")]
     public class Avaliacao
     {

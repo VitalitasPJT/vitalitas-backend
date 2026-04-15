@@ -4,248 +4,238 @@ GO
 USE VITALITAS_DEV;
 GO
 
-DROP TABLE IF EXISTS Ficha_medica;
-DROP TABLE IF EXISTS Xp_aluno;
-DROP TABLE IF EXISTS Agenda_professor;
-DROP TABLE IF EXISTS Usuario_log;
-DROP TABLE IF EXISTS Frequencia;
-DROP TABLE IF EXISTS Telefone_academia;
-DROP TABLE IF EXISTS Telefone_usuario;
-DROP TABLE IF EXISTS Video;
-DROP TABLE IF EXISTS Treino_exercicio;
-DROP TABLE IF EXISTS Treinos;
-DROP TABLE IF EXISTS Ficha;
-DROP TABLE IF EXISTS Avaliacao;
-DROP TABLE IF EXISTS Funcionario;
-DROP TABLE IF EXISTS Aluno;
-DROP TABLE IF EXISTS Contrato;
-DROP TABLE IF EXISTS Licenca;
-DROP TABLE IF EXISTS Instrutor;
-DROP TABLE IF EXISTS Gestor;
-DROP TABLE IF EXISTS Xp_historico;
-DROP TABLE IF EXISTS Log_atividade;
-DROP TABLE IF EXISTS Agenda;
-DROP TABLE IF EXISTS Exercicios;
-DROP TABLE IF EXISTS Plano_contrato;
-DROP TABLE IF EXISTS Plano_licenca;
-DROP TABLE IF EXISTS Academia;
-DROP TABLE IF EXISTS Usuario;
+DROP TABLE IF EXISTS fichaMedica;
+DROP TABLE IF EXISTS xpAluno;
+DROP TABLE IF EXISTS agendaProfessor;
+DROP TABLE IF EXISTS usuarioLog;
+DROP TABLE IF EXISTS frequencia;
+DROP TABLE IF EXISTS telefoneAcademia;
+DROP TABLE IF EXISTS telefoneUsuario;
+DROP TABLE IF EXISTS video;
+DROP TABLE IF EXISTS treino;
+DROP TABLE IF EXISTS ficha;
+DROP TABLE IF EXISTS avaliacao;
+DROP TABLE IF EXISTS funcionario;
+DROP TABLE IF EXISTS aluno;
+DROP TABLE IF EXISTS contrato;
+DROP TABLE IF EXISTS licenca;
+DROP TABLE IF EXISTS instrutor;
+DROP TABLE IF EXISTS gestor;
+DROP TABLE IF EXISTS xpHistorico;
+DROP TABLE IF EXISTS logAtividade;
+DROP TABLE IF EXISTS agenda;
+DROP TABLE IF EXISTS planoContrato;
+DROP TABLE IF EXISTS planoLicenca;
+DROP TABLE IF EXISTS academia;
+DROP TABLE IF EXISTS usuario;
 
-CREATE TABLE Usuario (
-    Id_usuario INT PRIMARY KEY,
-    Nome VARCHAR(100),
-    Email VARCHAR(100),
-    Endereco VARCHAR(255),
-    Senha VARCHAR(50),
-    Data_nascimento DATETIME,
-    CPF VARCHAR(20),
-    Tipo_usuario VARCHAR(20),
-    Flag INT
+CREATE TABLE usuario (
+    idUsuario UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    quadra VARCHAR(100),
+    rua VARCHAR(100),
+    bairro VARCHAR(100),
+    cidade VARCHAR(100),
+    estado VARCHAR(100),
+    cep VARCHAR(100),
+    senha VARCHAR(255) NOT NULL,
+    dataNascimento DATE,
+    cpf VARCHAR(20) NOT NULL UNIQUE,
+    tipoUsuario INT NOT NULL,
+    flag BIT NOT NULL DEFAULT 1,
 );
 
-CREATE TABLE Plano_licenca (
-    Id_plano INT PRIMARY KEY,
-    Nome VARCHAR(100),
-    Descricao VARCHAR(255),
-    Valor FLOAT
+CREATE TABLE planoLicenca (
+    idPlano INT PRIMARY KEY,
+    nome VARCHAR(100),
+    descricao VARCHAR(255),
+    valor FLOAT
 );
 
-CREATE TABLE Plano_contrato (
-    Id_plano INT PRIMARY KEY,
-    Nome VARCHAR(100),
-    Descricao VARCHAR(255),
-    Valor FLOAT
+CREATE TABLE planoContrato (
+    idPlano INT PRIMARY KEY,
+    nome VARCHAR(100),
+    descricao VARCHAR(255),
+    valor FLOAT
 );
 
-CREATE TABLE Gestor (
-    Id_gestor INT PRIMARY KEY,
-    Id_usuario INT REFERENCES Usuario(Id_usuario)
+CREATE TABLE gestor (
+    idGestor UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+    idUsuario UNIQUEIDENTIFIER REFERENCES usuario(idUsuario)
 );
 
-CREATE TABLE Instrutor (
-    Id_instrutor INT PRIMARY KEY,
-    CREF VARCHAR(30),
-    Id_usuario INT REFERENCES Usuario(Id_usuario)
+CREATE TABLE instrutor (
+    idInstrutor UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+    cref VARCHAR(30),
+    idUsuario UNIQUEIDENTIFIER REFERENCES usuario(idUsuario)
 );
 
-CREATE TABLE Academia (
-    Id_academia INT PRIMARY KEY,
-    Nome_academia VARCHAR(100),
-    CNPJ VARCHAR(20),
-    Email_institucional VARCHAR(100),
-    Tipo_academia VARCHAR(50),
-    CEP VARCHAR(15),
-    Id_licenca INT,
-    Id_gestor INT REFERENCES Gestor(Id_gestor)
+CREATE TABLE academia (
+    idAcademia UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+    nomeAcademia VARCHAR(100),
+    cnpj VARCHAR(20),
+    emailInstitucional VARCHAR(100),
+    tipoAcademia VARCHAR(50),
+    cep VARCHAR(15),
+    idLicenca INT,
+    idGestor UNIQUEIDENTIFIER REFERENCES gestor(idGestor)
 );
 
-CREATE TABLE Licenca (
-    Id_licenca INT PRIMARY KEY,
-    Status VARCHAR(20),
-    Tipo VARCHAR(50),
-    Data_fim DATETIME,
-    Caminho_pdf VARCHAR(255),
-    Data_assinatura DATETIME,
-    Id_plano INT REFERENCES Plano_licenca(Id_plano),
-    Mensalidade FLOAT
+CREATE TABLE licenca (
+    idLicenca INT PRIMARY KEY,
+    status VARCHAR(20),
+    tipo VARCHAR(50),
+    dataFim DATETIME,
+    caminhoPdf VARCHAR(255),
+    dataAssinatura DATETIME,
+    idPlano INT REFERENCES planoLicenca(idPlano),
+    mensalidade FLOAT
 );
 
-CREATE TABLE Contrato (
-    Id_contrato INT PRIMARY KEY,
-    Status VARCHAR(20),
-    Data_fim DATETIME,
-    Data_assinatura DATETIME,
-    Id_plano INT REFERENCES Plano_contrato(Id_plano),
-    Mensalidade FLOAT
+CREATE TABLE contrato (
+    idContrato INT PRIMARY KEY,
+    status VARCHAR(20),
+    dataFim DATETIME,
+    dataAssinatura DATETIME,
+    idPlano INT REFERENCES planoContrato(idPlano),
+    mensalidade FLOAT
 );
 
-CREATE TABLE Aluno (
-    Id_aluno INT PRIMARY KEY,
-    Objetivo INT,
-    Id_usuario INT REFERENCES Usuario(Id_usuario),
-    Id_contrato INT REFERENCES Contrato(Id_contrato),
-    Id_academia INT REFERENCES Academia(Id_academia)
+CREATE TABLE aluno (
+    idAluno UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+    objetivo VARCHAR(255),
+    idUsuario UNIQUEIDENTIFIER REFERENCES usuario(idUsuario),
+    idContrato INT REFERENCES contrato(idContrato),
+    idAcademia UNIQUEIDENTIFIER REFERENCES academia(idAcademia)
 );
 
-CREATE TABLE Funcionario (
-    Id_funcionario INT PRIMARY KEY,
-    Id_usuario INT REFERENCES Usuario(Id_usuario),
-    Cargo VARCHAR(100)
-);
-
-CREATE TABLE Exercicios (
-    Id_exercicios INT PRIMARY KEY,
-    Numero_series INT,
-    Nome VARCHAR(100),
-    Numero_repeticoes INT,
-    Aparelho VARCHAR(50),
-    Musculo VARCHAR(50)
+CREATE TABLE funcionario (
+    idFuncionario UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+    idUsuario UNIQUEIDENTIFIER REFERENCES usuario(idUsuario),
+    cargo VARCHAR(100)
 );
 
 CREATE TABLE Agenda (
-    Id_agenda INT PRIMARY KEY,
-    Status VARCHAR(20),
-    Data DATETIME
+    idAgenda INT PRIMARY KEY,
+    status VARCHAR(20),
+    data DATETIME
 );
 
-CREATE TABLE Log_atividade (
-    Id_log INT PRIMARY KEY,
-    Acao VARCHAR(100),
-    Data_hora DATETIME
+CREATE TABLE logAtividade (
+    idLog INT PRIMARY KEY,
+    acao VARCHAR(100),
+    dataHora DATETIME
 );
 
-CREATE TABLE Xp_historico (
-    Id_xp INT PRIMARY KEY,
-    Motivo VARCHAR(255),
-    Data DATETIME,
-    Xp_ganho FLOAT
+CREATE TABLE xpHistorico (
+    idXp INT PRIMARY KEY,
+    motivop VARCHAR(255),
+    data DATETIME,
+    xpGanho FLOAT
 );
 
-CREATE TABLE Avaliacao (
-    Id_avaliacao INT PRIMARY KEY,
-    Id_aluno INT REFERENCES Aluno(Id_aluno),
-    Sexo VARCHAR(10),
-    Data DATETIME,
-    Peso FLOAT,
-    Altura FLOAT,
-    Idade INT,
-    IMC FLOAT,
-    Glicemia FLOAT,
-    PA FLOAT,
-    Densidade FLOAT,
-    TR FLOAT,
-    SE FLOAT,
-    PT FLOAT,
-    AX FLOAT,
-    SI FLOAT,
-    AB FLOAT,
-    CX FLOAT,
-    PTrrlh FLOAT,
-    Umero FLOAT,
-    Femur FLOAT,
-    P_magro FLOAT,
-    P_gordo FLOAT,
-    P_viscera FLOAT,
-    P_osseo FLOAT,
-    Torax FLOAT,
-    Abdomen FLOAT,
-    Quadril FLOAT,
-    Braco_D FLOAT,
-    Braco_E FLOAT,
-    Coxa_D FLOAT,
-    Coxa_E FLOAT,
-    Perna_D FLOAT,
-    Perna_E FLOAT,
-    Deltoide FLOAT,
-    Id_instrutor INT REFERENCES Instrutor(Id_instrutor)
+CREATE TABLE avaliacao (
+    idAvaliacao INT PRIMARY KEY,
+    idAluno UNIQUEIDENTIFIER REFERENCES aluno(idAluno),
+    sexo VARCHAR(10),
+    data DATETIME,
+    peso FLOAT,
+    altura FLOAT,
+    idade INT,
+    imc FLOAT,
+    glicemia FLOAT,
+    pa FLOAT,
+    densidade FLOAT,
+    tr FLOAT,
+    se FLOAT,
+    pt FLOAT,
+    ax FLOAT,
+    si FLOAT,
+    ab FLOAT,
+    cx FLOAT,
+    ptrrlh FLOAT,
+    umero FLOAT,
+    femur FLOAT,
+    pMagro FLOAT,
+    pGordo FLOAT,
+    pViscera FLOAT,
+    pOsseo FLOAT,
+    torax FLOAT,
+    abdomen FLOAT,
+    quadril FLOAT,
+    bracoD FLOAT,
+    bracoE FLOAT,
+    coxaD FLOAT,
+    coxaE FLOAT,
+    pernaD FLOAT,
+    pernaE FLOAT,
+    deltoide FLOAT,
+    idInstrutor UNIQUEIDENTIFIER REFERENCES instrutor(idInstrutor)
 );
 
-CREATE TABLE Ficha (
-    Id_ficha INT PRIMARY KEY,
-    Nome_ficha VARCHAR(100),
-    Observacoes VARCHAR(255),
-    Id_avaliacao INT REFERENCES Avaliacao(Id_avaliacao)
+CREATE TABLE ficha (
+    idFicha INT PRIMARY KEY,
+    nomeFicha VARCHAR(100),
+    observacoes VARCHAR(255),
+    idAvaliacao INT REFERENCES avaliacao(idAvaliacao),
+    idAluno UNIQUEIDENTIFIER REFERENCES aluno(idAluno)
 );
 
-CREATE TABLE Treinos (
-    Id_treinos INT PRIMARY KEY,
-    Tipo VARCHAR(20),
-    Nome_treino VARCHAR(100),
-    Id_ficha INT REFERENCES Ficha(Id_ficha)
+CREATE TABLE treino (
+    idTreino INT PRIMARY KEY,
+    nomeTreino VARCHAR(100),
+    idFicha INT REFERENCES ficha(idFicha),
+    exercicio NVARCHAR(MAX)
 );
 
-CREATE TABLE Treino_exercicio (
-    Id_exercicios INT REFERENCES Exercicios(Id_exercicios),
-    Id_treinos INT REFERENCES Treinos(Id_treinos)
+CREATE TABLE video (
+    idVideo INT PRIMARY KEY,
+    dataUpload DATETIME,
+    titulo VARCHAR(150),
+    caminhoArquivo VARCHAR(255),
+    idAcademia UNIQUEIDENTIFIER REFERENCES academia(idAcademia)
 );
 
-CREATE TABLE Video (
-    Id_video INT PRIMARY KEY,
-    Data_upload DATETIME,
-    Titulo VARCHAR(150),
-    Caminho_arquivo VARCHAR(255),
-    Id_academia INT REFERENCES Academia(Id_academia)
+CREATE TABLE telefoneUsuario (
+    telefone VARCHAR(20),
+    idUsuario UNIQUEIDENTIFIER REFERENCES usuario(idUsuario)
 );
 
-CREATE TABLE Telefone_usuario (
-    Telefone VARCHAR(20),
-    Id_usuario INT REFERENCES Usuario(Id_usuario)
+CREATE TABLE telefoneAcademia (
+    telefone VARCHAR(20),
+    idAcademia UNIQUEIDENTIFIER REFERENCES academia(idAcademia)
 );
 
-CREATE TABLE Telefone_academia (
-    Telefone VARCHAR(20),
-    Id_academia INT REFERENCES Academia(Id_academia)
+CREATE TABLE frequencia (
+    idFrequencia INT PRIMARY KEY,
+    idAluno UNIQUEIDENTIFIER REFERENCES aluno(idAluno),
+    data DATE,
+    tempoTreino INT
 );
 
-CREATE TABLE Frequencia (
-    Id_frequencia INT PRIMARY KEY,
-    Id_aluno INT REFERENCES Aluno(Id_aluno),
-    Data DATE,
-    Tempo_treino INT
+CREATE TABLE usuarioLog (
+    idUsuario UNIQUEIDENTIFIER REFERENCES usuario(idUsuario),
+    idLog INT REFERENCES logAtividade(idLog)
 );
 
-CREATE TABLE Usuario_log (
-    Id_usuario INT REFERENCES Usuario(Id_usuario),
-    Id_log INT REFERENCES Log_atividade(Id_log)
+CREATE TABLE agendaProfessor (
+    idAgenda INT REFERENCES agenda(idAgenda),
+    idInstrutor UNIQUEIDENTIFIER REFERENCES instrutor(idInstrutor)
 );
 
-CREATE TABLE Agenda_professor (
-    Id_agenda INT REFERENCES Agenda(Id_agenda),
-    Id_instrutor INT REFERENCES Instrutor(Id_instrutor)
+CREATE TABLE xpAluno (
+    idXp INT REFERENCES xpHistorico(idXp),
+    idAluno UNIQUEIDENTIFIER REFERENCES aluno(idAluno)
 );
 
-CREATE TABLE Xp_aluno (
-    Id_xp INT REFERENCES Xp_historico(Id_xp),
-    Id_aluno INT REFERENCES Aluno(Id_aluno)
-);
-
-CREATE TABLE Ficha_medica (
-    Id_ficha INT PRIMARY KEY,
-    Id_aluno INT REFERENCES Aluno(Id_aluno),
-    Alergia VARCHAR(100),
-    Restricao VARCHAR(255),
-    Lesao VARCHAR(255),
-    Cirurgia VARCHAR(255),
-    Problema_saude VARCHAR(255),
-    Uso_medicamento VARCHAR(255)
+CREATE TABLE fichaMedica (
+    idFicha INT PRIMARY KEY,
+    idAluno UNIQUEIDENTIFIER REFERENCES aluno(idAluno),
+    alergia VARCHAR(100),
+    restricao VARCHAR(255),
+    lesao VARCHAR(255),
+    cirurgia VARCHAR(255),
+    problemaSaude VARCHAR(255),
+    usoMedicamento VARCHAR(255)
 );
