@@ -13,6 +13,7 @@ namespace Application.DTOs
         {
             public string Email { get; set;}
             public string Senha { get; set;}
+            public string? Fluxo { get; set; }
         }
 
         public class TrocarSenhaRequest

@@ -33,6 +33,30 @@ builder.Services.AddControllers()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
+    options.SwaggerDoc("Aluno", new OpenApiInfo
+    {
+        Title = "Vitalitas API - Aluno",
+        Version = "v1"
+    });
+
+    options.SwaggerDoc("Administrativo", new OpenApiInfo
+    {
+        Title = "Vitalitas API - Administrativo",
+        Version = "v1"
+    });
+
+    options.DocInclusionPredicate((documentName, apiDescription) =>
+    {
+        var groupName = apiDescription.GroupName;
+
+        if (string.IsNullOrWhiteSpace(groupName))
+        {
+            return true;
+        }
+
+        return string.Equals(groupName, documentName, StringComparison.OrdinalIgnoreCase);
+    });
+
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Name = "Authorization",
@@ -68,6 +92,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
+            RoleClaimType = "Role",
             ValidIssuer = builder.Configuration["Jwt:Issuer"],
             ValidAudience = builder.Configuration["Jwt:Audience"],
             IssuerSigningKey = new SymmetricSecurityKey(
@@ -83,7 +108,11 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/Aluno/swagger.json", "Aluno");
+        options.SwaggerEndpoint("/swagger/Administrativo/swagger.json", "Administrativo");
+    });
 }
 
 app.UseCors("AllowReact");

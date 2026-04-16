@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using Vitalitas.Backend.API.Services.JwtService;
 using static Application.DTOs.UsuarioRQ;
 using static Application.DTOs.UsuarioRP;
 using LoginRequest = Application.DTOs.UsuarioRQ.LoginRequest;
 using Application.Interfaces;
-using System.Diagnostics;
 
 namespace API.Controllers
 {
@@ -23,7 +23,56 @@ namespace API.Controllers
         [Authorize]
         public IActionResult Test()
         {
-            return Ok(new { message = "Hello World", success = true });
+            var idUsuario = User.FindFirst("IdUsuario")?.Value ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var tipoUsuario = User.FindFirst("TipoUsuario")?.Value;
+            var role = User.FindFirst("Role")?.Value ?? User.FindFirst(ClaimTypes.Role)?.Value;
+
+            return Ok(new
+            {
+                message = "Token valido",
+                success = true,
+                IdUsuario = idUsuario,
+                TipoUsuario = tipoUsuario,
+                Role = role
+            });
+        }
+
+        [HttpGet("test-admin")]
+        [Authorize(Roles = "Administrador")]
+        [ApiExplorerSettings(GroupName = "Administrativo")]
+        public IActionResult TestAdmin()
+        {
+            var tipoUsuario = User.FindFirst("TipoUsuario")?.Value;
+            var idUsuario = User.FindFirst("IdUsuario")?.Value ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var role = User.FindFirst("Role")?.Value ?? User.FindFirst(ClaimTypes.Role)?.Value;
+
+            return Ok(new
+            {
+                message = "Acesso autorizado para Administrador",
+                success = true,
+                IdUsuario = idUsuario,
+                TipoUsuario = tipoUsuario,
+                Role = role
+            });
+        }
+
+        [HttpGet("test-aluno")]
+        [Authorize(Roles = "Aluno")]
+        [ApiExplorerSettings(GroupName = "Aluno")]
+        public IActionResult TestAluno()
+        {
+            var tipoUsuario = User.FindFirst("TipoUsuario")?.Value;
+            var idUsuario = User.FindFirst("IdUsuario")?.Value ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var role = User.FindFirst("Role")?.Value ?? User.FindFirst(ClaimTypes.Role)?.Value;
+
+            return Ok(new
+            {
+                message = "Acesso autorizado para Aluno",
+                success = true,
+                IdUsuario = idUsuario,
+                TipoUsuario = tipoUsuario,
+                Role = role
+            });
         }
 
         [HttpGet("test-token")]
@@ -42,6 +91,15 @@ namespace API.Controllers
             try
             {
                 var response = _usuarioUseCase.Login(login.Email, login.Senha);
+
+                if (EhFluxoAluno(login.Fluxo) && EhRoleAdministrativa(response.TipoUsuario.ToString()))
+                {
+                    return StatusCode(StatusCodes.Status403Forbidden, new
+                    {
+                        message = "Perfil administrativo nao pode realizar login no fluxo de aluno"
+                    });
+                }
+
                 response.Token = jwt.GenerateToken(response.IdUsuario.ToString(), response.TipoUsuario.ToString());
                 return Ok(response);
             }
@@ -83,6 +141,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
+        [ApiExplorerSettings(GroupName = "Administrativo")]
         public ActionResult<CriarUsuarioResponse> CriarUsuario(CriarUsuarioRequest user)
         {
             try
@@ -98,6 +157,19 @@ namespace API.Controllers
             _context.SaveChanges();
 
             return CreatedAtAction(nameof(Get), new Responser<Usuario>("Usuario criado com sucesso", true, user));*/
+        }
+
+        private static bool EhFluxoAluno(string? fluxo)
+        {
+            return string.Equals(fluxo, "Aluno", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static bool EhRoleAdministrativa(string tipoUsuario)
+        {
+            return tipoUsuario == "Gestor"
+                || tipoUsuario == "Dono"
+                || tipoUsuario == "Instrutor"
+                || tipoUsuario == "Administrador";
         }
 
     }

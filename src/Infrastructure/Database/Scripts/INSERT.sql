@@ -8,6 +8,12 @@ INSERT INTO usuario VALUES
 ('0cadf8ca-20d2-4e8e-8f80-de475c099a28','Carlos Eduardo','carlos@gmail.com','Q5','Rua E','Centro','Brasilia','DF','05005000','123','19800120','55555555555',3,1),
 ('e6d17569-462f-4b0b-aa05-9f9d88c13ea2','Gabriel Souza','gab@gmail.com','Q7','Rua G','Centro','Brasilia','DF','07007000','123','19881125','77777777777',2,1);
 
+INSERT INTO usuario VALUES
+('11111111-2222-3333-4444-555555555555','Gestor Teste','gestor@gmail.com','Q10','Rua X','Centro','Brasilia','DF','99999999','123','19900101','99999999999',3,1);
+
+INSERT INTO gestor VALUES
+('99999999-aaaa-bbbb-cccc-dddddddddddd','11111111-2222-3333-4444-555555555555');
+
 INSERT INTO gestor VALUES
 ('8a6f0c2a-5c0f-4e6b-9e2d-6f2c2f4b9c11','0cadf8ca-20d2-4e8e-8f80-de475c099a28');
 
