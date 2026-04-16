@@ -91,12 +91,21 @@ namespace API.Controllers
             try
             {
                 var response = _usuarioUseCase.Login(login.Email, login.Senha);
+                var role = ObterRoleDoFluxo(response.TipoUsuario.ToString());
 
-                if (EhFluxoAluno(login.Fluxo) && EhRoleAdministrativa(response.TipoUsuario.ToString()))
+                if (EhFluxoAluno(login.Fluxo) && role != "Aluno")
                 {
                     return StatusCode(StatusCodes.Status403Forbidden, new
                     {
                         message = "Perfil administrativo nao pode realizar login no fluxo de aluno"
+                    });
+                }
+
+                if (EhFluxoAdministrativo(login.Fluxo) && role != "Administrador")
+                {
+                    return StatusCode(StatusCodes.Status403Forbidden, new
+                    {
+                        message = "Perfil de aluno nao pode realizar login no fluxo administrativo"
                     });
                 }
 
@@ -164,12 +173,22 @@ namespace API.Controllers
             return string.Equals(fluxo, "Aluno", StringComparison.OrdinalIgnoreCase);
         }
 
-        private static bool EhRoleAdministrativa(string tipoUsuario)
+        private static bool EhFluxoAdministrativo(string? fluxo)
         {
-            return tipoUsuario == "Gestor"
-                || tipoUsuario == "Dono"
-                || tipoUsuario == "Instrutor"
-                || tipoUsuario == "Administrador";
+            return string.Equals(fluxo, "Administrativo", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static string ObterRoleDoFluxo(string tipoUsuario)
+        {
+            return tipoUsuario switch
+            {
+                "Aluno" => "Aluno",
+                "Gestor" => "Administrador",
+                "Dono" => "Administrador",
+                "Instrutor" => "Administrador",
+                "Administrador" => "Administrador",
+                _ => string.Empty
+            };
         }
 
     }
