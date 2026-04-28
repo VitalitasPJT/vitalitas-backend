@@ -58,23 +58,6 @@ namespace API.Controllers
             {
                 return StatusCode(500, new { message = "Erro interno do servidor" });
             }
-            /*var usuario = _context.Usuarios.FirstOrDefault(u => u.IdUsuario == reset.Id);
-
-            if (usuario != null)
-            {
-                usuario.Senha = reset.NewPassword;
-                usuario.SenhaFlag = true;
-                _context.SaveChanges();
-                Status status = new Status("Senha atualizada com sucesso", 200, true);
-                PasswordResetResponse response = new PasswordResetResponse(status);
-                return Ok(response);
-            }
-            else
-            {
-                Status status = new Status("Usuario não encontrado", 404, false);
-                PasswordResetResponse response = new PasswordResetResponse(status);
-                return BadRequest(response);
-            }*/
         }
 
         [HttpPost]
@@ -89,22 +72,11 @@ namespace API.Controllers
             {
                 return StatusCode(500, new { message = "Erro interno do servidor", detalhe = ex.Message, StackTrace = ex.StackTrace });
             }
-            /*_context.Usuarios.Add(user);
-            _context.SaveChanges();
-
-            return CreatedAtAction(nameof(Get), new Responser<Usuario>("Usuario criado com sucesso", true, user));*/
         }
-
     }
 }
 
 /*
-[HttpGet]
-public async Task<ActionResult<Responser<List<Usuario>>>> Get()
-{
-    var listadeusuarios = await (_context.Usuarios).ToListAsync();
-    return Ok(new Responser<List<Usuario>>("Listagem de todos usuarios feito com sucesso", true, listadeusuarios));
-}
 
 
 [HttpGet("{id}")]
