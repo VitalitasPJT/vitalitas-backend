@@ -9,11 +9,10 @@ namespace Domain.Interfaces
 {
     public interface IAluno
     {
-        List<Usuario> ListarTodosALunos(Guid idacademia);
+        (List<Aluno>, List<Usuario>) ListarALunos(Guid idacademia);
+        (Aluno, Usuario) ListarAluno(Guid idacademia, Guid idusuario);
         dynamic VincularInstrutor(Guid idaluno, Guid idprofessor);
         dynamic AtualizarObjetivo(Guid idaluno, string novoobjetivo);
-        dynamic ConsultarFrequencia(Guid idaluno);
-        dynamic ConsultarFicha(Guid idaluno);
 
     }
 }

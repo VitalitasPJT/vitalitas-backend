@@ -4,10 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Application.DTOs;
 using Application.Interfaces;
+using Domain.Entities;
 using Domain.Enums;
 using Domain.Interfaces;
 using Domain.ValueObjects;
-using static Application.DTOs.UsuarioRP;
+using static Application.DTOs.UsuarioRQ;
+using static Application.DTOs.UsuarioRS;
 
 namespace Application.Services
 {
@@ -17,6 +19,16 @@ namespace Application.Services
         public UsuarioUC(IUsuario usuarioRepository)
         {
             _usuarioRepository = usuarioRepository;
+        }
+
+        public AdicionarLogResponse AdicionarLog(Guid idusuario, LogAtividade log)
+        {
+            throw new NotImplementedException();
+        }
+
+        public AtualizarDadosResponse AtualizarDados(Guid idusuario, dynamic valor, string atributo)
+        {
+            throw new NotImplementedException();
         }
 
         public CriarUsuarioResponse CriarUsuario(string nome, string email, string senha, string quadra, string rua, string bairro, string cidade, string estado, string cep, DateOnly dataNascimento, string cpf, TipoUsuario tipoUsuario)
@@ -35,6 +47,11 @@ namespace Application.Services
             var status = new StatusHTTP("Login realizado com sucesso", 200, true);
             var response = new LoginResponse(usuario.TipoUsuario, usuario.IdUsuario, usuario.Flag, status);
             return response;
+        }
+
+        public ObterLogsResponse ObterLogs(Guid idusuario)
+        {
+            throw new NotImplementedException();
         }
 
         public TrocarSenhaResponse TrocarSenha(Guid idusaurio, string novasenha)

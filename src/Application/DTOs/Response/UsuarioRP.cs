@@ -1,46 +1,103 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Domain.Enums;
 
 namespace Application.DTOs
 {
-    public class UsuarioRP
+    public class UsuarioRS
     {
         public class LoginResponse
         {
-            public TipoUsuario TipoUsuario { get; set; }
-            public Guid IdUsuario { get; set;}
-            public bool Flag {get; set;}
-            public StatusHTTP Status { get; set;}
+            private bool flag;
+            private StatusHTTP status;
+
             public LoginResponse(TipoUsuario tipoUsuario, Guid idUsuario, bool flag, StatusHTTP status)
             {
-                this.TipoUsuario = tipoUsuario;
-                this.IdUsuario = idUsuario;
-                this.Flag = flag;
-                this.Status = status;
+                TipoUsuario = tipoUsuario;
+                IdUsuario = idUsuario;
+                this.flag = flag;
+                this.status = status;
             }
+
+            public bool Sucesso { get; set; }
+            public string Mensagem { get; set; }
+
+            // Dados úteis para o Front-end ao logar
+            public Guid IdUsuario { get; set; }
+            public string Nome { get; set; }
+            public string Email { get; set; }
+            public TipoUsuario TipoUsuario { get; set; }
+
+            // Espaço reservado para quando você implementar autenticação JWT
+            public string Token { get; set; }
         }
 
         public class TrocarSenhaResponse
         {
-            public StatusHTTP status { get; set;}
+            private StatusHTTP status;
+
             public TrocarSenhaResponse(StatusHTTP status)
             {
                 this.status = status;
             }
+
+            public bool Sucesso { get; set; }
+            public string Mensagem { get; set; }
         }
 
         public class CriarUsuarioResponse
         {
-            public Guid IdUsuario { get; set;}
-            public StatusHTTP Status { get; set;}
-            public CriarUsuarioResponse(Guid idUsuario, StatusHTTP status)
+            private StatusHTTP statusHTTP;
+
+            public CriarUsuarioResponse(Guid idUsuario, StatusHTTP statusHTTP)
             {
-                this.IdUsuario = idUsuario;
-                this.Status = status;
+                IdUsuario = idUsuario;
+                this.statusHTTP = statusHTTP;
             }
+
+            public bool Sucesso { get; set; }
+            public string Mensagem { get; set; }
+            public Guid IdUsuario { get; set; } // Retorna o ID gerado no banco
+        }
+
+        public class AtualizarDadosResponse
+        {
+            public bool Sucesso { get; set; }
+            public string Mensagem { get; set; }
+        }
+
+        public class DesativarResponse
+        {
+            public bool Sucesso { get; set; }
+            public string Mensagem { get; set; }
+        }
+
+        public class AtivarResponse
+        {
+            public bool Sucesso { get; set; }
+            public string Mensagem { get; set; }
+        }
+
+        public class ObterLogsResponse
+        {
+            public bool Sucesso { get; set; }
+            public string Mensagem { get; set; }
+            public List<LogDto> Logs { get; set; } = new List<LogDto>();
+        }
+
+        public class AdicionarLogResponse
+        {
+            public bool Sucesso { get; set; }
+            public string Mensagem { get; set; }
+        }
+
+        // --- DTO Auxiliar para listar os logs de forma limpa ---
+
+        public class LogDto
+        {
+            public Guid IdLog { get; set; }
+            public string Acao { get; set; }
+            public DateTime DataHora { get; set; }
         }
     }
 }
