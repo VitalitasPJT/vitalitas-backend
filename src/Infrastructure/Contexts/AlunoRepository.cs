@@ -30,6 +30,11 @@ namespace Infrastructure.Contexts
             throw new NotImplementedException();
         }
 
+        public List<Usuario> ListarTodosALunos(Guid idacademia)
+        {
+            throw new NotImplementedException();
+        }
+
         public dynamic VincularInstrutor(Guid idaluno, Guid idprofessor)
         {
             throw new NotImplementedException();

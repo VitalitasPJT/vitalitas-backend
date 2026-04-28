@@ -17,6 +17,21 @@ namespace Infrastructure.Persistence
             _connectionFactory = connectionFactory;
         }
 
+        public dynamic AdicionarLog(Guid idusuario, LogAtividade log)
+        {
+            throw new NotImplementedException();
+        }
+
+        public dynamic Ativar(Guid idusuario)
+        {
+            throw new NotImplementedException();
+        }
+
+        public dynamic AtualizarDados(Guid idusuario, dynamic var, string atributo)
+        {
+            throw new NotImplementedException();
+        }
+
         public Guid CriarUsuario(string nome, string email, string senha, string quadra, string rua, string bairro, string cidade, string estado, string cep, DateOnly dataNascimento, string cpf, TipoUsuario tipoUsuario)
         {
             using var connection = _connectionFactory.CreateConnection();
@@ -48,6 +63,11 @@ namespace Infrastructure.Persistence
             });
 
             return id;
+        }
+
+        public dynamic Desativar(Guid idusuario)
+        {
+            throw new NotImplementedException();
         }
 
         public Usuario Login(string email, string senha)
@@ -103,6 +123,11 @@ namespace Infrastructure.Persistence
             );
 
             return usuarioEncontrado;
+        }
+
+        public List<dynamic> ObterLogs(Guid idusuario)
+        {
+            throw new NotImplementedException();
         }
 
         public dynamic TrocarSenha(Guid idusuario, string novasenha)
