@@ -34,3 +34,24 @@ Vitalitas.csproj.user
 # Configuração local do Codex
 .codex/config.toml
 AGENTS.md
+
+################################
+# IDE e Ferramentas
+################################
+.vscode/
+
+################################
+# Saída de Testes
+################################
+TestResults/
+coverage/
+
+################################
+# Publicação
+################################
+publish/
+
+################################
+# Logs (diretório)
+################################
+logs/

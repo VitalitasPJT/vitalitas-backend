@@ -13,6 +13,7 @@ builder.Services.AddScoped<Application.Interfaces.IUsuarioUseCase, Application.S
 builder.Services.AddScoped<Domain.Interfaces.IAluno, Infrastructure.Persistence.AlunoRepository>();
 builder.Services.AddScoped<Application.Interfaces.IAlunoUseCase, Application.Services.AlunoUC>();
 builder.Services.AddScoped<Vitalitas.Backend.API.Services.JwtService.IJwtService, Vitalitas.Backend.API.Services.JwtService.JwtService>();
+builder.Services.AddScoped<Application.Interfaces.ITokenService, Vitalitas.Backend.API.Services.JwtService.JwtService>();
 
 
 /*builder.Services.AddDbContext<Contexto>(options =>

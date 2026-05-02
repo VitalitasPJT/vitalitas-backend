@@ -1,3 +1,4 @@
+using Application.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -6,7 +7,7 @@ using System.Text;
 
 namespace Vitalitas.Backend.API.Services.JwtService
 {
-    public class JwtService : IJwtService
+    public class JwtService : IJwtService, ITokenService
     {
         private readonly string _key;
         private readonly string _issuer;
@@ -51,10 +52,10 @@ namespace Vitalitas.Backend.API.Services.JwtService
         {
             return tipoUsuario switch
             {
-                "Gestor" => "Administrador",
+                "Instrutor"     => "Instrutor",
+                "Aluno"         => "Aluno",
+                "Gestor"        => "Gestor",
                 "Administrador" => "Administrador",
-                "Instrutor" => "Administrador",
-                "Aluno" => "Aluno",
                 _ => throw new InvalidOperationException($"TipoUsuario '{tipoUsuario}' nao possui mapeamento de Role configurado.")
             };
         }

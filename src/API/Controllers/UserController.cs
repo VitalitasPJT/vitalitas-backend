@@ -68,38 +68,21 @@ namespace API.Controllers
 
         [HttpPost("login")]
         [AllowAnonymous]
-        public ActionResult<LoginResponse> Login([FromBody] LoginRequest login, [FromServices] IJwtService jwt)
+        public ActionResult<LoginResponse> Login([FromBody] LoginRequest login)
         {
             try
             {
                 var response = _usuarioUseCase.Login(login.Email, login.Senha);
-                /*var role = ObterRoleDoFluxo(response.TipoUsuario.ToString());
-                
-
-                if (role != "Aluno")
-                {
-                    return StatusCode(StatusCodes.Status403Forbidden, new
-                    {
-                        message = "Perfil administrativo nao pode realizar login no fluxo de aluno"
-                    });
-                }
-
-                if (role != "Administrador")
-                {
-                    return StatusCode(StatusCodes.Status403Forbidden, new
-                    {
-                        message = "Perfil de aluno nao pode realizar login no fluxo administrativo"
-                    });
-                }*/
-
-                response.Token = jwt.GenerateToken(response.IdUsuario.ToString(), response.TipoUsuario.ToString());
                 return Ok(response);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return Unauthorized(new { message = "Credenciais inválidas" });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { message = "Erro interno do servidor", detalhe = ex.Message, StackTrace = ex.StackTrace });
+                return StatusCode(500, new { message = "Erro interno do servidor", detalhe = ex.Message });
             }
-
         }
 
 

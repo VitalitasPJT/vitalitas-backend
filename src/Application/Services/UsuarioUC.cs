@@ -16,9 +16,12 @@ namespace Application.Services
     public class UsuarioUC : IUsuarioUseCase
     {
         private readonly IUsuario _usuarioRepository;
-        public UsuarioUC(IUsuario usuarioRepository)
+        private readonly ITokenService _tokenService;
+
+        public UsuarioUC(IUsuario usuarioRepository, ITokenService tokenService)
         {
             _usuarioRepository = usuarioRepository;
+            _tokenService = tokenService;
         }
 
         public AdicionarLogResponse AdicionarLog(Guid idusuario, LogAtividade log)
@@ -41,11 +44,12 @@ namespace Application.Services
         {
             var usuario = _usuarioRepository.Login(email, senha);
             if (usuario == null)
-            {
-                throw new Exception("Usuário ou senha inválidos");
-            }
+                throw new UnauthorizedAccessException("Credenciais inválidas");
+
+            var token = _tokenService.GenerateToken(usuario.IdUsuario.ToString(), usuario.TipoUsuario.ToString());
             var status = new StatusHTTP("Login realizado com sucesso", 200, true);
             var response = new LoginResponse(usuario.TipoUsuario, usuario.IdUsuario, usuario.Flag, status);
+            response.Token = token;
             return response;
         }
 
