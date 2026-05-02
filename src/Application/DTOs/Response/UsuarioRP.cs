@@ -8,8 +8,6 @@ namespace Application.DTOs
     {
         public class LoginResponse
         {
-            private bool flag;
-            private StatusHTTP status;
             public TipoUsuario TipoUsuario { get; set; }
             public Guid IdUsuario { get; set;}
             public bool Flag {get; set;}
@@ -24,10 +22,7 @@ namespace Application.DTOs
                 this.Token = null;
             }
 
-            public bool Sucesso { get; set; }
-            public string Mensagem { get; set; }
-            public string Nome { get; set; }
-            public string Email { get; set; }
+
         }
 
         public class TrocarSenhaResponse

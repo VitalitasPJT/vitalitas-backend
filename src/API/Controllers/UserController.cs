@@ -92,10 +92,10 @@ namespace API.Controllers
             try
             {
                 var response = _usuarioUseCase.Login(login.Email, login.Senha);
-                var role = ObterRoleDoFluxo(response.TipoUsuario.ToString());
+                /*var role = ObterRoleDoFluxo(response.TipoUsuario.ToString());
                 
 
-                if (EhFluxoAluno(login.Fluxo) && role != "Aluno")
+                if (role != "Aluno")
                 {
                     return StatusCode(StatusCodes.Status403Forbidden, new
                     {
@@ -103,13 +103,13 @@ namespace API.Controllers
                     });
                 }
 
-                if (EhFluxoAdministrativo(login.Fluxo) && role != "Administrador")
+                if (role != "Administrador")
                 {
                     return StatusCode(StatusCodes.Status403Forbidden, new
                     {
                         message = "Perfil de aluno nao pode realizar login no fluxo administrativo"
                     });
-                }
+                }*/
 
                 response.Token = jwt.GenerateToken(response.IdUsuario.ToString(), response.TipoUsuario.ToString());
                 return Ok(response);
@@ -118,31 +118,9 @@ namespace API.Controllers
             {
                 return StatusCode(500, new { message = "Erro interno do servidor", detalhe = ex.Message, StackTrace = ex.StackTrace });
             }
+
         }
 
-             private static bool EhFluxoAluno(string? fluxo)
-        {
-            return string.Equals(fluxo, "Aluno", StringComparison.OrdinalIgnoreCase);
-        }
-
-        private static bool EhFluxoAdministrativo(string? fluxo)
-        {
-            return string.Equals(fluxo, "Administrativo", StringComparison.OrdinalIgnoreCase);
-        }
-
-        private static string ObterRoleDoFluxo(string tipoUsuario)
-        {
-            return tipoUsuario switch
-            {
-                "Aluno" => "Aluno",
-                "Gestor" => "Administrador",
-                "Dono" => "Administrador",
-                "Instrutor" => "Administrador",
-                "Administrador" => "Administrador",
-                _ => string.Empty
-            };
-        }
-        
 
         [HttpPut("trocar-senha")]
         public ActionResult<TrocarSenhaResponse> TrocarSenha([FromBody] TrocarSenhaRequest reset)
@@ -162,7 +140,7 @@ namespace API.Controllers
         [ApiExplorerSettings(GroupName = "Administrativo")]
         public ActionResult<CriarUsuarioResponse> CriarUsuario(CriarUsuarioRequest user)
         {
-            
+
             try
             {
                 var response = _usuarioUseCase.CriarUsuario(user.Nome, user.Email, user.Senha, user.Quadra, user.Rua, user.Bairro, user.Cidade, user.Estado, user.Cep, user.DataNascimento, user.Cpf, user.TipoUsuario);
@@ -182,7 +160,7 @@ namespace API.Controllers
                 var response = _usuarioUseCase.AtualizarDados(request.IdUsuario, request.Valor, request.Atributo);
                 return Ok(response);
             }
-            catch (ArgumentException ex) 
+            catch (ArgumentException ex)
             {
                 return BadRequest(new { message = "Atributo inválido", detalhe = ex.Message });
             }
@@ -235,6 +213,5 @@ namespace API.Controllers
         }
     }
 }
-       
 
-  
+
