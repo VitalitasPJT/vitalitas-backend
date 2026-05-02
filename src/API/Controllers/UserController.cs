@@ -57,25 +57,6 @@ namespace API.Controllers
             });
         }
 
-        [HttpGet("test-aluno")]
-        [Authorize(Roles = "Aluno")]
-        [ApiExplorerSettings(GroupName = "Aluno")]
-        public IActionResult TestAluno()
-        {
-            var tipoUsuario = User.FindFirst("TipoUsuario")?.Value;
-            var idUsuario = User.FindFirst("IdUsuario")?.Value ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var role = User.FindFirst("Role")?.Value ?? User.FindFirst(ClaimTypes.Role)?.Value;
-
-            return Ok(new
-            {
-                message = "Acesso autorizado para Aluno",
-                success = true,
-                IdUsuario = idUsuario,
-                TipoUsuario = tipoUsuario,
-                Role = role
-            });
-        }
-
         [HttpGet("test-token")]
         [AllowAnonymous]
         public IActionResult TestToken([FromServices] IJwtService jwt)
