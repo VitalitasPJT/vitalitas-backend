@@ -6,7 +6,8 @@
       "Bash(Select-String -Pattern \"error|Error|Build succeeded|FAILED|failed\")",
       "Bash(Select-Object -First 60)",
       "PowerShell(dotnet build *)",
-      "PowerShell($tmp = \"$env:TEMP\\\\build_out.txt\"; Write-Host \"Temp path: $tmp\")"
+      "PowerShell($tmp = \"$env:TEMP\\\\build_out.txt\"; Write-Host \"Temp path: $tmp\")",
+      "Bash(xargs ls *)"
     ]
   }
 }

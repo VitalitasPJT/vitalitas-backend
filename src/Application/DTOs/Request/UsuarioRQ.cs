@@ -65,5 +65,11 @@ namespace Application.DTOs
             public string Acao { get; set; }
             public DateTime? DataHora { get; set; }
         }
+
+        public class RefreshRequest
+        {
+            public string AccessToken { get; set; }
+            public string RefreshToken { get; set; }
+        }
     }
 }

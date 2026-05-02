@@ -12,6 +12,7 @@ namespace Application.DTOs
             public Guid IdUsuario { get; set;}
             public bool Flag {get; set;}
             public string? Token { get; set; }
+            public string? RefreshToken { get; set; }
             public StatusHTTP Status { get; set;}
             public LoginResponse(TipoUsuario tipoUsuario, Guid idUsuario, bool flag, StatusHTTP status)
             {
@@ -20,9 +21,22 @@ namespace Application.DTOs
                 this.Flag = flag;
                 this.Status = status;
                 this.Token = null;
+                this.RefreshToken = null;
             }
+        }
 
+        public class RefreshResponse
+        {
+            public string AccessToken { get; set; }
+            public string RefreshToken { get; set; }
+            public StatusHTTP Status { get; set; }
 
+            public RefreshResponse(string accessToken, string refreshToken, StatusHTTP status)
+            {
+                AccessToken = accessToken;
+                RefreshToken = refreshToken;
+                Status = status;
+            }
         }
 
         public class TrocarSenhaResponse

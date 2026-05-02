@@ -14,6 +14,10 @@ builder.Services.AddScoped<Domain.Interfaces.IAluno, Infrastructure.Persistence.
 builder.Services.AddScoped<Application.Interfaces.IAlunoUseCase, Application.Services.AlunoUC>();
 builder.Services.AddScoped<Vitalitas.Backend.API.Services.JwtService.IJwtService, Vitalitas.Backend.API.Services.JwtService.JwtService>();
 builder.Services.AddScoped<Application.Interfaces.ITokenService, Vitalitas.Backend.API.Services.JwtService.JwtService>();
+builder.Services.AddSingleton(new Application.Settings.RefreshTokenSettings(
+    int.Parse(builder.Configuration["Jwt:RefreshTokenDurationInDays"] ?? "7")));
+builder.Services.AddScoped<Domain.Interfaces.IRefreshTokenRepository, Infrastructure.Persistence.RefreshTokenRepository>();
+builder.Services.AddScoped<Application.Interfaces.IRefreshTokenUseCase, Application.Services.RefreshTokenUC>();
 
 
 /*builder.Services.AddDbContext<Contexto>(options =>

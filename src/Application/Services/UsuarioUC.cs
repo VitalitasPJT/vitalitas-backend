@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using Application.DTOs;
 using Application.Interfaces;
+using Application.Settings;
 using Domain.Entities;
 using Domain.Enums;
 using Domain.Interfaces;
@@ -17,11 +20,19 @@ namespace Application.Services
     {
         private readonly IUsuario _usuarioRepository;
         private readonly ITokenService _tokenService;
+        private readonly IRefreshTokenRepository _refreshTokenRepository;
+        private readonly RefreshTokenSettings _refreshTokenSettings;
 
-        public UsuarioUC(IUsuario usuarioRepository, ITokenService tokenService)
+        public UsuarioUC(
+            IUsuario usuarioRepository,
+            ITokenService tokenService,
+            IRefreshTokenRepository refreshTokenRepository,
+            RefreshTokenSettings refreshTokenSettings)
         {
             _usuarioRepository = usuarioRepository;
             _tokenService = tokenService;
+            _refreshTokenRepository = refreshTokenRepository;
+            _refreshTokenSettings = refreshTokenSettings;
         }
 
         public AdicionarLogResponse AdicionarLog(Guid idusuario, LogAtividade log)
@@ -46,11 +57,36 @@ namespace Application.Services
             if (usuario == null)
                 throw new UnauthorizedAccessException("Credenciais inválidas");
 
-            var token = _tokenService.GenerateToken(usuario.IdUsuario.ToString(), usuario.TipoUsuario.ToString());
+            var accessToken = _tokenService.GenerateToken(usuario.IdUsuario.ToString(), usuario.TipoUsuario.ToString());
+
+            var rawRefreshToken = GenerateRawToken();
+            var tokenHash = ComputeHash(rawRefreshToken);
+
+            _refreshTokenRepository.Save(new RefreshToken(
+                Guid.NewGuid(),
+                tokenHash,
+                DateTime.UtcNow.AddDays(_refreshTokenSettings.DurationInDays),
+                false,
+                usuario.IdUsuario
+            ));
+
             var status = new StatusHTTP("Login realizado com sucesso", 200, true);
             var response = new LoginResponse(usuario.TipoUsuario, usuario.IdUsuario, usuario.Flag, status);
-            response.Token = token;
+            response.Token = accessToken;
+            response.RefreshToken = rawRefreshToken;
             return response;
+        }
+
+        private static string GenerateRawToken()
+        {
+            var bytes = RandomNumberGenerator.GetBytes(64);
+            return Convert.ToHexString(bytes).ToLowerInvariant();
+        }
+
+        private static string ComputeHash(string rawToken)
+        {
+            var bytes = SHA256.HashData(Encoding.UTF8.GetBytes(rawToken));
+            return Convert.ToHexString(bytes).ToLowerInvariant();
         }
 
         public ObterLogsResponse ObterLogs(Guid idusuario)

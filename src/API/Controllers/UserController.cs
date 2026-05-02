@@ -14,10 +14,12 @@ namespace API.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUsuarioUseCase _usuarioUseCase;
+        private readonly IRefreshTokenUseCase _refreshTokenUseCase;
 
-        public UserController(IUsuarioUseCase usuarioUseCase)
+        public UserController(IUsuarioUseCase usuarioUseCase, IRefreshTokenUseCase refreshTokenUseCase)
         {
             _usuarioUseCase = usuarioUseCase;
+            _refreshTokenUseCase = refreshTokenUseCase;
         }
 
         [HttpGet("test")]
@@ -85,6 +87,25 @@ namespace API.Controllers
             }
         }
 
+
+        [HttpPost("refresh")]
+        [AllowAnonymous]
+        public ActionResult<RefreshResponse> Refresh([FromBody] RefreshRequest request)
+        {
+            try
+            {
+                var response = _refreshTokenUseCase.Refresh(request.AccessToken, request.RefreshToken);
+                return Ok(response);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return Unauthorized(new { message = "Token inválido ou expirado" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Erro interno do servidor", detalhe = ex.Message });
+            }
+        }
 
         [HttpPut("trocar-senha")]
         public ActionResult<TrocarSenhaResponse> TrocarSenha([FromBody] TrocarSenhaRequest reset)
