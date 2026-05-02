@@ -21,37 +21,6 @@ namespace Infrastructure.Persistence
             _connectionFactory = connectionFactory;
         }
 
-        public dynamic AdicionarLog(Guid idusuario, LogAtividade log)
-        {
-            using var connection = _connectionFactory.CreateConnection();
-
-            string query = @"INSERT INTO LogAtividade 
-            (IdLog, IdUsuario, Acao, DataHora) 
-            VALUES 
-            (@IdLog, @IdUsuario, @Acao, @DataHora);";
-
-            var record = connection.Execute(query, new
-            {
-                IdLog = Guid.NewGuid(),
-                IdUsuario = idusuario,
-                Acao = log.Acao, 
-                DataHora = DateTime.Now 
-            });
-
-            return record;
-        }
-
-        public List<dynamic> ObterLogs(Guid idusuario)
-        {
-            using var connection = _connectionFactory.CreateConnection();
-
-            string query = "SELECT * FROM LogAtividade WHERE IdUsuario = @IdUsuario ORDER BY DataHora DESC";
-
-            var logs = connection.Query<dynamic>(query, new { IdUsuario = idusuario }).ToList();
-
-            return logs;
-        }
-
         /*public dynamic Ativar(Guid idusuario)
         {
             using var connection = _connectionFactory.CreateConnection();
@@ -186,6 +155,21 @@ namespace Infrastructure.Persistence
 
             var record = connection.Execute(query, new { NovaSenha = novasenha, Flag = false, IdUsuario = idusuario });
             return record;
+        }
+
+        public Usuario ListarUsuario(Guid idusuario)
+        {
+            throw new NotImplementedException();
+        }
+
+        public LogAtividade RegistrarAcao(Guid idusuario, LogAtividade acao)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Guid> ConsultarLogs(Guid idusuario)
+        {
+            throw new NotImplementedException();
         }
     }
 }

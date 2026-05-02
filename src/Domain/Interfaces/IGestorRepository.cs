@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Vitalitas.Domain.Interfaces
 {
-    internal interface IGestorRepository
+    public interface IGestorRepository
     {
     }
 }

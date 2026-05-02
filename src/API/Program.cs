@@ -7,6 +7,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<Vitalitas.Infrastructure.Database.Connection.DbConnectionFactory>();
 builder.Services.AddScoped<Domain.Interfaces.IUsuario, Infrastructure.Persistence.UsuarioRepository>();
 builder.Services.AddScoped<Application.Interfaces.IUsuarioUseCase, Application.Services.UsuarioUC>();
+builder.Services.AddScoped<Domain.Interfaces.IAluno, Infrastructure.Persistence.AlunoRepository>();
+builder.Services.AddScoped<Application.Interfaces.IAlunoUseCase, Application.Services.AlunoUC>();
+
 //builder.Services.AddScoped<IJwtService, JwtService>();
 
 /*builder.Services.AddDbContext<Contexto>(options =>

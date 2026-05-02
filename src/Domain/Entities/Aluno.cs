@@ -14,5 +14,18 @@ namespace Domain.Entities
         public Guid IdAcademia { get; private set; }
         public List<Guid> IdXp { get; private set; }
         public string Objetivo { get; private set; }
+
+        public Aluno(Guid idAluno, Guid idInstrutor, Guid idUsuario, Guid idContrato, Guid idAcademia, List<Guid> idXp, string objetivo)
+        {
+            IdAluno = idAluno;
+            IdInstrutor = idInstrutor;
+            IdUsuario = idUsuario;
+            IdContrato = idContrato;
+            IdAcademia = idAcademia;
+            IdXp = idXp;
+            Objetivo = objetivo;
+        }
+
+        public Aluno() { }
     }
 }

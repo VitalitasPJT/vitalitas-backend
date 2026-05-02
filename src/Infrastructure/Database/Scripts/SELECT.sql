@@ -1,8 +1,17 @@
-USE VITALITAS_DEV;
-GO
+SELECT *
+  FROM [VITALITAS_DEV].[dbo].[aluno]
 
-SELECT * FROM usuario;
+SELECT *
+  FROM [VITALITAS_DEV].[dbo].[academia]
 
-UPDATE Usuario
-SET senha = 123456789
-WHERE idUsuario = '0CADF8CA-20D2-4E8E-8F80-DE475C099A28';
+  SELECT *
+  FROM [VITALITAS_DEV].[dbo].[planoContrato]
+
+  SELECT *
+  FROM [VITALITAS_DEV].[dbo].[contrato]
+
+  SELECT *
+  FROM [VITALITAS_DEV].[dbo].[Usuario]
+
+   SELECT *
+  FROM [VITALITAS_DEV].[dbo].[instrutor] 

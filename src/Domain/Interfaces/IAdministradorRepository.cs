@@ -1,12 +1,15 @@
-﻿using System;
+﻿using Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Vitalitas.Domain.Interfaces
+namespace Domain.Interfaces
 {
-    internal interface IAdministradorRepository
+    public interface IAdministradorRepository
     {
+        List<Administrador> ListarAdministradores(Guid idacademia);
+        Guid CriarAdministrador(Administrador administrador);
     }
 }

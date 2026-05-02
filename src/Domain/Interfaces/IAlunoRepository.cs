@@ -9,8 +9,9 @@ namespace Domain.Interfaces
 {
     public interface IAluno
     {
-        (List<Aluno>, List<Usuario>) ListarALunos(Guid idacademia);
-        (Aluno, Usuario) ListarAluno(Guid idacademia, Guid idusuario);
+        Guid CriarAluno(Guid idInstrutor, Guid idUsuario, int idContrato, Guid idAcademia, string objetivo);
+        List<dynamic> ListarALunos(Guid idacademia);
+        dynamic ListarAluno(Guid idacademia);
         dynamic VincularInstrutor(Guid idaluno, Guid idprofessor);
         dynamic AtualizarObjetivo(Guid idaluno, string novoobjetivo);
 

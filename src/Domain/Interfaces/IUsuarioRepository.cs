@@ -18,7 +18,7 @@ namespace Domain.Interfaces
         /*dynamic Desativar(Guid idusuario);
         dynamic Ativar(Guid idusuario);*/
         LogAtividade RegistrarAcao(Guid idusuario, LogAtividade acao);
-        List<LogAtividade> CconsultarLogs(Guid idusuario);
+        List<Guid> ConsultarLogs(Guid idusuario);
         
     }
 }

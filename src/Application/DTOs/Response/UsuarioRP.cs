@@ -57,7 +57,7 @@ namespace Application.DTOs
 
             public bool Sucesso { get; set; }
             public string Mensagem { get; set; }
-            public Guid IdUsuario { get; set; } // Retorna o ID gerado no banco
+            public Guid IdUsuario { get; set; } 
         }
 
         public class AtualizarDadosResponse
@@ -90,8 +90,6 @@ namespace Application.DTOs
             public bool Sucesso { get; set; }
             public string Mensagem { get; set; }
         }
-
-        // --- DTO Auxiliar para listar os logs de forma limpa ---
 
         public class LogDto
         {
