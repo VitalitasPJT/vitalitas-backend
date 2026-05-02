@@ -30,3 +30,7 @@ Vitalitas.csproj.user
 # Se você tiver SEGREDOS no Development, use isso:
 # appsettings.Development.json 
 # Se você NÃO tem secrets aqui, REMOVA a linha acima.
+
+# Configuração local do Codex
+.codex/config.toml
+AGENTS.md

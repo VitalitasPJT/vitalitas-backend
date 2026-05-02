@@ -15,3 +15,4 @@ SELECT *
 
    SELECT *
   FROM [VITALITAS_DEV].[dbo].[instrutor] 
+

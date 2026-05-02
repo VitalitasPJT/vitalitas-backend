@@ -21,15 +21,18 @@ namespace Vitalitas.Backend.API.Services.JwtService
             _durationMinutes = int.Parse(configuration["Jwt:DurationInMinutes"]!);
         }
 
-        public string GenerateToken(string userId, string userEmail)
+        public string GenerateToken(string userId, string tipoUsuario)
         {
+            var role = MapRole(tipoUsuario);
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_key));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, userId),
-                new Claim(JwtRegisteredClaimNames.Email, userEmail),
+                new Claim("IdUsuario", userId),
+                new Claim("TipoUsuario", tipoUsuario),
+                new Claim("Role", role),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
@@ -42,6 +45,18 @@ namespace Vitalitas.Backend.API.Services.JwtService
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        private static string MapRole(string tipoUsuario)
+        {
+            return tipoUsuario switch
+            {
+                "Gestor" => "Administrador",
+                "Administrador" => "Administrador",
+                "Instrutor" => "Administrador",
+                "Aluno" => "Aluno",
+                _ => throw new InvalidOperationException($"TipoUsuario '{tipoUsuario}' nao possui mapeamento de Role configurado.")
+            };
         }
     }
 }

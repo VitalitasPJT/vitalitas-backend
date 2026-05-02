@@ -10,26 +10,24 @@ namespace Application.DTOs
         {
             private bool flag;
             private StatusHTTP status;
-
+            public TipoUsuario TipoUsuario { get; set; }
+            public Guid IdUsuario { get; set;}
+            public bool Flag {get; set;}
+            public string? Token { get; set; }
+            public StatusHTTP Status { get; set;}
             public LoginResponse(TipoUsuario tipoUsuario, Guid idUsuario, bool flag, StatusHTTP status)
             {
-                TipoUsuario = tipoUsuario;
-                IdUsuario = idUsuario;
-                this.flag = flag;
-                this.status = status;
+                this.TipoUsuario = tipoUsuario;
+                this.IdUsuario = idUsuario;
+                this.Flag = flag;
+                this.Status = status;
+                this.Token = null;
             }
 
             public bool Sucesso { get; set; }
             public string Mensagem { get; set; }
-
-            // Dados úteis para o Front-end ao logar
-            public Guid IdUsuario { get; set; }
             public string Nome { get; set; }
             public string Email { get; set; }
-            public TipoUsuario TipoUsuario { get; set; }
-
-            // Espaço reservado para quando você implementar autenticação JWT
-            public string Token { get; set; }
         }
 
         public class TrocarSenhaResponse

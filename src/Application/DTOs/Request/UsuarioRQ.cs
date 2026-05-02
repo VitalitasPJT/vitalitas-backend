@@ -13,6 +13,8 @@ namespace Application.DTOs
         {
             public string Email { get; set; }
             public string Senha { get; set; }
+            public string? Fluxo { get; set; }
+
         }
 
         public class TrocarSenhaRequest
@@ -37,15 +39,10 @@ namespace Application.DTOs
             public TipoUsuario TipoUsuario { get; set; }
         }
 
-        // --- Novas Requests Adicionadas ---
-
         public class AtualizarDadosRequest
         {
             public Guid IdUsuario { get; set; }
             public string Atributo { get; set; }
-
-            // Usar 'object' é mais seguro e compatível com os serializadores JSON (como System.Text.Json) 
-            // do que 'dynamic' no nível da API, mas o comportamento será o mesmo para receber os dados.
             public object Valor { get; set; }
         }
 
@@ -68,9 +65,6 @@ namespace Application.DTOs
         {
             public Guid IdUsuario { get; set; }
             public string Acao { get; set; }
-
-            // Opcional: Você pode receber a DataHora da requisição ou 
-            // gerá-la automaticamente no seu UseCase com DateTime.UtcNow.
             public DateTime? DataHora { get; set; }
         }
     }
