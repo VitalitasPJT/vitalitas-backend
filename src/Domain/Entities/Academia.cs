@@ -20,5 +20,24 @@ namespace Domain.Entities
         public string CEP { get; private set; }
         public TipoAcademia TipoAcademia { get; private set; }
         public Email EmailInstitucional { get; private set; }
+
+        public Academia(Guid idlicenca, Guid idgestor, Nome nomeacademia, CNPJ cnpj, string quadra, string rua, string bairro, string cidade, string estado, string cep, TipoAcademia tipoacademia, Email emailinstitucional)
+        {
+            IdAcadenia = Guid.NewGuid();
+            IdLicenca = idlicenca;
+            IdGestor = idgestor;
+            NomeAcademia = nomeacademia;
+            CNPJ = cnpj;
+            Quadra = quadra;
+            Rua = rua;
+            Bairro = bairro;
+            Cidade = cidade;
+            Estado = estado;
+            CEP = cep;
+            TipoAcademia = tipoacademia;
+            EmailInstitucional = emailinstitucional;
+        }
+
+        public Academia() { }
     }
 }

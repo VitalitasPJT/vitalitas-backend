@@ -12,5 +12,15 @@ namespace Domain.Entities
         public Guid IdAluno { get; private set; }
         public int TempoTreinoMinutos { get; private set; }
         public DateTime Data {  get; private set; }
+
+        public Frequencia(Guid idAluno, int tempoTreinoMinutos, DateTime data)
+        {
+            IdFrequencia = Guid.NewGuid();
+            IdAluno = idAluno;
+            TempoTreinoMinutos = tempoTreinoMinutos;
+            Data = data;
+        }
+
+        public Frequencia() {}
     }
 }

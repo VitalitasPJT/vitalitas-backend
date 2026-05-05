@@ -9,8 +9,21 @@ namespace Domain.Entities
 {
     public class Agenda
     {
-        public Guid IdAgenda { get; private set;  }
-        public StatusAgenda Status {  get; private set; }
-        public DateOnly Data { get; private set; }
+        public Guid IdAgenda { get; private set; }
+        public Guid IdInstrutor { get; private set; }
+        public Guid IdAcademia { get; private set; }
+        public StatusAgenda Status { get; private set; }
+        public DateTime Data { get; private set; }
+
+        public Agenda(Guid idInstrutor, Guid idAcademia, DateTime data)
+        {
+            IdAgenda = Guid.NewGuid();
+            IdInstrutor = idInstrutor;
+            IdAcademia = idAcademia;
+            Data = data;
+            Status = StatusAgenda.Agendado;
+        }
+
+        public Agenda() { }
     }
 }

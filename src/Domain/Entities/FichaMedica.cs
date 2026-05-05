@@ -16,5 +16,19 @@ namespace Domain.Entities
         public string Cirurgia { get; private set; }
         public string ProblemaSaude { get; private set; }
         public string UsoMedicamento { get; private set; }
+
+        public FichaMedica(Guid idaluno, string alergia, string restricao, string lesao, string cirurgia, string problemaSaude, string usoMedicamento)
+        {
+            IdFicha = Guid.NewGuid();
+            IdAluno = idaluno;
+            Alergia = alergia;
+            Restricao = restricao;
+            Lesao = lesao;
+            Cirurgia = cirurgia;
+            ProblemaSaude = problemaSaude;
+            UsoMedicamento = usoMedicamento;
+        }
+
+        public FichaMedica() {}
     }
 }

@@ -9,5 +9,12 @@ namespace Domain.Entities
     {
         public Guid IdGestor { get; private set; }
         public Guid IdUsuario { get; private set; }
+
+        public Gestor(Guid idUsuario)
+        {
+            IdGestor = Guid.NewGuid();
+            IdUsuario = idUsuario;
+        }
+        public Gestor() { } 
     }
 }

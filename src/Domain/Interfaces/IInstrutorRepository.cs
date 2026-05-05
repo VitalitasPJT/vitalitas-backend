@@ -9,8 +9,8 @@ namespace Domain.Interfaces
 {
     public interface IInstrutorRepository
     {
-        List<Instrutor> ListarInstrutores(Guid idacademia);
-        Guid CriarInstrutor(Instrutor instrutor);
-        List<Guid> ListarAgenda(Guid idinstrutor);
+        List<Instrutor> ListarInstrutores(Guid idAcademia);
+        List<dynamic> ListarAlunos(Guid idInstrutor);
+        dynamic TrocarSenha(Guid idUsuario, string novaSenha);
     }
 }

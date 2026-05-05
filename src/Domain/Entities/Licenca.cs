@@ -1,10 +1,5 @@
 ﻿using Domain.Enums;
 using Domain.ValueObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
@@ -18,6 +13,20 @@ namespace Domain.Entities
         public DateOnly DataFim { get; private set; }
         public DateOnly DateAssinatura { get; private set; }
         public string CaminhoPdf { get; private set; }
+
+        public Licenca(Guid idPlano, Monetario mensalidade, StatusLicenca status, TipoLicenca tipo, DateOnly dataFim, DateOnly dateAssinatura, string caminhoPdf)
+        {
+            IdLicenca = Guid.NewGuid();
+            IdPlano = idPlano;
+            Mensalidade = mensalidade;
+            Status = status;
+            Tipo = tipo;
+            DataFim = dataFim;
+            DateAssinatura = dateAssinatura;
+            CaminhoPdf = caminhoPdf;
+        }
+
+        public Licenca() {}
 
     }
 }

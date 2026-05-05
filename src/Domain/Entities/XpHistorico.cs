@@ -8,9 +8,21 @@ namespace Domain.Entities
 {
     public class XpHistorico
     {
-        public Guid idXp {  get; private set; }
+        public Guid IdXp {  get; private set; }
+        public Guid IdUsuario { get; private set; }
         public int XpGanho { get; private set; }
         public DateTime Data {  get; private set; }
         public string Motivo { get; private set; }
+
+        public XpHistorico(Guid idUsuario, int xpGanho, string motivo)
+        {
+            IdXp = Guid.NewGuid();
+            IdUsuario = idUsuario;
+            XpGanho = xpGanho;
+            Data = DateTime.UtcNow;
+            Motivo = motivo;
+        }
+
+        public XpHistorico() {}
     }
 }

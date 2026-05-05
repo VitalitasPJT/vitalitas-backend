@@ -10,9 +10,17 @@ namespace Domain.Entities
     {
         public Guid IdInstrutor { get; private set; }
         public Guid IdUsuario { get; private set; }
-        public List<Guid> IdAgenda { get; private set; }
         public CREF CREF { get; private set; }
-  
+
+        public Instrutor(Guid idInstrutor, Guid idUsuario, CREF cref)
+        {
+            IdInstrutor = idInstrutor;
+            IdUsuario = idUsuario;
+            CREF = cref;
+        }
+
+        public Instrutor() { }
     }
-    
+
+
 }

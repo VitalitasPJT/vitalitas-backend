@@ -11,14 +11,7 @@ namespace Domain.Interfaces
     public interface IUsuario
     {
         Usuario Login(string email, string senha);
-        dynamic TrocarSenha(Guid idusuario, string novasenha);
-        Guid CriarUsuario(string nome, string email, string senha, string quadra, string rua, string bairro, string cidade, string estado, string cep, DateOnly dataNascimento, string cpf, TipoUsuario tipoUsuario);
-        Usuario ListarUsuario(Guid idusuario);
-        dynamic AtualizarDados(Guid idusuario, dynamic var, string atributo);
-        /*dynamic Desativar(Guid idusuario);
-        dynamic Ativar(Guid idusuario);*/
-        LogAtividade RegistrarAcao(Guid idusuario, LogAtividade acao);
-        List<Guid> ConsultarLogs(Guid idusuario);
-        
+        LogAtividade RegistrarAcao(Guid idUsuario, LogAtividade acao);
+        string GetTipoUsuario(Guid idUsuario);        
     }
 }
