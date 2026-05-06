@@ -23,6 +23,16 @@ namespace Application.Services
 
         public CriarAlunoResponse CriarAluno(Guid idinstrutor, Guid idusuario, int idcontrato, Guid idacademia, string objetivo)
         {
+            throw new NotImplementedException();
+        }
+
+        public ListarAlunoResponse ListarAluno(Guid idaluno)
+        {
+            throw new NotImplementedException();
+        }
+
+        /*public CriarAlunoResponse CriarAluno(Guid idinstrutor, Guid idusuario, int idcontrato, Guid idacademia, string objetivo)
+        {
             var idaluno = _alunoRepository.CriarAluno(idinstrutor, idusuario, idcontrato, idacademia, objetivo);
             return new CriarAlunoResponse(idaluno, new StatusHTTP("Aluno criado com sucesso", 201, true));
         }
@@ -51,7 +61,7 @@ namespace Application.Services
                 throw new Exception(ex.Message);
             }
 
-        }
+        }*/
         public ListarAlunosResponse ListarAlunos(Guid idacademia)
         {
             throw new NotImplementedException();

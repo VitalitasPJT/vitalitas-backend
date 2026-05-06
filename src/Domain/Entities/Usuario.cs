@@ -25,11 +25,11 @@ namespace Domain.Entities
         public string Estado { get; private set; }
         public string CEP { get; private set; }
         
-        public Usuario(Guid idUsuario, Guid idAcademia, Nome nome, Email email, string quadra, string rua, string bairro, string cidade, string estado, string cep, string senha, DateOnly dataNascimento, CPF cpf, TipoUsuario tipoUsuario, bool flag)
+        public Usuario(Guid idUsuario, Guid idAcademia, string nome, Email email, string quadra, string rua, string bairro, string cidade, string estado, string cep, string senha, DateOnly dataNascimento, CPF cpf, TipoUsuario tipoUsuario, bool flag)
         {
             IdUsuario = idUsuario;
             IdAcademia = idAcademia;
-            Nome = nome;
+            Nome = Nome.Create(nome);
             Email = email;
             Senha = senha;
             DataNascimento = dataNascimento;
@@ -45,8 +45,6 @@ namespace Domain.Entities
             CEP = cep;
         }
 
-        public Usuario() { }
+        public Usuario(){}
     }
-
-
 }

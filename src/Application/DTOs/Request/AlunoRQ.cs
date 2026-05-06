@@ -1,4 +1,4 @@
-﻿using Domain.Enums;
+using Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +15,7 @@ namespace Application.DTOs
             public Guid IdUsuario { get; set; }
             public int IdContrato { get; set; }
             public Guid IdAcademia { get; set; }
-            public string Objetivo { get; set; }
+            public required string Objetivo { get; set; }
         } 
 
         public class ListarAlunosRequest
@@ -37,7 +37,7 @@ namespace Application.DTOs
         public class AtualizarObjetivoRequest
         {
             public Guid IdAluno { get; set; }
-            public string NovoObjetivo { get; set; }
+            public required string NovoObjetivo { get; set; }
         }
     }
 }

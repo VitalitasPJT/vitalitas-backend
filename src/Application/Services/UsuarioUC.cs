@@ -1,18 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-<<<<<<< HEAD
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Application.DTOs;
 using Application.Interfaces;
 using Application.Settings;
-=======
-using System.Threading.Tasks;
-using Application.DTOs;
-using Application.Interfaces;
->>>>>>> dadosDes
 using Domain.Entities;
 using Domain.Enums;
 using Domain.Interfaces;
@@ -25,11 +19,9 @@ namespace Application.Services
     public class UsuarioUC : IUsuarioUseCase
     {
         private readonly IUsuario _usuarioRepository;
-<<<<<<< HEAD
         private readonly ITokenService _tokenService;
         private readonly IRefreshTokenRepository _refreshTokenRepository;
         private readonly RefreshTokenSettings _refreshTokenSettings;
-
         public UsuarioUC(
             IUsuario usuarioRepository,
             ITokenService tokenService,
@@ -40,34 +32,12 @@ namespace Application.Services
             _tokenService = tokenService;
             _refreshTokenRepository = refreshTokenRepository;
             _refreshTokenSettings = refreshTokenSettings;
-=======
-        public UsuarioUC(IUsuario usuarioRepository)
-        {
-            _usuarioRepository = usuarioRepository;
->>>>>>> dadosDes
-        }
-
-        public AdicionarLogResponse AdicionarLog(Guid idusuario, LogAtividade log)
-        {
-            throw new NotImplementedException();
-        }
-
-        public AtualizarDadosResponse AtualizarDados(Guid idusuario, dynamic valor, string atributo)
-        {
-            throw new NotImplementedException();
-        }
-
-        public CriarUsuarioResponse CriarUsuario(string nome, string email, string senha, string quadra, string rua, string bairro, string cidade, string estado, string cep, DateOnly dataNascimento, string cpf, TipoUsuario tipoUsuario)
-        {
-            var idUsuario = _usuarioRepository.CriarUsuario(nome, email, senha, quadra, rua, bairro, cidade, estado, cep, dataNascimento, cpf, tipoUsuario);
-            return new CriarUsuarioResponse(idUsuario, new StatusHTTP("Usuário criado com sucesso", 201, true));
         }
 
         public LoginResponse Login(string email, string senha)
         {
             var usuario = _usuarioRepository.Login(email, senha);
             if (usuario == null)
-<<<<<<< HEAD
                 throw new UnauthorizedAccessException("Credenciais inválidas");
 
             var accessToken = _tokenService.GenerateToken(usuario.IdUsuario.ToString(), usuario.TipoUsuario.ToString());
@@ -102,32 +72,60 @@ namespace Application.Services
             return Convert.ToHexString(bytes).ToLowerInvariant();
         }
 
-=======
-            {
-                throw new Exception("Usuário ou senha inválidos");
-            }
-            var status = new StatusHTTP("Login realizado com sucesso", 200, true);
-            var response = new LoginResponse(usuario.TipoUsuario, usuario.IdUsuario, usuario.Flag, status);
-            return response;
-        }
-
->>>>>>> dadosDes
-        public ObterLogsResponse ObterLogs(Guid idusuario)
+        public RefreshResponse RefreshToken(string accessToken, string refreshToken)
         {
             throw new NotImplementedException();
         }
 
-        public TrocarSenhaResponse TrocarSenha(Guid idusaurio, string novasenha)
+        public AdicionarLogResponse AdicionarLog(Guid idusuario, LogAtividade log)
         {
-            var usuario = _usuarioRepository.TrocarSenha(idusaurio, novasenha);
-            if (usuario == null)
-            {
-                throw new Exception("Erro ao trocar senha");
-            }
-            var status = new StatusHTTP("Senha trocada com sucesso", 200, true);
-            var response = new TrocarSenhaResponse(status);
+            var logAtividade = _usuarioRepository.RegistrarAcao(idusuario, log);
+            if (logAtividade == null)
+                throw new Exception("Erro ao registrar ação");
+
+            var status = new StatusHTTP("Ação registrada com sucesso", 200, true);
+            var response = new AdicionarLogResponse(logAtividade, status);
             return response;
         }
+
+        public ObterTipoUsuarioResponse ObterTipoUsuario(Guid idUsuario)
+        {
+            var tipoUsuario = _usuarioRepository.GetTipoUsuario(idUsuario);
+            if (tipoUsuario == null)
+                throw new Exception("Usuário não encontrado");
+
+            var status = new StatusHTTP("Tipo de usuário obtido com sucesso", 200, true);
+            var response = new ObterTipoUsuarioResponse
+            {
+                TipoUsuario = tipoUsuario.Value,
+                Status = status
+            };
+            return response;
+        }
+
+        /*public CriarUsuarioResponse CriarUsuario(string nome, string email, string senha, string quadra, string rua, string bairro, string cidade, string estado, string cep, DateOnly dataNascimento, string cpf, TipoUsuario tipoUsuario)
+            {
+                var idUsuario = _usuarioRepository.CriarUsuario(nome, email, senha, quadra, rua, bairro, cidade, estado, cep, dataNascimento, cpf, tipoUsuario);
+                return new CriarUsuarioResponse(idUsuario, new StatusHTTP("Usuário criado com sucesso", 201, true));
+            }
+
+            public ObterLogsResponse ObterLogs(Guid idusuario)
+            {
+                throw new NotImplementedException();
+            }
+
+            public TrocarSenhaResponse TrocarSenha(Guid idusaurio, string novasenha)
+            {
+                var usuario = _usuarioRepository.TrocarSenha(idusaurio, novasenha);
+                if (usuario == null)
+                {
+                    throw new Exception("Erro ao trocar senha");
+                }
+                var status = new StatusHTTP("Senha trocada com sucesso", 200, true);
+                var response = new TrocarSenhaResponse(status);
+                return response;
+            }*/
+
         //throw new NotImplementedException();
     }
 }

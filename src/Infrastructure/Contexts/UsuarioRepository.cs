@@ -21,6 +21,116 @@ namespace Infrastructure.Persistence
             _connectionFactory = connectionFactory;
         }
 
+        public Usuario Login(string email, string senha)
+        {
+            using var connection = _connectionFactory.CreateConnection();
+
+            string query = @"SELECT 
+                        idUsuario as IdUsuario, 
+                        idAcademia as IdAcademia,
+                        nome as Nome,
+                        email as Email,
+                        quadra as Quadra,
+                        rua as Rua,
+                        bairro as Bairro,
+                        cidade as Cidade,
+                        estado as Estado,
+                        cep as Cep,
+                        senha as Senha,
+                        dataNascimento as DataNascimento,
+                        cpf as Cpf,
+                        tipoUsuario as TipoUsuario,
+                        flag as Flag
+                    FROM Usuario
+                    WHERE Email = @Email AND Senha = @Senha";
+
+            string emailString = email.ToString();
+
+            var record = connection.QueryFirstOrDefault<UsuarioDto>(query, new { Email = email, Senha = senha });
+
+            if (record == null)
+            {
+                return null;
+            }
+
+            var dataNasc = DateOnly.FromDateTime(record.DataNascimento);
+
+            var usuarioEncontrado = new Usuario(
+                idUsuario: record.IdUsuario,
+                idAcademia: record.IdAcademia,
+                nome: record.Nome, 
+                email: new Email(record.Email), 
+                quadra: record.Quadra,
+                rua: record.Rua,
+                bairro: record.Bairro,
+                cidade: record.Cidade,
+                estado: record.Estado,
+                cep: record.Cep,
+                senha: record.Senha,
+                dataNascimento: dataNasc,
+                cpf: new CPF(record.Cpf), 
+                tipoUsuario: (TipoUsuario)record.TipoUsuario, 
+                flag: record.Flag
+            );
+
+            return usuarioEncontrado;
+        }
+
+        public LogAtividade RegistrarAcao(Guid idusuario, LogAtividade acao)
+        {
+            using var connection = _connectionFactory.CreateConnection();
+
+            string query = @"INSERT INTO LogAtividade 
+            (IdLog, IdUsuario, DataHora, Acao, DispositivoLogado, Localizacao) 
+            VALUES 
+            (@IdLog, @IdUsuario, @DataHora, @Acao, @DispositivoLogado, @Localizacao);";
+
+            var logAtividade = new LogAtividade(idusuario, acao.Acao, acao.DispositivoLogado, acao.Localizacao);
+
+            connection.Execute(query, new
+            {
+                logAtividade.IdLog,
+                logAtividade.IdUsuario,
+                logAtividade.DataHora,
+                logAtividade.DispositivoLogado,
+                logAtividade.Localizacao
+            });
+
+            return logAtividade;
+        }
+        public TipoUsuario? GetTipoUsuario(Guid idUsuario)
+        {
+            using var connection = _connectionFactory.CreateConnection();
+
+            string query = "SELECT TipoUsuario FROM Usuario WHERE IdUsuario = @IdUsuario";
+
+            var tipoUsuario = connection.QueryFirstOrDefault<int?>(query, new { IdUsuario = idUsuario });
+
+            if (tipoUsuario == null) return null;
+
+            return (TipoUsuario)tipoUsuario.Value;
+        }
+
+        internal record UsuarioDto
+        (
+            Guid IdUsuario,
+            Guid IdAcademia,
+            string Nome,
+            string Email,
+            string Quadra,
+            string Rua,
+            string Bairro,
+            string Cidade,
+            string Estado,
+            string Cep,
+            string Senha,
+            DateTime DataNascimento,
+            string Cpf,
+            int TipoUsuario,
+            bool Flag
+        );
+
+
         /*public dynamic Ativar(Guid idusuario)
         {
             using var connection = _connectionFactory.CreateConnection();
@@ -41,7 +151,7 @@ namespace Infrastructure.Persistence
             var record = connection.Execute(query, new { Flag = false, IdUsuario = idusuario });
 
             return record;
-        }*/
+        }
 
         public dynamic AtualizarDados(Guid idusuario, dynamic var, string atributo)
         {
@@ -97,57 +207,6 @@ namespace Infrastructure.Persistence
             return id;
         }
 
-        public Usuario Login(string email, string senha)
-        {
-            using var connection = _connectionFactory.CreateConnection();
-
-            string query = @"SELECT 
-                    idUsuario as IdUsuario, 
-                    nome as Nome,
-                    email as Email,
-                    quadra as Quadra,
-                    rua as Rua,
-                    bairro as Bairro,
-                    cidade as Cidade,
-                    estado as Estado,
-                    cep as Cep,
-                    senha as Senha,
-                    dataNascimento as DataNascimento,
-                    cpf as Cpf,
-                    tipoUsuario as TipoUsuario,
-                    flag as Flag
-                FROM Usuario
-                WHERE Email = @Email AND Senha = @Senha";
-
-            string emailString = email.ToString();
-
-            var record = connection.QueryFirstOrDefault<UsuarioDB>(query, new { Email = emailString, Senha = senha });
-
-            if (record == null)
-            {
-                return null;
-            }
-
-            var usuarioEncontrado = new Usuario(
-                idUsuario: record.IdUsuario,
-                nome: new Nome(record.Nome),
-                email: new Email(record.Email),
-                quadra: record.Quadra,
-                rua: record.Rua,
-                bairro: record.Bairro,
-                cidade: record.Cidade,
-                estado: record.Estado,
-                cep: record.Cep,
-                senha: record.Senha,
-                dataNascimento: DateOnly.FromDateTime(record.DataNascimento),
-                cpf: new CPF(record.Cpf),
-                tipoUsuario: (TipoUsuario)record.TipoUsuario,
-                flag: record.Flag
-            );
-
-            return usuarioEncontrado;
-        }
-
         public dynamic TrocarSenha(Guid idusuario, string novasenha)
         {
             using var connection = _connectionFactory.CreateConnection();
@@ -155,21 +214,11 @@ namespace Infrastructure.Persistence
 
             var record = connection.Execute(query, new { NovaSenha = novasenha, Flag = false, IdUsuario = idusuario });
             return record;
-        }
+        }*/
 
-        public Usuario ListarUsuario(Guid idusuario)
-        {
-            throw new NotImplementedException();
-        }
 
-        public LogAtividade RegistrarAcao(Guid idusuario, LogAtividade acao)
-        {
-            throw new NotImplementedException();
-        }
 
-        public List<Guid> ConsultarLogs(Guid idusuario)
-        {
-            throw new NotImplementedException();
-        }
+
+
     }
 }

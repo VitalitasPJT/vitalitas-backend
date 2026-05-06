@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 using Application.Interfaces;
-=======
->>>>>>> dadosDes
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -10,11 +7,7 @@ using System.Text;
 
 namespace Vitalitas.Backend.API.Services.JwtService
 {
-<<<<<<< HEAD
     public class JwtService : IJwtService, ITokenService
-=======
-    public class JwtService : IJwtService
->>>>>>> dadosDes
     {
         private readonly string _key;
         private readonly string _issuer;
@@ -55,7 +48,6 @@ namespace Vitalitas.Backend.API.Services.JwtService
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-<<<<<<< HEAD
         public ClaimsPrincipal? ValidateTokenIgnoringExpiration(string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -80,23 +72,14 @@ namespace Vitalitas.Backend.API.Services.JwtService
             }
         }
 
-=======
->>>>>>> dadosDes
         private static string MapRole(string tipoUsuario)
         {
             return tipoUsuario switch
             {
-<<<<<<< HEAD
                 "Instrutor"     => "Instrutor",
                 "Aluno"         => "Aluno",
                 "Gestor"        => "Gestor",
                 "Administrador" => "Administrador",
-=======
-                "Gestor" => "Administrador",
-                "Administrador" => "Administrador",
-                "Instrutor" => "Administrador",
-                "Aluno" => "Aluno",
->>>>>>> dadosDes
                 _ => throw new InvalidOperationException($"TipoUsuario '{tipoUsuario}' nao possui mapeamento de Role configurado.")
             };
         }

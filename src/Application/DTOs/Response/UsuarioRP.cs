@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Domain.Entities;
 using Domain.Enums;
 
 namespace Application.DTOs
@@ -9,11 +10,11 @@ namespace Application.DTOs
         public class LoginResponse
         {
             public TipoUsuario TipoUsuario { get; set; }
-            public Guid IdUsuario { get; set;}
-            public bool Flag {get; set;}
+            public Guid IdUsuario { get; set; }
+            public bool Flag { get; set; }
             public string? Token { get; set; }
             public string? RefreshToken { get; set; }
-            public StatusHTTP Status { get; set;}
+            public StatusHTTP Status { get; set; }
             public LoginResponse(TipoUsuario tipoUsuario, Guid idUsuario, bool flag, StatusHTTP status)
             {
                 this.TipoUsuario = tipoUsuario;
@@ -39,7 +40,26 @@ namespace Application.DTOs
             }
         }
 
-        public class TrocarSenhaResponse
+        public class AdicionarLogResponse
+        {
+            public LogAtividade logResgistrado { get; set; }
+            public StatusHTTP Status { get; set; }
+
+            public AdicionarLogResponse(LogAtividade logResgistrado, StatusHTTP status)
+            {
+                this.logResgistrado = logResgistrado;
+                Status = status;
+            }
+        }
+
+        public class ObterTipoUsuarioResponse
+        {
+            public TipoUsuario TipoUsuario { get; set; }
+            public required StatusHTTP Status { get; set; }
+        }
+
+
+        /*public class TrocarSenhaResponse
         {
             private StatusHTTP status;
 
@@ -92,17 +112,13 @@ namespace Application.DTOs
             public List<LogDto> Logs { get; set; } = new List<LogDto>();
         }
 
-        public class AdicionarLogResponse
-        {
-            public bool Sucesso { get; set; }
-            public string Mensagem { get; set; }
-        }
+        
 
         public class LogDto
         {
             public Guid IdLog { get; set; }
             public string Acao { get; set; }
             public DateTime DataHora { get; set; }
-        }
+        }*/
     }
 }

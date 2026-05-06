@@ -6,7 +6,7 @@ namespace Domain.Entities
         public string TokenHash { get; private set; }
         public DateTime DataExpiracao { get; private set; }
         public bool Revogado { get; private set; }
-        public Guid UsuarioId { get; private set; }
+        public Guid IdUsuario { get; private set; }
 
         public RefreshToken(Guid idRefreshToken, string tokenHash, DateTime dataExpiracao, bool revogado, Guid usuarioId)
         {
@@ -14,7 +14,19 @@ namespace Domain.Entities
             TokenHash = tokenHash;
             DataExpiracao = dataExpiracao;
             Revogado = revogado;
-            UsuarioId = usuarioId;
+            IdUsuario = usuarioId;
+        }
+
+        public RefreshToken() { }
+
+        public void Revogar()
+        {
+            Revogado = true;
+        }
+
+        public bool EstaExpirado()
+        {
+            return DateTime.UtcNow >= DataExpiracao;
         }
     }
 }

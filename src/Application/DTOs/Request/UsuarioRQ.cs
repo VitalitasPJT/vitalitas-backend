@@ -11,11 +11,30 @@ namespace Application.DTOs
     {
         public class LoginRequest
         {
-            public string Email { get; set; }
-            public string Senha { get; set; }
+            public required string Email { get; set; }
+            public required string Senha { get; set; }
         }
 
-        public class TrocarSenhaRequest
+        public class RefreshRequest
+        {
+            public required string AccessToken { get; set; }
+            public required string RefreshToken { get; set; }
+        }
+
+        public class AdicionarLogRequest
+        {
+            public Guid IdUsuario { get; set; }
+            public required string Acao { get; set; }
+        }
+
+        public class ObterTipoUsuarioRequest
+        {
+            public Guid IdUsuario { get; set; }
+        }
+
+
+
+        /*public class TrocarSenhaRequest
         {
             public Guid IdUsuario { get; set; }
             public string NovaSenha { get; set; }
@@ -57,19 +76,10 @@ namespace Application.DTOs
         public class ObterLogsRequest
         {
             public Guid IdUsuario { get; set; }
-        }
+        }*/
 
-        public class AdicionarLogRequest
-        {
-            public Guid IdUsuario { get; set; }
-            public string Acao { get; set; }
-            public DateTime? DataHora { get; set; }
-        }
 
-        public class RefreshRequest
-        {
-            public string AccessToken { get; set; }
-            public string RefreshToken { get; set; }
-        }
+
+
     }
 }

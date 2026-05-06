@@ -69,6 +69,11 @@ namespace Infrastructure.Persistence
             return result;
         }
 
+        public dynamic ListarAluno(Guid idAcademia, Guid idUsuario)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<dynamic> ListarALunos(Guid idacademia)
         {
             using var connection = _connectionFactory.CreateConnection();
@@ -101,6 +106,11 @@ namespace Infrastructure.Persistence
             }
 
             return alunos;
+        }
+
+        public dynamic TrocarSenha(Guid idUsuario, string novaSenha)
+        {
+            throw new NotImplementedException();
         }
 
         public dynamic VincularInstrutor(Guid idaluno, Guid idprofessor)

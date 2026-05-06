@@ -12,6 +12,6 @@ namespace Domain.Interfaces
     {
         Usuario Login(string email, string senha);
         LogAtividade RegistrarAcao(Guid idUsuario, LogAtividade acao);
-        string GetTipoUsuario(Guid idUsuario);        
+        TipoUsuario? GetTipoUsuario(Guid idUsuario);        
     }
 }

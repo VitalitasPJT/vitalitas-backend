@@ -18,7 +18,7 @@ namespace API.Controllers
             _alunoUseCase = alunoUseCase;
         }
 
-        [HttpPost]
+        /*[HttpPost]
         public ActionResult<CriarAlunoResponse> CriarAluno([FromBody] CriarAlunoRequest aluno)
         {
             try
@@ -94,6 +94,6 @@ namespace API.Controllers
             {
                 return StatusCode(500, new { message = "Erro interno do servidor", detalhe = ex.Message });
             }
-        }
+        }*/
     }
 }

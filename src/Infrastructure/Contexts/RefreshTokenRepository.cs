@@ -28,7 +28,7 @@ namespace Infrastructure.Persistence
                 refreshToken.TokenHash,
                 refreshToken.DataExpiracao,
                 refreshToken.Revogado,
-                refreshToken.UsuarioId
+                refreshToken.IdUsuario
             });
         }
 
