@@ -20,7 +20,7 @@ namespace Infrastructure.Persistence
             using var connection = _connectionFactory.CreateConnection();
             string query = @"
                 INSERT INTO refreshToken (idRefreshToken, tokenHash, dataExpiracao, revogado, idUsuario)
-                VALUES (@IdRefreshToken, @TokenHash, @DataExpiracao, @Revogado, @UsuarioId)";
+                VALUES (@IdRefreshToken, @TokenHash, @DataExpiracao, @Revogado, @IdUsuario)";
 
             connection.Execute(query, new
             {

@@ -3,7 +3,7 @@ namespace Domain.Entities
     public class RefreshToken
     {
         public Guid IdRefreshToken { get; private set; }
-        public string TokenHash { get; private set; }
+        public string TokenHash { get; private set; } = string.Empty;
         public DateTime DataExpiracao { get; private set; }
         public bool Revogado { get; private set; }
         public Guid IdUsuario { get; private set; }

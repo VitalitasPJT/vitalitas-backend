@@ -11,7 +11,7 @@ namespace Domain.Entities
         public Guid IdUsuario { get; private set; }
         public Guid IdInstrutor { get; private set; }
         public Guid IdContrato { get; private set; }
-        public string Objetivo { get; private set; }
+        public string Objetivo { get; private set; } = string.Empty;
 
         public Aluno(Guid idAluno, Guid idUsuario, Guid idInstrutor, Guid idContrato, string objetivo)
         {

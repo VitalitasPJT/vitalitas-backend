@@ -46,7 +46,7 @@ namespace Application.Services
                 throw new UnauthorizedAccessException();
 
             // 4–6. Validate ownership, expiry, and revocation
-            if (stored.UsuarioId.ToString() != userId)
+            if (stored.IdUsuario.ToString() != userId)
                 throw new UnauthorizedAccessException();
 
             if (stored.DataExpiracao < DateTime.UtcNow)
@@ -69,7 +69,7 @@ namespace Application.Services
                 newTokenHash,
                 DateTime.UtcNow.AddDays(_settings.DurationInDays),
                 false,
-                stored.UsuarioId
+                stored.IdUsuario
             ));
 
             var status = new StatusHTTP("Token renovado com sucesso", 200, true);
