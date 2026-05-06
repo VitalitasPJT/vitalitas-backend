@@ -1,12 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+<<<<<<< HEAD
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Application.DTOs;
 using Application.Interfaces;
 using Application.Settings;
+=======
+using System.Threading.Tasks;
+using Application.DTOs;
+using Application.Interfaces;
+>>>>>>> dadosDes
 using Domain.Entities;
 using Domain.Enums;
 using Domain.Interfaces;
@@ -19,6 +25,7 @@ namespace Application.Services
     public class UsuarioUC : IUsuarioUseCase
     {
         private readonly IUsuario _usuarioRepository;
+<<<<<<< HEAD
         private readonly ITokenService _tokenService;
         private readonly IRefreshTokenRepository _refreshTokenRepository;
         private readonly RefreshTokenSettings _refreshTokenSettings;
@@ -33,6 +40,11 @@ namespace Application.Services
             _tokenService = tokenService;
             _refreshTokenRepository = refreshTokenRepository;
             _refreshTokenSettings = refreshTokenSettings;
+=======
+        public UsuarioUC(IUsuario usuarioRepository)
+        {
+            _usuarioRepository = usuarioRepository;
+>>>>>>> dadosDes
         }
 
         public AdicionarLogResponse AdicionarLog(Guid idusuario, LogAtividade log)
@@ -55,6 +67,7 @@ namespace Application.Services
         {
             var usuario = _usuarioRepository.Login(email, senha);
             if (usuario == null)
+<<<<<<< HEAD
                 throw new UnauthorizedAccessException("Credenciais inválidas");
 
             var accessToken = _tokenService.GenerateToken(usuario.IdUsuario.ToString(), usuario.TipoUsuario.ToString());
@@ -89,6 +102,16 @@ namespace Application.Services
             return Convert.ToHexString(bytes).ToLowerInvariant();
         }
 
+=======
+            {
+                throw new Exception("Usuário ou senha inválidos");
+            }
+            var status = new StatusHTTP("Login realizado com sucesso", 200, true);
+            var response = new LoginResponse(usuario.TipoUsuario, usuario.IdUsuario, usuario.Flag, status);
+            return response;
+        }
+
+>>>>>>> dadosDes
         public ObterLogsResponse ObterLogs(Guid idusuario)
         {
             throw new NotImplementedException();

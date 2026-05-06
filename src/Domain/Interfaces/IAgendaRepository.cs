@@ -1,5 +1,8 @@
 ﻿using Domain.Entities;
+<<<<<<< HEAD
 using Domain.Enums;
+=======
+>>>>>>> dadosDes
 using System;
 using System.Collections.Generic;
 using System.Linq;
