@@ -24,7 +24,9 @@ namespace Application.DTOs
         public class AdicionarLogRequest
         {
             public Guid IdUsuario { get; set; }
-            public required string Acao { get; set; }
+            public required int Acao { get; set; }
+            public required string DispositivoLogado { get; set; }
+            public required string Localizacao { get; set; }
         }
 
         public class ObterTipoUsuarioRequest

@@ -9,7 +9,7 @@ namespace Application.Interfaces
     public interface IUsuarioUseCase
     {
         LoginResponse Login(string email, string senha);
-        AdicionarLogResponse AdicionarLog(Guid idusuario, LogAtividade log);
+        AdicionarLogResponse AdicionarLog(Guid idusuario, int acao, string dispositivoLogado, string localizacao);
         RefreshResponse RefreshToken(string accessToken, string refreshToken);
         ObterTipoUsuarioResponse ObterTipoUsuario(Guid idUsuario);
 

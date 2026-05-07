@@ -77,9 +77,9 @@ namespace Application.Services
             throw new NotImplementedException();
         }
 
-        public AdicionarLogResponse AdicionarLog(Guid idusuario, LogAtividade log)
+        public AdicionarLogResponse AdicionarLog(Guid idusuario, int acao, string dispositivoLogado, string localizacao)
         {
-            var logAtividade = _usuarioRepository.RegistrarAcao(idusuario, log);
+            var logAtividade = _usuarioRepository.RegistrarAcao(idusuario, acao, dispositivoLogado, localizacao);
             if (logAtividade == null)
                 throw new Exception("Erro ao registrar ação");
 

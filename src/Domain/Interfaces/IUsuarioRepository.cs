@@ -11,7 +11,7 @@ namespace Domain.Interfaces
     public interface IUsuario
     {
         Usuario Login(string email, string senha);
-        LogAtividade RegistrarAcao(Guid idUsuario, LogAtividade acao);
+        LogAtividade RegistrarAcao(Guid idUsuario, int acao, string dispositivoLogado, string localizacao);
         TipoUsuario? GetTipoUsuario(Guid idUsuario);        
     }
 }

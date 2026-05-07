@@ -107,6 +107,21 @@ namespace API.Controllers
             }
         }
 
+        [HttpPost("adicionar-log")]
+        [AllowAnonymous]
+        public ActionResult<AdicionarLogResponse> AdicionarLog([FromBody] AdicionarLogRequest request)
+        {
+            try
+            {
+                var response = _usuarioUseCase.AdicionarLog(request.IdUsuario, request.Acao, request.DispositivoLogado, request.Localizacao);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Erro interno do servidor", detalhe = ex.Message });
+            }
+        }
+
         /*[HttpPut("trocar-senha")]
         public ActionResult<TrocarSenhaResponse> TrocarSenha([FromBody] TrocarSenhaRequest reset)
         {

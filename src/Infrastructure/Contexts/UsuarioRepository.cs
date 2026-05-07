@@ -76,7 +76,7 @@ namespace Infrastructure.Persistence
             return usuarioEncontrado;
         }
 
-        public LogAtividade RegistrarAcao(Guid idusuario, LogAtividade acao)
+        public LogAtividade RegistrarAcao(Guid idusuario, int acao, string dispositivoLogado, string localizacao)
         {
             using var connection = _connectionFactory.CreateConnection();
 
@@ -85,13 +85,14 @@ namespace Infrastructure.Persistence
             VALUES 
             (@IdLog, @IdUsuario, @DataHora, @Acao, @DispositivoLogado, @Localizacao);";
 
-            var logAtividade = new LogAtividade(idusuario, acao.Acao, acao.DispositivoLogado, acao.Localizacao);
+            var logAtividade = new LogAtividade(idusuario, (AcaoLog)acao, dispositivoLogado, localizacao);
 
             connection.Execute(query, new
             {
                 logAtividade.IdLog,
                 logAtividade.IdUsuario,
                 logAtividade.DataHora,
+                logAtividade.Acao,
                 logAtividade.DispositivoLogado,
                 logAtividade.Localizacao
             });
