@@ -1,14 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Vitalitas.Backend.API.Services.JwtService;
 using static Application.DTOs.AlunoRQ;
-using static Application.DTOs.AlunoRP; 
+using static Application.DTOs.AlunoRP;
 using Application.Interfaces;
 using System;
 
 namespace API.Controllers
 {
     [ApiController]
-    [Route("vitalitas/aluno")]
+    [Route("aluno")]
     public class AlunoController : ControllerBase
     {
         private readonly IAlunoUseCase _alunoUseCase;
@@ -44,14 +44,14 @@ namespace API.Controllers
             {
                 return StatusCode(500, new { message = "Erro interno do servidor", detalhe = ex.Message });
             }
-        }
+        }*/
 
         [HttpGet("listar-aluno")]
         public ActionResult<ListarAlunoResponse> ListarAluno([FromQuery] ListarAlunoRequest aluno)
         {
             try
             {
-                if ( aluno.IdAluno == null)    
+                if (aluno.IdAluno == null)
                 {
                     return BadRequest(new { message = "ID do aluno inválido. Certifique-se de fornecer um GUID válido." });
                 }
@@ -64,7 +64,25 @@ namespace API.Controllers
             }
         }
 
+        [HttpPut("trocar-senha")]
+        [ApiExplorerSettings(GroupName = "Aluno")]
+        public ActionResult<TrocarSenhaResponse> TrocarSenha([FromBody] TrocarSenhaRequest reset)
+        {
+            try
+            {
+                var response = _alunoUseCase.TrocarSenha(reset.IdUsuario, reset.NovaSenha);
+                var trocarSenhaResponse = new TrocarSenhaResponse(response);
+                return Ok(trocarSenhaResponse);
+            }
+            catch (Exception ex)
+            {
+                var status = new Application.DTOs.StatusHTTP(ex.Message, 400, false);
+                return BadRequest(new TrocarSenhaResponse(status));
+            }
+        }
+
         [HttpPut("vincular-instrutor")]
+        [ApiExplorerSettings(GroupName = "Aluno")]
         public ActionResult<VincularInstrutorResponse> VincularInstrutor([FromBody] VincularInstrutorRequest request)
         {
             try
@@ -83,7 +101,8 @@ namespace API.Controllers
         }
 
         [HttpPut("atualizar-objetivo")]
-        public ActionResult<AtualizarObjetivoResponse> AtualizarObjetivo([FromRoute] AtualizarObjetivoRequest objetivo)
+        [ApiExplorerSettings(GroupName = "Aluno")]
+        public ActionResult<AtualizarObjetivoResponse> AtualizarObjetivo([FromBody] AtualizarObjetivoRequest objetivo)
         {
             try
             {
@@ -94,6 +113,6 @@ namespace API.Controllers
             {
                 return StatusCode(500, new { message = "Erro interno do servidor", detalhe = ex.Message });
             }
-        }*/
+        }
     }
 }

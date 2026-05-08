@@ -1,4 +1,4 @@
-﻿using Domain.Entities;
+using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +9,9 @@ namespace Domain.Interfaces
 {
     public interface IAluno
     {
-        dynamic ListarAluno(Guid idAcademia, Guid idUsuario);
-        dynamic VincularInstrutor(Guid idAluno, Guid idInstrutor);
-        dynamic AtualizarObjetivo(Guid idAluno, string novoObjetivo);
-        dynamic TrocarSenha(Guid idUsuario, string novaSenha);
+        dynamic ListarAluno(Guid idAluno);
+        bool VincularInstrutor(Guid idAluno, Guid idInstrutor);
+        bool AtualizarObjetivo(Guid idAluno, string novoObjetivo);
+        bool TrocarSenha(Guid idUsuario, string novaSenha);
     }
 }

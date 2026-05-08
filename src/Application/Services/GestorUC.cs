@@ -1,24 +1,53 @@
+using System.Runtime.InteropServices;
 using Application.DTOs;
+using Application.DTOs.Request;
 using Application.Interfaces;
 using Domain.Entities;
 using Domain.Enums;
 using Domain.Interfaces;
 using static Application.DTOs.AlunoRP;
+using static Application.DTOs.Response.GertorRP;
+using static DTOs.Constructor.Constructor;
 
 namespace Application.Services
 {
-    public class AlunoUC : IAlunoUseCase
+    public class GestorUC : IGestorUseCase
     {
-        private readonly IAluno _alunoRepository;
+        private readonly IGestorRepository _gestorRepository;
 
-        public AlunoUC(IAluno alunorepository)
+        public GestorUC(IGestorRepository gestorrepository)
         {
-            _alunoRepository = alunorepository;
+            _gestorRepository = gestorrepository;
         }
 
-        public AtualizarObjetivoResponse AtualizarObjetivo(Guid idusuario, string objetivo)
+        public CriarUsuarioResponse CriarUsuario(ConstructorUsuario usuario)
         {
-            var sucesso = _alunoRepository.AtualizarObjetivo(idusuario, objetivo);
+            var novoUsuario = new Usuario(
+                usuario.IdUsuario,
+                usuario.IdAcademia,
+                usuario.Nome.Valor,
+                usuario.Email,
+                usuario.Senha,
+                usuario.DataNascimento,
+                usuario.CPF,
+                usuario.TipoUsuario,
+                usuario.Ativo,
+                usuario.Flag,
+                usuario.Quadra,
+                usuario.Rua,
+                usuario.Bairro,
+                usuario.Cidade,
+                usuario.Estado,
+                usuario.CEP
+            );
+            var idUsuario = _gestorRepository.CriarUsuario(novoUsuario);
+            return new CriarUsuarioResponse(idUsuario, new StatusHTTP("Usuário criado com sucesso", 201, true));
+        }
+
+      
+        /*public AtualizarObjetivoResponse AtualizarObjetivo(Guid idusuario, string objetivo)
+        {
+            var sucesso = _gestorRepository.AtualizarObjetivo(idusuario, objetivo);
             if (!sucesso)
             {
                 throw new Exception("Erro ao atualizar objetivo");
@@ -69,9 +98,6 @@ namespace Application.Services
             return new CriarAlunoResponse(idaluno, new StatusHTTP("Aluno criado com sucesso", 201, true));
         }
 
-        */
-
-
         public VincularInstrutorResponse VincularInstrutor(Guid idaluno, Guid idinstrutor)
         {
             var sucesso = _alunoRepository.VincularInstrutor(idaluno, idinstrutor);
@@ -81,6 +107,6 @@ namespace Application.Services
             }
             var status = new StatusHTTP("Instrutor vinculado com sucesso", 200, true);
             return new VincularInstrutorResponse(status);
-        }
+        }*/
     }
 }

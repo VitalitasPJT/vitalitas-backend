@@ -12,6 +12,7 @@ namespace Domain.Interfaces
     {
         Usuario Login(string email, string senha);
         LogAtividade RegistrarAcao(Guid idUsuario, int acao, string dispositivoLogado, string localizacao);
-        TipoUsuario? GetTipoUsuario(Guid idUsuario);        
+        TipoUsuario? GetTipoUsuario(Guid idUsuario);
+        bool TrocarSenha(Guid idusuario, string novasenha);
     }
 }

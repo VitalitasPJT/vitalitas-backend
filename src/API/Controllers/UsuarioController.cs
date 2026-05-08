@@ -122,12 +122,13 @@ namespace API.Controllers
             }
         }
 
-        /*[HttpPut("trocar-senha")]
-        public ActionResult<TrocarSenhaResponse> TrocarSenha([FromBody] TrocarSenhaRequest reset)
+        [HttpGet("obter-tipo-usuario/{id}")]
+        [AllowAnonymous]
+        public ActionResult<ObterTipoUsuarioResponse> ObterTipoUsuario([FromRoute] Guid id)
         {
             try
             {
-                var response = _usuarioUseCase.TrocarSenha(reset.IdUsuario, reset.NovaSenha);
+                var response = _usuarioUseCase.ObterTipoUsuario(id);
                 return Ok(response);
             }
             catch (Exception ex)
@@ -136,7 +137,7 @@ namespace API.Controllers
             }
         }
 
-        [HttpPost]
+        /*[HttpPost]
         [ApiExplorerSettings(GroupName = "Administrativo")]
         public ActionResult<CriarUsuarioResponse> CriarUsuario(CriarUsuarioRequest user)
         {

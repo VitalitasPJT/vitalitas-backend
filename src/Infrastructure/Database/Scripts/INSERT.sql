@@ -93,45 +93,44 @@ INSERT INTO instrutor (idInstrutor, idUsuario, cref) VALUES
 -- Vinculado ao Lucas Nadador
 ('FFFF1111-FFFF-1111-FFFF-111111111105', 'DDDD1111-DDDD-1111-DDDD-111111111105', '321987-G/RJ');
 
+INSERT INTO planoContrato (idPlanoContrato, nome, descricao, valor) VALUES
+(1, 'Mensal FitZone', 'Acesso livre área de musculação', 120.00),
+(2, 'Trimestral Iron', 'Acesso Crossfit e LPO', 300.00),
+(3, 'Semestral Acqua', 'Natação 3x na semana', 500.00);
+
+INSERT INTO contrato (idContrato, idPlanoContrato, mensalidade, status, caminhoPdf, dataFim, dataAssinatura) VALUES
+-- Contratos da Academia 1 (Plano 1)
+('CCCC1111-CCCC-1111-CCCC-111111111101', 1, 120.00, 1, '/docs/contratos/aluno_01.pdf', '2026-12-31', '2026-01-10'),
+('CCCC1111-CCCC-1111-CCCC-111111111102', 1, 120.00, 1, '/docs/contratos/aluno_02.pdf', '2026-12-31', '2026-02-15'),
+('CCCC1111-CCCC-1111-CCCC-111111111103', 1, 120.00, 1, '/docs/contratos/aluno_03.pdf', '2026-12-31', '2026-03-20'),
+('CCCC1111-CCCC-1111-CCCC-111111111104', 1, 120.00, 1, '/docs/contratos/aluno_04.pdf', '2026-12-31', '2026-04-05'),
+-- Contratos da Academia 2 (Plano 2)
+('CCCC1111-CCCC-1111-CCCC-111111111105', 2, 300.00, 1, '/docs/contratos/aluno_05.pdf', '2026-08-10', '2026-05-10'),
+('CCCC1111-CCCC-1111-CCCC-111111111106', 2, 300.00, 1, '/docs/contratos/aluno_06.pdf', '2026-09-12', '2026-06-12'),
+('CCCC1111-CCCC-1111-CCCC-111111111107', 2, 300.00, 1, '/docs/contratos/aluno_07.pdf', '2026-10-01', '2026-07-01'),
+('CCCC1111-CCCC-1111-CCCC-111111111108', 2, 300.00, 1, '/docs/contratos/aluno_08.pdf', '2026-11-20', '2026-08-20'),
+-- Contratos da Academia 3 (Plano 3)
+('CCCC1111-CCCC-1111-CCCC-111111111109', 3, 500.00, 1, '/docs/contratos/aluno_09.pdf', '2026-11-05', '2026-05-05'),
+('CCCC1111-CCCC-1111-CCCC-111111111110', 3, 500.00, 1, '/docs/contratos/aluno_10.pdf', '2027-01-15', '2026-07-15');
+
+INSERT INTO aluno (idAluno, idUsuario, IdInstrutor, idContrato, objetivo) VALUES
+-- Alunos da Academia 1 (FitZone) -> Treinando com Fernando (FFFF...01) e Juliana (FFFF...02)
+('BBBB2222-BBBB-2222-BBBB-222222222201', 'DDDD2222-DDDD-2222-DDDD-222222222201', 'FFFF1111-FFFF-1111-FFFF-111111111101', 'CCCC1111-CCCC-1111-CCCC-111111111101', 'Hipertrofia'),
+('BBBB2222-BBBB-2222-BBBB-222222222202', 'DDDD2222-DDDD-2222-DDDD-222222222202', 'FFFF1111-FFFF-1111-FFFF-111111111101', 'CCCC1111-CCCC-1111-CCCC-111111111102', 'Emagrecimento'),
+('BBBB2222-BBBB-2222-BBBB-222222222203', 'DDDD2222-DDDD-2222-DDDD-222222222203', 'FFFF1111-FFFF-1111-FFFF-111111111102', 'CCCC1111-CCCC-1111-CCCC-111111111103', 'Condicionamento Físico'),
+('BBBB2222-BBBB-2222-BBBB-222222222204', 'DDDD2222-DDDD-2222-DDDD-222222222204', 'FFFF1111-FFFF-1111-FFFF-111111111102', 'CCCC1111-CCCC-1111-CCCC-111111111104', 'Saúde e Bem-estar'),
+-- Alunos da Academia 2 (IronGym) -> Treinando com Thiago (FFFF...03) e Paula (FFFF...04)
+('BBBB2222-BBBB-2222-BBBB-222222222205', 'DDDD2222-DDDD-2222-DDDD-222222222205', 'FFFF1111-FFFF-1111-FFFF-111111111103', 'CCCC1111-CCCC-1111-CCCC-111111111105', 'Ganho de Força'),
+('BBBB2222-BBBB-2222-BBBB-222222222206', 'DDDD2222-DDDD-2222-DDDD-222222222206', 'FFFF1111-FFFF-1111-FFFF-111111111103', 'CCCC1111-CCCC-1111-CCCC-111111111106', 'Resistência Muscular'),
+('BBBB2222-BBBB-2222-BBBB-222222222207', 'DDDD2222-DDDD-2222-DDDD-222222222207', 'FFFF1111-FFFF-1111-FFFF-111111111104', 'CCCC1111-CCCC-1111-CCCC-111111111107', 'Competição Crossfit'),
+('BBBB2222-BBBB-2222-BBBB-222222222208', 'DDDD2222-DDDD-2222-DDDD-222222222208', 'FFFF1111-FFFF-1111-FFFF-111111111104', 'CCCC1111-CCCC-1111-CCCC-111111111108', 'Mobilidade e Flexibilidade'),
+-- Alunos da Academia 3 (Acqua Life) -> Treinando com Lucas (FFFF...05)
+('BBBB2222-BBBB-2222-BBBB-222222222209', 'DDDD2222-DDDD-2222-DDDD-222222222209', 'FFFF1111-FFFF-1111-FFFF-111111111105', 'CCCC1111-CCCC-1111-CCCC-111111111109', 'Aprender a nadar'),
+('BBBB2222-BBBB-2222-BBBB-222222222210', 'DDDD2222-DDDD-2222-DDDD-222222222210', 'FFFF1111-FFFF-1111-FFFF-111111111105', 'CCCC1111-CCCC-1111-CCCC-111111111110', 'Treino para Triatlo');
+
 ---------------------------------------------------------------------------------------------------------
 -- Parei aqui
 ---------------------------------------------------------------------------------------------------------
-
-INSERT INTO contrato (
-    idContrato, caminhoPdf, dataFim, dataInicio
-)
-VALUES
-(
-'aaaa0000-0000-0000-0000-000000000001',
-'contrato1.pdf',
-CAST('2026-12-31T00:00:00' AS DATETIME),
-CAST('2026-01-01T00:00:00' AS DATETIME)
-),
-(
-'bbbb0000-0000-0000-0000-000000000002',
-'contrato2.pdf',
-CAST('2026-10-01T00:00:00' AS DATETIME),
-CAST('2026-02-01T00:00:00' AS DATETIME)
-);
-
-INSERT INTO aluno (
-    idAluno, objetivo, idUsuario, idContrato, idAcademia
-)
-VALUES
-(
-'11111111-aaaa-4c2e-9c1a-aaaaaaaaaaaa',
-'Perder peso',
-'230e0d15-3fe0-4a23-ad1f-562d47de2b12',
-'aaaa0000-0000-0000-0000-000000000001',
-'f3c2a111-aaaa-4b2e-9c1a-111111111111'
-),
-(
-'22222222-bbbb-4c2e-9c1a-bbbbbbbbbbbb',
-'Hipertrofia',
-'de18ef7e-7f09-4c39-a2fb-1ba0ae699efb',
-'bbbb0000-0000-0000-0000-000000000002',
-'f3c2a111-aaaa-4b2e-9c1a-111111111111'
-);
 
 INSERT INTO funcionario (
     idFuncionario, idUsuario, cargo

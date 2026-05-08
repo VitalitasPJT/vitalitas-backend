@@ -60,17 +60,18 @@ namespace Infrastructure.Persistence
                 idAcademia: record.IdAcademia,
                 nome: record.Nome, 
                 email: new Email(record.Email), 
+                senha: record.Senha,
+                dataNascimento: dataNasc,
+                cpf: new CPF(record.Cpf), 
+                tipoUsuario: (TipoUsuario)record.TipoUsuario, 
+                ativo: true,
+                flag: record.Flag,
                 quadra: record.Quadra,
                 rua: record.Rua,
                 bairro: record.Bairro,
                 cidade: record.Cidade,
                 estado: record.Estado,
-                cep: record.Cep,
-                senha: record.Senha,
-                dataNascimento: dataNasc,
-                cpf: new CPF(record.Cpf), 
-                tipoUsuario: (TipoUsuario)record.TipoUsuario, 
-                flag: record.Flag
+                cep: record.Cep
             );
 
             return usuarioEncontrado;
@@ -152,9 +153,28 @@ namespace Infrastructure.Persistence
             var record = connection.Execute(query, new { Flag = false, IdUsuario = idusuario });
 
             return record;
+        }*/
+
+        public bool TrocarSenha(Guid idusuario, string novasenha)
+        {
+            using var connection = _connectionFactory.CreateConnection();
+
+            string querySelect = "SELECT Senha FROM Usuario WHERE IdUsuario = @IdUsuario";
+            string senhaSalva = connection.QueryFirstOrDefault<string>(querySelect, new { IdUsuario = idusuario });
+
+            if (senhaSalva == novasenha)
+            {
+                throw new Exception("A nova senha não pode ser igual à senha atual.");
+            }
+
+            string queryUpdate = @"UPDATE Usuario SET Senha = @NovaSenha, flag = @Flag WHERE IdUsuario = @IdUsuario";
+
+            var linhasAfetadas = connection.Execute(queryUpdate, new { NovaSenha = novasenha, Flag = false, IdUsuario = idusuario });
+            
+            return linhasAfetadas > 0;
         }
 
-        public dynamic AtualizarDados(Guid idusuario, dynamic var, string atributo)
+        /*public dynamic AtualizarDados(Guid idusuario, dynamic var, string atributo)
         {
             var colunasPermitidas = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
             {
@@ -208,14 +228,7 @@ namespace Infrastructure.Persistence
             return id;
         }
 
-        public dynamic TrocarSenha(Guid idusuario, string novasenha)
-        {
-            using var connection = _connectionFactory.CreateConnection();
-            string query = @"UPDATE Usuario SET Senha = @NovaSenha, flag = @Flag WHERE IdUsuario = @IdUsuario";
-
-            var record = connection.Execute(query, new { NovaSenha = novasenha, Flag = false, IdUsuario = idusuario });
-            return record;
-        }*/
+        */
 
 
 

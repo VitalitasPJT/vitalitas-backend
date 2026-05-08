@@ -9,23 +9,10 @@ namespace Application.DTOs
 {
     public class AlunoRQ
     {
-        public class CriarAlunoRequest
-        {
-            public Guid IdInstrutor { get; set; }
-            public Guid IdUsuario { get; set; }
-            public int IdContrato { get; set; }
-            public Guid IdAcademia { get; set; }
-            public required string Objetivo { get; set; }
-        } 
-
-        public class ListarAlunosRequest
-        {
-            public Guid IdAcademia { get; set; }
-        }
-
+         
         public class ListarAlunoRequest
         {
-            public Guid IdAluno { get; set; }
+            public required Guid IdAluno { get; set; }
         }
 
         public class VincularInstrutorRequest
@@ -37,7 +24,13 @@ namespace Application.DTOs
         public class AtualizarObjetivoRequest
         {
             public Guid IdAluno { get; set; }
-            public required string NovoObjetivo { get; set; }
+            public string NovoObjetivo { get; set; }
+        }
+
+        public class TrocarSenhaRequest
+        {
+            public required Guid IdUsuario { get; set; }
+            public required string NovaSenha { get; set; }
         }
     }
 }

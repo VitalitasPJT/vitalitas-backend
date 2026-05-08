@@ -12,6 +12,8 @@ builder.Services.AddScoped<Domain.Interfaces.IUsuario, Infrastructure.Persistenc
 builder.Services.AddScoped<Application.Interfaces.IUsuarioUseCase, Application.Services.UsuarioUC>();
 builder.Services.AddScoped<Domain.Interfaces.IAluno, Infrastructure.Persistence.AlunoRepository>();
 builder.Services.AddScoped<Application.Interfaces.IAlunoUseCase, Application.Services.AlunoUC>();
+builder.Services.AddScoped<Domain.Interfaces.IGestorRepository, Infrastructure.Contexts.GestorRepository>();
+builder.Services.AddScoped<Application.Interfaces.IGestorUseCase, Application.Services.GestorUC>(); 
 builder.Services.AddScoped<Vitalitas.Backend.API.Services.JwtService.IJwtService, Vitalitas.Backend.API.Services.JwtService.JwtService>();
 builder.Services.AddScoped<Application.Interfaces.ITokenService, Vitalitas.Backend.API.Services.JwtService.JwtService>();
 builder.Services.AddSingleton(new Application.Settings.RefreshTokenSettings(
@@ -50,6 +52,12 @@ builder.Services.AddSwaggerGen(options =>
     options.SwaggerDoc("Administrativo", new OpenApiInfo
     {
         Title = "Vitalitas API - Administrativo",
+        Version = "v1"
+    });
+
+    options.SwaggerDoc("Gestor", new OpenApiInfo
+    {
+        Title = "Vitalitas API - Gestor",
         Version = "v1"
     });
 
@@ -120,6 +128,7 @@ if (app.Environment.IsDevelopment())
     {
         options.SwaggerEndpoint("/swagger/Aluno/swagger.json", "Aluno");
         options.SwaggerEndpoint("/swagger/Administrativo/swagger.json", "Administrativo");
+        options.SwaggerEndpoint("/swagger/Gestor/swagger.json", "Gestor");
     });
 }
 

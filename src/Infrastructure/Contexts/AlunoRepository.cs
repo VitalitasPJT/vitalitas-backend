@@ -1,6 +1,7 @@
-﻿using Dapper;
+using Dapper;
 using Domain.Entities;
 using Domain.Interfaces;
+using Microsoft.Identity.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,19 +19,24 @@ namespace Infrastructure.Persistence
         {
             _connectionFactory = connectionFactory;
         }
-        public dynamic AtualizarObjetivo(Guid idaluno, string novoobjetivo)
+
+        public bool AtualizarObjetivo(Guid idaluno, string novoobjetivo)
         {
             using var connection = _connectionFactory.CreateConnection();
 
             var query = "UPDATE aluno SET objetivo = @novoobjetivo WHERE idAluno = @idaluno";
             var parameters = new { idaluno, novoobjetivo };
 
-            connection.Execute(query, parameters);
+            var rowsAffected = connection.Execute(query, parameters);
+            if (rowsAffected == 0)
+            {
+                throw new Exception("Aluno não encontrado ou objetivo já é o mesmo.");
+            }
 
-            return new { Success = true, Message = "Objetivo atualizado com sucesso." };
+            return rowsAffected > 0;
         }
 
-        public Guid CriarAluno(Guid idInstrutor, Guid idUsuario, int idContrato, Guid idAcademia, string objetivo)
+        /*public Guid CriarAluno(Guid idInstrutor, Guid idUsuario, int idContrato, Guid idAcademia, string objetivo)
         {
             using var connection = _connectionFactory.CreateConnection();
             var query = "INSERT INTO aluno (idAluno, idAcademia, idUsuario, objetivo) VALUES (@IdAluno, @IdAcademia, @IdUsuario, @Objetivo)";
@@ -46,14 +52,14 @@ namespace Infrastructure.Persistence
 
             connection.Execute(query, parameters);
             return parameters.IdAluno;
-        }
+        }*/
 
         public dynamic ListarAluno(Guid aluno)
         {
             using var connection = _connectionFactory.CreateConnection();
 
             var query = @"
-                SELECT a.idAluno, a.idAcademia, a.idUsuario, a.objetivo,
+                SELECT a.idAluno, u.idAcademia, a.idUsuario, a.objetivo,
                        u.nome, u.email, u.tipoUsuario
                 FROM aluno a
                 INNER JOIN usuario u ON a.idUsuario = u.idUsuario
@@ -69,12 +75,8 @@ namespace Infrastructure.Persistence
             return result;
         }
 
-        public dynamic ListarAluno(Guid idAcademia, Guid idUsuario)
-        {
-            throw new NotImplementedException();
-        }
 
-        public List<dynamic> ListarALunos(Guid idacademia)
+        /*public List<dynamic> ListarALunos(Guid idacademia)
         {
             using var connection = _connectionFactory.CreateConnection();
 
@@ -106,23 +108,40 @@ namespace Infrastructure.Persistence
             }
 
             return alunos;
-        }
+        }*/
 
-        public dynamic TrocarSenha(Guid idUsuario, string novaSenha)
+        public bool TrocarSenha(Guid idusuario, string novasenha)
         {
-            throw new NotImplementedException();
+            using var connection = _connectionFactory.CreateConnection();
+            
+            string querySelect = "SELECT Senha FROM Usuario WHERE IdUsuario = @IdUsuario";
+            string senhaSalva = connection.QueryFirstOrDefault<string>(querySelect, new { IdUsuario = idusuario });
+
+            if (senhaSalva == novasenha)
+            {
+                throw new Exception("A nova senha não pode ser igual à senha atual.");
+            }
+
+            string query = @"UPDATE Usuario SET Senha = @NovaSenha, flag = @Flag WHERE IdUsuario = @IdUsuario";
+
+            var linhasAfetadas = connection.Execute(query, new { NovaSenha = novasenha, Flag = false, IdUsuario = idusuario });
+            return linhasAfetadas > 0;
         }
 
-        public dynamic VincularInstrutor(Guid idaluno, Guid idprofessor)
+        public bool VincularInstrutor(Guid idaluno, Guid idprofessor)
         {
             using var connection = _connectionFactory.CreateConnection();
 
-            var query = "UPDATE Alunos SET IdProfessor = @idprofessor WHERE Id = @idaluno";
+            var query = "UPDATE aluno SET IdInstrutor = @idprofessor WHERE IdAluno = @idaluno";
             var parameters = new { idaluno, idprofessor };
 
-            connection.Execute(query, parameters);
+            var rowsAffected = connection.Execute(query, parameters);
+            if (rowsAffected == 0)
+            {
+                throw new Exception("Aluno ou instrutor não encontrado, ou já estão vinculados.");
+            }
 
-            return new { Success = true, Message = "Instrutor vinculado com sucesso." };
+            return rowsAffected > 0;
         }
     }
 }
