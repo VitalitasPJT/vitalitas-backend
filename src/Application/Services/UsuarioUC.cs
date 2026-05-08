@@ -102,20 +102,5 @@ namespace Application.Services
             };
             return response;
         }
-
-        /*public CriarUsuarioResponse CriarUsuario(string nome, string email, string senha, string quadra, string rua, string bairro, string cidade, string estado, string cep, DateOnly dataNascimento, string cpf, TipoUsuario tipoUsuario)
-            {
-                var idUsuario = _usuarioRepository.CriarUsuario(nome, email, senha, quadra, rua, bairro, cidade, estado, cep, dataNascimento, cpf, tipoUsuario);
-                return new CriarUsuarioResponse(idUsuario, new StatusHTTP("Usuário criado com sucesso", 201, true));
-            }
-
-            public ObterLogsResponse ObterLogs(Guid idusuario)
-            {
-                throw new NotImplementedException();
-            }
-
-            */
-
-        //throw new NotImplementedException();
     }
 }

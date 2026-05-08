@@ -13,6 +13,9 @@ namespace Application.Interfaces
 {
     public interface IGestorUseCase
     {
-        CriarUsuarioResponse CriarUsuario(ConstructorUsuario usuario);  
+        CriarUsuarioResponse CriarUsuario(ConstructorUsuario usuario);
+        CriarAlunoResponse CriarAluno(ConstructorAluno aluno);
+        CriarInstrutorResponse CriarInstrutor(ConstructorInstrutor instrutor);
+        ListarAlunosResponse ListarAlunos(Guid idAcademia);
     }
 }

@@ -7,6 +7,13 @@ namespace Domain.ValueObjects
 {
     public class CREF
     {
-        
+        public string Valor { get; private set; }
+
+        public CREF(string cref)
+        {
+            this.Valor = cref;
+        }
+
+        public override string ToString() => Valor;
     }
 }

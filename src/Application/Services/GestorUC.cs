@@ -40,11 +40,96 @@ namespace Application.Services
                 usuario.Estado,
                 usuario.CEP
             );
-            var idUsuario = _gestorRepository.CriarUsuario(novoUsuario);
-            return new CriarUsuarioResponse(idUsuario, new StatusHTTP("Usuário criado com sucesso", 201, true));
+            var (sucesso, idUsuario) = _gestorRepository.CriarUsuario(novoUsuario);
+            if (!sucesso)
+            {
+                var status = new StatusHTTP("Erro ao criar usuário", 500, false);
+                var response = new CriarUsuarioResponse(Guid.Empty, status);
+                return response;
+            }
+            var status_success = new StatusHTTP("Usuário criado com sucesso", 201, true);
+            var response_success = new CriarUsuarioResponse(idUsuario, status_success);
+            return response_success;
         }
 
-      
+        public CriarAlunoResponse CriarAluno(ConstructorAluno aluno)
+        {
+            var novoAluno = new Aluno(
+                aluno.IdAluno,
+                aluno.IdUsuario,
+                aluno.IdInstrutor,
+                aluno.IdContrato,
+                aluno.Objetivo
+            );
+            var (sucesso, idAluno) = _gestorRepository.CriarAluno(novoAluno);
+            if (!sucesso)
+            {
+                var status = new StatusHTTP("Erro ao criar aluno", 500, false);
+                var response = new CriarAlunoResponse(Guid.Empty, status);
+                return response;
+            }
+            var status_success = new StatusHTTP("Aluno criado com sucesso", 201, true);
+            var response_success = new CriarAlunoResponse(idAluno, status_success);
+            return response_success;
+        }
+
+        public CriarInstrutorResponse CriarInstrutor(ConstructorInstrutor instrutor)
+        {
+            var novoInstrutor = new Instrutor(
+                instrutor.IdInstrutor,
+                instrutor.IdUsuario,
+                instrutor.CREF
+            );
+            var (sucesso, idInstrutor) = _gestorRepository.CriarInstrutor(novoInstrutor);
+            if (!sucesso)
+            {
+                var status = new StatusHTTP("Erro ao criar instrutor", 500, false);
+                var response = new CriarInstrutorResponse(Guid.Empty, status);
+                return response;
+            }
+            var status_success = new StatusHTTP("Instrutor criado com sucesso", 201, true);
+            var response_success = new CriarInstrutorResponse(idInstrutor, status_success);
+            return response_success;
+        }
+
+        public ListarAlunosResponse ListarAlunos(Guid idAcademia)
+        {
+            try
+            {
+                var result = _gestorRepository.ListarAlunos(idAcademia);
+                var alunos = new List<AlunoDTO>();
+                for (int i = 0; i < result.Count; i++)
+                {
+                    var aluno = new AlunoDTO
+                    {
+                        IdAluno = result[i].idAluno,
+                        IdAcademia = result[i].idAcademia,
+                        IdUsuario = result[i].idUsuario,
+                        TipoUsuario = (TipoUsuario)result[i].tipoUsuario,
+                        Objetivo = result[i].objetivo,
+                        Nome = result[i].nome,
+                        Email = result[i].email,
+                        StatusPagamento = "Pago"
+                    };
+                    alunos.Add(aluno);
+                }
+
+                if (alunos == null || alunos.Count == 0)
+                {
+                    var status_empty = new StatusHTTP("Nenhum aluno encontrado", 404, false);
+                    return new ListarAlunosResponse(new List<AlunoDTO>(), status_empty);
+                }
+
+                var status = new StatusHTTP("Alunos listados com sucesso", 200, true);
+                return new ListarAlunosResponse(alunos, status);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
         /*public AtualizarObjetivoResponse AtualizarObjetivo(Guid idusuario, string objetivo)
         {
             var sucesso = _gestorRepository.AtualizarObjetivo(idusuario, objetivo);
@@ -56,30 +141,7 @@ namespace Application.Services
             return new AtualizarObjetivoResponse(status);
         }
 
-        public ListarAlunoResponse ListarAluno(Guid idaluno)
-        {
-            try
-            {
-                var result = _alunoRepository.ListarAluno(idaluno);
-                var aluno = new AlunoDto
-                {
-                    idAluno = result.idAluno,
-                    idAcademia = result.idAcademia,
-                    idUsuario = result.idUsuario,
-                    objetivo = result.objetivo,
-                    nome = result.nome,
-                    email = result.email,
-                    tipoUsuario = (Domain.Enums.TipoUsuario)result.tipoUsuario,
-                    statusPagamento = "Pago"
-                };
-                var status = new StatusHTTP("Aluno encontrado com sucesso", 200, true);
-                return new ListarAlunoResponse(aluno, status);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
+       
 
         public StatusHTTP TrocarSenha(Guid idusaurio, string novasenha)
         {
@@ -90,23 +152,6 @@ namespace Application.Services
             }
             var status = new StatusHTTP("Senha trocada com sucesso", 200, true);
             return status;
-        }
-
-        /*public CriarAlunoResponse CriarAluno(Guid idinstrutor, Guid idusuario, int idcontrato, Guid idacademia, string objetivo)
-        {
-            var idaluno = _alunoRepository.CriarAluno(idinstrutor, idusuario, idcontrato, idacademia, objetivo);
-            return new CriarAlunoResponse(idaluno, new StatusHTTP("Aluno criado com sucesso", 201, true));
-        }
-
-        public VincularInstrutorResponse VincularInstrutor(Guid idaluno, Guid idinstrutor)
-        {
-            var sucesso = _alunoRepository.VincularInstrutor(idaluno, idinstrutor);
-            if (!sucesso)
-            {
-                throw new Exception("Erro ao vincular instrutor");
-            }
-            var status = new StatusHTTP("Instrutor vinculado com sucesso", 200, true);
-            return new VincularInstrutorResponse(status);
         }*/
     }
 }

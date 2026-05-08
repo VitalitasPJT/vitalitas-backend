@@ -194,45 +194,6 @@ namespace Infrastructure.Persistence
             var record = connection.Execute(query, new { Valor = var, IdUsuario = idusuario });
 
             return record;
-        }
-
-        public Guid CriarUsuario(string nome, string email, string senha, string quadra, string rua, string bairro, string cidade, string estado, string cep, DateOnly dataNascimento, string cpf, TipoUsuario tipoUsuario)
-        {
-            using var connection = _connectionFactory.CreateConnection();
-
-            var id = Guid.NewGuid();
-
-            string query = @"INSERT INTO Usuario 
-            (IdUsuario, Nome, Email, Senha, Quadra, Rua, Bairro, Cidade, Estado, Cep, DataNascimento, Cpf, TipoUsuario, Flag) 
-            VALUES 
-            (@IdUsuario, @Nome, @Email, @Senha, @Quadra, @Rua, @Bairro, @Cidade, @Estado, @Cep, @DataNascimento, @Cpf, @TipoUsuario, @Flag);";
-
-            connection.Execute(query, new
-            {
-                IdUsuario = id,
-                Nome = nome,
-                Email = email,
-                Senha = senha,
-                Quadra = quadra,
-                Rua = rua,
-                Bairro = bairro,
-                Cidade = cidade,
-                Estado = estado,
-                Cep = cep,
-                DataNascimento = dataNascimento.ToDateTime(TimeOnly.MinValue),
-                Cpf = cpf,
-                TipoUsuario = (int)tipoUsuario,
-                Flag = true
-            });
-
-            return id;
-        }
-
-        */
-
-
-
-
-
+        } */
     }
 }

@@ -7,11 +7,13 @@ namespace Domain.ValueObjects
 {
     public class CPF
     {
-        private string cpf;
+        public string Valor { get; private set; }
 
         public CPF(string cpf)
         {
-            this.cpf = cpf;
+            this.Valor = cpf;
         }
+
+        public override string ToString() => Valor;
     }
 }

@@ -38,12 +38,30 @@ namespace API.Controllers
             }
         }
 
-        /*[HttpPost]
+        [HttpPost("criar-aluno")]
+        [ApiExplorerSettings(GroupName = "Gestor")]
         public ActionResult<CriarAlunoResponse> CriarAluno([FromBody] CriarAlunoRequest aluno)
         {
             try
             {
-                var response = _alunoUseCase.CriarAluno(aluno.IdInstrutor, aluno.IdUsuario, aluno.IdContrato, aluno.IdAcademia, aluno.Objetivo);
+                var constructorAluno = new ConstructorAluno(aluno.IdUsuario, aluno.IdInstrutor, aluno.IdContrato, aluno.Objetivo);
+                var response = _gestorUseCase.CriarAluno(constructorAluno);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Erro interno do servidor", detalhe = ex.Message, StackTrace = ex.StackTrace });
+            }
+        }
+
+        [HttpPost("criar-instrutor")]
+        [ApiExplorerSettings(GroupName = "Gestor")]
+        public ActionResult<CriarInstrutorResponse> CriarInstrutor([FromBody] CriarInstrutorRequest instrutor)
+        {
+            try
+            {
+                var constructorInstrutor = new ConstructorInstrutor(instrutor.IdUsuario, instrutor.CREF);
+                var response = _gestorUseCase.CriarInstrutor(constructorInstrutor);
                 return Ok(response);
             }
             catch (Exception ex)
@@ -53,17 +71,18 @@ namespace API.Controllers
         }
 
         [HttpGet("listar-alunos")]
+        [ApiExplorerSettings(GroupName = "Gestor")]
         public ActionResult<ListarAlunosResponse> ListarAlunos([FromQuery] ListarAlunosRequest academia)
         {
             try
             {
-                var response = _alunoUseCase.ListarAlunos(academia.IdAcademia);
+                var response = _gestorUseCase.ListarAlunos(academia.IdAcademia);
                 return Ok(response);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, new { message = "Erro interno do servidor", detalhe = ex.Message });
             }
-        }*/
+        }
     }
 }

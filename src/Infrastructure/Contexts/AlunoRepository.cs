@@ -36,24 +36,6 @@ namespace Infrastructure.Persistence
             return rowsAffected > 0;
         }
 
-        /*public Guid CriarAluno(Guid idInstrutor, Guid idUsuario, int idContrato, Guid idAcademia, string objetivo)
-        {
-            using var connection = _connectionFactory.CreateConnection();
-            var query = "INSERT INTO aluno (idAluno, idAcademia, idUsuario, objetivo) VALUES (@IdAluno, @IdAcademia, @IdUsuario, @Objetivo)";
-            var parameters = new
-            {
-                IdAluno = Guid.NewGuid(),
-                //IdInstrutor = idInstrutor,
-                IdContrato = idContrato,
-                IdAcademia = idAcademia,
-                IdUsuario = idUsuario,
-                Objetivo = objetivo
-            };
-
-            connection.Execute(query, parameters);
-            return parameters.IdAluno;
-        }*/
-
         public dynamic ListarAluno(Guid aluno)
         {
             using var connection = _connectionFactory.CreateConnection();

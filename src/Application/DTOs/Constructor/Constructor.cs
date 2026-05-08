@@ -48,5 +48,49 @@ namespace DTOs.Constructor
                 CEP = cep;
             }
         }
+
+        public class ConstructorAluno
+        {
+            public Guid IdAluno { get; private set; }
+            public Guid IdUsuario { get; private set; }
+            public Guid IdInstrutor { get; private set; }
+            public Guid IdContrato { get; private set; }
+            public string Objetivo { get; private set; }
+
+            public ConstructorAluno(Guid idUsuario, Guid idInstrutor, Guid idContrato, string objetivo)
+            {
+                IdAluno = Guid.NewGuid();
+                IdUsuario = idUsuario;
+                IdInstrutor = idInstrutor;
+                IdContrato = idContrato;
+                Objetivo = objetivo;
+            }
+        }  
+
+        public class ConstructorInstrutor
+        {
+            public Guid IdInstrutor { get; private set; }
+            public Guid IdUsuario { get; private set; }
+            public CREF CREF { get; private set; }
+
+            public ConstructorInstrutor(Guid idUsuario, string cref)
+            {
+                IdInstrutor = Guid.NewGuid();
+                IdUsuario = idUsuario;
+                CREF = new CREF(cref);
+            }
+        }
+
+        public class ConstructorFuncionario
+        {
+            public Guid IdUsuario { get; private set; }
+            public Cargo Cargo { get; private set; }
+
+            public ConstructorFuncionario(Guid idUsuario, Cargo cargo)
+            {
+                IdUsuario = idUsuario;
+                Cargo = cargo;
+            }
+        } 
     }
 }

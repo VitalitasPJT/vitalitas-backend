@@ -27,11 +27,16 @@ namespace Application.DTOs.Request
         
         public class CriarAlunoRequest
         {
-            public Guid IdInstrutor { get; set; }
             public Guid IdUsuario { get; set; }
-            public int IdContrato { get; set; }
-            public Guid IdAcademia { get; set; }
+            public Guid IdInstrutor { get; set; }
+            public Guid IdContrato { get; set; }
             public required string Objetivo { get; set; }
+        }
+
+        public class CriarInstrutorRequest
+        {
+            public Guid IdUsuario { get; set; }
+            public string CREF { get; set; }
         }
 
         public class ListarAlunosRequest

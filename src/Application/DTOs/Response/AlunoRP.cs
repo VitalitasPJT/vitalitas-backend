@@ -8,13 +8,13 @@ namespace Application.DTOs
     {
         public class ListarAlunoResponse
         {
-            public ListarAlunoResponse(AlunoDto aluno, StatusHTTP status)
+            public ListarAlunoResponse(AlunoDTO aluno, StatusHTTP status)
             {
                 Aluno = aluno;
                 this.Status = status;
             }
 
-            public AlunoDto Aluno { get; set; }
+            public AlunoDTO Aluno { get; set; }
             public StatusHTTP Status { get; set; }
         }
 
@@ -48,16 +48,6 @@ namespace Application.DTOs
             public StatusHTTP Status { get; set; }
         }
 
-        public class AlunoDto
-        {
-            public Guid idAluno { get; set; }
-            public Guid idAcademia { get; set; }
-            public Guid idUsuario { get; set; }
-            public TipoUsuario tipoUsuario { get; set; }
-            public required string objetivo { get; set; }
-            public required string nome { get; set; }
-            public required string email { get; set; }
-            public required string statusPagamento { get; set; }
-        }
+
     }
 }

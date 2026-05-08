@@ -32,16 +32,16 @@ namespace Application.Services
             try
             {
                 var result = _alunoRepository.ListarAluno(idaluno);
-                var aluno = new AlunoDto
+                var aluno = new AlunoDTO
                 {
-                    idAluno = result.idAluno,
-                    idAcademia = result.idAcademia,
-                    idUsuario = result.idUsuario,
-                    objetivo = result.objetivo,
-                    nome = result.nome,
-                    email = result.email,
-                    tipoUsuario = (Domain.Enums.TipoUsuario)result.tipoUsuario,
-                    statusPagamento = "Pago"
+                    IdAluno = result.idAluno,
+                    IdAcademia = result.idAcademia,
+                    IdUsuario = result.idUsuario,
+                    Objetivo = result.objetivo,
+                    Nome = result.nome,
+                    Email = result.email,
+                    TipoUsuario = (Domain.Enums.TipoUsuario)result.tipoUsuario,
+                    StatusPagamento = "Pago"
                 };
                 var status = new StatusHTTP("Aluno encontrado com sucesso", 200, true);
                 return new ListarAlunoResponse(aluno, status);
