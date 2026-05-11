@@ -17,9 +17,9 @@ namespace Domain.Entities
         public string ProblemaSaude { get; private set; }
         public string UsoMedicamento { get; private set; }
 
-        public FichaMedica(Guid idaluno, string alergia, string restricao, string lesao, string cirurgia, string problemaSaude, string usoMedicamento)
+        public FichaMedica(Guid idficha, Guid idaluno, string alergia, string restricao, string lesao, string cirurgia, string problemaSaude, string usoMedicamento)
         {
-            IdFicha = Guid.NewGuid();
+            IdFicha = idficha;
             IdAluno = idaluno;
             Alergia = alergia;
             Restricao = restricao;

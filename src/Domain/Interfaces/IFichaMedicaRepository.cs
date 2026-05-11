@@ -9,7 +9,7 @@ namespace Domain.Interfaces
 {
     public interface IFichaMedicaRepository
     {
-        Guid CriarFichaMedica(Guid idAluno, string alergia, string restricao, string lesao, string cirurgia, string problemaSaude, string usoMedicamento);
+        (bool, Guid) CriarFichaMedica(FichaMedica fichaMedica);
         dynamic AtualizarFichaMedica(FichaMedica novaFichaMedica);
         FichaMedica ListarFichaMedica(Guid idAluno);
     }

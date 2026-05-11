@@ -20,6 +20,8 @@ builder.Services.AddSingleton(new Application.Settings.RefreshTokenSettings(
     int.Parse(builder.Configuration["Jwt:RefreshTokenDurationInDays"] ?? "7")));
 builder.Services.AddScoped<Domain.Interfaces.IRefreshTokenRepository, Infrastructure.Persistence.RefreshTokenRepository>();
 builder.Services.AddScoped<Application.Interfaces.IRefreshTokenUseCase, Application.Services.RefreshTokenUC>();
+builder.Services.AddScoped<Domain.Interfaces.IFichaMedicaRepository, Infrastructure.Contexts.FichaMedicaRepository>();
+builder.Services.AddScoped<Application.Interfaces.IFichaMedicaUseCase, Application.Services.FichaMedicaUC>();
 
 
 /*builder.Services.AddDbContext<Contexto>(options =>

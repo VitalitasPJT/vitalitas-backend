@@ -41,7 +41,7 @@ namespace Application.DTOs.Request
 
         public class ListarAlunosRequest
         {
-            public Guid IdAcademia { get; set; }
+            public required Guid IdAcademia { get; set; }
         }
     }
 }
