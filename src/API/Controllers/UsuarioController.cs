@@ -108,9 +108,13 @@ namespace API.Controllers
         }
 
         [HttpPost("adicionar-log")]
-        [AllowAnonymous]
+        [Authorize]
         public ActionResult<AdicionarLogResponse> AdicionarLog([FromBody] AdicionarLogRequest request)
         {
+            var jwtId = User.FindFirst("IdUsuario")?.Value;
+            if (request.IdUsuario.ToString() != jwtId)
+                return Forbid();
+
             try
             {
                 var response = _usuarioUseCase.AdicionarLog(request.IdUsuario, request.Acao, request.DispositivoLogado, request.Localizacao);
@@ -123,9 +127,17 @@ namespace API.Controllers
         }
 
         [HttpGet("obter-tipo-usuario/{id}")]
-        [AllowAnonymous]
+        [Authorize]
         public ActionResult<ObterTipoUsuarioResponse> ObterTipoUsuario([FromRoute] Guid id)
         {
+            var role = User.FindFirst("Role")?.Value;
+            if (role != "Gestor" && role != "Administrador")
+            {
+                var jwtId = User.FindFirst("IdUsuario")?.Value;
+                if (id.ToString() != jwtId)
+                    return Forbid();
+            }
+
             try
             {
                 var response = _usuarioUseCase.ObterTipoUsuario(id);

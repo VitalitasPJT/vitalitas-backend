@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Vitalitas.Backend.API.Services.JwtService;
 using static Application.DTOs.AlunoRQ;
@@ -13,6 +14,7 @@ namespace API.Controllers
 {
     [ApiController]
     [Route("gestor")]
+    [Authorize(Roles = "Gestor,Administrador")]
     public class GestorController : ControllerBase
     {
         private readonly IGestorUseCase _gestorUseCase;

@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using static Application.DTOs.Request.FichaMedicaRQ;
@@ -14,6 +15,7 @@ namespace API.Controllers
 {
     [ApiController]
     [Route("ficha-medica")]
+    [Authorize(Roles = "Gestor,Administrador")]
     public class FichaMedicaController : Controller
     {
         private readonly IFichaMedicaUseCase _fichaMedicaUseCase;

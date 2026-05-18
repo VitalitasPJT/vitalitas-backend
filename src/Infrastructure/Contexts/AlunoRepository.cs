@@ -125,5 +125,12 @@ namespace Infrastructure.Persistence
 
             return rowsAffected > 0;
         }
+
+        public Guid? ObterIdUsuarioPorAluno(Guid idAluno)
+        {
+            using var connection = _connectionFactory.CreateConnection();
+            var query = "SELECT idUsuario FROM aluno WHERE idAluno = @IdAluno";
+            return connection.QueryFirstOrDefault<Guid?>(query, new { IdAluno = idAluno });
+        }
     }
 }

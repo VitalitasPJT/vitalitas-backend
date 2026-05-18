@@ -16,5 +16,6 @@ namespace Application.Interfaces
 
         AtualizarObjetivoResponse AtualizarObjetivo(Guid idusuario, string objetivo);
         StatusHTTP TrocarSenha(Guid idusuario, string novaSenha);
+        Guid? ObterIdUsuarioPorAluno(Guid idAluno);
     }
 }

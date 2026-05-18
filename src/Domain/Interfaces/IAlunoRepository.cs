@@ -13,5 +13,6 @@ namespace Domain.Interfaces
         bool VincularInstrutor(Guid idAluno, Guid idInstrutor);
         bool AtualizarObjetivo(Guid idAluno, string novoObjetivo);
         bool TrocarSenha(Guid idUsuario, string novaSenha);
+        Guid? ObterIdUsuarioPorAluno(Guid idAluno);
     }
 }

@@ -82,5 +82,8 @@ namespace Application.Services
             var status = new StatusHTTP("Instrutor vinculado com sucesso", 200, true);
             return new VincularInstrutorResponse(status);
         }
+
+        public Guid? ObterIdUsuarioPorAluno(Guid idAluno)
+            => _alunoRepository.ObterIdUsuarioPorAluno(idAluno);
     }
 }

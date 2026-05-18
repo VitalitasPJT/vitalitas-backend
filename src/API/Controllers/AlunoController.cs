@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using Vitalitas.Backend.API.Services.JwtService;
 using static Application.DTOs.AlunoRQ;
 using static Application.DTOs.AlunoRP;
@@ -47,14 +49,23 @@ namespace API.Controllers
         }*/
 
         [HttpGet("listar-aluno")]
+        [Authorize]
         public ActionResult<ListarAlunoResponse> ListarAluno([FromQuery] ListarAlunoRequest aluno)
         {
+            if (aluno.IdAluno == null)
+                return BadRequest(new { message = "ID do aluno inválido. Certifique-se de fornecer um GUID válido." });
+
+            var role = User.FindFirst("Role")?.Value;
+            if (role == "Aluno")
+            {
+                var jwtId = User.FindFirst("IdUsuario")?.Value;
+                var donoId = _alunoUseCase.ObterIdUsuarioPorAluno(aluno.IdAluno);
+                if (donoId?.ToString() != jwtId)
+                    return Forbid();
+            }
+
             try
             {
-                if (aluno.IdAluno == null)
-                {
-                    return BadRequest(new { message = "ID do aluno inválido. Certifique-se de fornecer um GUID válido." });
-                }
                 var response = _alunoUseCase.ListarAluno(aluno.IdAluno);
                 return Ok(response);
             }
@@ -65,9 +76,14 @@ namespace API.Controllers
         }
 
         [HttpPut("trocar-senha")]
+        [Authorize(Roles = "Aluno")]
         [ApiExplorerSettings(GroupName = "Aluno")]
         public ActionResult<TrocarSenhaResponse> TrocarSenha([FromBody] TrocarSenhaRequest reset)
         {
+            var jwtId = User.FindFirst("IdUsuario")?.Value;
+            if (reset.IdUsuario.ToString() != jwtId)
+                return Forbid();
+
             try
             {
                 var response = _alunoUseCase.TrocarSenha(reset.IdUsuario, reset.NovaSenha);
@@ -82,6 +98,7 @@ namespace API.Controllers
         }
 
         [HttpPut("vincular-instrutor")]
+        [Authorize(Roles = "Gestor,Administrador")]
         [ApiExplorerSettings(GroupName = "Aluno")]
         public ActionResult<VincularInstrutorResponse> VincularInstrutor([FromBody] VincularInstrutorRequest request)
         {
@@ -101,9 +118,19 @@ namespace API.Controllers
         }
 
         [HttpPut("atualizar-objetivo")]
+        [Authorize(Roles = "Aluno,Gestor,Administrador")]
         [ApiExplorerSettings(GroupName = "Aluno")]
         public ActionResult<AtualizarObjetivoResponse> AtualizarObjetivo([FromBody] AtualizarObjetivoRequest objetivo)
         {
+            var role = User.FindFirst("Role")?.Value;
+            if (role == "Aluno")
+            {
+                var jwtId = User.FindFirst("IdUsuario")?.Value;
+                var donoId = _alunoUseCase.ObterIdUsuarioPorAluno(objetivo.IdAluno);
+                if (donoId?.ToString() != jwtId)
+                    return Forbid();
+            }
+
             try
             {
                 var response = _alunoUseCase.AtualizarObjetivo(objetivo.IdAluno, objetivo.NovoObjetivo);
