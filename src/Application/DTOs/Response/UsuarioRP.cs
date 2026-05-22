@@ -11,14 +11,16 @@ namespace Application.DTOs
         {
             public TipoUsuario TipoUsuario { get; set; }
             public Guid IdUsuario { get; set; }
+            public Guid IdAcademia { get; set; }
             public bool Flag { get; set; }
             public string? Token { get; set; }
             public string? RefreshToken { get; set; }
             public StatusHTTP Status { get; set; }
-            public LoginResponse(TipoUsuario tipoUsuario, Guid idUsuario, bool flag, StatusHTTP status)
+            public LoginResponse(TipoUsuario tipoUsuario, Guid idUsuario, Guid idAcademia, bool flag, StatusHTTP status)
             {
                 this.TipoUsuario = tipoUsuario;
                 this.IdUsuario = idUsuario;
+                this.IdAcademia = idAcademia;
                 this.Flag = flag;
                 this.Status = status;
                 this.Token = null;

@@ -54,7 +54,7 @@ namespace Application.Services
             ));
 
             var status = new StatusHTTP("Login realizado com sucesso", 200, true);
-            var response = new LoginResponse(usuario.TipoUsuario, usuario.IdUsuario, usuario.Flag, status);
+            var response = new LoginResponse(usuario.TipoUsuario, usuario.IdUsuario, usuario.IdAcademia, usuario.Flag, status);
             response.Token = accessToken;
             response.RefreshToken = rawRefreshToken;
             return response;
