@@ -72,13 +72,44 @@ namespace API.Controllers
             }
         }
 
-        [HttpGet("listar-alunos")]
+        [HttpGet("listar-alunos/{idAcademia}")]
         [ApiExplorerSettings(GroupName = "Gestor")]
-        public ActionResult<ListarAlunosResponse> ListarAlunos([FromQuery] ListarAlunosRequest academia)
+        public ActionResult<ListarAlunosResponse> ListarAlunos([FromRoute] Guid idAcademia)
         {
             try
             {
-                var response = _gestorUseCase.ListarAlunos(academia.IdAcademia);
+                var response = _gestorUseCase.ListarAlunos(idAcademia);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Erro interno do servidor", detalhe = ex.Message });
+            }
+        }
+
+        [HttpGet("listar-usuarios/{idAcademia}")]
+        [ApiExplorerSettings(GroupName = "Gestor")]
+        public ActionResult<ListarUsuariosResponse> ListarUsuarios([FromRoute] Guid idAcademia)
+        {
+            try
+            {
+                var response = _gestorUseCase.ListarUsuarios(idAcademia);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Erro interno do servidor", detalhe = ex.Message });
+            }
+        }
+
+
+        [HttpGet("listar-usuario/{idUsuario}")]
+        [ApiExplorerSettings(GroupName = "Gestor")]
+        public ActionResult<ListarUsuariosResponse> ListarUsuario([FromRoute] Guid idUsuario)
+        {
+            try
+            {
+                var response = _gestorUseCase.ListarUsuario(idUsuario);
                 return Ok(response);
             }
             catch (Exception ex)

@@ -92,6 +92,34 @@ namespace Application.Services
             return response_success;
         }
 
+        public CriarFuncionarioResponse CriarFuncionario(ConstructorFuncionario funcionario)
+        {
+            var (sucesso, idFuncionario) = _gestorRepository.CriarFuncionario(funcionario.IdUsuario, funcionario.Cargo);
+            if (!sucesso)
+            {
+                var status = new StatusHTTP("Erro ao criar funcionário", 500, false);
+                var response = new CriarFuncionarioResponse(Guid.Empty, status);
+                return response;
+            }
+            var status_success = new StatusHTTP("Funcionário criado com sucesso", 201, true);
+            var response_success = new CriarFuncionarioResponse(idFuncionario, status_success);
+            return response_success;
+        }
+
+        public CriarGestorResponse CriarGestor(ConstructorGestor gestor)
+        {
+            var (sucesso, idGestor) = _gestorRepository.CriarGestor(gestor.IdUsuario);
+            if (!sucesso)
+            {
+                var status = new StatusHTTP("Erro ao criar gestor", 500, false);
+                var response = new CriarGestorResponse(Guid.Empty, status);
+                return response;
+            }
+            var status_success = new StatusHTTP("Gestor criado com sucesso", 201, true);
+            var response_success = new CriarGestorResponse(idGestor, status_success);
+            return response_success;
+        }
+
         public ListarAlunosResponse ListarAlunos(Guid idAcademia)
         {
             try
@@ -122,6 +150,166 @@ namespace Application.Services
 
                 var status = new StatusHTTP("Alunos listados com sucesso", 200, true);
                 return new ListarAlunosResponse(alunos, status);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public ListarUsuariosResponse ListarUsuarios(Guid idAcademia)
+        {
+            try
+            {
+                var result = _gestorRepository.ListarUsuarios(idAcademia);
+                var usuarios = new List<UsuarioDTO>();
+                for (int i = 0; i < result.Count; i++)
+                {
+                    var usuario = new UsuarioDTO
+                    {
+                        IdUsuario = result[i].idUsuario,
+                        IdAcademia = result[i].idAcademia,
+                        Nome = result[i].nome,
+                        Email = result[i].email,
+                        TipoUsuario = (TipoUsuario)result[i].tipoUsuario,
+                        Ativo = result[i].ativo
+                    };
+                    usuarios.Add(usuario);
+                }
+
+                if (usuarios == null || usuarios.Count == 0)
+                {
+                    var status_empty = new StatusHTTP("Nenhum usuário encontrado", 404, false);
+                    return new ListarUsuariosResponse(new List<UsuarioDTO>(), status_empty);
+                }
+
+                var status = new StatusHTTP("Usuários listados com sucesso", 200, true);
+                return new ListarUsuariosResponse(usuarios, status);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public ObterGestorResponse ObterGestor(Guid idUsuario)
+        {
+            try
+            {
+                var result = _gestorRepository.ObterGestor(idUsuario);
+                var gestor = new GestorDTO
+                {
+                    IdUsuario = result.idUsuario,
+                    IdGestor = result.idGestor,
+                    IdAcademia = result.idAcademia,
+                    Nome = result.nome,
+                    Email = result.email,
+                    CPF = result.CPF
+                };
+
+                if (gestor == null)
+                {
+                    var status_empty = new StatusHTTP("Nenhum gestor encontrado", 404, false);
+                    return new ObterGestorResponse(null, status_empty);
+                }
+
+                var status = new StatusHTTP("Gestor obtido com sucesso", 200, true);
+                return new ObterGestorResponse(gestor, status);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public ListarUsuarioResponse ListarUsuario(Guid idUsuario)
+        {
+            try
+            {
+                var (result, tipoUsuario) = _gestorRepository.ListarUsuario(idUsuario);
+                if (result == null)
+                {
+                    var status_empty = new StatusHTTP("Nenhum usuário encontrado", 404, false);
+                    return new ListarUsuarioResponse(null!, status_empty);
+                }
+                dynamic? usuario = null;
+                switch (tipoUsuario)
+                {
+                    case 1:
+                        usuario = new 
+                        {
+                            IdUsuario = result.idUsuario,
+                            IdAcademia = result.idAcademia,
+                            Nome = result.nome,
+                            Email = result.email,
+                            TipoUsuario = (TipoUsuario)result.tipoUsuario,
+                            Ativo = result.ativo,
+                            Quadra = result.quadra,
+                            Rua = result.rua,
+                            Bairro = result.bairro,
+                            Cidade = result.cidade,
+                            Estado = result.estado,
+                            CEP = result.cep,
+                            Objetivo = result.objetivo
+                        };
+                        break;
+                    case 2:
+                        usuario = new 
+                        {
+                            IdUsuario = result.idUsuario,
+                            IdAcademia = result.idAcademia,
+                            Nome = result.nome,
+                            Email = result.email,
+                            TipoUsuario = (TipoUsuario)result.tipoUsuario,
+                            Ativo = result.ativo,
+                            Quadra = result.quadra,
+                            Rua = result.rua,
+                            Bairro = result.bairro,
+                            Cidade = result.cidade,
+                            Estado = result.estado,
+                            CEP = result.cep,
+                            CREF = result.cref
+                        };
+                        break;
+                    case 3:
+                        usuario = new 
+                        {
+                            IdUsuario = result.idUsuario,
+                            IdAcademia = result.idAcademia,
+                            Nome = result.nome,
+                            Email = result.email,
+                            TipoUsuario = (TipoUsuario)result.tipoUsuario,
+                            Ativo = result.ativo,
+                            Quadra = result.quadra,
+                            Rua = result.rua,
+                            Bairro = result.bairro,
+                            Cidade = result.cidade,
+                            Estado = result.estado,
+                            CEP = result.cep,
+                            Cargo = result.cargo
+                        };
+                        break;
+                    case 4:
+                        usuario = new 
+                        {
+                            IdUsuario = result.idUsuario,
+                            IdAcademia = result.idAcademia,
+                            Nome = result.nome,
+                            Email = result.email,
+                            TipoUsuario = (TipoUsuario)result.tipoUsuario,
+                            Ativo = result.ativo,
+                            Quadra = result.quadra,
+                            Rua = result.rua,
+                            Bairro = result.bairro,
+                            Cidade = result.cidade,
+                            Estado = result.estado,
+                            CEP = result.cep
+                        };
+                        break;
+                }
+
+                var status = new StatusHTTP("Usuário obtido com sucesso", 200, true);
+                return new ListarUsuarioResponse(usuario, status);
             }
             catch (Exception ex)
             {

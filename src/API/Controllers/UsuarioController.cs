@@ -106,25 +106,6 @@ namespace API.Controllers
             }
         }
 
-        [HttpPost("adicionar-log")]
-        [Authorize]
-        public ActionResult<AdicionarLogResponse> AdicionarLog([FromBody] AdicionarLogRequest request)
-        {
-            var jwtId = User.FindFirst("IdUsuario")?.Value;
-            if (request.IdUsuario.ToString() != jwtId)
-                return Forbid();
-
-            try
-            {
-                var response = _usuarioUseCase.AdicionarLog(request.IdUsuario, request.Acao, request.DispositivoLogado, request.Localizacao);
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = "Erro interno do servidor", detalhe = ex.Message });
-            }
-        }
-
         [HttpGet("obter-tipo-usuario/{id}")]
         [Authorize]
         public ActionResult<ObterTipoUsuarioResponse> ObterTipoUsuario([FromRoute] Guid id)
@@ -148,22 +129,8 @@ namespace API.Controllers
             }
         }
 
-        /*[HttpPost]
-        [ApiExplorerSettings(GroupName = "Administrativo")]
-        public ActionResult<CriarUsuarioResponse> CriarUsuario(CriarUsuarioRequest user)
-        {
-            try
-            {
-                var response = _usuarioUseCase.CriarUsuario(user.Nome, user.Email, user.Senha, user.Quadra, user.Rua, user.Bairro, user.Cidade, user.Estado, user.Cep, user.DataNascimento, user.Cpf, user.TipoUsuario);
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = "Erro interno do servidor", detalhe = ex.Message, StackTrace = ex.StackTrace });
-            }
-        }
 
-        [HttpPut("atualizar-dados")]
+        /*[HttpPut("atualizar-dados")]
         public ActionResult<AtualizarDadosResponse> AtualizarDados([FromBody] AtualizarDadosRequest request)
         {
             try

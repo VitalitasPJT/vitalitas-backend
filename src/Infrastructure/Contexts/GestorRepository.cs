@@ -17,97 +17,6 @@ namespace Infrastructure.Contexts
         {
             _connectionFactory = connectionFactory;
         }
-        public dynamic Ativar(Guid idUsuario)
-        {
-            throw new NotImplementedException();
-        }
-
-        public dynamic AtualizarFilho(Guid id, dynamic var, string atributo, TipoUsuario tipoUsuario)
-        {
-            throw new NotImplementedException();
-        }
-
-        public dynamic AtualizarUsuario(Guid idusuario, dynamic var, string atributo)
-        {
-            throw new NotImplementedException();
-        }
-
-        public (bool, Guid) CriarAluno(Aluno aluno)
-        {
-            using var connection = _connectionFactory.CreateConnection();
-            string query = @"INSERT INTO Aluno (idAluno, idInstrutor, idUsuario, idContrato, objetivo)
-                            VALUES (@IdAluno, @IdInstrutor, @IdUsuario, @IdContrato, @Objetivo)";
-            var parameters = new
-            {
-                aluno.IdAluno,
-                aluno.IdInstrutor,
-                aluno.IdUsuario,
-                aluno.IdContrato,
-                aluno.Objetivo
-            };
-            int rowsAffected = connection.Execute(query, parameters);
-            if (rowsAffected > 0)
-            {
-                return (true, aluno.IdAluno);
-            }
-            return (false, Guid.Empty);
-        }
-
-        public (bool, Guid) CriarFuncionario(Guid idUsuario, Cargo cargo)
-        {
-            using var connection = _connectionFactory.CreateConnection();
-            string query = @"INSERT INTO Funcionario (idFuncionario, idUsuario, cargo)
-                            VALUES (@IdFuncionario, @IdUsuario, @Cargo)";
-            var parameters = new
-            {
-                IdFuncionario = Guid.NewGuid(),
-                IdUsuario = idUsuario,
-                Cargo = cargo.ToString()
-            };
-            int rowsAffected = connection.Execute(query, parameters);
-            if (rowsAffected > 0)
-            {
-                return (true, parameters.IdFuncionario);
-            }
-            return (false, Guid.Empty);
-        }
-
-        public dynamic CriarGestor(Guid idUsuario)
-        {
-            using var connection = _connectionFactory.CreateConnection();
-            string query = @"INSERT INTO Gestor (idGestor, idUsuario)
-                            VALUES (@IdGestor, @IdUsuario)";
-            var parameters = new
-            {
-                IdGestor = Guid.NewGuid(),
-                IdUsuario = idUsuario
-            };
-            int rowsAffected = connection.Execute(query, parameters);
-            if (rowsAffected > 0)
-            {
-                return new { Success = true, IdGestor = parameters.IdGestor };
-            }
-            return new { Success = false, IdGestor = Guid.Empty };
-        }
-
-        public (bool, Guid) CriarInstrutor(Instrutor instrutor)
-        {
-            using var connection = _connectionFactory.CreateConnection();
-            string query = @"INSERT INTO Instrutor (idInstrutor, idUsuario, cref)
-                            VALUES (@IdInstrutor, @IdUsuario, @CREF)";
-            var parameters = new
-            {
-                instrutor.IdInstrutor,
-                instrutor.IdUsuario,
-                CREF = instrutor.CREF.Valor
-            };
-            int rowsAffected = connection.Execute(query, parameters);
-            if (rowsAffected > 0)
-            {
-                return (true, instrutor.IdInstrutor);
-            }
-            return (false, Guid.Empty);
-        }
 
         public (bool, Guid) CriarUsuario(Usuario usuario)
         {
@@ -143,9 +52,81 @@ namespace Infrastructure.Contexts
             return (false, Guid.Empty);
         }
 
-        public dynamic Desativar(Guid idUsuario)
+        public (bool, Guid) CriarAluno(Aluno aluno)
         {
-            throw new NotImplementedException();
+            using var connection = _connectionFactory.CreateConnection();
+            string query = @"INSERT INTO Aluno (idAluno, idInstrutor, idUsuario, idContrato, objetivo)
+                            VALUES (@IdAluno, @IdInstrutor, @IdUsuario, @IdContrato, @Objetivo)";
+            var parameters = new
+            {
+                aluno.IdAluno,
+                aluno.IdInstrutor,
+                aluno.IdUsuario,
+                aluno.IdContrato,
+                aluno.Objetivo
+            };
+            int rowsAffected = connection.Execute(query, parameters);
+            if (rowsAffected > 0)
+            {
+                return (true, aluno.IdAluno);
+            }
+            return (false, Guid.Empty);
+        }
+
+        public (bool, Guid) CriarInstrutor(Instrutor instrutor)
+        {
+            using var connection = _connectionFactory.CreateConnection();
+            string query = @"INSERT INTO Instrutor (idInstrutor, idUsuario, cref)
+                            VALUES (@IdInstrutor, @IdUsuario, @CREF)";
+            var parameters = new
+            {
+                instrutor.IdInstrutor,
+                instrutor.IdUsuario,
+                CREF = instrutor.CREF.Valor
+            };
+            int rowsAffected = connection.Execute(query, parameters);
+            if (rowsAffected > 0)
+            {
+                return (true, instrutor.IdInstrutor);
+            }
+            return (false, Guid.Empty);
+        }
+
+        public (bool, Guid) CriarFuncionario(Guid idUsuario, Cargo cargo)
+        {
+            using var connection = _connectionFactory.CreateConnection();
+            string query = @"INSERT INTO Funcionario (idFuncionario, idUsuario, cargo)
+                            VALUES (@IdFuncionario, @IdUsuario, @Cargo)";
+            var parameters = new
+            {
+                IdFuncionario = Guid.NewGuid(),
+                IdUsuario = idUsuario,
+                Cargo = cargo.ToString()
+            };
+            int rowsAffected = connection.Execute(query, parameters);
+            if (rowsAffected > 0)
+            {
+                return (true, parameters.IdFuncionario);
+            }
+            return (false, Guid.Empty);
+        }
+
+        public (bool, Guid) CriarGestor(Guid idUsuario)
+        {
+            using var connection = _connectionFactory.CreateConnection();
+            string query = @"INSERT INTO Gestor (idGestor, idUsuario)
+                            VALUES (@IdGestor, @IdUsuario)";
+            var parameters = new
+            {
+                IdGestor = Guid.NewGuid(),
+                IdUsuario = idUsuario
+            };
+            int rowsAffected = connection.Execute(query, parameters);
+            if (rowsAffected > 0)
+            {
+                return (true, parameters.IdGestor);
+            }
+            return (false, Guid.Empty);
         }
 
         public List<dynamic> ListarAlunos(Guid idAcademia)
@@ -159,12 +140,115 @@ namespace Infrastructure.Contexts
             return alunos;
         }
 
-        public Usuario ListarUsuario(Guid idusuario)
+        public List<dynamic> ListarUsuarios(Guid idAcademia)
+        {
+            using var connection = _connectionFactory.CreateConnection();
+            string query = @"SELECT idUsuario, idAcademia, nome, email, tipoUsuario, ativo
+                            FROM Usuario
+                            WHERE idAcademia = @IdAcademia";
+            var usuarios = connection.Query<dynamic>(query, new { IdAcademia = idAcademia }).ToList();
+            return usuarios;
+        }
+
+         public dynamic ObterGestor(Guid idGestor)
+        {
+            using var connection = _connectionFactory.CreateConnection();
+            string query = @"SELECT idUsuario, idGestor, idAcademia, nome, email, CPF           
+                            FROM Usuario u
+                            JOIN Gestor g ON u.idUsuario = g.idUsuario
+                            WHERE g.idGestor = @IdGestor";
+            var result = connection.QueryFirstOrDefault<dynamic>(query, new { IdGestor = idGestor });
+            if (result != null)
+            {
+                return result;
+            }
+            throw new Exception("Gestor não encontrado");
+        }
+
+        public (dynamic, int) ListarUsuario(Guid idusuario)
+        {
+            using var connection = _connectionFactory.CreateConnection();
+            string query = @"SELECT idUsuario, idAcademia, nome, email, dataNascimento, CPF, tipoUsuario, ativo, quadra, rua, bairro, cidade, estado, cep
+                            FROM Usuario
+                            WHERE idUsuario = @IdUsuario";
+        
+            var result = connection.QueryFirstOrDefault<dynamic>(query, new { IdUsuario = idusuario });
+            if (result == null)
+            {
+                throw new Exception("Usuário não encontrado");
+            }
+
+            int tipoUsuario = result.tipoUsuario;
+            switch (tipoUsuario)
+            {
+                case 1:
+                    string queryAluno = @"SELECT idAluno, idInstrutor, idContrato, objetivo
+                                        FROM Aluno
+                                        WHERE idUsuario = @IdUsuario";
+                    var aluno = connection.QueryFirstOrDefault<dynamic>(queryAluno, new { IdUsuario = idusuario });
+                    if (aluno != null)
+                    {
+                        result.idAluno = aluno.idAluno;
+                        result.idInstrutor = aluno.idInstrutor;
+                        result.idContrato = aluno.idContrato;
+                        result.objetivo = aluno.objetivo;
+                    }
+                    
+                    break;
+                case 2:
+                    string queryInstrutor = @"SELECT idInstrutor, cref
+                                            FROM Instrutor
+                                            WHERE idUsuario = @IdUsuario";
+                    var instrutor = connection.QueryFirstOrDefault<dynamic>(queryInstrutor, new { IdUsuario = idusuario });
+                    if (instrutor != null)
+                    {
+                        result.idInstrutor = instrutor.idInstrutor;
+                        result.cref = instrutor.cref;
+                    }
+                    break;
+                case 3:
+                    string queryFuncionario = @"SELECT idFuncionario, cargo
+                                            FROM Funcionario
+                                            WHERE idUsuario = @IdUsuario";
+                    var funcionario = connection.QueryFirstOrDefault<dynamic>(queryFuncionario, new { IdUsuario = idusuario });
+                    if (funcionario != null)
+                    {
+                        result.idFuncionario = funcionario.idFuncionario;
+                        result.cargo = funcionario.cargo;
+                    }
+                    break;
+                case 4:
+                    string queryGestor = @"SELECT idGestor
+                                            FROM Gestor
+                                            WHERE idUsuario = @IdUsuario";
+                    var gestor = connection.QueryFirstOrDefault<dynamic>(queryGestor, new { IdUsuario = idusuario });
+                    if (gestor != null)
+                    {
+                        result.idGestor = gestor.idGestor;
+                    }
+                    break;
+                default:
+                    throw new Exception("Tipo de usuário inválido");
+            }
+            return (result, tipoUsuario);
+        }
+
+        public dynamic Ativar(Guid idUsuario)
         {
             throw new NotImplementedException();
         }
 
-        public List<Usuario> ListarUsuarios(Guid idAcademia)
+        public dynamic AtualizarFilho(Guid id, dynamic var, string atributo, TipoUsuario tipoUsuario)
+        {
+            throw new NotImplementedException();
+        }
+
+        public dynamic AtualizarUsuario(Guid idusuario, dynamic var, string atributo)
+        {
+            throw new NotImplementedException();
+        }
+
+        public dynamic Desativar(Guid idUsuario)
         {
             throw new NotImplementedException();
         }
@@ -174,9 +258,5 @@ namespace Infrastructure.Contexts
             throw new NotImplementedException();
         }
 
-        public dynamic ObterGestor(Guid idGestor)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

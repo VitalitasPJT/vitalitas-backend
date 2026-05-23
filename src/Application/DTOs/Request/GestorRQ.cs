@@ -39,9 +39,31 @@ namespace Application.DTOs.Request
             public string CREF { get; set; }
         }
 
-        public class ListarAlunosRequest
+        public class CriarFuncionarioRequest
+        {
+            public Guid IdUsuario { get; set; }
+            public string Cargo { get; set; }
+        }
+
+        public class CriarGestorRequest
+        {
+            public Guid IdUsuario { get; set; }
+        }
+
+        public class ObterGestorRequest
+        {
+            public Guid IdGestor { get; set; }
+        }
+
+
+        public class ListarAlunosEUsuariosRequest
         {
             public required Guid IdAcademia { get; set; }
+        }
+
+        public class ListarUsuarioRequest
+        {
+            public required Guid IdUsuario { get; set; }
         }
     }
 }

@@ -41,6 +41,9 @@ usuario as u
 join instrutor as i on u.idUsuario = i.idUsuario
 WHERE i.idInstrutor = '590cfc8e-8dcd-4e03-9339-41525f9e94a3'
 
+SELECT email, senha FROM usuario
+WHERE tipoUsuario = 3;
+
 
 SELECT * FROM usuario
 WHERE idAcademia = 'aaaa2222-aaaa-2222-aaaa-222222222222'

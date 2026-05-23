@@ -52,7 +52,7 @@ namespace API.Controllers
         [Authorize]
         public ActionResult<ListarAlunoResponse> ListarAluno([FromQuery] ListarAlunoRequest aluno)
         {
-            if (aluno.IdAluno == null)
+            if (aluno.IdAluno == Guid.Empty)
                 return BadRequest(new { message = "ID do aluno inválido. Certifique-se de fornecer um GUID válido." });
 
             var role = User.FindFirst("Role")?.Value;

@@ -16,6 +16,11 @@ namespace Application.Interfaces
         CriarUsuarioResponse CriarUsuario(ConstructorUsuario usuario);
         CriarAlunoResponse CriarAluno(ConstructorAluno aluno);
         CriarInstrutorResponse CriarInstrutor(ConstructorInstrutor instrutor);
+        CriarFuncionarioResponse CriarFuncionario(ConstructorFuncionario funcionario);
+        CriarGestorResponse CriarGestor(ConstructorGestor gestor);
         ListarAlunosResponse ListarAlunos(Guid idAcademia);
+        ListarUsuariosResponse ListarUsuarios(Guid idAcademia);
+        ObterGestorResponse ObterGestor(Guid idUsuario);
+        ListarUsuarioResponse ListarUsuario(Guid idUsuario);
     }
 }
