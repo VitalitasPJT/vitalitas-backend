@@ -39,7 +39,6 @@ namespace API.Controllers
                 Role = role
             });
         }
-
         [HttpGet("test-admin")]
         [Authorize(Roles = "Administrador")]
         [ApiExplorerSettings(GroupName = "Administrativo")]

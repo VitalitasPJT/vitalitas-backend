@@ -113,6 +113,16 @@ namespace Infrastructure.Persistence
             return (TipoUsuario)tipoUsuario.Value;
         }
 
+        public Guid GetIdAcademia(Guid idUsuario) {
+            using var connection = _connectionFactory.CreateConnection();
+            string query = "SELECT IdAcademia FROM Usuario WHERE IdUsuario = @IdUsuario";
+            var idAcademia = connection.QueryFirstOrDefault<Guid?>(query, new { IdUsuario = idUsuario });
+
+            if (idAcademia == null)
+                throw new Exception($"Academia não encontrada para o usuário {idUsuario}");
+            return idAcademia.Value;
+        }
+
         internal record UsuarioDto
         (
             Guid IdUsuario,

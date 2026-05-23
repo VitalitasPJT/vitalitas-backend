@@ -14,5 +14,6 @@ namespace Domain.Interfaces
         LogAtividade RegistrarAcao(Guid idUsuario, int acao, string dispositivoLogado, string localizacao);
         TipoUsuario? GetTipoUsuario(Guid idUsuario);
         bool TrocarSenha(Guid idusuario, string novasenha);
+        Guid GetIdAcademia(Guid idUsuario);
     }
 }
