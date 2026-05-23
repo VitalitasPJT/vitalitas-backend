@@ -19,6 +19,9 @@ FROM [VITALITAS_DEV].[dbo].[instrutor]
 SELECT *
 FROM [VITALITAS_DEV].[dbo].[gestor]
 
+SELECT *
+FROM [VITALITAS_DEV].[dbo].[fichaMedica]
+
 ----
 SELECT *
 FROM [VITALITAS_DEV].[dbo].[usuario]
