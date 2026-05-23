@@ -14,16 +14,16 @@ namespace Domain.Interfaces
         (bool, Guid) CriarUsuario(Usuario usuario);
         (bool, Guid) CriarAluno(Aluno aluno);
         (bool, Guid) CriarInstrutor(Instrutor instrutor);
+        (bool, Guid) CriarFuncionario(Guid idUsuario, Cargo cargo);
         List<dynamic> ListarAlunos(Guid idAcademia);
+        List<Usuario> ListarUsuarios(Guid idAcademia);
 
         //Não implementado
-        dynamic CriarFuncionario(Guid idUsuario, Cargo cargo);
         dynamic AtualizarUsuario(Guid idusuario, dynamic var, string atributo);
         dynamic CriarGestor(Guid idUsuario);
         dynamic AtualizarFilho(Guid id, dynamic var, string atributo, TipoUsuario tipoUsuario);
         dynamic ObterGestor(Guid idGestor);
         dynamic ObterAcademiaGestor(Guid idGestor);
-        List<Usuario> ListarUsuarios(Guid idAcademia);
         Usuario ListarUsuario(Guid idusuario);
         dynamic Desativar(Guid idUsuario);
         dynamic Ativar(Guid idUsuario);

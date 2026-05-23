@@ -53,14 +53,41 @@ namespace Infrastructure.Contexts
             return (false, Guid.Empty);
         }
 
-        public dynamic CriarFuncionario(Guid idUsuario, Cargo cargo)
+        public (bool, Guid) CriarFuncionario(Guid idUsuario, Cargo cargo)
         {
-            throw new NotImplementedException();
+            using var connection = _connectionFactory.CreateConnection();
+            string query = @"INSERT INTO Funcionario (idFuncionario, idUsuario, cargo)
+                            VALUES (@IdFuncionario, @IdUsuario, @Cargo)";
+            var parameters = new
+            {
+                IdFuncionario = Guid.NewGuid(),
+                IdUsuario = idUsuario,
+                Cargo = cargo.ToString()
+            };
+            int rowsAffected = connection.Execute(query, parameters);
+            if (rowsAffected > 0)
+            {
+                return (true, parameters.IdFuncionario);
+            }
+            return (false, Guid.Empty);
         }
 
         public dynamic CriarGestor(Guid idUsuario)
         {
-            throw new NotImplementedException();
+            using var connection = _connectionFactory.CreateConnection();
+            string query = @"INSERT INTO Gestor (idGestor, idUsuario)
+                            VALUES (@IdGestor, @IdUsuario)";
+            var parameters = new
+            {
+                IdGestor = Guid.NewGuid(),
+                IdUsuario = idUsuario
+            };
+            int rowsAffected = connection.Execute(query, parameters);
+            if (rowsAffected > 0)
+            {
+                return new { Success = true, IdGestor = parameters.IdGestor };
+            }
+            return new { Success = false, IdGestor = Guid.Empty };
         }
 
         public (bool, Guid) CriarInstrutor(Instrutor instrutor)
