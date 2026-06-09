@@ -341,7 +341,7 @@ Responsáveis pela arquitetura, banco de dados e regras de negócio:
 * **Hugo Matos** - *DBA / QA*
     * **Foco:** Modelagem de dados (DER/MER), Scripts SQL e Testes de Qualidade.
     * [![GitHub](https://img.shields.io/badge/GitHub-100000?style=flat-square&logo=github&logoColor=white)](https://github.com/HugoFMat)
-      <!-- Adicionar linkedin do Hugo !!! Backend/ Main Repo Vitalitas [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=flat-square&logo=linkedin&logoColor=white)](LINK_DO_LINKEDIN) -->
+    * [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/hugo-ferreira-matos-265b0426b?utm_source=share_via&utm_content=profile&utm_medium=member_android)
 
 * **Pedro Luis de Souza Abreu** - *Desenvolvedor Back-end*
     * **Foco:** Desenvolvimento de APIs, Regras de Negócio e Integração com Banco.
