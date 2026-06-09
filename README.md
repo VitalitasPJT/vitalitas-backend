@@ -18,13 +18,15 @@ O backend foi desenvolvido seguindo princípios de **Clean Architecture** e **Do
 ### Visão da Solução
 A API atua como o núcleo central do sistema, operando de forma *stateless* e servindo os clientes web/mobile.
 
-![Diagrama de Arquitetura](./arquitetura.png)
+<!-- ![Diagrama de Arquitetura](./arquitetura.png) -->
+🚧 Diagrama em desenvolvimento 🚧
 *(Fluxo: React Client ↔ API .NET Core ↔ SQL Server / Azure Services)*
 
 ### Modelagem de Dados
 A estrutura relacional foi projetada no **SQL Server** para garantir a integridade de dados críticos como fichas médicas e histórico de treinos.
 
-![Diagrama Entidade Relacionamento](./der_database.png)
+<!-- ![Diagrama Entidade Relacionamento](./der_database.png) -->
+🚧 Diagrama em desenvolvimento 🚧
 *(Principais entidades: Usuários, Perfis, Treinos, Fichas e Avaliações)*
 
 ### Infraestrutura
@@ -332,15 +334,16 @@ Responsáveis pela arquitetura, banco de dados e regras de negócio:
 
 * **Sanderson Machado** - *Gerente de Projeto / Tech Lead*
     * **Foco:** Arquitetura Backend, Definição de Backlog (PO) e Liderança Técnica.
-    * [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=flat-square&logo=linkedin&logoColor=white)](LINK_DO_LINKEDIN) [![GitHub](https://img.shields.io/badge/GitHub-100000?style=flat-square&logo=github&logoColor=white)](LINK_DO_GITHUB)
+   * [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/sandersonnexum) [![GitHub](https://img.shields.io/badge/GitHub-100000?style=flat-square&logo=github&logoColor=white)](https://github.com/sandersonnexum)
 
 * **Hugo Matos** - *DBA / QA*
     * **Foco:** Modelagem de dados (DER/MER), Scripts SQL e Testes de Qualidade.
-    * [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=flat-square&logo=linkedin&logoColor=white)](LINK_DO_LINKEDIN) [![GitHub](https://img.shields.io/badge/GitHub-100000?style=flat-square&logo=github&logoColor=white)](LINK_DO_GITHUB)
+    * [![GitHub](https://img.shields.io/badge/GitHub-100000?style=flat-square&logo=github&logoColor=white)](https://github.com/HugoFMat)
+      <!-- Adicionar linkedin do Hugo !!! Backend/ Main Repo Vitalitas [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=flat-square&logo=linkedin&logoColor=white)](LINK_DO_LINKEDIN) -->
 
 * **Pedro Luis de Souza Abreu** - *Desenvolvedor Back-end*
     * **Foco:** Desenvolvimento de APIs, Regras de Negócio e Integração com Banco.
-    * [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=flat-square&logo=linkedin&logoColor=white)](LINK_DO_LINKEDIN) [![GitHub](https://img.shields.io/badge/GitHub-100000?style=flat-square&logo=github&logoColor=white)](LINK_DO_GITHUB)
+    * [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/pedro-luiz-abreu-90a849355/) [![GitHub](https://img.shields.io/badge/GitHub-100000?style=flat-square&logo=github&logoColor=white)](https://github.com/Pedrolsza)
 
 ## Licença
 
