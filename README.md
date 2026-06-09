@@ -20,6 +20,7 @@ A API atua como o núcleo central do sistema, operando de forma *stateless* e se
 
 <!-- ![Diagrama de Arquitetura](./arquitetura.png) -->
 🚧 Diagrama em desenvolvimento 🚧
+
 *(Fluxo: React Client ↔ API .NET Core ↔ SQL Server / Azure Services)*
 
 ### Modelagem de Dados
@@ -27,6 +28,7 @@ A estrutura relacional foi projetada no **SQL Server** para garantir a integrida
 
 <!-- ![Diagrama Entidade Relacionamento](./der_database.png) -->
 🚧 Diagrama em desenvolvimento 🚧
+
 *(Principais entidades: Usuários, Perfis, Treinos, Fichas e Avaliações)*
 
 ### Infraestrutura
@@ -347,6 +349,6 @@ Responsáveis pela arquitetura, banco de dados e regras de negócio:
 
 ## Licença
 
-Este projeto foi desenvolvido exclusivamente para fins acadêmicos na disciplina de **Projeto Integrador** do **Centro Universitário de Brasília (UniCEUB)**.
+Este projeto está sendo desenvolvido exclusivamente para fins acadêmicos na disciplina de **Projeto Integrador** do **Centro Universitário de Brasília (UniCEUB)** e foi atualizado completamente no 7º semestre (09 de junho 2026).
 
 Copyright © 2026 **Vitalitas**. Todos os direitos reservados.
