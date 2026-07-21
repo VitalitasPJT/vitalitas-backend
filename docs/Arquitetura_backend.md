@@ -19,6 +19,19 @@ Cada camada possui uma responsabilidade bem definida.
 
 ---
 
+## Convenções de nomenclatura
+
+Estas convenções foram fixadas na revisão de arquitetura e devem ser seguidas em qualquer feature nova:
+
+- **Namespace = caminho da pasta.** O namespace de um arquivo reflete exatamente sua localização física (ex: `src/Domain/Features/Usuarios/Aluno/Entities/Aluno.cs` → `namespace Domain.Features.Usuarios.Aluno.Entities`). Se mover o arquivo de pasta, o namespace muda junto.
+- **PascalCase em todas as pastas** (`Usuarios`, `Aluno`, `Entities`, `Interfaces`), inclusive quando o nome de dentro é um termo técnico (`Token`, `Compartilhado`).
+- **Português para nomes de domínio, inglês para termos técnicos genéricos.** Entidades e features de negócio ficam em português (`Usuarios`, `Academia`, `Planos`, `Fichas`, `Gestor`, `Aluno`...); termos sem tradução natural no jargão do time ficam em inglês (`Shared`, `Token`, `DTO`, `UseCase`, `Constructor`).
+- **Singular nas pastas de Request/Response** (`Request`, `Response`, não `Requests`/`Responses`).
+- **Nome do arquivo = nome do tipo principal.** Um arquivo `IAlunoRepository.cs` deve declarar `interface IAlunoRepository`, não um nome abreviado como `IAluno`.
+- **Evite nomear uma entidade igual ao segmento de namespace da própria feature** (ex: uma classe `Academia` dentro do namespace `Domain.Features.Academia`) — o C# resolve esse conflito tratando o nome como namespace em vez de tipo, e força qualificação completa (`Domain.Features.Academia.Entities.Academia`) em quem consome a classe.
+
+---
+
 # Estrutura Geral
 
 ```
@@ -80,22 +93,25 @@ API
 
 Os Controllers recebem todas as requisições da aplicação.
 
-Cada Controller representa um recurso da API.
+Cada Controller representa um recurso da API, agrupado em subpastas por feature (mesmo padrão da Application e do Domain).
 
-Exemplos:
+Estrutura atual:
 
 ```
 Controllers
-
-AlunoController
-
-GestorController
-
-UsuarioController
-
-FichaMedicaController
-
-AgendaController
+│
+├── Agenda
+│     └── AgendaDBController.cs
+│
+├── Fichas
+│     ├── AvaliacaoDBController.cs
+│     ├── FichaMedicaController.cs
+│     └── FichasDBController.cs
+│
+└── Usuarios
+      ├── AlunoController.cs
+      ├── GestorController.cs
+      └── UsuarioController.cs
 ```
 
 Responsabilidades:
@@ -179,7 +195,7 @@ Application
 ├── Fichas
 ├── Token
 ├── Calculations
-└── Shared
+└── Compartilhado
 ```
 
 Cada módulo contém seus próprios arquivos.
@@ -188,9 +204,9 @@ Cada módulo contém seus próprios arquivos.
 
 # Estrutura de uma Feature
 
-Cada funcionalidade segue exatamente o mesmo padrão.
+Cada funcionalidade segue o mesmo padrão de pastas. Nem toda feature usa todas as pastas — só existem as que a feature realmente precisa (ex: `Funcionario` e `Instrutor` hoje só têm `Constructor`, porque ainda não têm Use Case próprio).
 
-Exemplo:
+Exemplo (feature completa, `Aluno`):
 
 ```
 Usuarios
@@ -198,9 +214,9 @@ Usuarios
 └── Aluno
       │
       ├── Constructor
-      ├── DTOs
-      ├── Requests
-      ├── Responses
+      ├── DTO
+      ├── Request
+      ├── Response
       ├── Interfaces
       └── UseCases
 ```
@@ -219,11 +235,21 @@ Exemplo:
 
 ```
 ConstructorAluno.cs
+
+ConstructorGestor.cs
+
+ConstructorFuncionario.cs
+
+ConstructorInstrutor.cs
+
+ConstructorFichaMedica.cs
 ```
+
+> **Pendência conhecida:** `Application/Compartilhado/UserModels.cs` contém uma cópia duplicada de todas as classes `Constructor*` acima, dentro de uma classe `Constructor` "guarda-chuva". Hoje é essa cópia duplicada que está realmente em uso pelo código (via `using static Application.Compartilhado.Constructor;`), não os arquivos individuais listados aqui. Resolver essa duplicação é um item aberto da revisão de arquitetura — a decisão já tomada é manter os arquivos por feature (como listado acima) e eliminar `UserModels.cs`.
 
 ---
 
-## DTOs
+## DTO
 
 Representam objetos utilizados apenas para transferência de dados entre camadas.
 
@@ -235,39 +261,49 @@ Exemplo:
 AlunoDTO.cs
 
 UsuarioDTO.cs
+
+GestorDTO.cs
 ```
 
 ---
 
-## Requests
+## Request
 
-Representam os dados recebidos pelas operações.
+Representam os dados recebidos pelas operações. Pasta e namespace no singular (`Request`, não `Requests`).
 
 Exemplo:
 
 ```
-CriarAlunoRQ.cs
+AlunoRQ.cs
 
-AtualizarAlunoRQ.cs
+GestorRQ.cs
+
+UsuarioRQ.cs
+
+FichaMedicaRQ.cs
 ```
 
-Cada Request representa uma operação da aplicação.
+Cada arquivo `*RQ.cs` agrupa os registros de request de uma feature; cada operação tem seu próprio tipo dentro do arquivo (ex: `TrocarSenhaRequest`, `VincularInstrutorRequest`).
 
 ---
 
-## Responses
+## Response
 
-Representam os dados retornados pelos casos de uso.
+Representam os dados retornados pelos casos de uso. Pasta e namespace no singular (`Response`, não `Responses`).
 
 Exemplo:
 
 ```
 AlunoRP.cs
 
+UsuarioRP.cs
+
 FichaMedicaRP.cs
 ```
 
-Além dos dados retornados, normalmente incluem informações de status da operação.
+Além dos dados retornados, normalmente incluem informações de status da operação (`StatusHTTP`).
+
+Padrão recomendado para features novas: **uma classe por arquivo**, sem agrupar tudo dentro de uma classe "wrapper". É o que a feature `Gestor` já segue hoje — `CriarAlunoResponse.cs`, `CriarInstrutorResponse.cs`, `ListarAlunosResponse.cs`, etc. Os arquivos `AlunoRP.cs`/`UsuarioRP.cs` ainda usam o padrão antigo (classe wrapper com responses aninhadas) e devem migrar para esse formato quando forem alterados.
 
 ---
 
@@ -325,9 +361,9 @@ Centraliza cálculos utilizados por diferentes funcionalidades.
 Exemplo:
 
 ```
-CalculoIMC
+CalculosF.cs   (classe CalculosFeminino)
 
-CalculoFC
+CalculosM.cs   (classe CalculosMasculino)
 ```
 
 Sempre que um cálculo puder ser reutilizado por vários módulos, ele deve permanecer nesta pasta.
@@ -345,7 +381,7 @@ Interfaces
 
 Settings
 
-Services
+Service
 
 UseCases
 ```
@@ -359,7 +395,7 @@ Responsabilidades:
 
 ---
 
-# Shared
+# Compartilhado
 
 Contém componentes compartilhados entre diversos módulos da Application.
 
@@ -370,6 +406,8 @@ StatusHTTP.cs
 ```
 
 Arquivos presentes nesta pasta não pertencem exclusivamente a nenhuma feature.
+
+> `UserModels.cs` também está nesta pasta hoje, mas é a duplicação pendente descrita na seção Constructor — não deve ser usado como referência de padrão.
 
 ---
 
@@ -396,17 +434,19 @@ O Domain não conhece:
 ```
 Domain
 │
-├── Academia
-├── Usuarios
-├── Planos
-├── Fichas
-├── Token
-├── Shared
+├── Features
+│     ├── Academia
+│     ├── Usuarios
+│     ├── Planos
+│     ├── Fichas
+│     ├── Token
+│     └── Shared
+│
 ├── Enums
 └── ValueObjects
 ```
 
-Cada módulo representa um domínio da aplicação.
+`Enums` e `ValueObjects` ficam fora de `Features` porque são transversais — usados por várias features ao mesmo tempo, não pertencem a uma feature específica. Cada pasta dentro de `Features` representa um domínio da aplicação.
 
 ---
 
@@ -415,6 +455,8 @@ Cada módulo representa um domínio da aplicação.
 Exemplo:
 
 ```
+Features
+
 Usuarios
 
 Aluno
@@ -458,7 +500,13 @@ Exemplo:
 IAlunoRepository
 
 IGestorRepository
+
+IUsuarioRepository
+
+IFichaMedicaRepository
 ```
+
+O nome do arquivo e o nome da interface são sempre idênticos (`IAlunoRepository.cs` declara `interface IAlunoRepository`, nunca um nome abreviado como `IAluno`).
 
 A camada Domain conhece apenas contratos.
 
@@ -544,16 +592,21 @@ A Infrastructure implementa os contratos definidos pelo Domain.
 ```
 Infrastructure
 │
-├── Database
-├── Repositories
-├── Configurations
-├── ExternalServices
-├── Security
-├── Logging
-└── Extensions
+├── Database        (implementado)
+└── Repositories     (implementado)
 ```
 
-Conforme o projeto evolui, novas pastas podem ser adicionadas sem alterar a estrutura existente.
+As pastas abaixo ainda **não existem** no projeto — são a organização planejada para quando a Infrastructure crescer, não uma descrição do estado atual:
+
+```
+├── Configurations   (planejado)
+├── ExternalServices (planejado)
+├── Security         (planejado)
+├── Logging          (planejado)
+└── Extensions       (planejado)
+```
+
+Conforme o projeto evolui, essas pastas podem ser adicionadas sem alterar a estrutura existente.
 
 ---
 
@@ -561,18 +614,26 @@ Conforme o projeto evolui, novas pastas podem ser adicionadas sem alterar a estr
 
 Implementam as interfaces definidas pelo Domain.
 
-Exemplo:
+**Estado atual (pendência conhecida):** ao contrário de `Domain/Features` e `Application`, os repositórios ainda estão numa pasta única, sem subpastas por feature:
 
 ```
 Repositories
 
-Usuarios
+AlunoRepository.cs
+FichaMedicaRepository.cs
+GestorRepository.cs
+RefreshTokenRepository.cs
+UsuarioRepository.cs
+```
 
-AlunoRepository
+Organização planejada (ainda não feita), espelhando `Domain/Features`:
 
-UsuarioRepository
-
-GestorRepository
+```
+Repositories
+│
+└── Usuarios
+      └── Aluno
+            └── AlunoRepository.cs
 ```
 
 Responsabilidades:
@@ -591,12 +652,16 @@ Toda comunicação com o banco ocorre nesta camada.
 Centraliza toda configuração relacionada ao banco de dados.
 
 ```
-Database
+Infrastructure
 │
-├── Connections
-├── Models
-└── Scripts
+├── Database
+│     ├── Connections
+│     └── Scripts
+│
+└── Records
 ```
+
+`Records` é uma pasta própria, direto sob `Infrastructure` (não fica dentro de `Database`).
 
 ---
 
@@ -612,16 +677,16 @@ DbConnectionFactory.cs
 
 ---
 
-## Models
+## Records
 
-Representam modelos utilizados para persistência.
+Representam modelos utilizados para persistência (mapeiam o resultado das queries antes de virar entidade de Domain).
 
-Exemplo:
+Exemplo atual:
 
 ```
-UsuarioRecord.cs
+UsuarioDB.cs
 
-RefreshTokenRecord.cs
+RefreshTokenDB.cs
 ```
 
 Esses modelos representam a estrutura do banco.
@@ -630,65 +695,23 @@ Esses modelos representam a estrutura do banco.
 
 ## Scripts
 
-Contém scripts SQL utilizados durante desenvolvimento.
-
-Organização recomendada:
+Contém scripts SQL utilizados durante desenvolvimento. Hoje fica em `Database/Scripts`, ainda em formato flat (sem subpastas):
 
 ```
-Scripts
+CREATE.sql
 
-Schema
+INSERT.sql
 
-Seed
-
-Queries
+SELECT.sql
 ```
 
-### Schema
-
-Scripts de criação do banco.
-
-Exemplo:
-
-```
-CreateTables.sql
-
-Indexes.sql
-
-Views.sql
-```
+Organização por Schema/Seed/Queries é uma evolução futura, não o estado atual.
 
 ---
 
-### Seed
+# Configurations (planejado)
 
-Scripts de inserção inicial.
-
-Exemplo:
-
-```
-InsertUsuarios.sql
-
-InsertAcademias.sql
-```
-
----
-
-### Queries
-
-Consultas SQL reutilizadas.
-
-Exemplo:
-
-```
-BuscarAluno.sql
-
-BuscarUsuarios.sql
-```
-
----
-
-# Configurations
+> Esta pasta ainda não existe no projeto. Descrição do que ela deve conter quando for criada.
 
 Centraliza configurações específicas da infraestrutura.
 
@@ -700,7 +723,9 @@ Exemplos:
 
 ---
 
-# ExternalServices
+# ExternalServices (planejado)
+
+> Esta pasta ainda não existe no projeto. Descrição do que ela deve conter quando for criada.
 
 Serviços externos utilizados pela aplicação.
 
@@ -718,7 +743,9 @@ NotificationService
 
 ---
 
-# Security
+# Security (planejado)
+
+> Esta pasta ainda não existe no projeto. Hoje a geração/validação de JWT vive em `API/Services/JwtService.cs`. Descrição do que `Security` deve conter quando for criada na Infrastructure.
 
 Componentes relacionados à segurança.
 
@@ -734,7 +761,9 @@ PermissionService
 
 ---
 
-# Logging
+# Logging (planejado)
+
+> Esta pasta ainda não existe no projeto. Descrição do que ela deve conter quando for criada.
 
 Responsável pelo registro de eventos da aplicação.
 
@@ -746,7 +775,9 @@ Exemplo:
 
 ---
 
-# Extensions
+# Extensions (planejado)
+
+> Esta pasta ainda não existe no projeto. Hoje todo o `builder.Services.AddScoped<...>()` fica direto em `API/Program.cs`, sem nenhuma separação por camada/feature — é um item pendente da revisão de arquitetura mover isso para métodos de extensão (`AddApplicationServices()`, `AddInfrastructureServices()`) nesta pasta.
 
 Métodos de extensão utilizados pela infraestrutura.
 
@@ -768,26 +799,32 @@ Aluno
 
 API
 │
-└── AlunoController
+└── Controllers
+      └── Usuarios
+            └── AlunoController.cs
 
 Application
 │
 └── Usuarios
       └── Aluno
+            └── UseCases
+                  └── AlunoUC.cs
 
 Domain
 │
-└── Usuarios
-      └── Aluno
+└── Features
+      └── Usuarios
+            └── Aluno
+                  └── Entities
+                        └── Aluno.cs
 
 Infrastructure
 │
 └── Repositories
-      └── Usuarios
-            └── AlunoRepository
+      └── AlunoRepository.cs   (pendente: mover para Repositories/Usuarios/Aluno/)
 ```
 
-Dessa forma, qualquer desenvolvedor consegue localizar rapidamente todos os arquivos relacionados a uma funcionalidade específica.
+Dessa forma, qualquer desenvolvedor consegue localizar rapidamente todos os arquivos relacionados a uma funcionalidade específica. A Infrastructure é a única camada que ainda não segue esse padrão por completo — ver pendência na seção Repositories.
 
 ---
 
