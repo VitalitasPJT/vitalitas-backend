@@ -1,6 +1,5 @@
 using Dapper;
-using Domain.Entities;
-using Domain.Interfaces;
+using Domain.Features.Usuarios.Aluno.Interfaces;
 using Microsoft.Identity.Client;
 using System;
 using System.Collections.Generic;
@@ -8,11 +7,11 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using Vitalitas.Infrastructure.Database.Connection;
+using Infrastructure.Database.Connections;
 
-namespace Infrastructure.Persistence
+namespace Infrastructure.Repositories
 {
-    public class AlunoRepository : IAluno
+    public class AlunoRepository : IAlunoRepository
     {
         private readonly DbConnectionFactory _connectionFactory;
         public  AlunoRepository(DbConnectionFactory connectionFactory)

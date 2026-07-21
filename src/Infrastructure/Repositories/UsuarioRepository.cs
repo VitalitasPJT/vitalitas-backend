@@ -1,8 +1,9 @@
-using Domain.Entities;
-using Domain.Interfaces;
+using Domain.Features.Usuarios.Common.Entities;
+using Domain.Features.Shared.Entities;
+using Domain.Features.Usuarios.Common.Interfaces;
 using Domain.ValueObjects;
 using Dapper;
-using Vitalitas.Infrastructure.Database.Connection;
+using Infrastructure.Database.Connections;
 using Infrastructure.Records;
 using Domain.Enums;
 using System.Data;
@@ -10,9 +11,9 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 
-namespace Infrastructure.Persistence
+namespace Infrastructure.Repositories
 {
-    public class UsuarioRepository : IUsuario
+    public class UsuarioRepository : IUsuarioRepository
     {
         private readonly DbConnectionFactory _connectionFactory;
 

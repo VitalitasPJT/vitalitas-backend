@@ -7,21 +7,21 @@ var builder = WebApplication.CreateBuilder(args);
 
 ValidateJwtConfiguration(builder.Configuration);
 
-builder.Services.AddSingleton<Vitalitas.Infrastructure.Database.Connection.DbConnectionFactory>();
-builder.Services.AddScoped<Domain.Interfaces.IUsuario, Infrastructure.Persistence.UsuarioRepository>();
-builder.Services.AddScoped<Application.Interfaces.IUsuarioUseCase, Application.Services.UsuarioUC>();
-builder.Services.AddScoped<Domain.Interfaces.IAluno, Infrastructure.Persistence.AlunoRepository>();
-builder.Services.AddScoped<Application.Interfaces.IAlunoUseCase, Application.Services.AlunoUC>();
-builder.Services.AddScoped<Domain.Interfaces.IGestorRepository, Infrastructure.Contexts.GestorRepository>();
-builder.Services.AddScoped<Application.Interfaces.IGestorUseCase, Application.Services.GestorUC>(); 
-builder.Services.AddScoped<Vitalitas.Backend.API.Services.JwtService.IJwtService, Vitalitas.Backend.API.Services.JwtService.JwtService>();
-builder.Services.AddScoped<Application.Interfaces.ITokenService, Vitalitas.Backend.API.Services.JwtService.JwtService>();
-builder.Services.AddSingleton(new Application.Settings.RefreshTokenSettings(
+builder.Services.AddSingleton<Infrastructure.Database.Connections.DbConnectionFactory>();
+builder.Services.AddScoped<Domain.Features.Usuarios.Common.Interfaces.IUsuarioRepository, Infrastructure.Repositories.UsuarioRepository>();
+builder.Services.AddScoped<Application.Usuarios.Common.Interfaces.IUsuarioUseCase, Application.Usuarios.Common.UseCases.UsuarioUC>();
+builder.Services.AddScoped<Domain.Features.Usuarios.Aluno.Interfaces.IAlunoRepository, Infrastructure.Repositories.AlunoRepository>();
+builder.Services.AddScoped<Application.Usuarios.Aluno.Interfaces.IAlunoUseCase, Application.Usuarios.Aluno.UseCases.AlunoUC>();
+builder.Services.AddScoped<Domain.Features.Usuarios.Gestor.Interfaces.IGestorRepository, Infrastructure.Repositories.GestorRepository>();
+builder.Services.AddScoped<Application.Usuarios.Gestor.Interfaces.IGestorUseCase, Application.Usuarios.Gestor.UseCases.GestorUC>();
+builder.Services.AddScoped<API.Services.IJwtService, API.Services.JwtService>();
+builder.Services.AddScoped<Application.Token.Service.ITokenService, API.Services.JwtService>();
+builder.Services.AddSingleton(new Application.Token.Settings.RefreshTokenSettings(
     int.Parse(builder.Configuration["Jwt:RefreshTokenDurationInDays"] ?? "7")));
-builder.Services.AddScoped<Domain.Interfaces.IRefreshTokenRepository, Infrastructure.Persistence.RefreshTokenRepository>();
-builder.Services.AddScoped<Application.Interfaces.IRefreshTokenUseCase, Application.Services.RefreshTokenUC>();
-builder.Services.AddScoped<Domain.Interfaces.IFichaMedicaRepository, Infrastructure.Contexts.FichaMedicaRepository>();
-builder.Services.AddScoped<Application.Interfaces.IFichaMedicaUseCase, Application.Services.FichaMedicaUC>();
+builder.Services.AddScoped<Domain.Features.Token.Interfaces.IRefreshTokenRepository, Infrastructure.Repositories.RefreshTokenRepository>();
+builder.Services.AddScoped<Application.Token.Interfaces.IRefreshTokenUseCase, Application.Token.UseCases.RefreshTokenUC>();
+builder.Services.AddScoped<Domain.Features.Fichas.FichaMedica.Interfaces.IFichaMedicaRepository, Infrastructure.Repositories.FichaMedicaRepository>();
+builder.Services.AddScoped<Application.Fichas.FichaMedica.Interfaces.IFichaMedicaUseCase, Application.Fichas.FichaMedica.UseCases.FichaMedicaUC>();
 
 
 /*builder.Services.AddDbContext<Contexto>(options =>

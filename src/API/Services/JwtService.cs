@@ -1,11 +1,11 @@
-using Application.Interfaces;
+using Application.Token.Service;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Vitalitas.Backend.API.Services.JwtService
+namespace API.Services
 {
     public class JwtService : IJwtService, ITokenService
     {

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
-using Domain.Entities;
-using Domain.Interfaces;
-using Vitalitas.Infrastructure.Database.Connection;
+using Domain.Features.Fichas.FichaMedica.Entities;
+using Domain.Features.Fichas.FichaMedica.Interfaces;
+using Infrastructure.Database.Connections;
 
-namespace Infrastructure.Contexts
+namespace Infrastructure.Repositories
 {
     public class FichaMedicaRepository : IFichaMedicaRepository
     {

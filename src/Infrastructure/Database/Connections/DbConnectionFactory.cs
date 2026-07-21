@@ -2,7 +2,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System.Data;
 
-namespace Vitalitas.Infrastructure.Database.Connection
+namespace Infrastructure.Database.Connections
 {
     public class DbConnectionFactory
     {

@@ -1,14 +1,15 @@
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using Application.DTOs;
-using Application.Interfaces;
-using Application.Settings;
-using Domain.Entities;
-using Domain.Interfaces;
-using static Application.DTOs.UsuarioRS;
+using Application.Compartilhado;
+using Application.Token.Interfaces;
+using Application.Token.Service;
+using Application.Token.Settings;
+using Domain.Features.Token.Entities;
+using Domain.Features.Token.Interfaces;
+using static Application.Usuarios.Common.Response.UsuarioRS;
 
-namespace Application.Services
+namespace Application.Token.UseCases
 {
     public class RefreshTokenUC : IRefreshTokenUseCase
     {

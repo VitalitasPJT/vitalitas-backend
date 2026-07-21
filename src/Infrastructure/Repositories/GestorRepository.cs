@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
-using Domain.Entities;
+using Domain.Features.Usuarios.Common.Entities;
+using Domain.Features.Usuarios.Aluno.Entities;
+using Domain.Features.Usuarios.Instrutor.Entities;
 using Domain.Enums;
-using Domain.Interfaces;
-using Vitalitas.Infrastructure.Database.Connection;
+using Domain.Features.Usuarios.Gestor.Interfaces;
+using Infrastructure.Database.Connections;
 
-namespace Infrastructure.Contexts
+namespace Infrastructure.Repositories
 {
     public class GestorRepository : IGestorRepository
     {

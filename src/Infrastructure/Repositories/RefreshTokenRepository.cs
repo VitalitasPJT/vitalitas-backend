@@ -1,10 +1,10 @@
 using Dapper;
-using Domain.Entities;
-using Domain.Interfaces;
+using Domain.Features.Token.Entities;
+using Domain.Features.Token.Interfaces;
 using Infrastructure.Records;
-using Vitalitas.Infrastructure.Database.Connection;
+using Infrastructure.Database.Connections;
 
-namespace Infrastructure.Persistence
+namespace Infrastructure.Repositories
 {
     public class RefreshTokenRepository : IRefreshTokenRepository
     {

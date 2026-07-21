@@ -1,6 +1,6 @@
-using static Application.DTOs.UsuarioRS;
+using static Application.Usuarios.Common.Response.UsuarioRS;
 
-namespace Application.Interfaces
+namespace Application.Token.Interfaces
 {
     public interface IRefreshTokenUseCase
     {

@@ -1,4 +1,4 @@
-namespace Vitalitas.Backend.API.Services.JwtService
+namespace API.Services
 {
     public interface IJwtService
     {
