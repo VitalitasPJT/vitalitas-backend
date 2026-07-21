@@ -27,8 +27,10 @@ Vitalitas.csproj.user
 ################################
 # Configurações de Ambiente/Segredos
 ################################
+
 # Se você tiver SEGREDOS no Development, use isso:
-# appsettings.Development.json 
+appsettings.Development.json 
+
 # Se você NÃO tem secrets aqui, REMOVA a linha acima.
 
 # Configuração local do Codex

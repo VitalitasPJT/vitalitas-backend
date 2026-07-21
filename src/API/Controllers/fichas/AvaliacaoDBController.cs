@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Identity.Client;
 using Vitalitas.Backend.Application.Features;
 
 namespace Vitalitas.API.Controllers

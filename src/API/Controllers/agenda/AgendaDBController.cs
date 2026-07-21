@@ -1,6 +1,5 @@
-﻿using Azure;
-using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Mvc;
+
 
 namespace Vitalitas.API.Controllers
 {
