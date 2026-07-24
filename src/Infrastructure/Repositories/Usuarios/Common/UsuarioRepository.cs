@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 
-namespace Infrastructure.Repositories
+namespace Infrastructure.Repositories.Usuarios.Common
 {
     public class UsuarioRepository : IUsuarioRepository
     {
@@ -144,28 +144,6 @@ namespace Infrastructure.Repositories
         );
 
 
-        /*public dynamic Ativar(Guid idusuario)
-        {
-            using var connection = _connectionFactory.CreateConnection();
-
-            string query = "UPDATE Usuario SET Flag = @Flag WHERE IdUsuario = @IdUsuario";
-
-            var record = connection.Execute(query, new { Flag = true, IdUsuario = idusuario });
-
-            return record;
-        }*/
-
-        /*public dynamic Desativar(Guid idusuario)
-        {
-            using var connection = _connectionFactory.CreateConnection();
-
-            string query = "UPDATE Usuario SET Flag = @Flag WHERE IdUsuario = @IdUsuario";
-
-            var record = connection.Execute(query, new { Flag = false, IdUsuario = idusuario });
-
-            return record;
-        }*/
-
         public bool TrocarSenha(Guid idusuario, string novasenha)
         {
             using var connection = _connectionFactory.CreateConnection();
@@ -184,27 +162,5 @@ namespace Infrastructure.Repositories
             
             return linhasAfetadas > 0;
         }
-
-        /*public dynamic AtualizarDados(Guid idusuario, dynamic var, string atributo)
-        {
-            var colunasPermitidas = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
-            {
-                "Nome", "Email", "Quadra", "Rua", "Bairro", "Cidade",
-                "Estado", "Cep", "DataNascimento", "Cpf", "TipoUsuario"
-            };
-
-            if (!colunasPermitidas.Contains(atributo))
-            {
-                throw new ArgumentException($"O atributo '{atributo}' não é válido ou não tem permissão para ser atualizado dinamicamente.");
-            }
-
-            using var connection = _connectionFactory.CreateConnection();
-
-            string query = $"UPDATE Usuario SET {atributo} = @Valor WHERE IdUsuario = @IdUsuario";
-
-            var record = connection.Execute(query, new { Valor = var, IdUsuario = idusuario });
-
-            return record;
-        } */
     }
 }

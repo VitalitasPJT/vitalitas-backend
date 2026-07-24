@@ -4,13 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using Domain.Features.Usuarios.Common.Entities;
-using Domain.Features.Usuarios.Aluno.Entities;
 using Domain.Features.Usuarios.Instrutor.Entities;
 using Domain.Enums;
 using Domain.Features.Usuarios.Gestor.Interfaces;
 using Infrastructure.Database.Connections;
 
-namespace Infrastructure.Repositories
+namespace Infrastructure.Repositories.Usuarios.Gestor
 {
     public class GestorRepository : IGestorRepository
     {
@@ -54,7 +53,7 @@ namespace Infrastructure.Repositories
             return (false, Guid.Empty);
         }
 
-        public (bool, Guid) CriarAluno(Aluno aluno)
+        public (bool, Guid) CriarAluno(Domain.Features.Usuarios.Aluno.Entities.Aluno aluno)
         {
             using var connection = _connectionFactory.CreateConnection();
             string query = @"INSERT INTO Aluno (idAluno, idInstrutor, idUsuario, idContrato, objetivo)

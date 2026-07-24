@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Infrastructure.Database.Connections;
 
-namespace Infrastructure.Repositories
+namespace Infrastructure.Repositories.Usuarios.Aluno
 {
     public class AlunoRepository : IAlunoRepository
     {
@@ -56,40 +56,6 @@ namespace Infrastructure.Repositories
             return result;
         }
 
-
-        /*public List<dynamic> ListarALunos(Guid idacademia)
-        {
-            using var connection = _connectionFactory.CreateConnection();
-
-            var query = @"
-                SELECT a.Id, a.IdAcademia, a.IdUsuario, a.Objetivo,
-                       u.Nome, u.Email, u.TipoUsuario
-                FROM Alunos a
-                INNER JOIN Usuarios u ON a.IdUsuario = u.Id
-                WHERE a.IdAcademia = @idacademia";
-
-            var parameters = new { idacademia };
-
-            var results = connection.Query(query, parameters).ToList();
-
-            dynamic alunos = new List<dynamic>();
-
-            foreach (var result in results)
-            {
-                alunos.Add(new
-                {
-                    Id = result.Id,
-                    IdAcademia = result.IdAcademia,
-                    IdUsuario = result.IdUsuario,
-                    Objetivo = result.Objetivo,
-                    Email = result.Email,
-                    Nome = result.Nome
-                });
-
-            }
-
-            return alunos;
-        }*/
 
         public bool TrocarSenha(Guid idusuario, string novasenha)
         {

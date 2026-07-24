@@ -1,0 +1,14 @@
+{
+  "ConnectionStrings": {
+    "ConexaoPadrao": "Server=SEU_SERVIDOR\\SQLEXPRESS;Database=VITALITAS_DEV;Trusted_Connection=True;TrustServerCertificate=True;"
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "Jwt": {
+    "Key": "SUBSTITUA_POR_UMA_CHAVE_SECRETA_LOCAL_COM_PELO_MENOS_32_CARACTERES"
+  }
+}

@@ -4,7 +4,7 @@ using Domain.Features.Token.Interfaces;
 using Infrastructure.Records;
 using Infrastructure.Database.Connections;
 
-namespace Infrastructure.Repositories
+namespace Infrastructure.Repositories.Token
 {
     public class RefreshTokenRepository : IRefreshTokenRepository
     {

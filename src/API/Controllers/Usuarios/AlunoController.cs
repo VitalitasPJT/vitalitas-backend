@@ -20,34 +20,6 @@ namespace API.Controllers.Usuarios
             _alunoUseCase = alunoUseCase;
         }
 
-        /*[HttpPost]
-        public ActionResult<CriarAlunoResponse> CriarAluno([FromBody] CriarAlunoRequest aluno)
-        {
-            try
-            {
-                var response = _alunoUseCase.CriarAluno(aluno.IdInstrutor, aluno.IdUsuario, aluno.IdContrato, aluno.IdAcademia, aluno.Objetivo);
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = "Erro interno do servidor", detalhe = ex.Message, StackTrace = ex.StackTrace });
-            }
-        }
-
-        [HttpGet("listar-alunos")]
-        public ActionResult<ListarAlunosResponse> ListarAlunos([FromQuery] ListarAlunosRequest academia)
-        {
-            try
-            {
-                var response = _alunoUseCase.ListarAlunos(academia.IdAcademia);
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = "Erro interno do servidor", detalhe = ex.Message });
-            }
-        }*/
-
         [HttpGet("listar-aluno")]
         [Authorize]
         public ActionResult<ListarAlunoResponse> ListarAluno([FromQuery] ListarAlunoRequest aluno)

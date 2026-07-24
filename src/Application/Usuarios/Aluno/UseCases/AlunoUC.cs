@@ -63,15 +63,6 @@ namespace Application.Usuarios.Aluno.UseCases
             return status;
         }
 
-        /*public CriarAlunoResponse CriarAluno(Guid idinstrutor, Guid idusuario, int idcontrato, Guid idacademia, string objetivo)
-        {
-            var idaluno = _alunoRepository.CriarAluno(idinstrutor, idusuario, idcontrato, idacademia, objetivo);
-            return new CriarAlunoResponse(idaluno, new StatusHTTP("Aluno criado com sucesso", 201, true));
-        }
-
-        */
-
-
         public VincularInstrutorResponse VincularInstrutor(Guid idaluno, Guid idinstrutor)
         {
             var sucesso = _alunoRepository.VincularInstrutor(idaluno, idinstrutor);

@@ -2,30 +2,17 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using API.Extensions;
+using Application.Extensions;
+using Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 ValidateJwtConfiguration(builder.Configuration);
 
-builder.Services.AddSingleton<Infrastructure.Database.Connections.DbConnectionFactory>();
-builder.Services.AddScoped<Domain.Features.Usuarios.Common.Interfaces.IUsuarioRepository, Infrastructure.Repositories.UsuarioRepository>();
-builder.Services.AddScoped<Application.Usuarios.Common.Interfaces.IUsuarioUseCase, Application.Usuarios.Common.UseCases.UsuarioUC>();
-builder.Services.AddScoped<Domain.Features.Usuarios.Aluno.Interfaces.IAlunoRepository, Infrastructure.Repositories.AlunoRepository>();
-builder.Services.AddScoped<Application.Usuarios.Aluno.Interfaces.IAlunoUseCase, Application.Usuarios.Aluno.UseCases.AlunoUC>();
-builder.Services.AddScoped<Domain.Features.Usuarios.Gestor.Interfaces.IGestorRepository, Infrastructure.Repositories.GestorRepository>();
-builder.Services.AddScoped<Application.Usuarios.Gestor.Interfaces.IGestorUseCase, Application.Usuarios.Gestor.UseCases.GestorUC>();
-builder.Services.AddScoped<API.Services.IJwtService, API.Services.JwtService>();
-builder.Services.AddScoped<Application.Token.Service.ITokenService, API.Services.JwtService>();
-builder.Services.AddSingleton(new Application.Token.Settings.RefreshTokenSettings(
-    int.Parse(builder.Configuration["Jwt:RefreshTokenDurationInDays"] ?? "7")));
-builder.Services.AddScoped<Domain.Features.Token.Interfaces.IRefreshTokenRepository, Infrastructure.Repositories.RefreshTokenRepository>();
-builder.Services.AddScoped<Application.Token.Interfaces.IRefreshTokenUseCase, Application.Token.UseCases.RefreshTokenUC>();
-builder.Services.AddScoped<Domain.Features.Fichas.FichaMedica.Interfaces.IFichaMedicaRepository, Infrastructure.Repositories.FichaMedicaRepository>();
-builder.Services.AddScoped<Application.Fichas.FichaMedica.Interfaces.IFichaMedicaUseCase, Application.Fichas.FichaMedica.UseCases.FichaMedicaUC>();
-
-
-/*builder.Services.AddDbContext<Contexto>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("ConexaoPadrao")));*/
+builder.Services.AddApplicationServices(builder.Configuration);
+builder.Services.AddInfrastructureServices();
+builder.Services.AddApiServices();
 
 builder.Services.AddCors(options =>
 {
@@ -121,7 +108,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAuthorization();
 
 var app = builder.Build();
-//Console.WriteLine("JWT KEY (DEBUG): " + builder.Configuration["Jwt:Key"]);
 
 if (app.Environment.IsDevelopment())
 {

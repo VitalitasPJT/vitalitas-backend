@@ -7,7 +7,11 @@ using Application.Usuarios.Gestor.Interfaces;
 using System;
 using Application.Usuarios.Gestor.Response;
 using static Application.Usuarios.Gestor.Request.GestorRQ;
-using static Application.Compartilhado.Constructor;
+using Application.Usuarios.Common.Constructor;
+using Application.Usuarios.Aluno.Constructor;
+using Application.Usuarios.Instrutor.Constructor;
+using Application.Usuarios.Funcionario.Constructor;
+using Application.Usuarios.Gestor.Constructor;
 using Domain.ValueObjects;
 
 namespace API.Controllers.Usuarios

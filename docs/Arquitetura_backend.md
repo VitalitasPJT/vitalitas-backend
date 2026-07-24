@@ -100,19 +100,16 @@ Estrutura atual:
 ```
 Controllers
 │
-├── Agenda
-│     └── AgendaDBController.cs
-│
 ├── Fichas
-│     ├── AvaliacaoDBController.cs
-│     ├── FichaMedicaController.cs
-│     └── FichasDBController.cs
+│     └── FichaMedicaController.cs
 │
 └── Usuarios
       ├── AlunoController.cs
       ├── GestorController.cs
       └── UsuarioController.cs
 ```
+
+`AgendaDBController`, `AvaliacaoDBController` e `FichasDBController` (treino) existiam antes, mas eram inteiramente código comentado de uma versão anterior com Entity Framework, sem nenhum endpoint funcionando — foram removidos na limpeza de código morto. Se Agenda, Avaliação e Treino virarem features reais, a implementação deve seguir o padrão Dapper usado no resto do projeto (ver seção Repositories).
 
 Responsabilidades:
 
@@ -169,6 +166,16 @@ Exemplos:
 - Connection Strings
 - JWT
 - Configurações gerais
+
+`appsettings.json` fica versionado e não deve conter segredos — `ConnectionStrings:ConexaoPadrao` e `Jwt:Key` ficam vazios nele de propósito. `appsettings.Development.json` é onde cada dev preenche os próprios valores locais; esse arquivo está no `.gitignore` e não é versionado.
+
+Para configurar o ambiente local pela primeira vez, copie o exemplo:
+
+```bash
+cp src/API/appsettings.Development.json.example src/API/appsettings.Development.json
+```
+
+E preencha `ConnectionStrings:ConexaoPadrao` com a sua connection string local e `Jwt:Key` com uma chave secreta de pelo menos 32 caracteres (qualquer string aleatória serve em ambiente de desenvolvimento).
 
 ---
 
@@ -244,8 +251,6 @@ ConstructorInstrutor.cs
 
 ConstructorFichaMedica.cs
 ```
-
-> **Pendência conhecida:** `Application/Compartilhado/UserModels.cs` contém uma cópia duplicada de todas as classes `Constructor*` acima, dentro de uma classe `Constructor` "guarda-chuva". Hoje é essa cópia duplicada que está realmente em uso pelo código (via `using static Application.Compartilhado.Constructor;`), não os arquivos individuais listados aqui. Resolver essa duplicação é um item aberto da revisão de arquitetura — a decisão já tomada é manter os arquivos por feature (como listado acima) e eliminar `UserModels.cs`.
 
 ---
 
@@ -406,8 +411,6 @@ StatusHTTP.cs
 ```
 
 Arquivos presentes nesta pasta não pertencem exclusivamente a nenhuma feature.
-
-> `UserModels.cs` também está nesta pasta hoje, mas é a duplicação pendente descrita na seção Constructor — não deve ser usado como referência de padrão.
 
 ---
 
@@ -592,8 +595,9 @@ A Infrastructure implementa os contratos definidos pelo Domain.
 ```
 Infrastructure
 │
-├── Database        (implementado)
-└── Repositories     (implementado)
+├── Database     (implementado)
+├── Repositories (implementado)
+└── Extensions   (implementado — ver seção Extensions)
 ```
 
 As pastas abaixo ainda **não existem** no projeto — são a organização planejada para quando a Infrastructure crescer, não uma descrição do estado atual:
@@ -602,8 +606,7 @@ As pastas abaixo ainda **não existem** no projeto — são a organização plan
 ├── Configurations   (planejado)
 ├── ExternalServices (planejado)
 ├── Security         (planejado)
-├── Logging          (planejado)
-└── Extensions       (planejado)
+└── Logging          (planejado)
 ```
 
 Conforme o projeto evolui, essas pastas podem ser adicionadas sem alterar a estrutura existente.
@@ -612,29 +615,28 @@ Conforme o projeto evolui, essas pastas podem ser adicionadas sem alterar a estr
 
 # Repositories
 
-Implementam as interfaces definidas pelo Domain.
-
-**Estado atual (pendência conhecida):** ao contrário de `Domain/Features` e `Application`, os repositórios ainda estão numa pasta única, sem subpastas por feature:
-
-```
-Repositories
-
-AlunoRepository.cs
-FichaMedicaRepository.cs
-GestorRepository.cs
-RefreshTokenRepository.cs
-UsuarioRepository.cs
-```
-
-Organização planejada (ainda não feita), espelhando `Domain/Features`:
+Implementam as interfaces definidas pelo Domain, organizados em subpastas por feature — mesmo padrão de `Domain/Features` e `Application`:
 
 ```
 Repositories
 │
-└── Usuarios
-      └── Aluno
-            └── AlunoRepository.cs
+├── Usuarios
+│     ├── Aluno
+│     │     └── AlunoRepository.cs
+│     ├── Common
+│     │     └── UsuarioRepository.cs
+│     └── Gestor
+│           └── GestorRepository.cs
+│
+├── Fichas
+│     └── FichaMedica
+│           └── FichaMedicaRepository.cs
+│
+└── Token
+      └── RefreshTokenRepository.cs
 ```
+
+`UsuarioRepository` fica em `Usuarios/Common` porque implementa `IUsuarioRepository`, que vive em `Domain/Features/Usuarios/Common/Interfaces` — o subnível espelha exatamente onde a interface correspondente está no Domain, não o nome da classe.
 
 Responsabilidades:
 
@@ -775,16 +777,25 @@ Exemplo:
 
 ---
 
-# Extensions (planejado)
+# Extensions
 
-> Esta pasta ainda não existe no projeto. Hoje todo o `builder.Services.AddScoped<...>()` fica direto em `API/Program.cs`, sem nenhuma separação por camada/feature — é um item pendente da revisão de arquitetura mover isso para métodos de extensão (`AddApplicationServices()`, `AddInfrastructureServices()`) nesta pasta.
+Métodos de extensão de `IServiceCollection` para registrar Dependency Injection. Diferente do que a versão original deste documento previa, `Extensions` não é exclusiva da Infrastructure — **cada camada registra a si mesma**, então existe uma pasta `Extensions` em `Application`, em `Infrastructure` e em `API`:
 
-Métodos de extensão utilizados pela infraestrutura.
+```
+Application/Extensions/ApplicationServiceExtensions.cs
+Infrastructure/Extensions/InfrastructureServiceExtensions.cs
+API/Extensions/ApiServiceExtensions.cs
+```
 
-Exemplo:
+Cada `Add*Services()` público é dividido internamente em métodos privados por feature (`AddAlunoFeature()`, `AddGestorFeature()`, `AddTokenFeature()`, etc.), mantendo a mesma granularidade usada no resto do projeto. `Program.cs` fica reduzido a três chamadas:
 
-- configuração de serviços
-- extensões para Dependency Injection
+```csharp
+builder.Services.AddApplicationServices(builder.Configuration);
+builder.Services.AddInfrastructureServices();
+builder.Services.AddApiServices();
+```
+
+`AddApiServices()` existe porque `JwtService` é uma classe da própria API (implementa tanto `API.Services.IJwtService` quanto `Application.Token.Service.ITokenService`) — como `Application` não referencia `API` (a dependência só existe no sentido contrário), esse registro não pode morar em `AddApplicationServices()`; fica na própria API.
 
 ---
 
@@ -821,10 +832,18 @@ Domain
 Infrastructure
 │
 └── Repositories
-      └── AlunoRepository.cs   (pendente: mover para Repositories/Usuarios/Aluno/)
+      └── Usuarios
+            └── Aluno
+                  └── AlunoRepository.cs
 ```
 
-Dessa forma, qualquer desenvolvedor consegue localizar rapidamente todos os arquivos relacionados a uma funcionalidade específica. A Infrastructure é a única camada que ainda não segue esse padrão por completo — ver pendência na seção Repositories.
+Dessa forma, qualquer desenvolvedor consegue localizar rapidamente todos os arquivos relacionados a uma funcionalidade específica. As quatro camadas seguem esse padrão hoje.
+
+---
+
+# Registro de Decisões (ADR)
+
+Cada mudança estrutural feita na revisão de arquitetura tem um ADR próprio em [`docs/adr/`](adr/), documentando o contexto, a decisão tomada, as alternativas consideradas e as consequências. Consulte esses arquivos para entender o *porquê* por trás de cada convenção listada acima, não só o *o quê*.
 
 ---
 

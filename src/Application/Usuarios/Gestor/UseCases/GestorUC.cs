@@ -12,7 +12,11 @@ using Domain.Enums;
 using Domain.Features.Usuarios.Gestor.Interfaces;
 using static Application.Usuarios.Aluno.Response.AlunoRP;
 using Application.Usuarios.Gestor.Response;
-using static Application.Compartilhado.Constructor;
+using Application.Usuarios.Common.Constructor;
+using Application.Usuarios.Aluno.Constructor;
+using Application.Usuarios.Instrutor.Constructor;
+using Application.Usuarios.Funcionario.Constructor;
+using Application.Usuarios.Gestor.Constructor;
 
 namespace Application.Usuarios.Gestor.UseCases
 {
@@ -321,30 +325,5 @@ namespace Application.Usuarios.Gestor.UseCases
                 throw new Exception(ex.Message);
             }
         }
-
-
-        /*public AtualizarObjetivoResponse AtualizarObjetivo(Guid idusuario, string objetivo)
-        {
-            var sucesso = _gestorRepository.AtualizarObjetivo(idusuario, objetivo);
-            if (!sucesso)
-            {
-                throw new Exception("Erro ao atualizar objetivo");
-            }
-            var status = new StatusHTTP("Objetivo atualizado com sucesso", 200, true);
-            return new AtualizarObjetivoResponse(status);
-        }
-
-       
-
-        public StatusHTTP TrocarSenha(Guid idusaurio, string novasenha)
-        {
-            var sucesso = _alunoRepository.TrocarSenha(idusaurio, novasenha);
-            if (!sucesso)
-            {
-                throw new Exception("Erro ao trocar senha");
-            }
-            var status = new StatusHTTP("Senha trocada com sucesso", 200, true);
-            return status;
-        }*/
     }
 }

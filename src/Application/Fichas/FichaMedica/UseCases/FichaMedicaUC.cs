@@ -8,7 +8,7 @@ using Application.Fichas.FichaMedica.Interfaces;
 using Domain.Features.Fichas.FichaMedica.Entities;
 using Domain.Features.Fichas.FichaMedica.Interfaces;
 using static Application.Fichas.FichaMedica.Response.FichaMedicaRP;
-using static Application.Compartilhado.Constructor;
+using Application.Fichas.FichaMedica.Constructor;
 
 namespace Application.Fichas.FichaMedica.UseCases
 {

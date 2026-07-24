@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
-using Domain.Features.Fichas.FichaMedica.Entities;
 using Domain.Features.Fichas.FichaMedica.Interfaces;
 using Infrastructure.Database.Connections;
 
-namespace Infrastructure.Repositories
+namespace Infrastructure.Repositories.Fichas.FichaMedica
 {
     public class FichaMedicaRepository : IFichaMedicaRepository
     {
@@ -16,12 +15,12 @@ namespace Infrastructure.Repositories
         {
             _connectionFactory = connectionFactory;
         }
-        public dynamic AtualizarFichaMedica(FichaMedica novaFichaMedica)
+        public dynamic AtualizarFichaMedica(Domain.Features.Fichas.FichaMedica.Entities.FichaMedica novaFichaMedica)
         {
             throw new NotImplementedException();
         }
 
-        public (bool, Guid) CriarFichaMedica(FichaMedica fichaMedica)
+        public (bool, Guid) CriarFichaMedica(Domain.Features.Fichas.FichaMedica.Entities.FichaMedica fichaMedica)
         {
             using var connection = _connectionFactory.CreateConnection();
             string query = @"INSERT INTO FichaMedica (idFicha, idAluno, alergia, restricao, lesao, cirurgia, problemaSaude, usoMedicamento)
@@ -45,7 +44,7 @@ namespace Infrastructure.Repositories
             return (false, Guid.Empty);
         }
 
-        public FichaMedica ListarFichaMedica(Guid idAluno)
+        public Domain.Features.Fichas.FichaMedica.Entities.FichaMedica ListarFichaMedica(Guid idAluno)
         {
             throw new NotImplementedException();
         }

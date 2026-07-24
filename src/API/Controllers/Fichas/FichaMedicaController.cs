@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static Application.Fichas.FichaMedica.Request.FichaMedicaRQ;
 using static Application.Fichas.FichaMedica.Response.FichaMedicaRP;
-using static Application.Compartilhado.Constructor;
+using Application.Fichas.FichaMedica.Constructor;
 
 namespace API.Controllers.Fichas
 {

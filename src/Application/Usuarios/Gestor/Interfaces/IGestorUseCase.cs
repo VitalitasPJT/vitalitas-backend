@@ -6,7 +6,11 @@ using static Application.Usuarios.Aluno.Response.AlunoRP;
 using static Application.Usuarios.Gestor.Request.GestorRQ;
 using Application.Usuarios.Gestor.Response;
 using static Application.Usuarios.Common.Response.UsuarioRS;
-using static Application.Compartilhado.Constructor;
+using Application.Usuarios.Common.Constructor;
+using Application.Usuarios.Aluno.Constructor;
+using Application.Usuarios.Instrutor.Constructor;
+using Application.Usuarios.Funcionario.Constructor;
+using Application.Usuarios.Gestor.Constructor;
 
 namespace Application.Usuarios.Gestor.Interfaces
 {
