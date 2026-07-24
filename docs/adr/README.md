@@ -12,6 +12,7 @@ Registro das decisões tomadas durante a revisão de arquitetura de 2026. Cada a
 | [0006](0006-remover-codigo-morto.md) | Remover código morto e comentado | Implementado |
 | [0007](0007-eliminar-duplicacao-constructor.md) | Eliminar a duplicação da classe `Constructor` | Implementado |
 | [0008](0008-gestao-de-segredos-appsettings.md) | Gestão de segredos em `appsettings` | Implementado |
+| [0009](0009-gerenciamento-centralizado-de-versoes.md) | Gerenciamento centralizado de versões (Central Package Management) | Implementado |
 
 ## Formato
 
