@@ -1,0 +1,80 @@
+using Application.Compartilhado;
+using Application.Usuarios.Aluno.DTO;
+using Application.Usuarios.Aluno.Interfaces;
+using Domain.Enums;
+using Domain.Features.Usuarios.Aluno.Interfaces;
+using static Application.Usuarios.Aluno.Response.AlunoRP;
+
+namespace Application.Usuarios.Aluno.UseCases
+{
+    public class AlunoUC : IAlunoUseCase
+    {
+        private readonly IAlunoRepository _alunoRepository;
+
+        public AlunoUC(IAlunoRepository alunorepository)
+        {
+            _alunoRepository = alunorepository;
+        }
+
+        public AtualizarObjetivoResponse AtualizarObjetivo(Guid idusuario, string objetivo)
+        {
+            var sucesso = _alunoRepository.AtualizarObjetivo(idusuario, objetivo);
+            if (!sucesso)
+            {
+                throw new Exception("Erro ao atualizar objetivo");
+            }
+            var status = new StatusHTTP("Objetivo atualizado com sucesso", 200, true);
+            return new AtualizarObjetivoResponse(status);
+        }
+
+        public ListarAlunoResponse ListarAluno(Guid idaluno)
+        {
+            try
+            {
+                var result = _alunoRepository.ListarAluno(idaluno);
+                var aluno = new AlunoDTO
+                {
+                    IdAluno = result.idAluno,
+                    IdAcademia = result.idAcademia,
+                    IdUsuario = result.idUsuario,
+                    Objetivo = result.objetivo,
+                    Nome = result.nome,
+                    Email = result.email,
+                    TipoUsuario = (Domain.Enums.TipoUsuario)result.tipoUsuario,
+                    StatusPagamento = "Pago"
+                };
+                var status = new StatusHTTP("Aluno encontrado com sucesso", 200, true);
+                return new ListarAlunoResponse(aluno, status);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public StatusHTTP TrocarSenha(Guid idusaurio, string novasenha)
+        {
+            var sucesso = _alunoRepository.TrocarSenha(idusaurio, novasenha);
+            if (!sucesso)
+            {
+                throw new Exception("Erro ao trocar senha");
+            }
+            var status = new StatusHTTP("Senha trocada com sucesso", 200, true);
+            return status;
+        }
+
+        public VincularInstrutorResponse VincularInstrutor(Guid idaluno, Guid idinstrutor)
+        {
+            var sucesso = _alunoRepository.VincularInstrutor(idaluno, idinstrutor);
+            if (!sucesso)
+            {
+                throw new Exception("Erro ao vincular instrutor");
+            }
+            var status = new StatusHTTP("Instrutor vinculado com sucesso", 200, true);
+            return new VincularInstrutorResponse(status);
+        }
+
+        public Guid? ObterIdUsuarioPorAluno(Guid idAluno)
+            => _alunoRepository.ObterIdUsuarioPorAluno(idAluno);
+    }
+}

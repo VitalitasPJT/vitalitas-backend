@@ -1,7 +1,7 @@
-namespace Vitalitas.Backend.API.Services.JwtService
+namespace API.Services
 {
     public interface IJwtService
     {
-        string GenerateToken(string userId, string userEmail);
+        string GenerateToken(string userId, string tipoUsuario);
     }
 }
