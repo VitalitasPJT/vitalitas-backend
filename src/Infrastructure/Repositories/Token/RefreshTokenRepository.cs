@@ -1,71 +1,40 @@
-using Dapper;
 using Domain.Features.Token.Entities;
 using Domain.Features.Token.Interfaces;
-using Infrastructure.Records;
-using Infrastructure.Database.Connections;
+using Infrastructure.Database.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories.Token
 {
     public class RefreshTokenRepository : IRefreshTokenRepository
     {
-        private readonly DbConnectionFactory _connectionFactory;
+        private readonly VitalitasDbContext _context;
 
-        public RefreshTokenRepository(DbConnectionFactory connectionFactory)
+        public RefreshTokenRepository(VitalitasDbContext context)
         {
-            _connectionFactory = connectionFactory;
+            _context = context;
         }
 
         public void Save(RefreshToken refreshToken)
         {
-            using var connection = _connectionFactory.CreateConnection();
-            string query = @"
-                INSERT INTO refreshToken (idRefreshToken, tokenHash, dataExpiracao, revogado, idUsuario)
-                VALUES (@IdRefreshToken, @TokenHash, @DataExpiracao, @Revogado, @IdUsuario)";
-
-            connection.Execute(query, new
-            {
-                refreshToken.IdRefreshToken,
-                refreshToken.TokenHash,
-                refreshToken.DataExpiracao,
-                refreshToken.Revogado,
-                refreshToken.IdUsuario
-            });
+            _context.RefreshTokens.Add(refreshToken);
+            _context.SaveChanges();
         }
 
         public RefreshToken? FindByTokenHash(string tokenHash)
         {
-            using var connection = _connectionFactory.CreateConnection();
-            string query = @"
-                SELECT idRefreshToken AS IdRefreshToken,
-                       tokenHash      AS TokenHash,
-                       dataExpiracao  AS DataExpiracao,
-                       revogado       AS Revogado,
-                       idUsuario      AS UsuarioId
-                FROM refreshToken
-                WHERE tokenHash = @TokenHash";
-
-            var record = connection.QueryFirstOrDefault<RefreshTokenDB>(query, new { TokenHash = tokenHash });
-            if (record == null)
-                return null;
-
-            return new RefreshToken(
-                record.IdRefreshToken,
-                record.TokenHash,
-                record.DataExpiracao,
-                record.Revogado,
-                record.UsuarioId
-            );
+            return _context.RefreshTokens
+                .AsNoTracking()
+                .FirstOrDefault(rt => rt.TokenHash == tokenHash);
         }
 
         public void Revoke(Guid idRefreshToken)
         {
-            using var connection = _connectionFactory.CreateConnection();
-            string query = @"
-                UPDATE refreshToken
-                SET revogado = 1
-                WHERE idRefreshToken = @IdRefreshToken";
+            var refreshToken = _context.RefreshTokens.FirstOrDefault(rt => rt.IdRefreshToken == idRefreshToken);
+            if (refreshToken == null)
+                return;
 
-            connection.Execute(query, new { IdRefreshToken = idRefreshToken });
+            refreshToken.Revogar();
+            _context.SaveChanges();
         }
     }
 }

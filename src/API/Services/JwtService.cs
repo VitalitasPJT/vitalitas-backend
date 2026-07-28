@@ -1,5 +1,6 @@
+using API.Settings;
 using Application.Token.Service;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -9,23 +10,17 @@ namespace API.Services
 {
     public class JwtService : IJwtService, ITokenService
     {
-        private readonly string _key;
-        private readonly string _issuer;
-        private readonly string _audience;
-        private readonly int _durationMinutes;
+        private readonly JwtSettings _settings;
 
-        public JwtService(IConfiguration configuration)
+        public JwtService(IOptions<JwtSettings> options)
         {
-            _key = configuration["Jwt:Key"]!;
-            _issuer = configuration["Jwt:Issuer"]!;
-            _audience = configuration["Jwt:Audience"]!;
-            _durationMinutes = int.Parse(configuration["Jwt:DurationInMinutes"]!);
+            _settings = options.Value;
         }
 
-        public string GenerateToken(string userId, string tipoUsuario)
+        public string GenerateToken(string userId, string tipoUsuario, string tenantId)
         {
             var role = MapRole(tipoUsuario);
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_key));
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.Key));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var claims = new[]
@@ -34,14 +29,15 @@ namespace API.Services
                 new Claim("IdUsuario", userId),
                 new Claim("TipoUsuario", tipoUsuario),
                 new Claim("Role", role),
+                new Claim("TenantId", tenantId),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
             var token = new JwtSecurityToken(
-                issuer: _issuer,
-                audience: _audience,
+                issuer: _settings.Issuer,
+                audience: _settings.Audience,
                 claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(_durationMinutes),
+                expires: DateTime.UtcNow.AddMinutes(_settings.DurationInMinutes),
                 signingCredentials: credentials
             );
 
@@ -57,9 +53,9 @@ namespace API.Services
                 ValidateAudience = true,
                 ValidateLifetime = false,
                 ValidateIssuerSigningKey = true,
-                ValidIssuer = _issuer,
-                ValidAudience = _audience,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_key))
+                ValidIssuer = _settings.Issuer,
+                ValidAudience = _settings.Audience,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.Key))
             };
 
             try

@@ -9,6 +9,7 @@ namespace Domain.Features.Usuarios.Aluno.Entities
     public class XpHistorico
     {
         public Guid IdXp {  get; private set; }
+        public Guid IdAcademia { get; private set; }
         public Guid IdUsuario { get; private set; }
         public int XpGanho { get; private set; }
         public DateTime Data {  get; private set; }

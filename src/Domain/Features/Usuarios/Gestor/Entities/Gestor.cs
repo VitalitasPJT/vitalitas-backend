@@ -8,6 +8,7 @@ namespace Domain.Features.Usuarios.Gestor.Entities
     public class Gestor
     {
         public Guid IdGestor { get; private set; }
+        public Guid IdAcademia { get; private set; }
         public Guid IdUsuario { get; private set; }
 
         public Gestor(Guid idUsuario)

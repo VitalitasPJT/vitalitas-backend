@@ -8,6 +8,7 @@ namespace Domain.Features.Usuarios.Common.Entities
     public class TelefoneUsuario
     {
         public Guid IdTelefone { get; private set; }
+        public Guid IdAcademia { get; private set; }
         public Guid IdUsuario { get; private set; }
         public string Telefone { get; private set; }
     }

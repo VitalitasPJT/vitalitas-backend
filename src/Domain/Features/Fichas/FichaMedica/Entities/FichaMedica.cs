@@ -9,6 +9,7 @@ namespace Domain.Features.Fichas.FichaMedica.Entities
     public class FichaMedica
     {
         public Guid IdFicha {  get; private set; }
+        public Guid IdAcademia { get; private set; }
         public Guid IdAluno { get; private set; }
         public string Alergia { get; private set; }
         public string Restricao { get; private set; }

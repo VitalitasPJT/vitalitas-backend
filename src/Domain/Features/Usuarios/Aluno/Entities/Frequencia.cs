@@ -9,6 +9,7 @@ namespace Domain.Features.Usuarios.Aluno.Entities
     public class Frequencia
     {
         public Guid IdFrequencia { get; private set; }
+        public Guid IdAcademia { get; private set; }
         public Guid IdAluno { get; private set; }
         public int TempoTreinoMinutos { get; private set; }
         public DateTime Data {  get; private set; }

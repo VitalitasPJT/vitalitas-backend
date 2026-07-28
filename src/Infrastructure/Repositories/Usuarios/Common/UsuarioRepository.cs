@@ -1,166 +1,75 @@
-using Domain.Features.Usuarios.Common.Entities;
+using Domain.Enums;
 using Domain.Features.Shared.Entities;
+using Domain.Features.Usuarios.Common.Entities;
 using Domain.Features.Usuarios.Common.Interfaces;
 using Domain.ValueObjects;
-using Dapper;
-using Infrastructure.Database.Connections;
-using Infrastructure.Records;
-using Domain.Enums;
-using System.Data;
-using System.Collections.Generic;
-using System;
-using System.Linq;
+using Infrastructure.Database.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories.Usuarios.Common
 {
     public class UsuarioRepository : IUsuarioRepository
     {
-        private readonly DbConnectionFactory _connectionFactory;
+        private readonly VitalitasDbContext _context;
 
-        public UsuarioRepository(DbConnectionFactory connectionFactory)
+        public UsuarioRepository(VitalitasDbContext context)
         {
-            _connectionFactory = connectionFactory;
+            _context = context;
         }
 
         public Usuario Login(string email, string senha)
         {
-            using var connection = _connectionFactory.CreateConnection();
-
-            string query = @"SELECT 
-                        idUsuario as IdUsuario, 
-                        idAcademia as IdAcademia,
-                        nome as Nome,
-                        email as Email,
-                        quadra as Quadra,
-                        rua as Rua,
-                        bairro as Bairro,
-                        cidade as Cidade,
-                        estado as Estado,
-                        cep as Cep,
-                        senha as Senha,
-                        dataNascimento as DataNascimento,
-                        cpf as Cpf,
-                        tipoUsuario as TipoUsuario,
-                        flag as Flag
-                    FROM Usuario
-                    WHERE Email = @Email AND Senha = @Senha";
-
-            string emailString = email.ToString();
-
-            var record = connection.QueryFirstOrDefault<UsuarioDto>(query, new { Email = email, Senha = senha });
-
-            if (record == null)
-            {
-                return null;
-            }
-
-            var dataNasc = DateOnly.FromDateTime(record.DataNascimento);
-
-            var usuarioEncontrado = new Usuario(
-                idUsuario: record.IdUsuario,
-                idAcademia: record.IdAcademia,
-                nome: record.Nome, 
-                email: new Email(record.Email), 
-                senha: record.Senha,
-                dataNascimento: dataNasc,
-                cpf: new CPF(record.Cpf), 
-                tipoUsuario: (TipoUsuario)record.TipoUsuario, 
-                ativo: true,
-                flag: record.Flag,
-                quadra: record.Quadra,
-                rua: record.Rua,
-                bairro: record.Bairro,
-                cidade: record.Cidade,
-                estado: record.Estado,
-                cep: record.Cep
-            );
-
-            return usuarioEncontrado;
+            var candidateEmail = new Email(email);
+            return _context.Usuarios
+                .AsNoTracking()
+                .FirstOrDefault(u => u.Email == candidateEmail && u.Senha == senha);
         }
 
         public LogAtividade RegistrarAcao(Guid idusuario, int acao, string dispositivoLogado, string localizacao)
         {
-            using var connection = _connectionFactory.CreateConnection();
-
-            string query = @"INSERT INTO LogAtividade 
-            (IdLog, IdUsuario, DataHora, Acao, DispositivoLogado, Localizacao) 
-            VALUES 
-            (@IdLog, @IdUsuario, @DataHora, @Acao, @DispositivoLogado, @Localizacao);";
-
             var logAtividade = new LogAtividade(idusuario, (AcaoLog)acao, dispositivoLogado, localizacao);
 
-            connection.Execute(query, new
-            {
-                logAtividade.IdLog,
-                logAtividade.IdUsuario,
-                logAtividade.DataHora,
-                logAtividade.Acao,
-                logAtividade.DispositivoLogado,
-                logAtividade.Localizacao
-            });
+            _context.LogsAtividade.Add(logAtividade);
+            _context.SaveChanges();
 
             return logAtividade;
         }
+
         public TipoUsuario? GetTipoUsuario(Guid idUsuario)
         {
-            using var connection = _connectionFactory.CreateConnection();
+            var usuario = _context.Usuarios
+                .AsNoTracking()
+                .FirstOrDefault(u => u.IdUsuario == idUsuario);
 
-            string query = "SELECT TipoUsuario FROM Usuario WHERE IdUsuario = @IdUsuario";
-
-            var tipoUsuario = connection.QueryFirstOrDefault<int?>(query, new { IdUsuario = idUsuario });
-
-            if (tipoUsuario == null) return null;
-
-            return (TipoUsuario)tipoUsuario.Value;
+            return usuario?.TipoUsuario;
         }
 
-        public Guid GetIdAcademia(Guid idUsuario) {
-            using var connection = _connectionFactory.CreateConnection();
-            string query = "SELECT IdAcademia FROM Usuario WHERE IdUsuario = @IdUsuario";
-            var idAcademia = connection.QueryFirstOrDefault<Guid?>(query, new { IdUsuario = idUsuario });
+        public Guid GetIdAcademia(Guid idUsuario)
+        {
+            var usuario = _context.Usuarios
+                .AsNoTracking()
+                .FirstOrDefault(u => u.IdUsuario == idUsuario);
 
-            if (idAcademia == null)
+            if (usuario == null)
                 throw new Exception($"Academia não encontrada para o usuário {idUsuario}");
-            return idAcademia.Value;
+
+            return usuario.IdAcademia;
         }
-
-        internal record UsuarioDto
-        (
-            Guid IdUsuario,
-            Guid IdAcademia,
-            string Nome,
-            string Email,
-            string Quadra,
-            string Rua,
-            string Bairro,
-            string Cidade,
-            string Estado,
-            string Cep,
-            string Senha,
-            DateTime DataNascimento,
-            string Cpf,
-            int TipoUsuario,
-            bool Flag
-        );
-
 
         public bool TrocarSenha(Guid idusuario, string novasenha)
         {
-            using var connection = _connectionFactory.CreateConnection();
+            var usuario = _context.Usuarios.FirstOrDefault(u => u.IdUsuario == idusuario);
+            if (usuario == null)
+                return false;
 
-            string querySelect = "SELECT Senha FROM Usuario WHERE IdUsuario = @IdUsuario";
-            string senhaSalva = connection.QueryFirstOrDefault<string>(querySelect, new { IdUsuario = idusuario });
-
-            if (senhaSalva == novasenha)
-            {
+            if (usuario.Senha == novasenha)
                 throw new Exception("A nova senha não pode ser igual à senha atual.");
-            }
 
-            string queryUpdate = @"UPDATE Usuario SET Senha = @NovaSenha, flag = @Flag WHERE IdUsuario = @IdUsuario";
+            var entry = _context.Entry(usuario);
+            entry.Property(u => u.Senha).CurrentValue = novasenha;
+            entry.Property(u => u.Flag).CurrentValue = false;
 
-            var linhasAfetadas = connection.Execute(queryUpdate, new { NovaSenha = novasenha, Flag = false, IdUsuario = idusuario });
-            
-            return linhasAfetadas > 0;
+            return _context.SaveChanges() > 0;
         }
     }
 }

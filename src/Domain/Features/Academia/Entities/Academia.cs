@@ -1,13 +1,11 @@
 using Domain.ValueObjects;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using Domain.Enums;
 
 namespace Domain.Features.Academia.Entities
 {
     public class Academia
     {
-        public Guid IdAcadenia { get; private set; }
+        public Guid IdAcademia { get; private set; }
         public Guid IdLicenca {  get; private set; }
         public Guid IdGestor { get; private set; }
         public Nome NomeAcademia { get; private set; }
@@ -23,7 +21,7 @@ namespace Domain.Features.Academia.Entities
 
         public Academia(Guid idlicenca, Guid idgestor, Nome nomeacademia, CNPJ cnpj, string quadra, string rua, string bairro, string cidade, string estado, string cep, TipoAcademia tipoacademia, Email emailinstitucional)
         {
-            IdAcadenia = Guid.NewGuid();
+            IdAcademia = Guid.NewGuid();
             IdLicenca = idlicenca;
             IdGestor = idgestor;
             NomeAcademia = nomeacademia;

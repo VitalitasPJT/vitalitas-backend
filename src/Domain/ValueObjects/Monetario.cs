@@ -10,10 +10,14 @@ namespace Domain.ValueObjects
     {
         private string valor;
 
+        public string Valor => valor;
+
         public Monetario(string valor)
         {
             this.valor = valor;
         }
+
+        public override string ToString() => valor;
     }
 }
 

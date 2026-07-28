@@ -8,6 +8,7 @@ namespace Domain.Features.Usuarios.Aluno.Entities
     public class Aluno
     {
         public Guid IdAluno { get; private set; }
+        public Guid IdAcademia { get; private set; }
         public Guid IdUsuario { get; private set; }
         public Guid IdInstrutor { get; private set; }
         public Guid IdContrato { get; private set; }
