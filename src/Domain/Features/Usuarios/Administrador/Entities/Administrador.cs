@@ -10,6 +10,7 @@ namespace Domain.Features.Usuarios.Administrador.Entities
     public class Administrador
     {
         public Guid IdFuncionario { get; private set; }
+        public Guid IdAcademia { get; private set; }
         public Guid IdUsuario { get; private set; }
         public Cargo Cargo { get; private set; }
         public Administrador(Guid idFuncionario, Guid idUsuario, Cargo cargo)
@@ -18,6 +19,8 @@ namespace Domain.Features.Usuarios.Administrador.Entities
             IdUsuario = idUsuario;
             Cargo = cargo;
         }
+
+        private Administrador() { }
     }
     
 }

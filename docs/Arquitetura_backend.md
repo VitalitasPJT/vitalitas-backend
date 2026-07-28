@@ -17,6 +17,10 @@ Backend
 
 Cada camada possui uma responsabilidade bem definida.
 
+### Multi-tenancy
+
+Cada Academia é um tenant (ver ADR 0013). O tenant é identificado exclusivamente pela claim `TenantId` do JWT — nunca por header, subdomínio ou campo do corpo da requisição — e resolvido cedo no pipeline pelo `TenantResolutionMiddleware`. Entidades tenant-scoped carregam `IdAcademia` denormalizado para viabilizar isolamento automático de dados (`HasQueryFilter`, ainda pendente de implementação — ver ADR 0013, seção Pendências).
+
 ---
 
 ## Convenções de nomenclatura
@@ -109,7 +113,7 @@ Controllers
       └── UsuarioController.cs
 ```
 
-`AgendaDBController`, `AvaliacaoDBController` e `FichasDBController` (treino) existiam antes, mas eram inteiramente código comentado de uma versão anterior com Entity Framework, sem nenhum endpoint funcionando — foram removidos na limpeza de código morto. Se Agenda, Avaliação e Treino virarem features reais, a implementação deve seguir o padrão Dapper usado no resto do projeto (ver seção Repositories).
+`AgendaDBController`, `AvaliacaoDBController` e `FichasDBController` (treino) existiam antes, mas eram inteiramente código comentado de uma versão anterior com Entity Framework, sem nenhum endpoint funcionando — foram removidos na limpeza de código morto. As entidades `Agenda`, `Avaliacao` e `Treino` já têm mapeamento EF Core (`DbSet<T>` + Configuration, ver seção Database), mas nenhum repositório/Use Case/Controller foi implementado para elas ainda — se virarem features reais, a implementação deve seguir o padrão EF Core usado no resto do projeto (ver seção Repositories).
 
 Responsabilidades:
 
@@ -645,83 +649,69 @@ Responsabilidades:
 - atualizar registros
 - excluir registros
 
-Toda comunicação com o banco ocorre nesta camada.
+Toda comunicação com o banco ocorre nesta camada. Desde a migração para EF Core (ADR 0014), cada repositório recebe `VitalitasDbContext` via injeção de dependência (em vez de `DbConnectionFactory`) e usa `DbSet<T>`/LINQ no lugar de SQL cru.
 
 ---
 
 # Database
 
-Centraliza toda configuração relacionada ao banco de dados.
+Centraliza toda configuração relacionada ao banco de dados. Desde a sessão que introduziu Entity Framework Core (ver ADR 0014), o acesso a dados é feito via `DbContext` e Migrations Code-First — não há mais SQL manual nem `DbConnectionFactory`.
 
 ```
 Infrastructure
-│
-├── Database
-│     ├── Connections
-│     └── Scripts
-│
-└── Records
+└── Database
+      ├── Context         (VitalitasDbContext + factory de design-time)
+      ├── Configurations   (Fluent API, IEntityTypeConfiguration<T> — uma classe por entidade)
+      ├── Converters       (ValueConverter<T,string> para cada Value Object do Domain)
+      ├── Migrations       (histórico de schema gerado por `dotnet ef migrations add`)
+      └── Seed             (DevelopmentSeeder — dados mínimos para logar em Development)
 ```
 
-`Records` é uma pasta própria, direto sob `Infrastructure` (não fica dentro de `Database`).
+Os scripts SQL legados (`CREATE.sql`/`INSERT.sql`/`SELECT.sql`) foram arquivados fora da árvore de código, em `docs/archive/sql-scripts-legado/` — ver seção "Scripts (arquivados)" abaixo.
 
 ---
 
-## Connections
+## Context
 
-Responsável pela criação das conexões com o banco.
+`VitalitasDbContext` expõe um `DbSet<T>` por entidade de Domain e aplica todas as `Configurations` via `ApplyConfigurationsFromAssembly` no `OnModelCreating` — não há Fluent API escrita diretamente no `DbContext`, cada entidade tem sua própria classe de configuração.
 
-Exemplo:
-
-```
-DbConnectionFactory.cs
-```
+`VitalitasDbContextFactory` implementa `IDesignTimeDbContextFactory<VitalitasDbContext>` e é usado só pela CLI `dotnet ef` (migrations, database update) — lê a mesma cadeia de configuração (`appsettings*.json` + User Secrets + variáveis de ambiente) que o host real usa, sem precisar subir a API inteira.
 
 ---
 
-## Records
+## Configurations
 
-Representam modelos utilizados para persistência (mapeiam o resultado das queries antes de virar entidade de Domain).
+Uma classe `IEntityTypeConfiguration<T>` por entidade, organizada em subpastas espelhando `Domain/Features/**` (mesma convenção de namespace-por-pasta do resto do projeto). Define chaves, tamanhos de coluna, índices únicos e a conversão de cada Value Object via `HasConversion<XConverter>()`.
 
-Exemplo atual:
+Nenhuma relação `HasOne`/`WithMany` é configurada — o Domain não tem propriedades de navegação entre entidades, só chaves estrangeiras escalares (`Guid`). Joins entre entidades relacionadas são feitos explicitamente em LINQ nos repositórios, quando necessário.
 
-```
-UsuarioDB.cs
-
-RefreshTokenDB.cs
-```
-
-Esses modelos representam a estrutura do banco.
+> Nota: esta pasta não deve ser confusa com o item "Configurations (planejado)" que aparecia aqui em revisões anteriores deste documento — aquele item genérico (configuração de banco/JWT/DI) nunca chegou a ser criado como pasta própria; a config tipada de cada seção já vive nos `Settings`/`Extensions` de cada camada (ver ADR 0010).
 
 ---
 
-## Scripts
+## Converters
 
-Contém scripts SQL utilizados durante desenvolvimento. Hoje fica em `Database/Scripts`, ainda em formato flat (sem subpastas):
+Um `ValueConverter<TModel, TProvider>` por Value Object do Domain que precisa ser persistido (`Nome`, `Email`, `CPF`, `CREF`, `CNPJ`, `Monetario`). A entidade continua expondo o VO fortemente tipado; a conversão para o tipo primitivo do banco (geralmente `string`) acontece só na fronteira do EF Core.
 
-```
-CREATE.sql
-
-INSERT.sql
-
-SELECT.sql
-```
-
-Organização por Schema/Seed/Queries é uma evolução futura, não o estado atual.
+Atenção ao usar esses VOs em queries LINQ: o EF Core traduz a comparação da propriedade inteira (`u.Email == new Email(x)`) para SQL, mas **não** traduz acesso a um membro do VO dentro da expressão (`u.Email.Valor == x`) — isso lança `InvalidOperationException` em runtime, não erro de compilação. Onde é preciso projetar `.Valor` de um VO, a entidade completa é materializada primeiro (`.ToList()`/`.FirstOrDefault()`), e o `.Valor` é lido depois, já em memória.
 
 ---
 
-# Configurations (planejado)
+## Migrations
 
-> Esta pasta ainda não existe no projeto. Descrição do que ela deve conter quando for criada.
+Histórico de schema versionado, gerado por `dotnet ef migrations add <Nome>` e aplicado por `dotnet ef database update` (ou automaticamente em Development, via `dbContext.Database.Migrate()` no `Program.cs`). Substitui rodar `CREATE.sql` manualmente no SSMS.
 
-Centraliza configurações específicas da infraestrutura.
+---
 
-Exemplos:
+## Seed
 
-- configuração de banco
-- configuração de JWT
-- Dependency Injection
+`DevelopmentSeeder` substitui `INSERT.sql`. Roda condicionalmente (só se a tabela `Academias` estiver vazia) depois do `Migrate()`, em Development, criando o mínimo necessário para logar: 1 Academia + 1 Usuário Gestor. O restante dos dados de teste é criado através da própria API (endpoints de `GestorController`), não de um script de seed extenso.
+
+---
+
+## Scripts (arquivados)
+
+`CREATE.sql`, `INSERT.sql` e `SELECT.sql` ficaram órfãos com a migração para EF Core — movidos para `docs/archive/sql-scripts-legado/` como referência histórica do schema anterior, não são mais executados por nenhum processo. A pasta `Database/Scripts` deixou de existir em `Infrastructure`.
 
 ---
 

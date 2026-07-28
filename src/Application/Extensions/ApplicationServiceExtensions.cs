@@ -54,8 +54,7 @@ namespace Application.Extensions
         private static IServiceCollection AddTokenFeature(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<IRefreshTokenUseCase, RefreshTokenUC>();
-            services.AddSingleton(new RefreshTokenSettings(
-                int.Parse(configuration["Jwt:RefreshTokenDurationInDays"] ?? "7")));
+            services.Configure<RefreshTokenSettings>(configuration.GetSection("Jwt"));
             return services;
         }
     }

@@ -8,16 +8,19 @@ using Infrastructure.Repositories.Usuarios.Aluno;
 using Infrastructure.Repositories.Usuarios.Gestor;
 using Infrastructure.Repositories.Fichas.FichaMedica;
 using Infrastructure.Repositories.Token;
-using Infrastructure.Database.Connections;
+using Infrastructure.Database.Context;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure.Extensions
 {
     public static class InfrastructureServiceExtensions
     {
-        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
+        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddSingleton<DbConnectionFactory>();
+            services.AddDbContext<VitalitasDbContext>(options =>
+                options.UseSqlServer(configuration.GetConnectionString("ConexaoPadrao")));
 
             services.AddUsuarioFeature();
             services.AddAlunoFeature();

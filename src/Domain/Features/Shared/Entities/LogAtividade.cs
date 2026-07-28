@@ -9,6 +9,7 @@ namespace Domain.Features.Shared.Entities
     public class LogAtividade
     {
         public Guid IdLog { get; private set; }
+        public Guid IdAcademia { get; private set; }
         public Guid IdUsuario { get; private set; }
         public DateTime DataHora { get; private set; }
         public AcaoLog Acao { get; private set; }

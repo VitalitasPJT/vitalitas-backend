@@ -32,9 +32,15 @@ A estrutura relacional foi projetada no **SQL Server** para garantir a integrida
 *(Principais entidades: Usuários, Perfis, Treinos, Fichas e Avaliações)*
 
 ### Infraestrutura
-O projeto utiliza a nuvem da **Microsoft Azure**:
+O projeto planeja utilizar a nuvem da **Microsoft Azure**:
 * **App Service:** Hospedagem da API.
 * **Azure SQL Database:** Persistência dos dados.
+
+> ⚠️ **Nada disso está provisionado ainda.** Hoje não existe nenhum recurso Azure criado para o Vitalitas — nem App Service, nem Azure SQL, nem Key Vault. É infraestrutura planejada para uma fase futura do projeto, não o estado atual. Antes de provisionar qualquer coisa, confira **Cost Management + Billing** no [portal Azure](https://portal.azure.com) pra garantir que a subscription usada não tem cobrança residual de outro projeto.
+
+### Documentação Técnica
+
+A arquitetura do backend (Clean Architecture, organização por feature, convenções de nomenclatura) está documentada em detalhe em [`docs/Arquitetura_backend.md`](docs/Arquitetura_backend.md). As decisões estruturais tomadas durante a revisão de arquitetura — com contexto, alternativas consideradas e consequências — estão registradas como ADRs em [`docs/adr/`](docs/adr/README.md).
 
 ## Configuração do Ambiente de Desenvolvimento
 
@@ -68,34 +74,47 @@ Se aparecer MSSQLLocalDB, o LocalDB está funcionando corretamente.
     * Crie um novo banco de dados com o nome: `[VITALITAS_DEV]`.
     * Defina o "Proprietário" (Owner) como o usuário que você acabou de criar.
 
-5.  **Carga de Dados:**
-    * No SSMS, abra o menu superior esquerdo, selecione o arquivo e execute os scripts:
-        `vitalitas-backend\src\Infrastructure\Database\CREATE.sql`
-    * Em seguida, abra e execute o script de população de dados:
-        `vitalitas-backend\src\Infrastructure\Database\INSERT.sql`
+5.  **Schema e dados iniciais:** desde a migração para Entity Framework Core (ver [`docs/adr/0014`](docs/adr/0014-migracao-dapper-para-ef-core.md)), o schema não é mais criado rodando `.sql` manualmente no SSMS. Com a connection string configurada (passo 2 abaixo), basta rodar a aplicação:
+
+    ```bash
+    dotnet run --project src/API
+    ```
+
+    Em `Development`, o `Program.cs` aplica as migrations pendentes automaticamente (`dbContext.Database.Migrate()`) e popula o banco com o mínimo necessário para logar (1 Academia + 1 usuário Gestor, via `DevelopmentSeeder`) — nenhum passo manual adicional é necessário. Para aplicar as migrations sem subir a API (ex.: preparar o banco antes do primeiro `dotnet run`), use a CLI do EF Core:
+
+    ```bash
+    dotnet tool install --global dotnet-ef  # se ainda não tiver a ferramenta instalada
+    dotnet ef database update --project src/Infrastructure --startup-project src/API
+    ```
+
+    Os scripts antigos (`CREATE.sql`/`INSERT.sql`) ficam arquivados em `docs/archive/sql-scripts-legado/` só como referência histórica do schema anterior — não são mais executados por nenhum processo.
 
 > **Nota:** Verifique no *SQL Server Configuration Manager* se o protocolo **TCP/IP** está habilitado para o SQLEXPRESS.
 
 ### 2. Configuração da Aplicação (Backend)
 
-#### Segredos do Usuário (User Secrets)
-Para garantir a segurança da chave de assinatura do Token JWT, não a armazenamos no código fonte. Utilizamos o recurso de **User Secrets**.
+`appsettings.json` fica versionado e **não** contém segredos de propósito (`ConnectionStrings:ConexaoPadrao` e `Jwt:Key` ficam vazios nele). Existem duas formas de suprir esses valores localmente — escolha uma:
 
-Abra o terminal na pasta raiz do projeto (`vitalitas-backend`) e execute:
+#### Opção A — copiar o arquivo de exemplo (mais simples)
 
 ```bash
-dotnet user-secrets init
-dotnet user-secrets set "Jwt:Key" "SUA_CHAVE_SECRETA_AQUI"
+cp src/API/appsettings.Development.json.example src/API/appsettings.Development.json
 ```
 
-#### String de Conexão
-Abra o arquivo `appsettings.json` e localize a seção ConnectionStrings. Atualize o parâmetro `DefaultConnection` com as credenciais do usuário que você criou no passo 1 :
+Depois edite `src/API/appsettings.Development.json` (esse arquivo está no `.gitignore`, nunca é commitado) e preencha:
+- `ConnectionStrings:ConexaoPadrao` com a string de conexão do banco criado no passo 1.
+- `Jwt:Key` com qualquer string aleatória de pelo menos 32 caracteres.
 
-```json
-"ConnectionStrings": {
-  "DefaultConnection": "Server=SEU_SERVIDOR;Database=VITALITAS_DEV;User Id=SEU_USUARIO;Password=SUA_SENHA;TrustServerCertificate=True;"
-}
+#### Opção B — User Secrets
+
+```bash
+dotnet user-secrets init --project src/API
+dotnet user-secrets set "Jwt:Key" "SUA_CHAVE_SECRETA_AQUI" --project src/API
 ```
+
+A connection string ainda precisa ser definida via Opção A (ou também via `dotnet user-secrets set "ConnectionStrings:ConexaoPadrao" "..."`).
+
+> A lista completa de parâmetros de configuração — o que cada um faz, tipo, e se é obrigatório por ambiente — está na seção [Referência de Configurações](#referência-de-configurações) mais abaixo.
 
 ### 3. Executando a Aplicação
 Com o banco configurado e as chaves definidas, execute os comandos abaixo no terminal dentro da pasta do projeto:
@@ -107,6 +126,45 @@ dotnet run
 ```
 
 A API estará disponível em `https://localhost:7214` (HTTPS) ou `http://localhost:5156` (HTTP), conforme configurado em `launchSettings.json`.
+
+## Referência de Configurações
+
+Todos os parâmetros de configuração da aplicação, de onde vêm e como sobrescrever cada um sem alterar código (variável de ambiente, User Secrets, ou arquivo por ambiente). Detalhes de implementação e decisões de design estão em [`docs/adr/0010`](docs/adr/0010-options-pattern-para-configuracao-jwt.md), [`docs/adr/0011`](docs/adr/0011-environment-variables-provider.md) e [`docs/adr/0015`](docs/adr/0015-estrategia-tres-ambientes.md) (estratégia dos três ambientes).
+
+### Três ambientes
+
+`appsettings.json` (base), `appsettings.Development.json`, `appsettings.Staging.json` e `appsettings.Production.json` existem para os três ambientes. Só o base e os dois últimos são versionados — todos sem segredo real, só estrutura (ver [`docs/adr/0015`](docs/adr/0015-estrategia-tres-ambientes.md)). `appsettings.Development.json` é local, criado a partir do `.example` (passo 2 acima), e nunca é commitado. Staging e Production ainda não têm infraestrutura real provisionada — os arquivos só preparam a estrutura de configuração, os valores reais serão supridos via variável de ambiente/Key Vault quando o deploy acontecer.
+
+### Como a aplicação resolve configuração
+
+Ordem de precedência (o de baixo sobrescreve o de cima), do jeito que o `WebApplication.CreateBuilder` já monta por padrão:
+
+1. `appsettings.json` (versionado, sem segredos)
+2. `appsettings.{ASPNETCORE_ENVIRONMENT}.json` (versionado sem segredos para Staging/Production; `appsettings.Development.json` **não** é versionado)
+3. User Secrets (só quando `ASPNETCORE_ENVIRONMENT=Development`)
+4. Variáveis de ambiente do processo (`Chave__Subchave`, dois underscores no lugar do `:`)
+5. Argumentos de linha de comando
+
+Em produção/staging (Azure App Service ou similar), os valores marcados como **obrigatório** abaixo devem ser fornecidos via variável de ambiente ou Key Vault — nunca em `appsettings.json`.
+
+### Parâmetros
+
+| Chave | Tipo | Obrigatório | Descrição | Ambiente aplicável | Variável de ambiente equivalente |
+|---|---|---|---|---|---|
+| `ConnectionStrings:ConexaoPadrao` | string | Sim (todos) | Connection string do SQL Server usada pelo `VitalitasDbContext` (Entity Framework Core) | Todos (valor por ambiente) | `ConnectionStrings__ConexaoPadrao` |
+| `Jwt:Key` | string (≥ 32 caracteres) | Sim (todos) | Chave simétrica usada para assinar e validar tokens JWT (HMAC-SHA256). Nunca commitar o valor real. | Todos (valor **diferente** por ambiente) | `Jwt__Key` |
+| `Jwt:Issuer` | string | Sim | Claim `iss` emitido no token e validado na autenticação | Todos (normalmente igual em todos) | `Jwt__Issuer` |
+| `Jwt:Audience` | string | Sim | Claim `aud` emitido no token e validado na autenticação | Todos (normalmente igual em todos) | `Jwt__Audience` |
+| `Jwt:DurationInMinutes` | int (> 0) | Sim | Tempo de vida do access token, em minutos | Todos (hoje `15` em todos) | `Jwt__DurationInMinutes` |
+| `Jwt:RefreshTokenDurationInDays` | int (> 0) | Não (default `7`) | Tempo de vida do refresh token, em dias | Todos (hoje `7` em todos) | `Jwt__RefreshTokenDurationInDays` |
+| `Logging:LogLevel:Default` | string (`Trace`\|`Debug`\|`Information`\|`Warning`\|`Error`\|`Critical`\|`None`) | Não | Verbosidade padrão de log da aplicação | Todos — recomendado `Information` em Dev, `Warning` em Staging/Prod | `Logging__LogLevel__Default` |
+| `Logging:LogLevel:Microsoft.AspNetCore` | string (mesmo enum acima) | Não | Verbosidade de log específica do framework ASP.NET Core | Todos — recomendado `Warning` em todos | `Logging__LogLevel__Microsoft.AspNetCore` |
+| `AllowedHosts` | string (`*` ou lista separada por `;`) | Não | Filtro de host header aceito pela aplicação | Todos — `*` é aceitável em Dev; recomendado restringir ao domínio real em Staging/Prod | `AllowedHosts` |
+
+### Conhecido, mas ainda não parametrizado
+
+- **Origem CORS** (`http://localhost:3000`) está hardcoded em `Program.cs`, não é um parâmetro de `appsettings.json`. Candidato natural a virar configuração (`Cors:AllowedOrigins`) quando existir um front-end de Staging/Produção com origem diferente.
+- **`Tenancy`** e **`Notificações`** — seções de configuração previstas em PBIs separados, ainda não implementadas; não existem no `appsettings.json` hoje.
 
 ## Documentação da API
 

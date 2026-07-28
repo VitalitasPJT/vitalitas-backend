@@ -242,28 +242,12 @@ namespace Application.Usuarios.Gestor.UseCases
                     return new ListarUsuarioResponse(null!, status_empty);
                 }
                 dynamic? usuario = null;
+                // Números de case alinhados com o enum real Domain.Enums.TipoUsuario
+                // (Instrutor=1, Aluno=2, Gestor=3, Administrador=4).
                 switch (tipoUsuario)
                 {
-                    case 1:
-                        usuario = new 
-                        {
-                            IdUsuario = result.idUsuario,
-                            IdAcademia = result.idAcademia,
-                            Nome = result.nome,
-                            Email = result.email,
-                            TipoUsuario = (TipoUsuario)result.tipoUsuario,
-                            Ativo = result.ativo,
-                            Quadra = result.quadra,
-                            Rua = result.rua,
-                            Bairro = result.bairro,
-                            Cidade = result.cidade,
-                            Estado = result.estado,
-                            CEP = result.cep,
-                            Objetivo = result.objetivo
-                        };
-                        break;
-                    case 2:
-                        usuario = new 
+                    case (int)TipoUsuario.Instrutor:
+                        usuario = new
                         {
                             IdUsuario = result.idUsuario,
                             IdAcademia = result.idAcademia,
@@ -280,8 +264,43 @@ namespace Application.Usuarios.Gestor.UseCases
                             CREF = result.cref
                         };
                         break;
-                    case 3:
-                        usuario = new 
+                    case (int)TipoUsuario.Aluno:
+                        usuario = new
+                        {
+                            IdUsuario = result.idUsuario,
+                            IdAcademia = result.idAcademia,
+                            Nome = result.nome,
+                            Email = result.email,
+                            TipoUsuario = (TipoUsuario)result.tipoUsuario,
+                            Ativo = result.ativo,
+                            Quadra = result.quadra,
+                            Rua = result.rua,
+                            Bairro = result.bairro,
+                            Cidade = result.cidade,
+                            Estado = result.estado,
+                            CEP = result.cep,
+                            Objetivo = result.objetivo
+                        };
+                        break;
+                    case (int)TipoUsuario.Gestor:
+                        usuario = new
+                        {
+                            IdUsuario = result.idUsuario,
+                            IdAcademia = result.idAcademia,
+                            Nome = result.nome,
+                            Email = result.email,
+                            TipoUsuario = (TipoUsuario)result.tipoUsuario,
+                            Ativo = result.ativo,
+                            Quadra = result.quadra,
+                            Rua = result.rua,
+                            Bairro = result.bairro,
+                            Cidade = result.cidade,
+                            Estado = result.estado,
+                            CEP = result.cep
+                        };
+                        break;
+                    case (int)TipoUsuario.Administrador:
+                        usuario = new
                         {
                             IdUsuario = result.idUsuario,
                             IdAcademia = result.idAcademia,
@@ -296,23 +315,6 @@ namespace Application.Usuarios.Gestor.UseCases
                             Estado = result.estado,
                             CEP = result.cep,
                             Cargo = result.cargo
-                        };
-                        break;
-                    case 4:
-                        usuario = new 
-                        {
-                            IdUsuario = result.idUsuario,
-                            IdAcademia = result.idAcademia,
-                            Nome = result.nome,
-                            Email = result.email,
-                            TipoUsuario = (TipoUsuario)result.tipoUsuario,
-                            Ativo = result.ativo,
-                            Quadra = result.quadra,
-                            Rua = result.rua,
-                            Bairro = result.bairro,
-                            Cidade = result.cidade,
-                            Estado = result.estado,
-                            CEP = result.cep
                         };
                         break;
                 }

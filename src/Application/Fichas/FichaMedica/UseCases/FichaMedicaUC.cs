@@ -27,12 +27,12 @@ namespace Application.Fichas.FichaMedica.UseCases
             
             if (success)
             {
-                var status = new StatusHTTP(201, "Ficha médica criada com sucesso.");
+                var status = new StatusHTTP("Ficha médica criada com sucesso.", 201, true);
                 var response = new CriarFichaMedicaResponse(idFicha, status);
-                return response;   
+                return response;
             }
-            
-            var errorStatus = new StatusHTTP(500, "Erro ao criar ficha médica.");
+
+            var errorStatus = new StatusHTTP("Erro ao criar ficha médica.", 500, false);
             return new CriarFichaMedicaResponse(Guid.Empty, errorStatus);
         }
     }

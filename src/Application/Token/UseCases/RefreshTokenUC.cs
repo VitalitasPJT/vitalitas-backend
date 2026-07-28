@@ -7,6 +7,7 @@ using Application.Token.Service;
 using Application.Token.Settings;
 using Domain.Features.Token.Entities;
 using Domain.Features.Token.Interfaces;
+using Microsoft.Extensions.Options;
 using static Application.Usuarios.Common.Response.UsuarioRS;
 
 namespace Application.Token.UseCases
@@ -20,11 +21,11 @@ namespace Application.Token.UseCases
         public RefreshTokenUC(
             ITokenService tokenService,
             IRefreshTokenRepository refreshTokenRepository,
-            RefreshTokenSettings settings)
+            IOptions<RefreshTokenSettings> settings)
         {
             _tokenService = tokenService;
             _refreshTokenRepository = refreshTokenRepository;
-            _settings = settings;
+            _settings = settings.Value;
         }
 
         public RefreshResponse Refresh(string accessToken, string refreshToken)
@@ -37,7 +38,8 @@ namespace Application.Token.UseCases
             // 2. Extract identity from verified claims — never from request body
             var userId = principal.FindFirst("IdUsuario")?.Value;
             var tipoUsuario = principal.FindFirst("TipoUsuario")?.Value;
-            if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(tipoUsuario))
+            var tenantId = principal.FindFirst("TenantId")?.Value;
+            if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(tipoUsuario) || string.IsNullOrWhiteSpace(tenantId))
                 throw new UnauthorizedAccessException();
 
             // 3. Hash the incoming token and look up by hash only
@@ -57,7 +59,7 @@ namespace Application.Token.UseCases
                 throw new UnauthorizedAccessException();
 
             // 7–8. Generate new token pair
-            var newAccessToken = _tokenService.GenerateToken(userId, tipoUsuario);
+            var newAccessToken = _tokenService.GenerateToken(userId, tipoUsuario, tenantId);
             var newRawToken = GenerateRawToken();
             var newTokenHash = ComputeHash(newRawToken);
 
@@ -68,7 +70,7 @@ namespace Application.Token.UseCases
             _refreshTokenRepository.Save(new RefreshToken(
                 Guid.NewGuid(),
                 newTokenHash,
-                DateTime.UtcNow.AddDays(_settings.DurationInDays),
+                DateTime.UtcNow.AddDays(_settings.RefreshTokenDurationInDays),
                 false,
                 stored.IdUsuario
             ));

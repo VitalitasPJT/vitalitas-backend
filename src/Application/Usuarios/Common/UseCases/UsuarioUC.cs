@@ -7,6 +7,7 @@ using Application.Token.Settings;
 using Domain.Features.Token.Entities;
 using Domain.Features.Usuarios.Common.Interfaces;
 using Domain.Features.Token.Interfaces;
+using Microsoft.Extensions.Options;
 using static Application.Usuarios.Common.Response.UsuarioRS;
 
 namespace Application.Usuarios.Common.UseCases
@@ -21,12 +22,12 @@ namespace Application.Usuarios.Common.UseCases
             IUsuarioRepository usuarioRepository,
             ITokenService tokenService,
             IRefreshTokenRepository refreshTokenRepository,
-            RefreshTokenSettings refreshTokenSettings)
+            IOptions<RefreshTokenSettings> refreshTokenSettings)
         {
             _usuarioRepository = usuarioRepository;
             _tokenService = tokenService;
             _refreshTokenRepository = refreshTokenRepository;
-            _refreshTokenSettings = refreshTokenSettings;
+            _refreshTokenSettings = refreshTokenSettings.Value;
         }
 
         public LoginResponse Login(string email, string senha)
@@ -35,7 +36,7 @@ namespace Application.Usuarios.Common.UseCases
             if (usuario == null)
                 throw new UnauthorizedAccessException("Credenciais inválidas");
 
-            var accessToken = _tokenService.GenerateToken(usuario.IdUsuario.ToString(), usuario.TipoUsuario.ToString());
+            var accessToken = _tokenService.GenerateToken(usuario.IdUsuario.ToString(), usuario.TipoUsuario.ToString(), usuario.IdAcademia.ToString());
 
             var rawRefreshToken = GenerateRawToken();
             var tokenHash = ComputeHash(rawRefreshToken);
@@ -43,7 +44,7 @@ namespace Application.Usuarios.Common.UseCases
             _refreshTokenRepository.Save(new RefreshToken(
                 Guid.NewGuid(),
                 tokenHash,
-                DateTime.UtcNow.AddDays(_refreshTokenSettings.DurationInDays),
+                DateTime.UtcNow.AddDays(_refreshTokenSettings.RefreshTokenDurationInDays),
                 false,
                 usuario.IdUsuario
             ));

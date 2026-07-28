@@ -1,5 +1,6 @@
 using API.Services;
 using Application.Token.Service;
+using Domain.Features.Shared.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace API.Extensions
@@ -10,6 +11,9 @@ namespace API.Extensions
         {
             services.AddScoped<IJwtService, JwtService>();
             services.AddScoped<ITokenService, JwtService>();
+
+            services.AddHttpContextAccessor();
+            services.AddScoped<ITenantContext, CurrentTenantService>();
 
             return services;
         }
