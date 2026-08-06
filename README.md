@@ -18,25 +18,24 @@ O backend foi desenvolvido seguindo princípios de **Clean Architecture** e **Do
 ### Visão da Solução
 A API atua como o núcleo central do sistema, operando de forma *stateless* e servindo os clientes web/mobile.
 
-<!-- ![Diagrama de Arquitetura](./arquitetura.png) -->
 🚧 Diagrama em desenvolvimento 🚧
 
 *(Fluxo: React Client ↔ API .NET Core ↔ SQL Server / Azure Services)*
 
 ### Modelagem de Dados
-A estrutura relacional foi projetada no **SQL Server** para garantir a integridade de dados críticos como fichas médicas e histórico de treinos.
+A estrutura relacional é gerada pelo **Entity Framework Core** (Code-First) a partir das entidades de Domain — ver [`docs/adr/0014`](docs/adr/0014-migracao-dapper-para-ef-core.md). O schema não é mais mantido manualmente via scripts SQL.
 
-<!-- ![Diagrama Entidade Relacionamento](./der_database.png) -->
 🚧 Diagrama em desenvolvimento 🚧
 
 *(Principais entidades: Usuários, Perfis, Treinos, Fichas e Avaliações)*
 
 ### Infraestrutura
-O projeto planeja utilizar a nuvem da **Microsoft Azure**:
-* **App Service:** Hospedagem da API.
-* **Azure SQL Database:** Persistência dos dados.
+O projeto utiliza a nuvem da **Microsoft Azure**:
+* **Azure SQL Database:** provisionado — usado como banco de dados de nuvem via `ConnectionStrings:ConexaoPadrao` (User Secrets), com acesso restrito por firewall a IPs liberados.
+* **App Service:** Hospedagem da API — ainda **não** provisionado.
+* **Key Vault:** gestão de segredos em produção — ainda **não** implementado (fora de escopo até o momento).
 
-> ⚠️ **Nada disso está provisionado ainda.** Hoje não existe nenhum recurso Azure criado para o Vitalitas — nem App Service, nem Azure SQL, nem Key Vault. É infraestrutura planejada para uma fase futura do projeto, não o estado atual. Antes de provisionar qualquer coisa, confira **Cost Management + Billing** no [portal Azure](https://portal.azure.com) pra garantir que a subscription usada não tem cobrança residual de outro projeto.
+> ⚠️ Antes de provisionar qualquer novo recurso, confira **Cost Management + Billing** no [portal Azure](https://portal.azure.com) pra garantir que a subscription usada não tem cobrança residual de outro projeto.
 
 ### Documentação Técnica
 
@@ -113,6 +112,20 @@ dotnet user-secrets set "Jwt:Key" "SUA_CHAVE_SECRETA_AQUI" --project src/API
 ```
 
 A connection string ainda precisa ser definida via Opção A (ou também via `dotnet user-secrets set "ConnectionStrings:ConexaoPadrao" "..."`).
+
+#### Opção C — Azure SQL (em vez de LocalDB)
+
+Para rodar contra o Azure SQL Database provisionado na nuvem (em vez do banco local), defina a connection string real via User Secrets — **nunca** em `appsettings.json`:
+
+```bash
+dotnet user-secrets set "ConnectionStrings:ConexaoPadrao" "Server=tcp:<seu-servidor>.database.windows.net,1433;Database=<seu-banco>;User ID=<usuario>;Password=<senha>;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;" --project src/API
+```
+
+Pré-requisitos:
+- Seu IP público atual precisa estar liberado no firewall do servidor Azure SQL (**Networking > Firewall rules** no portal Azure) — não basta habilitar "Allow Azure services and resources to access this server".
+- Confirme que **Public network access** está habilitado para o servidor.
+
+Com `ASPNETCORE_ENVIRONMENT=Development`, rodar `dotnet run --project src/API` aplica as migrations pendentes e roda o `DevelopmentSeeder` automaticamente **no banco apontado pela connection string ativa** — inclusive no Azure SQL, se for esse o valor configurado. Para aplicar só o schema sem subir a API nem popular dados de seed, use `dotnet ef database update` (passo 5 acima).
 
 > A lista completa de parâmetros de configuração — o que cada um faz, tipo, e se é obrigatório por ambiente — está na seção [Referência de Configurações](#referência-de-configurações) mais abaixo.
 
