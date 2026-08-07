@@ -11,11 +11,11 @@
 
 <div align="center">
 
-[![Mapa Mental do Projeto](media/banner-mapa-mental.png)](media/mapa-mental-vitalitas.pdf)
+[![Mapa Mental do Projeto](media/banner-mapa-mental.png)](media/diagramas/)
 
 </div>
 
-Mapa mental completo (domínio, camadas, decisões de arquitetura) em [`media/mapa-mental-vitalitas.pdf`](media/mapa-mental-vitalitas.pdf). Diagramas individuais (arquitetura, DER/MER, fluxos) ficam em [`media/diagramas/`](media/diagramas).
+Diagramas individuais (arquitetura, DER/MER, fluxos) ficam em [`media/diagramas/`](media/diagramas).
 
 ## Arquitetura e Design
 
