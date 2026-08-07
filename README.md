@@ -11,7 +11,7 @@
 
 <div align="center">
 
-[![Mapa Mental do Projeto](media/banner_arquitetura_backend.png)](media/diagramas/)
+[![Mapa Mental do Projeto](media/Diagramas.png)](media/diagramas/)
 
 </div>
 
@@ -41,7 +41,7 @@ dotnet tool restore
 
 # 2. Configurar segredos locais (connection string + chave JWT)
 cd src/API
-dotnet user-secrets set "ConnectionStrings:ConexaoPadrao" "Server=tcp:SEU-SERVIDOR.database.windows.net,1433;Database=VITALITAS;User ID=SEU_USUARIO;Password=SUA_SENHA;Encrypt=True;TrustServerCertificate=False;"
+dotnet user-secrets set "ConnectionStrings:ConexaoPadrao" "Server=tcp:server-sql-vitalitas.database.windows.net,1433;Initial Catalog=sql-db-vitalitas;Persist Security Info=False;User ID={login};Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
 dotnet user-secrets set "Jwt:Key" "SUA_CHAVE_SECRETA_LOCAL_COM_PELO_MENOS_32_CARACTERES"
 cd ../..
 
@@ -62,9 +62,12 @@ A API sobe em `https://localhost:7214` (HTTPS) ou `http://localhost:5156` (HTTP)
 
 Clean Architecture com quatro projetos (`Domain`, `Application`, `Infrastructure`, `API`). Acesso a dados usa **Dapper** em runtime e **EF Core** só para versionar/aplicar o schema (não para consultas). Detalhes completos e o histórico de decisões:
 
-* [`docs/Arquitetura_backend.md`](docs/Arquitetura_backend.md)
-* [ADRs](docs/adr/README.md)
-* Diagramas (arquitetura, DER/MER, fluxos): [`media/diagramas/`](media/diagramas)
+<div align="center">
+
+[![Arquitetura](media/Arquitetura.png)](docs/Arquitetura_backend.md)
+[![ADRs](media/ADRs.png)](docs/adr/README.md)
+
+</div>
 
 ## Autenticação da API
 
