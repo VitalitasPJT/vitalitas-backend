@@ -791,7 +791,7 @@ Cada `Add*Services()` público é dividido internamente em métodos privados por
 
 ```csharp
 builder.Services.AddApplicationServices(builder.Configuration);
-builder.Services.AddInfrastructureServices();
+builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddApiServices();
 ```
 

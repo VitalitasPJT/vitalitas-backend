@@ -9,15 +9,26 @@ using Infrastructure.Repositories.Usuarios.Gestor;
 using Infrastructure.Repositories.Fichas.FichaMedica;
 using Infrastructure.Repositories.Token;
 using Infrastructure.Database.Connections;
+using Infrastructure.Database.Context;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure.Extensions
 {
     public static class InfrastructureServiceExtensions
     {
-        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
+        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddSingleton<DbConnectionFactory>();
+
+            // AppDbContext é usado apenas para versionar/aplicar o schema (migrations) no
+            // Azure SQL centralizado — o acesso a dados em runtime continua via Dapper
+            // (ver DbConnectionFactory acima e Infrastructure/Repositories). Ver ADR-0010.
+            services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlServer(
+                    configuration.GetConnectionString("ConexaoPadrao")
+                        ?? throw new InvalidOperationException("String de conexão 'ConexaoPadrao' não encontrada.")));
 
             services.AddUsuarioFeature();
             services.AddAlunoFeature();

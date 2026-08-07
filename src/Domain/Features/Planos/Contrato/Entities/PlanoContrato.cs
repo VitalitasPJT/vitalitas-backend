@@ -13,5 +13,15 @@ namespace Domain.Features.Planos.Contrato.Entities
         public string Nome { get; private set; }
         public string Descricao { get; private set; }
         public Monetario Valor { get; private set; }
+
+        public PlanoContrato(string nome, string descricao, Monetario valor)
+        {
+            IdPlano = Guid.NewGuid();
+            Nome = nome;
+            Descricao = descricao;
+            Valor = valor;
+        }
+
+        public PlanoContrato() { }
     }
 }

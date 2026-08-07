@@ -8,12 +8,14 @@ namespace Domain.ValueObjects
 {
     public class Monetario
     {
-        private string valor;
+        public string Valor { get; private set; }
 
         public Monetario(string valor)
         {
-            this.valor = valor;
+            Valor = valor;
         }
+
+        public override string ToString() => Valor;
     }
 }
 

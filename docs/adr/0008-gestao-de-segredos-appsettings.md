@@ -2,6 +2,8 @@
 
 ## Status
 
+**Superseded pelo [ADR-0011](0011-adocao-user-secrets.md)** — com a centralização do banco no Azure SQL, o time passou a usar `dotnet user-secrets` como método padrão de configurar segredos locais. Este documento é mantido como histórico da decisão original.
+
 Implementado (com um item pendente de confirmação humana — ver Consequências).
 
 ## Contexto

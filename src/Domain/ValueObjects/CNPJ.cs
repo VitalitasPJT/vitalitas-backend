@@ -8,11 +8,13 @@ namespace Domain.ValueObjects
 {
     public class CNPJ
     {
-        private string cnpj;
+        public string Valor { get; private set; }
 
         public CNPJ(string cnpj)
         {
-            this.cnpj = cnpj;
+            Valor = cnpj;
         }
+
+        public override string ToString() => Valor;
     }
 }

@@ -7,34 +7,33 @@
 ![SQL Server](https://img.shields.io/badge/SQL_Server-CC2927?style=for-the-badge&logo=microsoft-sql-server&logoColor=white)
 ![Azure](https://img.shields.io/badge/Azure-0089D6?style=for-the-badge&logo=microsoft-azure&logoColor=white)
 
-> ℹ️ **Visão Geral:** Para entender o contexto acadêmico, a proposta de valor e o escopo do produto (MVP), acesse o **[README da Organização Vitalitas](https://github.com/VitalitasPJT)**.
+> ℹ️ Para o contexto de produto (proposta de valor, escopo do MVP), acesse o **[README da Organização Vitalitas](https://github.com/VitalitasPJT)**. Este README cobre só o backend: arquitetura, banco de dados e como rodar.
+
+<div align="center">
+
+[![Mapa Mental do Projeto](media/banner-mapa-mental.png)](media/mapa-mental-vitalitas.pdf)
+
+</div>
+
+Mapa mental completo (domínio, camadas, decisões de arquitetura) em [`media/mapa-mental-vitalitas.pdf`](media/mapa-mental-vitalitas.pdf). Diagramas individuais (arquitetura, DER/MER, fluxos) ficam em [`media/diagramas/`](media/diagramas).
 
 ## Arquitetura e Design
 
-> 🚧 **EM REVISÃO ACADÊMICA:** Os diagramas e decisões arquiteturais abaixo estão em fase de validação pelos orientadores do projeto e podem sofrer alterações.
+O backend segue **Clean Architecture** com quatro projetos (`Domain`, `Application`, `Infrastructure`, `API`), cada um só referenciando as camadas internas a ele — ver [`docs/Arquitetura_backend.md`](docs/Arquitetura_backend.md) e os [ADRs](docs/adr/README.md) para o histórico completo das decisões estruturais.
 
-O backend foi desenvolvido seguindo princípios de **Clean Architecture** e **Domain-Driven Design (DDD)** simplificado, visando desacoplamento entre as regras de negócio e a infraestrutura.
+### Acesso a dados: Dapper (runtime) + EF Core (schema)
 
-### Visão da Solução
-A API atua como o núcleo central do sistema, operando de forma *stateless* e servindo os clientes web/mobile.
+O backend usa **dois mecanismos deliberadamente separados**, não um ORM único:
 
-<!-- ![Diagrama de Arquitetura](./arquitetura.png) -->
-🚧 Diagrama em desenvolvimento 🚧
+* **Dapper** (`src/Infrastructure/Repositories/**`) é o único caminho de leitura/escrita em runtime — SQL direto, sem abstração de ORM.
+* **EF Core Code-First** (`src/Infrastructure/Database/Context/AppDbContext.cs` + `Database/Configurations/**`) existe só para **versionar e aplicar o schema** (migrations) no Azure SQL centralizado. Não é usado para consultas da aplicação.
 
-*(Fluxo: React Client ↔ API .NET Core ↔ SQL Server / Azure Services)*
+Essa separação — e por que o banco deixou de ser local por dev e passou a ser uma instância única do Azure SQL — está documentada em [ADR-0010](docs/adr/0010-adocao-ef-core-azure-sql.md).
 
-### Modelagem de Dados
-A estrutura relacional foi projetada no **SQL Server** para garantir a integridade de dados críticos como fichas médicas e histórico de treinos.
-
-<!-- ![Diagrama Entidade Relacionamento](./der_database.png) -->
-🚧 Diagrama em desenvolvimento 🚧
-
-*(Principais entidades: Usuários, Perfis, Treinos, Fichas e Avaliações)*
-
-### Infraestrutura
-O projeto utiliza a nuvem da **Microsoft Azure**:
-* **App Service:** Hospedagem da API.
-* **Azure SQL Database:** Persistência dos dados.
+### Infraestrutura (Azure)
+* **Azure SQL Database:** instância única (`server-sql-vitalitas`), compartilhada por todo o time, schema versionado via EF Core migrations.
+* **App Service:** hospedagem da API (deploy fora do escopo deste README).
+* **Segredos locais:** `dotnet user-secrets`, nunca em arquivo versionado — ver [ADR-0011](docs/adr/0011-adocao-user-secrets.md) e a seção de configuração abaixo.
 
 ## Configuração do Ambiente de Desenvolvimento
 
@@ -43,70 +42,99 @@ Siga este guia para configurar o ambiente local, o banco de dados e as credencia
 ### Pré-requisitos
 Certifique-se de ter as seguintes ferramentas instaladas:
 * **[.NET SDK 9.0+](https://dotnet.microsoft.com/download)**
-* **[SQL Server 2022 Express](https://www.microsoft.com/pt-br/sql-server/sql-server-downloads)** 
-* **[SQL Server Management Studio (SSMS)](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms)** 
+* **[dotnet-ef](https://learn.microsoft.com/ef/core/cli/dotnet)** — não precisa instalar manualmente: é uma tool local do repositório (`.config/dotnet-tools.json`), restaurada com `dotnet tool restore` (ver abaixo).
+* Acesso ao **Azure SQL Database** centralizado do projeto (peça as credenciais a quem administra o Azure do time — ver [ADR-0010](docs/adr/0010-adocao-ef-core-azure-sql.md)).
 
-### 1. Configuração do Banco de Dados
-1.  **Primeiramente:** Após baixar o SQL Server 2022 e o SQL Server Management Studio (SSMS), certifique-se de que você possui o LocalDB em sua máquina. Para isso, abra o PowerShell:
+> O banco não é mais local por desenvolvedor. Desde o [ADR-0010](docs/adr/0010-adocao-ef-core-azure-sql.md), o Vitalitas usa uma **única instância do Azure SQL compartilhada por todo o time**, com o schema versionado via EF Core (Code-First/migrations) em vez de scripts `CREATE.sql`/`INSERT.sql` manuais.
 
-```bash
-sqllocaldb info
-```
+### ⚠️ AVISO CRÍTICO DE WORKFLOW — banco compartilhado
 
-Se aparecer MSSQLLocalDB, o LocalDB está funcionando corretamente.
+Como **todo o time usa o mesmo banco no Azure SQL**, migrations de schema afetam todo mundo imediatamente:
 
-1.2 **Caso não apareça:** Instale o Visual Studio Community 2026 (ou a versão que aparecer dentro do seu VS) e certifique-se de que ativou a opção LocalDB na área de componentes individuais.
+* **Antes de subir (`git push`) uma migration nova**, avise o time (ex.: no canal do projeto) — outra pessoa pode estar com uma alteração de schema conflitante em andamento.
+* **Depois de todo `git pull`**, rode `dotnet ef database update` (comando completo abaixo) para aplicar ao seu ambiente qualquer migration que outra pessoa tenha adicionado. Se pular esse passo, sua aplicação local pode quebrar ao rodar contra um schema desatualizado, ou você pode acidentalmente gerar uma migration duplicada/conflitante na próxima vez que alterar uma entidade.
+* Nunca rode `dotnet ef database update` apontando para o Azure a partir de uma migration que você ainda não tem certeza que revisou — ela será aplicada para todo o time.
 
-2.  **Conexão Inicial:** Abra o SSMS e conecte-se à sua instância local `(localdb)\MSSQLLocalDB` ou `.\SQLEXPRESS`.
+### Configuração Inicial (Devs)
 
-3.  **Configuração de Usuário:**
-    * Crie um novo Login com **Autenticação SQL** (não use apenas a do Windows).
-    * Desmarque a opção *"Impor política de senha"* para facilitar o desenvolvimento.
-    * Defina o banco de dados padrão como `master` e garanta que a função de servidor `public` esteja marcada.
+#### 0. Liberar seu IP no firewall do Azure SQL
 
-4.  **Criação do Banco:**
-    * Crie um novo banco de dados com o nome: `[VITALITAS_DEV]`.
-    * Defina o "Proprietário" (Owner) como o usuário que você acabou de criar.
+O Azure SQL só aceita conexões de IPs liberados. Antes de qualquer comando abaixo, peça a quem administra o Azure do time para:
 
-5.  **Carga de Dados:**
-    * No SSMS, abra o menu superior esquerdo, selecione o arquivo e execute os scripts:
-        `vitalitas-backend\src\Infrastructure\Database\CREATE.sql`
-    * Em seguida, abra e execute o script de população de dados:
-        `vitalitas-backend\src\Infrastructure\Database\INSERT.sql`
+1. Acessar o **Portal do Azure** → servidor SQL (`server-sql-vitalitas`) → **Segurança → Rede (Networking)** → aba **Regras de firewall**.
+2. Adicionar uma regra com o nome do dev e o IP público dele (ex.: via [meuip.com.br](https://meuip.com.br)) — `Iniciar endereço IPv4` e `Endereço IPv4 final` iguais.
+3. Salvar.
 
-> **Nota:** Verifique no *SQL Server Configuration Manager* se o protocolo **TCP/IP** está habilitado para o SQLEXPRESS.
+Sem essa liberação, `dotnet ef database update`, `dotnet run` e qualquer tentativa de conexão falham por timeout — não é um problema no seu código.
 
-### 2. Configuração da Aplicação (Backend)
-
-#### Segredos do Usuário (User Secrets)
-Para garantir a segurança da chave de assinatura do Token JWT, não a armazenamos no código fonte. Utilizamos o recurso de **User Secrets**.
-
-Abra o terminal na pasta raiz do projeto (`vitalitas-backend`) e execute:
+#### 1. Restaurar as ferramentas do repositório
 
 ```bash
-dotnet user-secrets init
-dotnet user-secrets set "Jwt:Key" "SUA_CHAVE_SECRETA_AQUI"
+dotnet tool restore
 ```
 
-#### String de Conexão
-Abra o arquivo `appsettings.json` e localize a seção ConnectionStrings. Atualize o parâmetro `DefaultConnection` com as credenciais do usuário que você criou no passo 1 :
+Isso instala a versão do `dotnet-ef` fixada em `.config/dotnet-tools.json`, usada para gerar e aplicar migrations.
 
-```json
-"ConnectionStrings": {
-  "DefaultConnection": "Server=SEU_SERVIDOR;Database=VITALITAS_DEV;User Id=SEU_USUARIO;Password=SUA_SENHA;TrustServerCertificate=True;"
-}
+#### 2. Configurar os segredos locais (`dotnet user-secrets`)
+
+A connection string do Azure SQL e a chave JWT não vivem no código-fonte nem em `appsettings.Development.json` — desde o [ADR-0011](docs/adr/0011-adocao-user-secrets.md), usamos `dotnet user-secrets`, que guarda os valores fora da árvore do repositório.
+
+Na pasta `src/API` (onde já existe um `UserSecretsId` configurado no `.csproj`):
+
+```bash
+cd src/API
+dotnet user-secrets set "ConnectionStrings:ConexaoPadrao" "Server=tcp:SEU-SERVIDOR.database.windows.net,1433;Database=VITALITAS;User ID=SEU_USUARIO;Password=SUA_SENHA;Encrypt=True;TrustServerCertificate=False;"
+dotnet user-secrets set "Jwt:Key" "SUA_CHAVE_SECRETA_LOCAL_COM_PELO_MENOS_32_CARACTERES"
 ```
 
-### 3. Executando a Aplicação
-Com o banco configurado e as chaves definidas, execute os comandos abaixo no terminal dentro da pasta do projeto:
+`src/API/appsettings.Development.json.example` continua disponível só como referência do formato/chaves esperadas (não é mais o método usado para preencher os valores).
+
+#### 3. Aplicar o schema ao Azure SQL
+
+```bash
+dotnet ef database update --project src/Infrastructure/Vitalitas.Infrastructure.csproj --startup-project src/API/Vitalitas.API.csproj
+```
+
+Isso aplica todas as migrations pendentes (incluindo `InitialCreate`, que cria as ~21 tabelas do domínio) no banco apontado pela sua connection string. Rode este comando sempre após um `git pull` que traga migrations novas (ver aviso acima).
+
+Para gerar uma migration nova depois de alterar uma entidade em `src/Domain/Features/**`:
+
+```bash
+dotnet ef migrations add NomeDaMudanca --project src/Infrastructure/Vitalitas.Infrastructure.csproj --startup-project src/API/Vitalitas.API.csproj --output-dir Database/Migrations
+```
+
+### Executando a Aplicação
+Com os segredos configurados e o schema aplicado, execute os comandos abaixo no terminal dentro da pasta do projeto:
 
 ```bash
 dotnet restore
 dotnet build
-dotnet run
+dotnet run --project src/API/Vitalitas.API.csproj
 ```
 
 A API estará disponível em `https://localhost:7214` (HTTPS) ou `http://localhost:5156` (HTTP), conforme configurado em `launchSettings.json`.
+
+### Troubleshooting
+
+**`dotnet ef` falha com "You must install or update .NET to run this application" (framework `9.0.0` não encontrado):**
+Sua máquina não tem o runtime .NET 9 instalado (só SDKs/runtimes de outras versões). Em vez de baixar o runtime, defina o roll-forward para a sessão do terminal e rode o comando de novo:
+
+```powershell
+$env:DOTNET_ROLL_FORWARD = "LatestMajor"
+dotnet ef database update --project src/Infrastructure/Vitalitas.Infrastructure.csproj --startup-project src/API/Vitalitas.API.csproj
+```
+
+```bash
+DOTNET_ROLL_FORWARD=LatestMajor dotnet ef database update --project src/Infrastructure/Vitalitas.Infrastructure.csproj --startup-project src/API/Vitalitas.API.csproj
+```
+
+Essa variável só vale para a sessão atual do terminal — precisa ser definida de novo se você abrir um terminal novo.
+
+**Não faça `dotnet tool update dotnet-ef --version 8.x` (ou qualquer downgrade manual):**
+O projeto usa EF Core **9.0.18** (ver `Directory.Packages.props`) e a tool local está pinada na mesma versão em `.config/dotnet-tools.json`. Rodar `dotnet tool update` apontando pra outra versão diverge do resto do projeto e gera o erro `NU1605` (conflito de versão) na próxima vez que alguém rodar `dotnet restore`. Se a tool sumir ou ficar desatualizada, o comando certo é sempre `dotnet tool restore` — ele lê a versão certa do manifesto.
+
+**Erro de timeout/conexão recusada ao rodar `dotnet ef` ou `dotnet run`:**
+Seu IP mudou (comum em rede residencial/4G) e caiu fora da regra de firewall do Azure SQL — peça pra atualizar a regra (ver "0. Liberar seu IP" acima). Também vale lembrar que o Azure SQL Serverless entra em modo de espera quando ocioso: a primeira conexão depois de um tempo parado pode levar de 20 a 45 segundos para responder (cold start) — não é travamento.
 
 ## Documentação da API
 

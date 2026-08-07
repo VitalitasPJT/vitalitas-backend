@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 ValidateJwtConfiguration(builder.Configuration);
 
 builder.Services.AddApplicationServices(builder.Configuration);
-builder.Services.AddInfrastructureServices();
+builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddApiServices();
 
 builder.Services.AddCors(options =>
@@ -118,6 +118,13 @@ if (app.Environment.IsDevelopment())
         options.SwaggerEndpoint("/swagger/Administrativo/swagger.json", "Administrativo");
         options.SwaggerEndpoint("/swagger/Gestor/swagger.json", "Gestor");
     });
+
+    // Seed idempotente (dados de referência, ex.: catálogo de planos) — só em
+    // Development. Não substitui `dotnet ef database update`: o schema em si
+    // precisa das migrations aplicadas antes (ver README/ADR-0010).
+    using var seedScope = app.Services.CreateScope();
+    var dbContext = seedScope.ServiceProvider.GetRequiredService<Infrastructure.Database.Context.AppDbContext>();
+    await Infrastructure.Database.Seed.DbSeeder.SeedAsync(dbContext);
 }
 
 app.UseCors("AllowReact");
