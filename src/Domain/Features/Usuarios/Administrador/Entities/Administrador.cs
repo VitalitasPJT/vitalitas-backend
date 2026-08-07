@@ -18,6 +18,7 @@ namespace Domain.Features.Usuarios.Administrador.Entities
             IdUsuario = idUsuario;
             Cargo = cargo;
         }
+        public Administrador() {}
     }
     
 }
