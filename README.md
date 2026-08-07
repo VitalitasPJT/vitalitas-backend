@@ -9,11 +9,29 @@
 
 > ℹ️ Para o contexto de produto (proposta de valor, escopo do MVP), acesse o **[README da Organização Vitalitas](https://github.com/VitalitasPJT)**.
 
+<div align="center">
+
+[![Mapa Mental do Projeto](media/banner_arquitetura_backend.png)](media/diagramas/)
+
+</div>
+
 ## Pré-requisitos
 
 * **[.NET SDK 9.0+](https://dotnet.microsoft.com/download)**
 * Acesso ao **Azure SQL Database** do time — peça as credenciais a quem administra o Azure do projeto.
 * Seu IP liberado no firewall do Azure SQL (peça para quem administra o Azure — Portal do Azure → servidor SQL `server-sql-vitalitas` → Segurança → Rede → Regras de firewall). Sem isso, todo comando abaixo falha por timeout.
+
+## ⚠️ Banco compartilhado — leia antes de mexer em schema
+
+Todo o time usa **a mesma instância do Azure SQL**. Migrations afetam todo mundo imediatamente:
+
+* **Antes de dar `git push`** com uma migration nova, avise o time — outra pessoa pode ter uma mudança de schema em andamento.
+* **Depois de todo `git pull`**, rode o comando `dotnet ef database update` do passo 3 (abaixo) de novo, para aplicar migrations que outra pessoa tenha adicionado. Pular esse passo pode quebrar sua aplicação local ou gerar uma migration duplicada/conflitante depois.
+* Para gerar uma migration nova, após alterar uma entidade em `src/Domain/Features/**`:
+
+  ```bash
+  dotnet ef migrations add NomeDaMudanca --project src/Infrastructure/Vitalitas.Infrastructure.csproj --startup-project src/API/Vitalitas.API.csproj --output-dir Database/Migrations
+  ```
 
 ## Como rodar
 
@@ -40,26 +58,6 @@ A API sobe em `https://localhost:7214` (HTTPS) ou `http://localhost:5156` (HTTP)
 
 > Os segredos usam `dotnet user-secrets` (nunca em arquivo versionado) — detalhes em [ADR-0011](docs/adr/0011-adocao-user-secrets.md). `src/API/appsettings.Development.json.example` mostra o formato/chaves esperadas, só como referência.
 
-## ⚠️ Banco compartilhado — leia antes de mexer em schema
-
-Todo o time usa **a mesma instância do Azure SQL**. Migrations afetam todo mundo imediatamente:
-
-* **Antes de dar `git push`** com uma migration nova, avise o time — outra pessoa pode ter uma mudança de schema em andamento.
-* **Depois de todo `git pull`**, rode o comando `dotnet ef database update` do passo 3 de novo, para aplicar migrations que outra pessoa tenha adicionado. Pular esse passo pode quebrar sua aplicação local ou gerar uma migration duplicada/conflitante depois.
-* Para gerar uma migration nova, após alterar uma entidade em `src/Domain/Features/**`:
-
-  ```bash
-  dotnet ef migrations add NomeDaMudanca --project src/Infrastructure/Vitalitas.Infrastructure.csproj --startup-project src/API/Vitalitas.API.csproj --output-dir Database/Migrations
-  ```
-
-## Troubleshooting
-
-| Problema | Causa e solução |
-|---|---|
-| `dotnet ef` falha: "You must install or update .NET" (framework `9.0.0` não encontrado) | Falta o runtime .NET 9. Contorne com `$env:DOTNET_ROLL_FORWARD = "LatestMajor"` (PowerShell) ou `DOTNET_ROLL_FORWARD=LatestMajor` (bash) antes do comando `dotnet ef`. Vale só para a sessão atual do terminal. |
-| Timeout / conexão recusada em `dotnet ef` ou `dotnet run` | Seu IP mudou (comum em rede residencial/4G) e caiu fora da regra de firewall — peça para atualizar. Se o firewall já está certo: Azure SQL Serverless "dorme" quando ocioso, a primeira conexão pode levar 20–45s (cold start), não é travamento. |
-| `NU1605` ao rodar `dotnet restore` | Alguém rodou `dotnet tool update dotnet-ef` manualmente, divergindo da versão pinada. Não faça downgrade/upgrade manual da tool — rode `dotnet tool restore`, que lê a versão certa de `.config/dotnet-tools.json`. |
-
 ## Arquitetura
 
 Clean Architecture com quatro projetos (`Domain`, `Application`, `Infrastructure`, `API`). Acesso a dados usa **Dapper** em runtime e **EF Core** só para versionar/aplicar o schema (não para consultas). Detalhes completos e o histórico de decisões:
@@ -74,14 +72,17 @@ JWT com access token (15 min) + refresh token (7 dias), via `POST /usuario/login
 
 ## Equipe Backend
 
-* **Sanderson Machado** — *Gerente de Projeto / Tech Lead* — Arquitetura Backend, Definição de Backlog (PO) e Liderança Técnica.
-  [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/sandersonnexum) [![GitHub](https://img.shields.io/badge/GitHub-100000?style=flat-square&logo=github&logoColor=white)](https://github.com/sandersonnexum)
+* **Sanderson Machado** — *Gerente de Projeto / Tech Lead* — Arquitetura Backend, Definição de Backlog (PO) e Liderança Técnica.<br>
+  [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/sandersonnexum)<br>
+  [![GitHub](https://img.shields.io/badge/GitHub-100000?style=flat-square&logo=github&logoColor=white)](https://github.com/sandersonnexum)
 
-* **Hugo Matos** — *DBA / QA* — Modelagem de dados (DER/MER), Scripts SQL e Testes de Qualidade.
-  [![GitHub](https://img.shields.io/badge/GitHub-100000?style=flat-square&logo=github&logoColor=white)](https://github.com/HugoFMat) [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/hugo-ferreira-matos-265b0426b?utm_source=share_via&utm_content=profile&utm_medium=member_android)
+* **Hugo Matos** — *DBA / QA* — Modelagem de dados (DER/MER), Scripts SQL e Testes de Qualidade.<br>
+  [![GitHub](https://img.shields.io/badge/GitHub-100000?style=flat-square&logo=github&logoColor=white)](https://github.com/HugoFMat)<br>
+  [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/hugo-ferreira-matos-265b0426b?utm_source=share_via&utm_content=profile&utm_medium=member_android)
 
-* **Pedro Luis de Souza Abreu** — *Desenvolvedor Back-end* — Desenvolvimento de APIs, Regras de Negócio e Integração com Banco.
-  [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/pedro-luiz-abreu-90a849355/) [![GitHub](https://img.shields.io/badge/GitHub-100000?style=flat-square&logo=github&logoColor=white)](https://github.com/Pedrolsza)
+* **Pedro Luis de Souza Abreu** — *Desenvolvedor Back-end* — Desenvolvimento de APIs, Regras de Negócio e Integração com Banco.<br>
+  [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/pedro-luiz-abreu-90a849355/)<br>
+  [![GitHub](https://img.shields.io/badge/GitHub-100000?style=flat-square&logo=github&logoColor=white)](https://github.com/Pedrolsza)
 
 ## Licença
 
