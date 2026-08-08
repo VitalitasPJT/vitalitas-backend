@@ -19,7 +19,7 @@
 
 * **[.NET SDK 9.0+](https://dotnet.microsoft.com/download)**
 * Acesso ao **Azure SQL Database** do time — peça as credenciais a quem administra o Azure do projeto.
-* Seu IP liberado no firewall do Azure SQL (peça para quem administra o Azure — Portal do Azure → servidor SQL `server-sql-vitalitas` → Segurança → Rede → Regras de firewall). Sem isso, todo comando abaixo falha por timeout.
+* Seu IP liberado no firewall do Azure SQL. Sem isso, todo comando abaixo falha por timeout.
 
 ## ⚠️ Banco compartilhado — leia antes de mexer em schema
 
@@ -41,7 +41,7 @@ dotnet tool restore
 
 # 2. Configurar segredos locais (connection string + chave JWT)
 cd src/API
-dotnet user-secrets set "ConnectionStrings:ConexaoPadrao" "Server=tcp:server-sql-vitalitas.database.windows.net,1433;Initial Catalog=sql-db-vitalitas;Persist Security Info=False;User ID={login};Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+dotnet user-secrets set "ConnectionStrings:ConexaoPadrao" "Server={server}.database.windows.net,1433;Initial Catalog=sql-db-vitalitas;Persist Security Info=False;User ID={login};Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
 dotnet user-secrets set "Jwt:Key" "SUA_CHAVE_SECRETA_LOCAL_COM_PELO_MENOS_32_CARACTERES"
 cd ../..
 
@@ -65,7 +65,7 @@ Clean Architecture com quatro projetos (`Domain`, `Application`, `Infrastructure
 <div align="center">
 
 [![Arquitetura](media/Arquitetura.png)](docs/Arquitetura_backend.md)
-[![ADRs](media/ADRs.png)](docs/adr/README.md)
+[![ADR](media/ADRs.png)](docs/adr/README.md)
 
 </div>
 
