@@ -11,7 +11,7 @@
 
 <div align="center">
 
-[![Mapa Mental do Projeto](media/Diagramas.png)](media/diagramas/)
+[![Mapa Mental do Projeto](media/banner_diagramas.png)](media/diagramas/)
 
 </div>
 
@@ -64,8 +64,8 @@ Clean Architecture com quatro projetos (`Domain`, `Application`, `Infrastructure
 
 <div align="center">
 
-[![Arquitetura](media/Arquitetura.png)](docs/Arquitetura_backend.md)
-[![ADR](media/ADRs.png)](docs/adr/README.md)
+[![Arquitetura](media/banner_arquitetura.png)](docs/Arquitetura_backend.md)
+[![ADR](media/banner_adr.png)](docs/adr/README.md)
 
 </div>
 
