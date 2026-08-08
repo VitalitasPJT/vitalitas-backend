@@ -3,7 +3,11 @@
    Massa de dados fictícios para testes. Depende do schema criado por CREATE.sql
    (mesma pasta) — execute CREATE.sql antes deste script.
 
-   Entidades PROPOSITALMENTE EXCLUÍDAS: Avaliacao, Funcionario.
+   Entidades PROPOSITALMENTE EXCLUÍDAS: Avaliacao, Employee (ex-Funcionario).
+
+   Nomes de tabela em inglês desde a migration RenameEntitiesToEnglish
+   (20260808160615) — colunas permanecem em português, conforme as
+   IEntityTypeConfiguration (src/Infrastructure/Database/Configurations/**).
 
    Referência de Enums (Domain/Enums/*.cs):
      TipoUsuario:    1=Instrutor  2=Aluno  3=Gestor  4=Administrador
@@ -22,33 +26,33 @@ SET NOCOUNT ON;
 GO
 
 -- ---------------------------------------------------------------
--- Planos de licença
+-- Planos de licença (tabela: LicensePlan)
 -- ---------------------------------------------------------------
-INSERT INTO PlanoLicenca (IdPlanoLicenca, Nome, Descricao, Valor) VALUES
+INSERT INTO LicensePlan (IdPlanoLicenca, Nome, Descricao, Valor) VALUES
 ('10000000-0000-0000-0000-000000000001', 'Plano Starter', 'Ideal para estúdios e pequenas academias. Limite de 200 alunos.', '149.90'),
 ('10000000-0000-0000-0000-000000000002', 'Plano Pro',     'Para academias em crescimento. Limite de 500 alunos e suporte prioritário.', '299.90'),
 ('10000000-0000-0000-0000-000000000003', 'Plano Premium', 'Acesso a todos os módulos, alunos ilimitados e integrações exclusivas.', '499.90');
 
 -- ---------------------------------------------------------------
--- Licenças (Status: Ativa=1 / Expirada=2 / Cancelada=3 | Tipo: Basica=1 / Premium=2)
+-- Licenças (tabela: License | Status: Ativa=1 / Expirada=2 / Cancelada=3 | Tipo: Basica=1 / Premium=2)
 -- ---------------------------------------------------------------
-INSERT INTO Licenca (IdLicenca, IdPlano, Mensalidade, Status, Tipo, DataFim, DataAssinatura, CaminhoPdf) VALUES
+INSERT INTO License (IdLicenca, IdPlano, Mensalidade, Status, Tipo, DataFim, DataAssinatura, CaminhoPdf) VALUES
 ('20000000-0000-0000-0000-000000000001', '10000000-0000-0000-0000-000000000001', '149.90', 1, 1, '2026-12-31', '2025-01-15', '/docs/licencas/licenca_starter_1.pdf'),
 ('20000000-0000-0000-0000-000000000002', '10000000-0000-0000-0000-000000000002', '299.90', 1, 2, '2027-05-10', '2026-05-10', '/docs/licencas/licenca_pro_1.pdf'),
 ('20000000-0000-0000-0000-000000000003', '10000000-0000-0000-0000-000000000003', '499.90', 2, 2, '2025-12-31', '2024-01-20', '/docs/licencas/licenca_premium_old.pdf');
 
 -- ---------------------------------------------------------------
--- Planos de contrato
+-- Planos de contrato (tabela: ContractPlan)
 -- ---------------------------------------------------------------
-INSERT INTO PlanoContrato (IdPlano, Nome, Descricao, Valor) VALUES
+INSERT INTO ContractPlan (IdPlano, Nome, Descricao, Valor) VALUES
 ('30000000-0000-0000-0000-000000000001', 'Mensal FitZone',  'Acesso livre área de musculação', '120.00'),
 ('30000000-0000-0000-0000-000000000002', 'Trimestral Iron', 'Acesso Crossfit e LPO',            '300.00'),
 ('30000000-0000-0000-0000-000000000003', 'Semestral Acqua', 'Natação 3x na semana',              '500.00');
 
 -- ---------------------------------------------------------------
--- Contratos (Status: Ativo=1 / Inativo=2 / Cancelado=3)
+-- Contratos (tabela: Contract | Status: Ativo=1 / Inativo=2 / Cancelado=3)
 -- ---------------------------------------------------------------
-INSERT INTO Contrato (IdContrato, IdPlanoContrato, Mensalidade, Status, DataFim, DataAssinatura) VALUES
+INSERT INTO Contract (IdContrato, IdPlanoContrato, Mensalidade, Status, DataFim, DataAssinatura) VALUES
 ('40000000-0000-0000-0000-000000000001', '30000000-0000-0000-0000-000000000001', '120.00', 1, '2026-12-31', '2026-01-10'),
 ('40000000-0000-0000-0000-000000000002', '30000000-0000-0000-0000-000000000001', '120.00', 1, '2026-12-31', '2026-02-15'),
 ('40000000-0000-0000-0000-000000000003', '30000000-0000-0000-0000-000000000001', '120.00', 1, '2026-12-31', '2026-03-20'),
@@ -61,20 +65,20 @@ INSERT INTO Contrato (IdContrato, IdPlanoContrato, Mensalidade, Status, DataFim,
 ('40000000-0000-0000-0000-000000000010', '30000000-0000-0000-0000-000000000003', '500.00', 3, '2027-01-15', '2026-07-15');
 
 -- ---------------------------------------------------------------
--- Academias
--- Obs.: IdGestor referencia Gestor.IdGestor, que só é inserido mais abaixo.
+-- Academias (tabela: Gym)
+-- Obs.: IdGestor referencia Manager.IdGestor, que só é inserido mais abaixo.
 -- Não há FK física no schema atual, então a ordem não quebra o script.
 -- (TipoAcademia: Musculacao=1 / Crossfit=2 / Funcional=3 / Personal=4)
 -- ---------------------------------------------------------------
-INSERT INTO Academia (IdAcadenia, IdLicenca, IdGestor, NomeAcademia, CNPJ, Quadra, Rua, Bairro, Cidade, Estado, CEP, TipoAcademia, EmailInstitucional) VALUES
+INSERT INTO Gym (IdAcadenia, IdLicenca, IdGestor, NomeAcademia, CNPJ, Quadra, Rua, Bairro, Cidade, Estado, CEP, TipoAcademia, EmailInstitucional) VALUES
 ('50000000-0000-0000-0000-000000000001', '20000000-0000-0000-0000-000000000001', '70000000-0000-0000-0000-000000000001', 'FitZone Centro',     '12.345.678/0001-90', 'Quadra 10', 'Av. Principal',  'Centro',     'São Paulo',      'SP', '01001000', 1, 'contato@fitzone.com.br'),
 ('50000000-0000-0000-0000-000000000002', '20000000-0000-0000-0000-000000000002', '70000000-0000-0000-0000-000000000002', 'IronGym Cross',      '98.765.432/0001-80', 'Lote 5',    'Rua das Pedras', 'Bela Vista', 'Rio de Janeiro', 'RJ', '20001000', 2, 'admin@irongym.com.br'),
 ('50000000-0000-0000-0000-000000000003', '20000000-0000-0000-0000-000000000003', '70000000-0000-0000-0000-000000000003', 'Acqua Life Natação', '45.678.912/0001-70', 'Bloco C',   'Av. Atlântica',  'Copacabana', 'Rio de Janeiro', 'RJ', '22001000', 3, 'gerencia@acqualife.com.br');
 
 -- ---------------------------------------------------------------
--- Usuários (TipoUsuario: Instrutor=1 / Aluno=2 / Gestor=3 / Administrador=4)
+-- Usuários (tabela: User | TipoUsuario: Instrutor=1 / Aluno=2 / Gestor=3 / Administrador=4)
 -- ---------------------------------------------------------------
-INSERT INTO Usuario (IdUsuario, IdAcademia, Nome, Email, Senha, DataNascimento, CPF, TipoUsuario, Ativo, Flag, Quadra, Rua, Bairro, Cidade, Estado, CEP) VALUES
+INSERT INTO [User] (IdUsuario, IdAcademia, Nome, Email, Senha, DataNascimento, CPF, TipoUsuario, Ativo, Flag, Quadra, Rua, Bairro, Cidade, Estado, CEP) VALUES
 -- Administradores
 ('60000000-0000-0000-0000-000000000001', '50000000-0000-0000-0000-000000000001', 'Admin Master',    'admin@sistema.com',   '$2a$hash_fake_1', '1985-01-10', '000.000.000-01', 4, 1, 1, 'Q 1', 'Rua Alfa', 'Centro', 'São Paulo', 'SP', '01000000'),
 ('60000000-0000-0000-0000-000000000002', '50000000-0000-0000-0000-000000000001', 'Suporte Técnico', 'suporte@sistema.com', '$2a$hash_fake_2', '1990-05-20', '000.000.000-02', 4, 1, 1, 'Q 2', 'Rua Beta', 'Centro', 'São Paulo', 'SP', '01000000'),
@@ -101,17 +105,17 @@ INSERT INTO Usuario (IdUsuario, IdAcademia, Nome, Email, Senha, DataNascimento, 
 ('60000000-0000-0000-0000-000000000020', '50000000-0000-0000-0000-000000000003', 'Sofia Mendes',   'sofia@email.com',  '$2a$hash_fake_20', '2003-09-02', '000.000.000-20', 2, 1, 1, 'Bloco D','Rua 10', 'Bairro J', 'Rio de Janeiro', 'RJ', '22004000');
 
 -- ---------------------------------------------------------------
--- Gestores (completa o vínculo com Academia.IdGestor)
+-- Gestores (tabela: Manager; completa o vínculo com Gym.IdGestor)
 -- ---------------------------------------------------------------
-INSERT INTO Gestor (IdGestor, IdUsuario) VALUES
+INSERT INTO Manager (IdGestor, IdUsuario) VALUES
 ('70000000-0000-0000-0000-000000000001', '60000000-0000-0000-0000-000000000003'),
 ('70000000-0000-0000-0000-000000000002', '60000000-0000-0000-0000-000000000004'),
 ('70000000-0000-0000-0000-000000000003', '60000000-0000-0000-0000-000000000005');
 
 -- ---------------------------------------------------------------
--- Instrutores
+-- Instrutores (tabela: Instructor)
 -- ---------------------------------------------------------------
-INSERT INTO Instrutor (IdInstrutor, IdUsuario, CREF) VALUES
+INSERT INTO Instructor (IdInstrutor, IdUsuario, CREF) VALUES
 ('80000000-0000-0000-0000-000000000001', '60000000-0000-0000-0000-000000000006', '123456-G/SP'),
 ('80000000-0000-0000-0000-000000000002', '60000000-0000-0000-0000-000000000007', '654321-G/SP'),
 ('80000000-0000-0000-0000-000000000003', '60000000-0000-0000-0000-000000000008', '987654-G/RJ'),
@@ -119,16 +123,16 @@ INSERT INTO Instrutor (IdInstrutor, IdUsuario, CREF) VALUES
 ('80000000-0000-0000-0000-000000000005', '60000000-0000-0000-0000-000000000010', '321987-G/RJ');
 
 -- ---------------------------------------------------------------
--- Administradores (Cargo: Recepcionista=1 / Personal=2 / Gerente=3 / Limpeza=4 / Outros=5)
+-- Administradores (tabela: Administrator | Cargo: Recepcionista=1 / Personal=2 / Gerente=3 / Limpeza=4 / Outros=5)
 -- ---------------------------------------------------------------
-INSERT INTO Administrador (IdFuncionario, IdUsuario, Cargo) VALUES
+INSERT INTO Administrator (IdFuncionario, IdUsuario, Cargo) VALUES
 ('90000000-0000-0000-0000-000000000001', '60000000-0000-0000-0000-000000000001', 3),
 ('90000000-0000-0000-0000-000000000002', '60000000-0000-0000-0000-000000000002', 5);
 
 -- ---------------------------------------------------------------
--- Alunos
+-- Alunos (tabela: Member)
 -- ---------------------------------------------------------------
-INSERT INTO Aluno (IdAluno, IdUsuario, IdInstrutor, IdContrato, Objetivo) VALUES
+INSERT INTO Member (IdAluno, IdUsuario, IdInstrutor, IdContrato, Objetivo) VALUES
 ('A0000000-0000-0000-0000-000000000001', '60000000-0000-0000-0000-000000000011', '80000000-0000-0000-0000-000000000001', '40000000-0000-0000-0000-000000000001', 'Hipertrofia'),
 ('A0000000-0000-0000-0000-000000000002', '60000000-0000-0000-0000-000000000012', '80000000-0000-0000-0000-000000000001', '40000000-0000-0000-0000-000000000002', 'Emagrecimento'),
 ('A0000000-0000-0000-0000-000000000003', '60000000-0000-0000-0000-000000000013', '80000000-0000-0000-0000-000000000002', '40000000-0000-0000-0000-000000000003', 'Condicionamento Físico'),
@@ -141,23 +145,23 @@ INSERT INTO Aluno (IdAluno, IdUsuario, IdInstrutor, IdContrato, Objetivo) VALUES
 ('A0000000-0000-0000-0000-000000000010', '60000000-0000-0000-0000-000000000020', '80000000-0000-0000-0000-000000000005', '40000000-0000-0000-0000-000000000010', 'Treino para Triatlo');
 
 -- ---------------------------------------------------------------
--- Telefones
+-- Telefones (tabelas: UserPhone / GymPhone)
 -- ---------------------------------------------------------------
-INSERT INTO TelefoneUsuario (IdTelefone, IdUsuario, Telefone) VALUES
+INSERT INTO UserPhone (IdTelefone, IdUsuario, Telefone) VALUES
 ('B0000000-0000-0000-0000-000000000001', '60000000-0000-0000-0000-000000000011', '61999990001'),
 ('B0000000-0000-0000-0000-000000000002', '60000000-0000-0000-0000-000000000012', '61999990002'),
 ('B0000000-0000-0000-0000-000000000003', '60000000-0000-0000-0000-000000000003', '11988880001'),
 ('B0000000-0000-0000-0000-000000000004', '60000000-0000-0000-0000-000000000006', '11988880002');
 
-INSERT INTO TelefoneAcademia (IdTelefone, IdAcademia, Telefone) VALUES
+INSERT INTO GymPhone (IdTelefone, IdAcademia, Telefone) VALUES
 ('B1000000-0000-0000-0000-000000000001', '50000000-0000-0000-0000-000000000001', '1133330001'),
 ('B1000000-0000-0000-0000-000000000002', '50000000-0000-0000-0000-000000000002', '2133330002'),
 ('B1000000-0000-0000-0000-000000000003', '50000000-0000-0000-0000-000000000003', '2133330003');
 
 -- ---------------------------------------------------------------
--- Frequência de treinos
+-- Frequência de treinos (tabela: Attendance)
 -- ---------------------------------------------------------------
-INSERT INTO Frequencia (IdFrequencia, IdAluno, TempoTreinoMinutos, Data) VALUES
+INSERT INTO Attendance (IdFrequencia, IdAluno, TempoTreinoMinutos, Data) VALUES
 ('C0000000-0000-0000-0000-000000000001', 'A0000000-0000-0000-0000-000000000001', 60, '2026-07-01'),
 ('C0000000-0000-0000-0000-000000000002', 'A0000000-0000-0000-0000-000000000001', 45, '2026-07-03'),
 ('C0000000-0000-0000-0000-000000000003', 'A0000000-0000-0000-0000-000000000002', 50, '2026-07-01'),
@@ -165,51 +169,51 @@ INSERT INTO Frequencia (IdFrequencia, IdAluno, TempoTreinoMinutos, Data) VALUES
 ('C0000000-0000-0000-0000-000000000005', 'A0000000-0000-0000-0000-000000000009', 40, '2026-07-04');
 
 -- ---------------------------------------------------------------
--- Histórico de XP (IdUsuario = usuário do aluno)
+-- Histórico de XP (tabela: XpHistory | IdUsuario = usuário do aluno)
 -- ---------------------------------------------------------------
-INSERT INTO XpHistorico (IdXp, IdUsuario, XpGanho, Data, Motivo) VALUES
+INSERT INTO XpHistory (IdXp, IdUsuario, XpGanho, Data, Motivo) VALUES
 ('D0000000-0000-0000-0000-000000000001', '60000000-0000-0000-0000-000000000011', 10, '2026-07-01', 'Treino completo'),
 ('D0000000-0000-0000-0000-000000000002', '60000000-0000-0000-0000-000000000011', 50, '2026-07-03', 'Frequência semanal'),
 ('D0000000-0000-0000-0000-000000000003', '60000000-0000-0000-0000-000000000012', 10, '2026-07-01', 'Treino completo'),
 ('D0000000-0000-0000-0000-000000000004', '60000000-0000-0000-0000-000000000019', 30, '2026-07-04', 'Meta mensal atingida');
 
 -- ---------------------------------------------------------------
--- Log de atividade (Acao é placeholder — ver observação no topo do script)
+-- Log de atividade (tabela: ActivityLog | Acao é placeholder — ver observação no topo do script)
 -- ---------------------------------------------------------------
-INSERT INTO LogAtividade (IdLog, IdUsuario, DataHora, Acao, DispositivoLogado, Localizacao) VALUES
+INSERT INTO ActivityLog (IdLog, IdUsuario, DataHora, Acao, DispositivoLogado, Localizacao) VALUES
 ('E0000000-0000-0000-0000-000000000001', '60000000-0000-0000-0000-000000000011', '2026-07-01T08:15:00', 1, 'Android - App Vitalitas', 'São Paulo, SP'),
 ('E0000000-0000-0000-0000-000000000002', '60000000-0000-0000-0000-000000000003', '2026-07-01T09:00:00', 1, 'Windows - Chrome', 'São Paulo, SP'),
 ('E0000000-0000-0000-0000-000000000003', '60000000-0000-0000-0000-000000000019', '2026-07-02T18:40:00', 2, 'iOS - App Vitalitas', 'Rio de Janeiro, RJ');
 
 -- ---------------------------------------------------------------
--- Agenda (StatusAgenda: Agendado=1 / Cancelado=2 / Concluido=3)
+-- Agenda (tabela: Schedule | StatusAgenda: Agendado=1 / Cancelado=2 / Concluido=3)
 -- IdAgenda é IDENTITY — não é informado no INSERT.
 -- ---------------------------------------------------------------
-INSERT INTO Agenda (IdInstrutor, IdAcademia, Status, Data) VALUES
+INSERT INTO Schedule (IdInstrutor, IdAcademia, Status, Data) VALUES
 ('80000000-0000-0000-0000-000000000001', '50000000-0000-0000-0000-000000000001', 1, '2026-08-10T08:00:00'),
 ('80000000-0000-0000-0000-000000000003', '50000000-0000-0000-0000-000000000002', 3, '2026-08-08T10:00:00'),
 ('80000000-0000-0000-0000-000000000005', '50000000-0000-0000-0000-000000000003', 2, '2026-08-12T14:00:00');
 
 -- ---------------------------------------------------------------
--- Fichas
+-- Fichas (tabela: TrainingSheet)
 -- IdAvaliacao: sem tabela de origem no schema atual (Avaliacao removida) — GUID fictício.
 -- ---------------------------------------------------------------
-INSERT INTO Ficha (IdFicha, IdAvaliacao, NomeFicha, Observacoes) VALUES
+INSERT INTO TrainingSheet (IdFicha, IdAvaliacao, NomeFicha, Observacoes) VALUES
 ('F0000000-0000-0000-0000-000000000001', 'FFFFFFFF-0000-0000-0000-000000000001', 'Ficha A', 'Ficha inicial'),
 ('F0000000-0000-0000-0000-000000000002', 'FFFFFFFF-0000-0000-0000-000000000002', 'Ficha B', 'Ficha intermediária');
 
 -- ---------------------------------------------------------------
--- Fichas médicas
+-- Fichas médicas (tabela: MedicalRecord)
 -- ---------------------------------------------------------------
-INSERT INTO FichaMedica (IdFicha, IdAluno, Alergia, Restricao, Lesao, Cirurgia, ProblemaSaude, UsoMedicamento) VALUES
+INSERT INTO MedicalRecord (IdFicha, IdAluno, Alergia, Restricao, Lesao, Cirurgia, ProblemaSaude, UsoMedicamento) VALUES
 ('F1000000-0000-0000-0000-000000000001', 'A0000000-0000-0000-0000-000000000001', 'Poeira',   'Nenhuma', 'Nenhuma', 'Nenhuma', 'Asma',     'Nenhum'),
 ('F1000000-0000-0000-0000-000000000002', 'A0000000-0000-0000-0000-000000000005', 'Nenhuma',  'Joelho',  'Menisco', 'Nenhuma', 'Nenhum',   'Nenhum');
 
 -- ---------------------------------------------------------------
--- Treinos (Tipo: Hipertrofia=1 / Emagrecimento=2 / Resistencia=3 / Funcional=4 / Outros=5)
+-- Treinos (tabela: Workout | Tipo: Hipertrofia=1 / Emagrecimento=2 / Resistencia=3 / Funcional=4 / Outros=5)
 -- Exercicio é JSON: Dictionary<string, List<Exercicio { Nome, Series, Repeticoes }>>
 -- ---------------------------------------------------------------
-INSERT INTO Treino (IdTreino, IdFicha, Exercicio, Tipo, NomeTreino) VALUES
+INSERT INTO Workout (IdTreino, IdFicha, Exercicio, Tipo, NomeTreino) VALUES
 (
     'F2000000-0000-0000-0000-000000000001',
     'F0000000-0000-0000-0000-000000000001',
