@@ -42,7 +42,7 @@ namespace Infrastructure.Repositories.Users.Common
                         cpf as Cpf,
                         tipoUsuario as TipoUsuario,
                         flag as Flag
-                    FROM Usuario
+                    FROM [dbo].[User]
                     WHERE Email = @Email AND Senha = @Senha";
 
             string emailString = email.ToString();
