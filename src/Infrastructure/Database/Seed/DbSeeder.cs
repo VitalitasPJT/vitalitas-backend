@@ -1,5 +1,5 @@
-using Domain.Features.Planos.Contrato.Entities;
-using Domain.Features.Planos.Licenca.Entities;
+using Domain.Features.Plans.Contract.Entities;
+using Domain.Features.Plans.License.Entities;
 using Domain.ValueObjects;
 using Infrastructure.Database.Context;
 using Microsoft.EntityFrameworkCore;
@@ -34,8 +34,8 @@ namespace Infrastructure.Database.Seed
             }
 
             context.PlanosLicenca.AddRange(
-                new PlanoLicenca("Básica", "Licença básica para uma única academia.", new Monetario("199.90")),
-                new PlanoLicenca("Premium", "Licença premium com suporte prioritário e múltiplas unidades.", new Monetario("499.90"))
+                new LicensePlan("Básica", "Licença básica para uma única academia.", new Monetary("199.90")),
+                new LicensePlan("Premium", "Licença premium com suporte prioritário e múltiplas unidades.", new Monetary("499.90"))
             );
 
             await context.SaveChangesAsync(cancellationToken);
@@ -49,7 +49,7 @@ namespace Infrastructure.Database.Seed
             }
 
             context.PlanosContrato.Add(
-                new PlanoContrato("Mensal", "Plano de contrato padrão, renovação mensal.", new Monetario("99.90")));
+                new ContractPlan("Mensal", "Plano de contrato padrão, renovação mensal.", new Monetary("99.90")));
 
             await context.SaveChangesAsync(cancellationToken);
         }

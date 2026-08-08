@@ -1,17 +1,17 @@
 using Microsoft.EntityFrameworkCore;
-using Domain.Features.Academia.Entities;
-using Domain.Features.Fichas.Ficha.Entities;
-using Domain.Features.Fichas.FichaMedica.Entities;
-using Domain.Features.Planos.Contrato.Entities;
-using Domain.Features.Planos.Licenca.Entities;
+using Domain.Features.Gym.Entities;
+using Domain.Features.Records.TrainingSheet.Entities;
+using Domain.Features.Records.MedicalRecord.Entities;
+using Domain.Features.Plans.Contract.Entities;
+using Domain.Features.Plans.License.Entities;
 using Domain.Features.Shared.Entities;
 using Domain.Features.Token.Entities;
-using Domain.Features.Usuarios.Administrador.Entities;
-using Domain.Features.Usuarios.Aluno.Entities;
-using Domain.Features.Usuarios.Common.Entities;
-using Domain.Features.Usuarios.Funcionario.Entities;
-using Domain.Features.Usuarios.Gestor.Entities;
-using Domain.Features.Usuarios.Instrutor.Entities;
+using Domain.Features.Users.Administrator.Entities;
+using Domain.Features.Users.Member.Entities;
+using Domain.Features.Users.Common.Entities;
+using Domain.Features.Users.Employee.Entities;
+using Domain.Features.Users.Manager.Entities;
+using Domain.Features.Users.Instructor.Entities;
 
 namespace Infrastructure.Database.Context
 {
@@ -26,31 +26,31 @@ namespace Infrastructure.Database.Context
         {
         }
 
-        public DbSet<Usuario> Usuarios => Set<Usuario>();
-        public DbSet<TelefoneUsuario> TelefonesUsuario => Set<TelefoneUsuario>();
-        public DbSet<Aluno> Alunos => Set<Aluno>();
-        public DbSet<Frequencia> Frequencias => Set<Frequencia>();
-        public DbSet<XpHistorico> XpHistoricos => Set<XpHistorico>();
-        public DbSet<Gestor> Gestores => Set<Gestor>();
-        public DbSet<Instrutor> Instrutores => Set<Instrutor>();
-        public DbSet<Funcionario> Funcionarios => Set<Funcionario>();
-        public DbSet<Administrador> Administradores => Set<Administrador>();
+        public DbSet<User> Usuarios => Set<User>();
+        public DbSet<UserPhone> TelefonesUsuario => Set<UserPhone>();
+        public DbSet<Member> Alunos => Set<Member>();
+        public DbSet<Attendance> Frequencias => Set<Attendance>();
+        public DbSet<XpHistory> XpHistoricos => Set<XpHistory>();
+        public DbSet<Manager> Gestores => Set<Manager>();
+        public DbSet<Instructor> Instrutores => Set<Instructor>();
+        public DbSet<Employee> Funcionarios => Set<Employee>();
+        public DbSet<Administrator> Administradores => Set<Administrator>();
 
-        public DbSet<Academia> Academias => Set<Academia>();
-        public DbSet<TelefoneAcademia> TelefonesAcademia => Set<TelefoneAcademia>();
+        public DbSet<Gym> Academias => Set<Gym>();
+        public DbSet<GymPhone> TelefonesAcademia => Set<GymPhone>();
 
-        public DbSet<Contrato> Contratos => Set<Contrato>();
-        public DbSet<PlanoContrato> PlanosContrato => Set<PlanoContrato>();
-        public DbSet<Licenca> Licencas => Set<Licenca>();
-        public DbSet<PlanoLicenca> PlanosLicenca => Set<PlanoLicenca>();
+        public DbSet<Contract> Contratos => Set<Contract>();
+        public DbSet<ContractPlan> PlanosContrato => Set<ContractPlan>();
+        public DbSet<License> Licencas => Set<License>();
+        public DbSet<LicensePlan> PlanosLicenca => Set<LicensePlan>();
 
-        public DbSet<Ficha> Fichas => Set<Ficha>();
-        public DbSet<FichaMedica> FichasMedicas => Set<FichaMedica>();
+        public DbSet<TrainingSheet> Fichas => Set<TrainingSheet>();
+        public DbSet<MedicalRecord> FichasMedicas => Set<MedicalRecord>();
 
-        public DbSet<Agenda> Agendas => Set<Agenda>();
-        public DbSet<Avaliacao> Avaliacoes => Set<Avaliacao>();
-        public DbSet<Treino> Treinos => Set<Treino>();
-        public DbSet<LogAtividade> LogsAtividade => Set<LogAtividade>();
+        public DbSet<Schedule> Agendas => Set<Schedule>();
+        //public DbSet<Avaliacao> Avaliacoes => Set<Avaliacao>();
+        public DbSet<Workout> Treinos => Set<Workout>();
+        public DbSet<ActivityLog> LogsAtividade => Set<ActivityLog>();
 
         public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
 

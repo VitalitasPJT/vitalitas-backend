@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Vitalitas.Infrastructure.Database.Migrations
+namespace Infrastructure.Database.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration
@@ -12,7 +12,7 @@ namespace Vitalitas.Infrastructure.Database.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Academia",
+                name: "Gym",
                 columns: table => new
                 {
                     IdAcadenia = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -26,7 +26,7 @@ namespace Vitalitas.Infrastructure.Database.Migrations
                     Cidade = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Estado = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CEP = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TipoAcademia = table.Column<int>(type: "int", nullable: false),
+                    GymType = table.Column<int>(type: "int", nullable: false),
                     EmailInstitucional = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false)
                 },
                 constraints: table =>
@@ -35,12 +35,12 @@ namespace Vitalitas.Infrastructure.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Administrador",
+                name: "Administrator",
                 columns: table => new
                 {
                     IdFuncionario = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     IdUsuario = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Cargo = table.Column<int>(type: "int", nullable: false)
+                    Role = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -48,7 +48,7 @@ namespace Vitalitas.Infrastructure.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Agenda",
+                name: "Schedule",
                 columns: table => new
                 {
                     IdAgenda = table.Column<int>(type: "int", nullable: false)
@@ -64,14 +64,14 @@ namespace Vitalitas.Infrastructure.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Aluno",
+                name: "Member",
                 columns: table => new
                 {
                     IdAluno = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     IdUsuario = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     IdInstrutor = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     IdContrato = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Objetivo = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false)
+                    Goal = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -129,7 +129,7 @@ namespace Vitalitas.Infrastructure.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Contrato",
+                name: "Contract",
                 columns: table => new
                 {
                     IdContrato = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -145,7 +145,7 @@ namespace Vitalitas.Infrastructure.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Ficha",
+                name: "TrainingSheet",
                 columns: table => new
                 {
                     IdFicha = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -159,7 +159,7 @@ namespace Vitalitas.Infrastructure.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "FichaMedica",
+                name: "MedicalRecord",
                 columns: table => new
                 {
                     IdFicha = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -177,7 +177,7 @@ namespace Vitalitas.Infrastructure.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Frequencia",
+                name: "Attendance",
                 columns: table => new
                 {
                     IdFrequencia = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -191,12 +191,12 @@ namespace Vitalitas.Infrastructure.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Funcionario",
+                name: "Employee",
                 columns: table => new
                 {
                     IdFuncionario = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     IdUsuario = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Cargo = table.Column<int>(type: "int", nullable: false)
+                    Role = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -204,7 +204,7 @@ namespace Vitalitas.Infrastructure.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Gestor",
+                name: "Manager",
                 columns: table => new
                 {
                     IdGestor = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -216,7 +216,7 @@ namespace Vitalitas.Infrastructure.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Instrutor",
+                name: "Instructor",
                 columns: table => new
                 {
                     IdInstrutor = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -229,7 +229,7 @@ namespace Vitalitas.Infrastructure.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Licenca",
+                name: "License",
                 columns: table => new
                 {
                     IdLicenca = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -247,7 +247,7 @@ namespace Vitalitas.Infrastructure.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "LogAtividade",
+                name: "ActivityLog",
                 columns: table => new
                 {
                     IdLog = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -263,11 +263,11 @@ namespace Vitalitas.Infrastructure.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PlanoContrato",
+                name: "ContractPlan",
                 columns: table => new
                 {
                     IdPlano = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Nome = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Descricao = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
                     Valor = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false)
                 },
@@ -277,11 +277,11 @@ namespace Vitalitas.Infrastructure.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PlanoLicenca",
+                name: "LicensePlan",
                 columns: table => new
                 {
                     IdPlanoLicenca = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Nome = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Descricao = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
                     Valor = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false)
                 },
@@ -306,7 +306,7 @@ namespace Vitalitas.Infrastructure.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TelefoneAcademia",
+                name: "GymPhone",
                 columns: table => new
                 {
                     IdTelefone = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -319,7 +319,7 @@ namespace Vitalitas.Infrastructure.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TelefoneUsuario",
+                name: "UserPhone",
                 columns: table => new
                 {
                     IdTelefone = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -332,12 +332,12 @@ namespace Vitalitas.Infrastructure.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Treino",
+                name: "Workout",
                 columns: table => new
                 {
                     IdTreino = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     IdFicha = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Exercicio = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Exercise = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Tipo = table.Column<int>(type: "int", nullable: false),
                     NomeTreino = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false)
                 },
@@ -347,17 +347,17 @@ namespace Vitalitas.Infrastructure.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Usuario",
+                name: "User",
                 columns: table => new
                 {
                     IdUsuario = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     IdAcademia = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Nome = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Senha = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DataNascimento = table.Column<DateOnly>(type: "date", nullable: false),
                     CPF = table.Column<string>(type: "nvarchar(14)", maxLength: 14, nullable: false),
-                    TipoUsuario = table.Column<int>(type: "int", nullable: false),
+                    UserType = table.Column<int>(type: "int", nullable: false),
                     Ativo = table.Column<bool>(type: "bit", nullable: false),
                     Flag = table.Column<bool>(type: "bit", nullable: false),
                     Quadra = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -373,7 +373,7 @@ namespace Vitalitas.Infrastructure.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "XpHistorico",
+                name: "XpHistory",
                 columns: table => new
                 {
                     IdXp = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -392,70 +392,70 @@ namespace Vitalitas.Infrastructure.Database.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Academia");
+                name: "Gym");
 
             migrationBuilder.DropTable(
-                name: "Administrador");
+                name: "Administrator");
 
             migrationBuilder.DropTable(
-                name: "Agenda");
+                name: "Schedule");
 
             migrationBuilder.DropTable(
-                name: "Aluno");
+                name: "Member");
 
             migrationBuilder.DropTable(
                 name: "avaliacao");
 
             migrationBuilder.DropTable(
-                name: "Contrato");
+                name: "Contract");
 
             migrationBuilder.DropTable(
-                name: "Ficha");
+                name: "TrainingSheet");
 
             migrationBuilder.DropTable(
-                name: "FichaMedica");
+                name: "MedicalRecord");
 
             migrationBuilder.DropTable(
-                name: "Frequencia");
+                name: "Attendance");
 
             migrationBuilder.DropTable(
-                name: "Funcionario");
+                name: "Employee");
 
             migrationBuilder.DropTable(
-                name: "Gestor");
+                name: "Manager");
 
             migrationBuilder.DropTable(
-                name: "Instrutor");
+                name: "Instructor");
 
             migrationBuilder.DropTable(
-                name: "Licenca");
+                name: "License");
 
             migrationBuilder.DropTable(
-                name: "LogAtividade");
+                name: "ActivityLog");
 
             migrationBuilder.DropTable(
-                name: "PlanoContrato");
+                name: "ContractPlan");
 
             migrationBuilder.DropTable(
-                name: "PlanoLicenca");
+                name: "LicensePlan");
 
             migrationBuilder.DropTable(
                 name: "RefreshToken");
 
             migrationBuilder.DropTable(
-                name: "TelefoneAcademia");
+                name: "GymPhone");
 
             migrationBuilder.DropTable(
-                name: "TelefoneUsuario");
+                name: "UserPhone");
 
             migrationBuilder.DropTable(
-                name: "Treino");
+                name: "Workout");
 
             migrationBuilder.DropTable(
-                name: "Usuario");
+                name: "User");
 
             migrationBuilder.DropTable(
-                name: "XpHistorico");
+                name: "XpHistory");
         }
     }
 }

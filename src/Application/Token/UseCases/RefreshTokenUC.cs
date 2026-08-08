@@ -1,13 +1,13 @@
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using Application.Compartilhado;
+using Application.Shared;
 using Application.Token.Interfaces;
 using Application.Token.Service;
 using Application.Token.Settings;
 using Domain.Features.Token.Entities;
 using Domain.Features.Token.Interfaces;
-using static Application.Usuarios.Common.Response.UsuarioRS;
+using static Application.Features.Users.Common.Response.UserRS;
 
 namespace Application.Token.UseCases
 {
@@ -73,7 +73,7 @@ namespace Application.Token.UseCases
                 stored.IdUsuario
             ));
 
-            var status = new StatusHTTP("Token renovado com sucesso", 200, true);
+            var status = new HttpStatus("Token renovado com sucesso", 200, true);
             return new RefreshResponse(newAccessToken, newRawToken, status);
         }
 

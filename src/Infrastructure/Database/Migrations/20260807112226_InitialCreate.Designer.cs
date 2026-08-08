@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Vitalitas.Infrastructure.Database.Migrations
+namespace Infrastructure.Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     [Migration("20260807112226_InitialCreate")]
@@ -25,7 +25,7 @@ namespace Vitalitas.Infrastructure.Database.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Domain.Features.Academia.Entities.Academia", b =>
+            modelBuilder.Entity("Domain.Features.Gym.Entities.Gym", b =>
                 {
                     b.Property<Guid>("IdAcadenia")
                         .HasColumnType("uniqueidentifier");
@@ -84,16 +84,16 @@ namespace Vitalitas.Infrastructure.Database.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Rua");
 
-                    b.Property<int>("TipoAcademia")
+                    b.Property<int>("GymType")
                         .HasColumnType("int")
-                        .HasColumnName("TipoAcademia");
+                        .HasColumnName("GymType");
 
                     b.HasKey("IdAcadenia");
 
-                    b.ToTable("Academia", (string)null);
+                    b.ToTable("Gym", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.Features.Academia.Entities.TelefoneAcademia", b =>
+            modelBuilder.Entity("Domain.Features.Gym.Entities.GymPhone", b =>
                 {
                     b.Property<Guid>("IdTelefone")
                         .HasColumnType("uniqueidentifier");
@@ -109,10 +109,10 @@ namespace Vitalitas.Infrastructure.Database.Migrations
 
                     b.HasKey("IdTelefone");
 
-                    b.ToTable("TelefoneAcademia", (string)null);
+                    b.ToTable("GymPhone", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.Features.Fichas.Ficha.Entities.Ficha", b =>
+            modelBuilder.Entity("Domain.Features.Records.TrainingSheet.Entities.TrainingSheet", b =>
                 {
                     b.Property<Guid>("IdFicha")
                         .HasColumnType("uniqueidentifier");
@@ -134,10 +134,10 @@ namespace Vitalitas.Infrastructure.Database.Migrations
 
                     b.HasKey("IdFicha");
 
-                    b.ToTable("Ficha", (string)null);
+                    b.ToTable("TrainingSheet", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.Features.Fichas.FichaMedica.Entities.FichaMedica", b =>
+            modelBuilder.Entity("Domain.Features.Records.MedicalRecord.Entities.MedicalRecord", b =>
                 {
                     b.Property<Guid>("IdFicha")
                         .HasColumnType("uniqueidentifier");
@@ -183,10 +183,10 @@ namespace Vitalitas.Infrastructure.Database.Migrations
 
                     b.HasKey("IdFicha");
 
-                    b.ToTable("FichaMedica", (string)null);
+                    b.ToTable("MedicalRecord", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.Features.Planos.Contrato.Entities.Contrato", b =>
+            modelBuilder.Entity("Domain.Features.Plans.Contract.Entities.Contract", b =>
                 {
                     b.Property<Guid>("IdContrato")
                         .HasColumnType("uniqueidentifier");
@@ -214,10 +214,10 @@ namespace Vitalitas.Infrastructure.Database.Migrations
 
                     b.HasKey("IdContrato");
 
-                    b.ToTable("Contrato", (string)null);
+                    b.ToTable("Contract", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.Features.Planos.Contrato.Entities.PlanoContrato", b =>
+            modelBuilder.Entity("Domain.Features.Plans.Contract.Entities.ContractPlan", b =>
                 {
                     b.Property<Guid>("IdPlano")
                         .HasColumnType("uniqueidentifier");
@@ -228,11 +228,11 @@ namespace Vitalitas.Infrastructure.Database.Migrations
                         .HasColumnType("nvarchar(1000)")
                         .HasColumnName("Descricao");
 
-                    b.Property<string>("Nome")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)")
-                        .HasColumnName("Nome");
+                        .HasColumnName("Name");
 
                     b.Property<string>("Valor")
                         .IsRequired()
@@ -242,10 +242,10 @@ namespace Vitalitas.Infrastructure.Database.Migrations
 
                     b.HasKey("IdPlano");
 
-                    b.ToTable("PlanoContrato", (string)null);
+                    b.ToTable("ContractPlan", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.Features.Planos.Licenca.Entities.Licenca", b =>
+            modelBuilder.Entity("Domain.Features.Plans.License.Entities.License", b =>
                 {
                     b.Property<Guid>("IdLicenca")
                         .HasColumnType("uniqueidentifier");
@@ -283,10 +283,10 @@ namespace Vitalitas.Infrastructure.Database.Migrations
 
                     b.HasKey("IdLicenca");
 
-                    b.ToTable("Licenca", (string)null);
+                    b.ToTable("License", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.Features.Planos.Licenca.Entities.PlanoLicenca", b =>
+            modelBuilder.Entity("Domain.Features.Plans.License.Entities.LicensePlan", b =>
                 {
                     b.Property<Guid>("IdPlanoLicenca")
                         .HasColumnType("uniqueidentifier");
@@ -297,11 +297,11 @@ namespace Vitalitas.Infrastructure.Database.Migrations
                         .HasColumnType("nvarchar(1000)")
                         .HasColumnName("Descricao");
 
-                    b.Property<string>("Nome")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)")
-                        .HasColumnName("Nome");
+                        .HasColumnName("Name");
 
                     b.Property<string>("Valor")
                         .IsRequired()
@@ -311,10 +311,10 @@ namespace Vitalitas.Infrastructure.Database.Migrations
 
                     b.HasKey("IdPlanoLicenca");
 
-                    b.ToTable("PlanoLicenca", (string)null);
+                    b.ToTable("LicensePlan", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.Features.Shared.Entities.Agenda", b =>
+            modelBuilder.Entity("Domain.Features.Shared.Entities.Schedule", b =>
                 {
                     b.Property<int>("IdAgenda")
                         .ValueGeneratedOnAdd()
@@ -338,7 +338,7 @@ namespace Vitalitas.Infrastructure.Database.Migrations
 
                     b.HasKey("IdAgenda");
 
-                    b.ToTable("Agenda", (string)null);
+                    b.ToTable("Schedule", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Features.Shared.Entities.Avaliacao", b =>
@@ -509,7 +509,7 @@ namespace Vitalitas.Infrastructure.Database.Migrations
                     b.ToTable("avaliacao");
                 });
 
-            modelBuilder.Entity("Domain.Features.Shared.Entities.LogAtividade", b =>
+            modelBuilder.Entity("Domain.Features.Shared.Entities.ActivityLog", b =>
                 {
                     b.Property<Guid>("IdLog")
                         .HasColumnType("uniqueidentifier");
@@ -539,18 +539,18 @@ namespace Vitalitas.Infrastructure.Database.Migrations
 
                     b.HasKey("IdLog");
 
-                    b.ToTable("LogAtividade", (string)null);
+                    b.ToTable("ActivityLog", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.Features.Shared.Entities.Treino", b =>
+            modelBuilder.Entity("Domain.Features.Shared.Entities.Workout", b =>
                 {
                     b.Property<Guid>("IdTreino")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Exercicio")
+                    b.Property<string>("Exercise")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
-                        .HasColumnName("Exercicio");
+                        .HasColumnName("Exercise");
 
                     b.Property<Guid>("IdFicha")
                         .HasColumnType("uniqueidentifier");
@@ -567,7 +567,7 @@ namespace Vitalitas.Infrastructure.Database.Migrations
 
                     b.HasKey("IdTreino");
 
-                    b.ToTable("Treino", (string)null);
+                    b.ToTable("Workout", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Features.Token.Entities.RefreshToken", b =>
@@ -597,24 +597,24 @@ namespace Vitalitas.Infrastructure.Database.Migrations
                     b.ToTable("RefreshToken", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.Features.Usuarios.Administrador.Entities.Administrador", b =>
+            modelBuilder.Entity("Domain.Features.Users.Administrator.Entities.Administrator", b =>
                 {
                     b.Property<Guid>("IdFuncionario")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Cargo")
+                    b.Property<int>("Role")
                         .HasColumnType("int")
-                        .HasColumnName("Cargo");
+                        .HasColumnName("Role");
 
                     b.Property<Guid>("IdUsuario")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("IdFuncionario");
 
-                    b.ToTable("Administrador", (string)null);
+                    b.ToTable("Administrator", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.Features.Usuarios.Aluno.Entities.Aluno", b =>
+            modelBuilder.Entity("Domain.Features.Users.Member.Entities.Member", b =>
                 {
                     b.Property<Guid>("IdAluno")
                         .HasColumnType("uniqueidentifier");
@@ -628,18 +628,18 @@ namespace Vitalitas.Infrastructure.Database.Migrations
                     b.Property<Guid>("IdUsuario")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Objetivo")
+                    b.Property<string>("Goal")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)")
-                        .HasColumnName("Objetivo");
+                        .HasColumnName("Goal");
 
                     b.HasKey("IdAluno");
 
-                    b.ToTable("Aluno", (string)null);
+                    b.ToTable("Member", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.Features.Usuarios.Aluno.Entities.Frequencia", b =>
+            modelBuilder.Entity("Domain.Features.Users.Member.Entities.Attendance", b =>
                 {
                     b.Property<Guid>("IdFrequencia")
                         .HasColumnType("uniqueidentifier");
@@ -657,10 +657,10 @@ namespace Vitalitas.Infrastructure.Database.Migrations
 
                     b.HasKey("IdFrequencia");
 
-                    b.ToTable("Frequencia", (string)null);
+                    b.ToTable("Attendance", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.Features.Usuarios.Aluno.Entities.XpHistorico", b =>
+            modelBuilder.Entity("Domain.Features.Users.Member.Entities.XpHistory", b =>
                 {
                     b.Property<Guid>("IdXp")
                         .HasColumnType("uniqueidentifier");
@@ -684,10 +684,10 @@ namespace Vitalitas.Infrastructure.Database.Migrations
 
                     b.HasKey("IdXp");
 
-                    b.ToTable("XpHistorico", (string)null);
+                    b.ToTable("XpHistory", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.Features.Usuarios.Common.Entities.TelefoneUsuario", b =>
+            modelBuilder.Entity("Domain.Features.Users.Common.Entities.UserPhone", b =>
                 {
                     b.Property<Guid>("IdTelefone")
                         .HasColumnType("uniqueidentifier");
@@ -703,10 +703,10 @@ namespace Vitalitas.Infrastructure.Database.Migrations
 
                     b.HasKey("IdTelefone");
 
-                    b.ToTable("TelefoneUsuario", (string)null);
+                    b.ToTable("UserPhone", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.Features.Usuarios.Common.Entities.Usuario", b =>
+            modelBuilder.Entity("Domain.Features.Users.Common.Entities.User", b =>
                 {
                     b.Property<Guid>("IdUsuario")
                         .HasColumnType("uniqueidentifier");
@@ -758,11 +758,11 @@ namespace Vitalitas.Infrastructure.Database.Migrations
                     b.Property<Guid>("IdAcademia")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Nome")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)")
-                        .HasColumnName("Nome");
+                        .HasColumnName("Name");
 
                     b.Property<string>("Quadra")
                         .IsRequired()
@@ -779,33 +779,33 @@ namespace Vitalitas.Infrastructure.Database.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Senha");
 
-                    b.Property<int>("TipoUsuario")
+                    b.Property<int>("UserType")
                         .HasColumnType("int")
-                        .HasColumnName("TipoUsuario");
+                        .HasColumnName("UserType");
 
                     b.HasKey("IdUsuario");
 
-                    b.ToTable("Usuario", (string)null);
+                    b.ToTable("User", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.Features.Usuarios.Funcionario.Entities.Funcionario", b =>
+            modelBuilder.Entity("Domain.Features.Users.Employee.Entities.Employee", b =>
                 {
                     b.Property<Guid>("IdFuncionario")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Cargo")
+                    b.Property<int>("Role")
                         .HasColumnType("int")
-                        .HasColumnName("Cargo");
+                        .HasColumnName("Role");
 
                     b.Property<Guid>("IdUsuario")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("IdFuncionario");
 
-                    b.ToTable("Funcionario", (string)null);
+                    b.ToTable("Employee", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.Features.Usuarios.Gestor.Entities.Gestor", b =>
+            modelBuilder.Entity("Domain.Features.Users.Manager.Entities.Manager", b =>
                 {
                     b.Property<Guid>("IdGestor")
                         .HasColumnType("uniqueidentifier");
@@ -815,10 +815,10 @@ namespace Vitalitas.Infrastructure.Database.Migrations
 
                     b.HasKey("IdGestor");
 
-                    b.ToTable("Gestor", (string)null);
+                    b.ToTable("Manager", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.Features.Usuarios.Instrutor.Entities.Instrutor", b =>
+            modelBuilder.Entity("Domain.Features.Users.Instructor.Entities.Instructor", b =>
                 {
                     b.Property<Guid>("IdInstrutor")
                         .HasColumnType("uniqueidentifier");
@@ -834,7 +834,7 @@ namespace Vitalitas.Infrastructure.Database.Migrations
 
                     b.HasKey("IdInstrutor");
 
-                    b.ToTable("Instrutor", (string)null);
+                    b.ToTable("Instructor", (string)null);
                 });
 #pragma warning restore 612, 618
         }

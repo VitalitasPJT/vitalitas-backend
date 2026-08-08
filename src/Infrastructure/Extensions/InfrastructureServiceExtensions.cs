@@ -1,12 +1,12 @@
-using Domain.Features.Usuarios.Common.Interfaces;
-using Domain.Features.Usuarios.Aluno.Interfaces;
-using Domain.Features.Usuarios.Gestor.Interfaces;
-using Domain.Features.Fichas.FichaMedica.Interfaces;
+using Domain.Features.Users.Common.Interfaces;
+using Domain.Features.Users.Member.Interfaces;
+using Domain.Features.Users.Manager.Interfaces;
+using Domain.Features.Records.MedicalRecord.Interfaces;
 using Domain.Features.Token.Interfaces;
-using Infrastructure.Repositories.Usuarios.Common;
-using Infrastructure.Repositories.Usuarios.Aluno;
-using Infrastructure.Repositories.Usuarios.Gestor;
-using Infrastructure.Repositories.Fichas.FichaMedica;
+using Infrastructure.Repositories.Users.Common;
+using Infrastructure.Repositories.Users.Member;
+using Infrastructure.Repositories.Users.Manager;
+using Infrastructure.Repositories.Records.MedicalRecord;
 using Infrastructure.Repositories.Token;
 using Infrastructure.Database.Connections;
 using Infrastructure.Database.Context;
@@ -41,25 +41,25 @@ namespace Infrastructure.Extensions
 
         private static IServiceCollection AddUsuarioFeature(this IServiceCollection services)
         {
-            services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
             return services;
         }
 
         private static IServiceCollection AddAlunoFeature(this IServiceCollection services)
         {
-            services.AddScoped<IAlunoRepository, AlunoRepository>();
+            services.AddScoped<IMemberRepository, MemberRepository>();
             return services;
         }
 
         private static IServiceCollection AddGestorFeature(this IServiceCollection services)
         {
-            services.AddScoped<IGestorRepository, GestorRepository>();
+            services.AddScoped<IManagerRepository, ManagerRepository>();
             return services;
         }
 
         private static IServiceCollection AddFichaMedicaFeature(this IServiceCollection services)
         {
-            services.AddScoped<IFichaMedicaRepository, FichaMedicaRepository>();
+            services.AddScoped<IMedicalRecordRepository, MedicalRecordRepository>();
             return services;
         }
 

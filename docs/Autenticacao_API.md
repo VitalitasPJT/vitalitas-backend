@@ -1,25 +1,41 @@
-# Autenticação da API
+# Autenticação da API — Vitalitas
 
-> Documentação detalhada do fluxo de login/refresh. Para instruções de como rodar o projeto, veja o [README](../README.md).
-
-O sistema utiliza **JSON Web Tokens (JWT)** com **refresh token** para autenticação e renovação de sessão. O access token expira em **15 minutos**; o refresh token, em **7 dias**.
-
-## Visão Geral do Fluxo
-
-1. O front-end realiza login e recebe `Token` (access token JWT) e `RefreshToken`.
-2. Toda requisição protegida deve enviar o header `Authorization: Bearer <Token>`.
-3. Quando o access token expira, o back-end retorna **HTTP 401**.
-4. O front-end chama `POST /usuario/refresh` com o access token expirado e o refresh token.
-5. O refresh token é **rotacionado a cada renovação**: o token anterior é revogado e um novo par é emitido.
-6. Se o refresh token estiver expirado ou revogado, o back-end retorna **HTTP 401** — o front-end deve limpar os tokens e redirecionar para o login.
+> Este documento explica **como o login e o acesso protegido funcionam** no backend do Vitalitas, em linguagem simples, com os detalhes técnicos exatos logo em seguida para quem for implementar a integração (front-end, mobile, etc.). Para instruções de como rodar o projeto, veja o [README](../README.md). Para entender a organização geral do backend, veja [`Arquitetura_backend.md`](Arquitetura_backend.md).
 
 ---
 
-## POST /usuario/login
+## 1. A ideia, em palavras simples
 
-Público — não requer autenticação.
+Pensa no acesso ao sistema como um **crachá temporário de visitante**:
 
-**Request body:**
+1. Você faz login (mostra usuário e senha na recepção).
+2. Recebe um **crachá** (o *access token*) que te dá acesso pelas próximas **15 minutos**.
+3. Junto com o crachá, você também recebe um **comprovante de retirada** (o *refresh token*), válido por **7 dias**, que serve só pra uma coisa: pedir um crachá novo quando o atual vencer, sem precisar mostrar usuário e senha de novo.
+4. Quando o crachá vence, o sistema te barra (**erro 401**). Você mostra o comprovante, ganha um crachá novo (e um comprovante novo — o antigo é cancelado na hora), e segue normalmente.
+5. Se o comprovante também já tiver vencido (ou já tiver sido trocado antes), você precisa voltar pra recepção e fazer login de novo.
+
+Esse "crachá" técnico se chama **JWT (JSON Web Token)**. Ele não fica guardado em lugar nenhum no servidor — é assinado digitalmente, e o sistema confirma que é válido só de olhar pra ele. Já o "comprovante" (*refresh token*) fica registrado no banco de dados, porque ele pode ser cancelado a qualquer momento.
+
+---
+
+## 2. O fluxo, passo a passo
+
+1. O front-end faz login e recebe `Token` (o crachá/access token) e `RefreshToken` (o comprovante).
+2. Toda vez que o front-end pede algo protegido ao backend, ele manda o crachá junto, no cabeçalho `Authorization: Bearer <Token>`.
+3. Quando o crachá vence, o backend responde **HTTP 401**.
+4. O front-end então chama `POST /usuario/refresh`, mandando o crachá vencido e o comprovante.
+5. O comprovante é de **uso único**: a cada troca, o antigo é cancelado e um par novo (crachá + comprovante) é emitido.
+6. Se o comprovante também estiver vencido ou já tiver sido usado, o backend responde **401** de novo — e aí o front-end deve limpar tudo e mandar a pessoa pra tela de login.
+
+---
+
+## 3. Referência técnica dos endpoints
+
+### `POST /usuario/login`
+
+Público — não precisa estar logado pra chamar.
+
+**O que enviar:**
 
 ```json
 {
@@ -28,7 +44,7 @@ Público — não requer autenticação.
 }
 ```
 
-**Response (200 OK):**
+**O que volta (200 OK):**
 
 ```json
 {
@@ -45,24 +61,24 @@ Público — não requer autenticação.
 }
 ```
 
-| Campo | Tipo | Descrição |
-|---|---|---|
-| `Token` | string (JWT) | Access token — use no header `Authorization: Bearer <Token>` |
-| `RefreshToken` | string (hex, 128 chars) | Refresh token — use em `POST /usuario/refresh` quando o access token expirar |
-| `TipoUsuario` | int | Perfil: 1 = Instrutor, 2 = Aluno, 3 = Gestor, 4 = Administrador |
-| `IdUsuario` | GUID | Identificador único do usuário autenticado |
-| `Flag` | bool | Campo retornado pelo domínio; significado a confirmar com o time de back-end |
-| `Status` | objeto | Resultado da operação (`Message`, `Code`, `Sucess`) |
+| Campo | O que é |
+|---|---|
+| `Token` | O crachá (access token). Usar no cabeçalho `Authorization: Bearer <Token>` |
+| `RefreshToken` | O comprovante, pra pedir um crachá novo em `POST /usuario/refresh` |
+| `TipoUsuario` | O perfil da pessoa: 1 = Instrutor, 2 = Aluno, 3 = Gestor, 4 = Administrador |
+| `IdUsuario` | Identificador único de quem fez login |
+| `Flag` | Campo que o sistema devolve, mas cujo significado de negócio ainda não está documentado — confirmar com o time de backend antes de usar |
+| `Status` | Como foi a operação (`Message`, `Code`, `Sucess`) |
 
-> **Atenção:** O campo `Sucess` no objeto `Status` é retornado com este nome pela API (erro tipográfico presente no código-fonte). Utilize exatamente como retornado.
+> **Atenção a um detalhe de digitação:** o campo se chama `Sucess` (faltando um "c"), não `Success`. É assim que a API realmente devolve — use exatamente como está.
 
-**Response (401 Unauthorized):**
+**Se der errado (401 Unauthorized):**
 
 ```json
 { "message": "Credenciais inválidas" }
 ```
 
-**Exemplo PowerShell:**
+**Exemplo em PowerShell:**
 
 ```powershell
 $body = '{ "Email": "usuario@exemplo.com", "Senha": "suasenha" }'
@@ -76,11 +92,11 @@ $refreshToken = $response.RefreshToken
 
 ---
 
-## POST /usuario/refresh
+### `POST /usuario/refresh`
 
-Público — não requer Bearer token no header. Recebe o access token (mesmo expirado) e o refresh token no body e retorna um novo par de tokens.
+Público — não precisa mandar o crachá no cabeçalho aqui. Recebe o crachá (mesmo vencido) e o comprovante no corpo da requisição, devolve um par novo.
 
-**Request body:**
+**O que enviar:**
 
 ```json
 {
@@ -89,7 +105,7 @@ Público — não requer Bearer token no header. Recebe o access token (mesmo ex
 }
 ```
 
-**Response (200 OK):**
+**O que volta (200 OK):**
 
 ```json
 {
@@ -103,15 +119,15 @@ Público — não requer Bearer token no header. Recebe o access token (mesmo ex
 }
 ```
 
-> **Token rotation:** após cada renovação, o refresh token anterior é **revogado permanentemente**. O front-end deve substituir imediatamente os tokens armazenados pelos novos valores (`AccessToken` e `RefreshToken`) retornados nesta resposta.
+> **Importante:** depois de cada renovação, o comprovante anterior é **cancelado pra sempre**. O front-end precisa guardar imediatamente os novos valores (`AccessToken` e `RefreshToken`) recebidos aqui — o par antigo não serve mais.
 
-**Response (401 Unauthorized) — token inválido, expirado ou já utilizado:**
+**Se der errado (401 Unauthorized) — token inválido, vencido ou já usado:**
 
 ```json
 { "message": "Token inválido ou expirado" }
 ```
 
-**Exemplo PowerShell:**
+**Exemplo em PowerShell:**
 
 ```powershell
 $body = @{ AccessToken = $accessToken; RefreshToken = $refreshToken } | ConvertTo-Json
@@ -125,15 +141,15 @@ $refreshToken = $renewed.RefreshToken
 
 ---
 
-## Requisições Autenticadas
+### Chamando endpoints protegidos
 
-Inclua o access token no header de **todas** as requisições a endpoints protegidos:
+Em **todo** endpoint que exige login, manda o crachá no cabeçalho:
 
 ```http
 Authorization: Bearer <Token>
 ```
 
-**Exemplo PowerShell:**
+**Exemplo em PowerShell:**
 
 ```powershell
 $headers = @{ Authorization = "Bearer $accessToken" }
@@ -142,73 +158,71 @@ Invoke-RestMethod -Uri "https://localhost:7214/aluno/listar-aluno?IdAluno=<guid>
 
 ---
 
-## Integração com o Front-end
+## 4. Como o front-end deve se comportar
 
-O front-end deve:
+- Guardar `Token` e `RefreshToken` depois do login.
+- Mandar `Authorization: Bearer <Token>` automaticamente em toda requisição protegida (idealmente via um interceptor HTTP, não manualmente em cada chamada).
+- Ao receber **401** numa requisição protegida, chamar `POST /usuario/refresh`.
+  - Se der certo: salvar o novo `AccessToken` e `RefreshToken`, e repetir a requisição original com o token novo.
+  - Se der 401 de novo: limpar os tokens guardados e mandar a pessoa pra tela de login.
+- **Nunca disparar duas renovações ao mesmo tempo.** Como o comprovante é de uso único, se duas chamadas de refresh saírem em paralelo, a segunda vai falhar (porque a primeira já cancelou o comprovante). Só deve existir **uma** renovação em andamento por vez; as demais requisições que caírem em 401 nesse meio-tempo devem esperar o resultado dessa única renovação.
 
-- Armazenar `Token` (access token) e `RefreshToken` após o login.
-- Anexar `Authorization: Bearer <Token>` automaticamente em todas as requisições protegidas, via interceptor HTTP.
-- Ao receber **HTTP 401** em uma requisição protegida, chamar `POST /usuario/refresh`.
-  - Se o refresh for bem-sucedido: salvar o novo `AccessToken` e o novo `RefreshToken`, e reenviar a requisição original com o novo token.
-  - Se o refresh falhar (HTTP 401): limpar os tokens e redirecionar o usuário para o login.
-- **Evitar chamadas simultâneas ao endpoint de refresh.** O refresh token é de uso único — chamadas paralelas a `/usuario/refresh` causam falha nas subsequentes porque o token já foi rotacionado pela primeira chamada. Apenas **uma** chamada de refresh deve ocorrer por vez; as demais requisições com 401 devem aguardar o resultado.
-
-**Pseudocódigo do interceptor:**
+**Como isso fica em pseudocódigo:**
 
 ```
-on 401 response:
-  if (não estou renovando):
-    marcar "renovando = true"
-    try:
-      [novoToken, novoRefreshToken] = POST /usuario/refresh
-      salvar novos tokens
-      reenviar todas as requisições pendentes com novoToken
-    catch 401:
-      limpar tokens → redirecionar para login
-    finally:
-      marcar "renovando = false"
-  else:
-    enfileirar requisição → aguardar resultado do refresh
+ao receber 401:
+  se já não estou renovando:
+    marcar "renovando = verdadeiro"
+    tentar:
+      [tokenNovo, refreshNovo] = POST /usuario/refresh
+      salvar os tokens novos
+      reenviar todas as requisições que estavam esperando, com o token novo
+    se der 401 de novo:
+      limpar tokens → mandar pra tela de login
+    ao final:
+      marcar "renovando = falso"
+  senão:
+    colocar essa requisição numa fila → esperar a renovação em andamento terminar
 ```
 
 ---
 
-## 401 vs 403
+## 5. 401 ou 403? Qual a diferença
 
-| Status HTTP | Causa no back-end | Ação do front-end |
+| Código | O que significa | O que o front-end deve fazer |
 |---|---|---|
-| **401** | Token ausente, inválido ou expirado | Chamar `/usuario/refresh`; se falhar, redirecionar para login |
-| **403** | Token válido, mas sem permissão para a operação | Exibir mensagem de acesso negado; **não** tentar renovar o token |
+| **401** | Não tem crachá, ou ele é inválido/venceu | Chamar `/usuario/refresh`; se falhar, mandar pra tela de login |
+| **403** | O crachá é válido, mas essa pessoa não tem permissão pra essa ação específica | Mostrar mensagem de acesso negado — **não** tentar renovar o token, porque o problema não é o token |
 
 ---
 
-## Roles e Perfil de Usuário
+## 6. Perfis de acesso (Roles)
 
-O campo `TipoUsuario` (int) na resposta do login e o claim `Role` (string) embutido no JWT representam o mesmo valor. O back-end usa o claim `Role` para autorização; o front-end pode usar `TipoUsuario` da resposta do login para controle de navegação e exibição de UI.
+O campo `TipoUsuario` (número) que volta no login e o campo `Role` (texto) que fica dentro do crachá representam a mesma coisa, de duas formas diferentes. O backend usa o `Role` (texto) pra decidir o que cada pessoa pode fazer; o front-end pode usar o `TipoUsuario` (número) do login pra decidir o que mostrar na tela.
 
-| `TipoUsuario` (int) | Claim `Role` no JWT | Acesso |
+| `TipoUsuario` (número) | `Role` no crachá | O que essa pessoa acessa |
 |---|---|---|
-| 1 | `Instrutor` | Endpoints gerais autenticados |
-| 2 | `Aluno` | Endpoints de aluno, com restrição aos próprios dados |
+| 1 | `Instrutor` | Endpoints gerais, de qualquer pessoa logada |
+| 2 | `Aluno` | Endpoints de aluno, só sobre os próprios dados |
 | 3 | `Gestor` | Gestão de alunos, instrutores e fichas médicas |
 | 4 | `Administrador` | Acesso administrativo completo |
 
 ---
 
-## Limitações Atuais e Pontos Pendentes
+## 7. O que ainda falta / pontos em aberto
 
-**Sem endpoint de logout no back-end:**
-Não existe um endpoint para revogar o refresh token sob demanda. O logout no front-end deve ser feito **limpando os tokens armazenados localmente**. O refresh token no banco de dados permanece válido até sua expiração natural (7 dias). Um endpoint de revogação está pendente de implementação no back-end.
+**Não existe um botão de "sair" no backend ainda:**
+Hoje não há um endpoint pra cancelar o comprovante (*refresh token*) sob demanda. "Sair" no front-end, por enquanto, é só apagar os tokens guardados localmente — o comprovante continua válido no banco até vencer sozinho (7 dias). Um endpoint de logout de verdade ainda precisa ser feito.
 
-**Campo `Flag` na resposta do login:**
-O campo `Flag` (bool) pertence à entidade de domínio `Usuario` e é retornado no login. Seu significado de negócio não está documentado no código-fonte e deve ser confirmado com o time de back-end antes de ser utilizado pelo front-end.
+**O campo `Flag` no login:**
+Esse campo (verdadeiro/falso) vem do cadastro do usuário, mas seu significado de negócio não está documentado em lugar nenhum ainda. Confirmar com o time de backend antes de usar pra alguma decisão importante no front-end.
 
-**Alinhamentos pendentes com o front-end:**
+**Coisas que ainda precisam de combinado entre front-end e backend:**
 
-| Ponto | Decisão necessária |
+| Assunto | O que falta decidir |
 |---|---|
-| Armazenamento dos tokens | Memória JS (mais seguro) vs `localStorage` vs `sessionStorage` |
-| Leitura de perfil/role | Usar `TipoUsuario` int da resposta do login ou decodificar o claim `Role` do JWT — definir um padrão |
-| Significado do campo `Flag` | Confirmar com o back-end |
-| Endpoint de logout/revogação | Pendente de implementação no back-end; alinhar prazo |
-| CORS | Back-end libera apenas `http://localhost:3000`; confirmar origem do front-end |
+| Onde guardar os tokens no front-end | Memória do JavaScript (mais seguro) vs `localStorage` vs `sessionStorage` |
+| Como ler o perfil da pessoa | Usar o número `TipoUsuario` do login, ou ler o `Role` de dentro do crachá — hoje dá pra fazer dos dois jeitos, falta escolher um padrão |
+| Significado do campo `Flag` | Confirmar com o backend |
+| Botão de "sair" de verdade | Ainda não existe no backend; falta combinar prazo |
+| CORS (quem pode chamar a API) | Hoje só libera `http://localhost:3000`; confirmar se é o endereço certo do front-end |
