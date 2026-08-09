@@ -1,25 +1,14 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.Extensions.Options;
-using System.ComponentModel.DataAnnotations;
 using System.Text;
 using API.Extensions;
-using API.Middlewares;
-using API.Settings;
 using Application.Extensions;
-using Infrastructure.Database.Context;
-using Infrastructure.Database.Seed;
 using Infrastructure.Extensions;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var jwtSettings = builder.Configuration.GetSection("Jwt").Get<JwtSettings>()
-    ?? throw new InvalidOperationException("Seção 'Jwt' ausente no appsettings.json.");
-Validator.ValidateObject(jwtSettings, new ValidationContext(jwtSettings), validateAllProperties: true);
-
-builder.Services.AddSingleton(Options.Create(jwtSettings));
+ValidateJwtConfiguration(builder.Configuration);
 
 builder.Services.AddApplicationServices(builder.Configuration);
 builder.Services.AddInfrastructureServices(builder.Configuration);
@@ -109,10 +98,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
             RoleClaimType = "Role",
-            ValidIssuer = jwtSettings.Issuer,
-            ValidAudience = jwtSettings.Audience,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
             IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(jwtSettings.Key))
+                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
         };
     });
 
@@ -130,19 +119,50 @@ if (app.Environment.IsDevelopment())
         options.SwaggerEndpoint("/swagger/Gestor/swagger.json", "Gestor");
     });
 
-    using (var scope = app.Services.CreateScope())
-    {
-        var dbContext = scope.ServiceProvider.GetRequiredService<VitalitasDbContext>();
-        dbContext.Database.Migrate();
-        await DevelopmentSeeder.SeedAsync(dbContext);
-    }
+    // Seed idempotente (dados de referência, ex.: catálogo de planos) — só em
+    // Development. Não substitui `dotnet ef database update`: o schema em si
+    // precisa das migrations aplicadas antes (ver README/ADR-0010).
+    using var seedScope = app.Services.CreateScope();
+    var dbContext = seedScope.ServiceProvider.GetRequiredService<Infrastructure.Database.Context.AppDbContext>();
+    await Infrastructure.Database.Seed.DbSeeder.SeedAsync(dbContext);
 }
 
 app.UseCors("AllowReact");
 app.UseHttpsRedirection();
 app.UseAuthentication();
-app.UseMiddleware<TenantResolutionMiddleware>();
 app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+static void ValidateJwtConfiguration(IConfiguration configuration)
+{
+    var jwtKey = configuration["Jwt:Key"];
+    var jwtIssuer = configuration["Jwt:Issuer"];
+    var jwtAudience = configuration["Jwt:Audience"];
+    var jwtDuration = configuration["Jwt:DurationInMinutes"];
+
+    if (string.IsNullOrWhiteSpace(jwtKey))
+    {
+        throw new InvalidOperationException(
+            "JWT configuration is invalid: 'Jwt:Key' is missing or empty. Configure it in the API project settings or user-secrets.");
+    }
+
+    if (string.IsNullOrWhiteSpace(jwtIssuer))
+    {
+        throw new InvalidOperationException(
+            "JWT configuration is invalid: 'Jwt:Issuer' is missing or empty.");
+    }
+
+    if (string.IsNullOrWhiteSpace(jwtAudience))
+    {
+        throw new InvalidOperationException(
+            "JWT configuration is invalid: 'Jwt:Audience' is missing or empty.");
+    }
+
+    if (!int.TryParse(jwtDuration, out var durationInMinutes) || durationInMinutes <= 0)
+    {
+        throw new InvalidOperationException(
+            "JWT configuration is invalid: 'Jwt:DurationInMinutes' must be a positive integer.");
+    }
+}

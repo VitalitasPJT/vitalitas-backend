@@ -1,660 +1,257 @@
-SET DATEFORMAT ymd;
+/* =====================================================================================
+   INSERT.sql
+   Massa de dados fictícios para testes. Depende do schema criado por CREATE.sql
+   (mesma pasta) — execute CREATE.sql antes deste script.
+
+   Entidades PROPOSITALMENTE EXCLUÍDAS: Avaliacao, Employee (ex-Funcionario).
+
+   Nomes de tabela em inglês desde a migration RenameEntitiesToEnglish
+   (20260808160615) — colunas permanecem em português, conforme as
+   IEntityTypeConfiguration (src/Infrastructure/Database/Configurations/**).
+
+   Referência de Enums (Domain/Enums/*.cs):
+     TipoUsuario:    1=Instrutor  2=Aluno  3=Gestor  4=Administrador
+     Cargo:          1=Recepcionista 2=Personal 3=Gerente 4=Limpeza 5=Outros
+     StatusAgenda:   1=Agendado  2=Cancelado  3=Concluido
+     StatusContrato: 1=Ativo  2=Inativo  3=Cancelado
+     StatusLicenca:  1=Ativa  2=Expirada  3=Cancelada
+     TipoLicenca:    1=Basica  2=Premium
+     TipoAcademia:   1=Musculacao  2=Crossfit  3=Funcional  4=Personal
+     TipoTreino:     1=Hipertrofia 2=Emagrecimento 3=Resistencia 4=Funcional 5=Outros
+     AcaoLog:        enum ainda sem membros definidos no domínio; usando 1/2/3
+                      como placeholder (Login/Cadastro/Logout) até ser preenchido.
+   ===================================================================================== */
+
+SET NOCOUNT ON;
 GO
 
-USE VITALITAS_DEV;
-GO
+-- ---------------------------------------------------------------
+-- Planos de licença (tabela: LicensePlan)
+-- ---------------------------------------------------------------
+INSERT INTO LicensePlan (IdPlanoLicenca, Nome, Descricao, Valor) VALUES
+('10000000-0000-0000-0000-000000000001', 'Plano Starter', 'Ideal para estúdios e pequenas academias. Limite de 200 alunos.', '149.90'),
+('10000000-0000-0000-0000-000000000002', 'Plano Pro',     'Para academias em crescimento. Limite de 500 alunos e suporte prioritário.', '299.90'),
+('10000000-0000-0000-0000-000000000003', 'Plano Premium', 'Acesso a todos os módulos, alunos ilimitados e integrações exclusivas.', '499.90');
 
-INSERT INTO planoLicenca (idPlanoLicenca, nome, descricao, valor) VALUES
-(1, 'Plano Starter', 'Ideal para estúdios e pequenas academias. Limite de 200 alunos.', 149.90),
-(2, 'Plano Pro', 'Para academias em crescimento. Limite de 500 alunos e suporte prioritário.', 299.90),
-(3, 'Plano Premium', 'Acesso a todos os módulos, alunos ilimitados e integrações exclusivas.', 499.90);
+-- ---------------------------------------------------------------
+-- Licenças (tabela: License | Status: Ativa=1 / Expirada=2 / Cancelada=3 | Tipo: Basica=1 / Premium=2)
+-- ---------------------------------------------------------------
+INSERT INTO License (IdLicenca, IdPlano, Mensalidade, Status, Tipo, DataFim, DataAssinatura, CaminhoPdf) VALUES
+('20000000-0000-0000-0000-000000000001', '10000000-0000-0000-0000-000000000001', '149.90', 1, 1, '2026-12-31', '2025-01-15', '/docs/licencas/licenca_starter_1.pdf'),
+('20000000-0000-0000-0000-000000000002', '10000000-0000-0000-0000-000000000002', '299.90', 1, 2, '2027-05-10', '2026-05-10', '/docs/licencas/licenca_pro_1.pdf'),
+('20000000-0000-0000-0000-000000000003', '10000000-0000-0000-0000-000000000003', '499.90', 2, 2, '2025-12-31', '2024-01-20', '/docs/licencas/licenca_premium_old.pdf');
 
-INSERT INTO licenca (idLicenca, idPlano, mensalidade, status, tipo, dataFim, dataAssinatura, caminhoPdf) VALUES
--- Licença vinculada ao Plano Starter (ID 1)
-('11111111-1111-1111-1111-111111111111', 1, 149.90, 'Ativa', 'Mensal', '2026-12-31', '2025-01-15', '/docs/licencas/licenca_starter_1.pdf'),
--- Licença vinculada ao Plano Pro (ID 2)
-('22222222-2222-2222-2222-222222222222', 2, 299.90, 'Ativa', 'Anual', '2027-05-10', '2026-05-10', '/docs/licencas/licenca_pro_1.pdf'),
--- Licença vinculada ao Plano Premium (ID 3), mas simulando uma que já venceu
-('33333333-3333-3333-3333-333333333333', 3, 499.90, 'Vencida', 'Mensal', '2025-12-31', '2024-01-20', '/docs/licencas/licenca_premium_old.pdf');
+-- ---------------------------------------------------------------
+-- Planos de contrato (tabela: ContractPlan)
+-- ---------------------------------------------------------------
+INSERT INTO ContractPlan (IdPlano, Nome, Descricao, Valor) VALUES
+('30000000-0000-0000-0000-000000000001', 'Mensal FitZone',  'Acesso livre área de musculação', '120.00'),
+('30000000-0000-0000-0000-000000000002', 'Trimestral Iron', 'Acesso Crossfit e LPO',            '300.00'),
+('30000000-0000-0000-0000-000000000003', 'Semestral Acqua', 'Natação 3x na semana',              '500.00');
 
-INSERT INTO academia (idAcademia, idLicenca, idGestor, nomeAcademia, cnpj, quadra, rua, bairro, cidade, estado, cep, tipoAcademia, emailInstitucional) VALUES
--- Academia 1 (Vinculada à Licença Starter: 111...)
-('AAAA1111-AAAA-1111-AAAA-111111111111', '11111111-1111-1111-1111-111111111111', NULL, 'FitZone Centro', '12345678000190', 'Quadra 10', 'Av. Principal', 'Centro', 'São Paulo', 'SP', '01001000', 'Musculação e Funcional', 'contato@fitzone.com.br'),
--- Academia 2 (Vinculada à Licença Pro: 222...)
-('AAAA2222-AAAA-2222-AAAA-222222222222', '22222222-2222-2222-2222-222222222222', NULL, 'IronGym Cross', '98765432000180', 'Lote 5', 'Rua das Pedras', 'Bela Vista', 'Rio de Janeiro', 'RJ', '20001000', 'Crossfit', 'admin@irongym.com.br'),
--- Academia 3 (Vinculada à Licença Premium vencida: 333...)
-('AAAA3333-AAAA-3333-AAAA-333333333333', '33333333-3333-3333-3333-333333333333', NULL, 'Acqua Life Natação', '45678912000170', 'Bloco C', 'Av. Atlântica', 'Copacabana', 'Rio de Janeiro', 'RJ', '22001000', 'Natação e Hidro', 'gerencia@acqualife.com.br');
+-- ---------------------------------------------------------------
+-- Contratos (tabela: Contract | Status: Ativo=1 / Inativo=2 / Cancelado=3)
+-- ---------------------------------------------------------------
+INSERT INTO Contract (IdContrato, IdPlanoContrato, Mensalidade, Status, DataFim, DataAssinatura) VALUES
+('40000000-0000-0000-0000-000000000001', '30000000-0000-0000-0000-000000000001', '120.00', 1, '2026-12-31', '2026-01-10'),
+('40000000-0000-0000-0000-000000000002', '30000000-0000-0000-0000-000000000001', '120.00', 1, '2026-12-31', '2026-02-15'),
+('40000000-0000-0000-0000-000000000003', '30000000-0000-0000-0000-000000000001', '120.00', 1, '2026-12-31', '2026-03-20'),
+('40000000-0000-0000-0000-000000000004', '30000000-0000-0000-0000-000000000001', '120.00', 1, '2026-12-31', '2026-04-05'),
+('40000000-0000-0000-0000-000000000005', '30000000-0000-0000-0000-000000000002', '300.00', 1, '2026-08-10', '2026-05-10'),
+('40000000-0000-0000-0000-000000000006', '30000000-0000-0000-0000-000000000002', '300.00', 1, '2026-09-12', '2026-06-12'),
+('40000000-0000-0000-0000-000000000007', '30000000-0000-0000-0000-000000000002', '300.00', 2, '2026-10-01', '2026-07-01'),
+('40000000-0000-0000-0000-000000000008', '30000000-0000-0000-0000-000000000002', '300.00', 1, '2026-11-20', '2026-08-20'),
+('40000000-0000-0000-0000-000000000009', '30000000-0000-0000-0000-000000000003', '500.00', 1, '2026-11-05', '2026-05-05'),
+('40000000-0000-0000-0000-000000000010', '30000000-0000-0000-0000-000000000003', '500.00', 3, '2027-01-15', '2026-07-15');
 
-INSERT INTO usuario (idUsuario, idAcademia, nome, email, senha, dataNascimento, cpf, tipoUsuario, ativo, flag, quadra, rua, bairro, cidade, estado, cep) VALUES
--- ADMINISTRADORES (Tipo 4) - Sistema geral (Vinculados à primeira academia de forma administrativa)
-('DDDD4444-DDDD-4444-DDDD-444444444401', 'AAAA1111-AAAA-1111-AAAA-111111111111', 'Admin Master', 'admin@sistema.com', 'hash_senha', '1985-01-10', '00000000001', 4, 1, 1, 'Q 1', 'Rua Alfa', 'Centro', 'São Paulo', 'SP', '01000000'),
-('DDDD4444-DDDD-4444-DDDD-444444444402', 'AAAA1111-AAAA-1111-AAAA-111111111111', 'Suporte Técnico', 'suporte@sistema.com', 'hash_senha', '1990-05-20', '00000000002', 4, 1, 1, 'Q 2', 'Rua Beta', 'Centro', 'São Paulo', 'SP', '01000000'),
--- GESTORES (Tipo 3) - Um para cada academia (Vamos usar esses IDs depois para atualizar a academia)
--- Gestor da Academia 1 (FitZone)
-('DDDD3333-DDDD-3333-DDDD-333333333301', 'AAAA1111-AAAA-1111-AAAA-111111111111', 'Carlos Silva', 'carlos@fitzone.com', 'hash_senha', '1980-03-15', '00000000003', 3, 1, 1, 'Q 10', 'Av. Principal', 'Centro', 'São Paulo', 'SP', '01001000'),
--- Gestor da Academia 2 (IronGym)
-('DDDD3333-DDDD-3333-DDDD-333333333302', 'AAAA2222-AAAA-2222-AAAA-222222222222', 'Mariana Souza', 'mariana@irongym.com', 'hash_senha', '1982-07-22', '00000000004', 3, 1, 1, 'Lote 5', 'Rua das Pedras', 'Bela Vista', 'Rio de Janeiro', 'RJ', '20001000'),
--- Gestor da Academia 3 (Acqua Life)
-('DDDD3333-DDDD-3333-DDDD-333333333303', 'AAAA3333-AAAA-3333-AAAA-333333333333', 'Roberto Alves', 'roberto@acqualife.com', 'hash_senha', '1975-11-30', '00000000005', 3, 1, 1, 'Bloco C', 'Av. Atlântica', 'Copacabana', 'Rio de Janeiro', 'RJ', '22001000'),
--- INSTRUTORES (Tipo 1) - Divididos entre as academias
--- Instrutores Academia 1
-('DDDD1111-DDDD-1111-DDDD-111111111101', 'AAAA1111-AAAA-1111-AAAA-111111111111', 'Fernando Personal', 'fernando@fitzone.com', 'hash_senha', '1992-04-10', '00000000006', 1, 1, 1, 'Q 12', 'Rua X', 'Jardins', 'São Paulo', 'SP', '01002000'),
-('DDDD1111-DDDD-1111-DDDD-111111111102', 'AAAA1111-AAAA-1111-AAAA-111111111111', 'Juliana Cross', 'juliana@fitzone.com', 'hash_senha', '1995-09-05', '00000000007', 1, 1, 1, 'Q 14', 'Rua Y', 'Pinheiros', 'São Paulo', 'SP', '01003000'),
--- Instrutores Academia 2
-('DDDD1111-DDDD-1111-DDDD-111111111103', 'AAAA2222-AAAA-2222-AAAA-222222222222', 'Thiago Monstro', 'thiago@irongym.com', 'hash_senha', '1990-12-12', '00000000008', 1, 1, 1, 'Lote 1', 'Rua Z', 'Centro', 'Rio de Janeiro', 'RJ', '20002000'),
-('DDDD1111-DDDD-1111-DDDD-111111111104', 'AAAA2222-AAAA-2222-AAAA-222222222222', 'Paula Coach', 'paula@irongym.com', 'hash_senha', '1994-02-28', '00000000009', 1, 1, 1, 'Lote 2', 'Rua W', 'Lapa', 'Rio de Janeiro', 'RJ', '20003000'),
--- Instrutor Academia 3
-('DDDD1111-DDDD-1111-DDDD-111111111105', 'AAAA3333-AAAA-3333-AAAA-333333333333', 'Lucas Nadador', 'lucas@acqualife.com', 'hash_senha', '1988-06-14', '00000000010', 1, 1, 1, 'Bloco A', 'Rua V', 'Ipanema', 'Rio de Janeiro', 'RJ', '22002000'),
--- ALUNOS (Tipo 2) - Frequência variada nas academias
--- Alunos Academia 1
-('DDDD2222-DDDD-2222-DDDD-222222222201', 'AAAA1111-AAAA-1111-AAAA-111111111111', 'João Pereira', 'joao@email.com', 'hash_senha', '2000-01-20', '00000000011', 2, 1, 1, 'Q 1', 'Rua 1', 'Bairro A', 'São Paulo', 'SP', '01004000'),
-('DDDD2222-DDDD-2222-DDDD-222222222202', 'AAAA1111-AAAA-1111-AAAA-111111111111', 'Maria Oliveira', 'maria@email.com', 'hash_senha', '1998-05-15', '00000000012', 2, 1, 1, 'Q 2', 'Rua 2', 'Bairro B', 'São Paulo', 'SP', '01005000'),
-('DDDD2222-DDDD-2222-DDDD-222222222203', 'AAAA1111-AAAA-1111-AAAA-111111111111', 'Pedro Santos', 'pedro@email.com', 'hash_senha', '1995-10-10', '00000000013', 2, 1, 1, 'Q 3', 'Rua 3', 'Bairro C', 'São Paulo', 'SP', '01006000'),
-('DDDD2222-DDDD-2222-DDDD-222222222204', 'AAAA1111-AAAA-1111-AAAA-111111111111', 'Ana Costa', 'ana@email.com', 'hash_senha', '2002-12-05', '00000000014', 2, 1, 1, 'Q 4', 'Rua 4', 'Bairro D', 'São Paulo', 'SP', '01007000'),
--- Alunos Academia 2
-('DDDD2222-DDDD-2222-DDDD-222222222205', 'AAAA2222-AAAA-2222-AAAA-222222222222', 'Felipe Almeida', 'felipe@email.com', 'hash_senha', '1993-08-30', '00000000015', 2, 1, 1, 'Lote 1', 'Rua 5', 'Bairro E', 'Rio de Janeiro', 'RJ', '20004000'),
-('DDDD2222-DDDD-2222-DDDD-222222222206', 'AAAA2222-AAAA-2222-AAAA-222222222222', 'Camila Rocha', 'camila@email.com', 'hash_senha', '1997-04-25', '00000000016', 2, 1, 1, 'Lote 2', 'Rua 6', 'Bairro F', 'Rio de Janeiro', 'RJ', '20005000'),
-('DDDD2222-DDDD-2222-DDDD-222222222207', 'AAAA2222-AAAA-2222-AAAA-222222222222', 'Diego Martins', 'diego@email.com', 'hash_senha', '1990-02-14', '00000000017', 2, 1, 1, 'Lote 3', 'Rua 7', 'Bairro G', 'Rio de Janeiro', 'RJ', '20006000'),
-('DDDD2222-DDDD-2222-DDDD-222222222208', 'AAAA2222-AAAA-2222-AAAA-222222222222', 'Letícia Gomes', 'leticia@email.com', 'hash_senha', '1999-11-18', '00000000018', 2, 1, 1, 'Lote 4', 'Rua 8', 'Bairro H', 'Rio de Janeiro', 'RJ', '20007000'),
--- Alunos Academia 3
-('DDDD2222-DDDD-2222-DDDD-222222222209', 'AAAA3333-AAAA-3333-AAAA-333333333333', 'Bruno Lima', 'bruno@email.com', 'hash_senha', '2005-03-08', '00000000019', 2, 1, 1, 'Bloco B', 'Rua 9', 'Bairro I', 'Rio de Janeiro', 'RJ', '22003000'),
-('DDDD2222-DDDD-2222-DDDD-222222222210', 'AAAA3333-AAAA-3333-AAAA-333333333333', 'Sofia Mendes', 'sofia@email.com', 'hash_senha', '2003-09-02', '00000000020', 2, 1, 1, 'Bloco D', 'Rua 10', 'Bairro J', 'Rio de Janeiro', 'RJ', '22004000');
+-- ---------------------------------------------------------------
+-- Academias (tabela: Gym)
+-- Obs.: IdGestor referencia Manager.IdGestor, que só é inserido mais abaixo.
+-- Não há FK física no schema atual, então a ordem não quebra o script.
+-- (TipoAcademia: Musculacao=1 / Crossfit=2 / Funcional=3 / Personal=4)
+-- ---------------------------------------------------------------
+INSERT INTO Gym (IdAcadenia, IdLicenca, IdGestor, NomeAcademia, CNPJ, Quadra, Rua, Bairro, Cidade, Estado, CEP, TipoAcademia, EmailInstitucional) VALUES
+('50000000-0000-0000-0000-000000000001', '20000000-0000-0000-0000-000000000001', '70000000-0000-0000-0000-000000000001', 'FitZone Centro',     '12.345.678/0001-90', 'Quadra 10', 'Av. Principal',  'Centro',     'São Paulo',      'SP', '01001000', 1, 'contato@fitzone.com.br'),
+('50000000-0000-0000-0000-000000000002', '20000000-0000-0000-0000-000000000002', '70000000-0000-0000-0000-000000000002', 'IronGym Cross',      '98.765.432/0001-80', 'Lote 5',    'Rua das Pedras', 'Bela Vista', 'Rio de Janeiro', 'RJ', '20001000', 2, 'admin@irongym.com.br'),
+('50000000-0000-0000-0000-000000000003', '20000000-0000-0000-0000-000000000003', '70000000-0000-0000-0000-000000000003', 'Acqua Life Natação', '45.678.912/0001-70', 'Bloco C',   'Av. Atlântica',  'Copacabana', 'Rio de Janeiro', 'RJ', '22001000', 3, 'gerencia@acqualife.com.br');
 
+-- ---------------------------------------------------------------
+-- Usuários (tabela: User | TipoUsuario: Instrutor=1 / Aluno=2 / Gestor=3 / Administrador=4)
+-- ---------------------------------------------------------------
+INSERT INTO [User] (IdUsuario, IdAcademia, Nome, Email, Senha, DataNascimento, CPF, TipoUsuario, Ativo, Flag, Quadra, Rua, Bairro, Cidade, Estado, CEP) VALUES
+-- Administradores
+('60000000-0000-0000-0000-000000000001', '50000000-0000-0000-0000-000000000001', 'Admin Master',    'admin@sistema.com',   '$2a$hash_fake_1', '1985-01-10', '000.000.000-01', 4, 1, 1, 'Q 1', 'Rua Alfa', 'Centro', 'São Paulo', 'SP', '01000000'),
+('60000000-0000-0000-0000-000000000002', '50000000-0000-0000-0000-000000000001', 'Suporte Técnico', 'suporte@sistema.com', '$2a$hash_fake_2', '1990-05-20', '000.000.000-02', 4, 1, 1, 'Q 2', 'Rua Beta', 'Centro', 'São Paulo', 'SP', '01000000'),
+-- Gestores (um por academia)
+('60000000-0000-0000-0000-000000000003', '50000000-0000-0000-0000-000000000001', 'Carlos Silva',   'carlos@fitzone.com',    '$2a$hash_fake_3', '1980-03-15', '000.000.000-03', 3, 1, 1, 'Q 10',   'Av. Principal',  'Centro',     'São Paulo',      'SP', '01001000'),
+('60000000-0000-0000-0000-000000000004', '50000000-0000-0000-0000-000000000002', 'Mariana Souza',  'mariana@irongym.com',   '$2a$hash_fake_4', '1982-07-22', '000.000.000-04', 3, 1, 1, 'Lote 5', 'Rua das Pedras', 'Bela Vista', 'Rio de Janeiro', 'RJ', '20001000'),
+('60000000-0000-0000-0000-000000000005', '50000000-0000-0000-0000-000000000003', 'Roberto Alves',  'roberto@acqualife.com', '$2a$hash_fake_5', '1975-11-30', '000.000.000-05', 3, 1, 1, 'Bloco C','Av. Atlântica',  'Copacabana', 'Rio de Janeiro', 'RJ', '22001000'),
+-- Instrutores
+('60000000-0000-0000-0000-000000000006', '50000000-0000-0000-0000-000000000001', 'Fernando Personal', 'fernando@fitzone.com', '$2a$hash_fake_6', '1992-04-10', '000.000.000-06', 1, 1, 1, 'Q 12',   'Rua X', 'Jardins',   'São Paulo',      'SP', '01002000'),
+('60000000-0000-0000-0000-000000000007', '50000000-0000-0000-0000-000000000001', 'Juliana Cross',     'juliana@fitzone.com',  '$2a$hash_fake_7', '1995-09-05', '000.000.000-07', 1, 1, 1, 'Q 14',   'Rua Y', 'Pinheiros', 'São Paulo',      'SP', '01003000'),
+('60000000-0000-0000-0000-000000000008', '50000000-0000-0000-0000-000000000002', 'Thiago Monstro',    'thiago@irongym.com',   '$2a$hash_fake_8', '1990-12-12', '000.000.000-08', 1, 1, 1, 'Lote 1', 'Rua Z', 'Centro',    'Rio de Janeiro', 'RJ', '20002000'),
+('60000000-0000-0000-0000-000000000009', '50000000-0000-0000-0000-000000000002', 'Paula Coach',       'paula@irongym.com',    '$2a$hash_fake_9', '1994-02-28', '000.000.000-09', 1, 1, 1, 'Lote 2', 'Rua W', 'Lapa',      'Rio de Janeiro', 'RJ', '20003000'),
+('60000000-0000-0000-0000-000000000010', '50000000-0000-0000-0000-000000000003', 'Lucas Nadador',     'lucas@acqualife.com',  '$2a$hash_fake_10','1988-06-14', '000.000.000-10', 1, 1, 1, 'Bloco A','Rua V', 'Ipanema',   'Rio de Janeiro', 'RJ', '22002000'),
+-- Alunos
+('60000000-0000-0000-0000-000000000011', '50000000-0000-0000-0000-000000000001', 'João Pereira',   'joao@email.com',   '$2a$hash_fake_11', '2000-01-20', '000.000.000-11', 2, 1, 1, 'Q 1',    'Rua 1',  'Bairro A', 'São Paulo',      'SP', '01004000'),
+('60000000-0000-0000-0000-000000000012', '50000000-0000-0000-0000-000000000001', 'Maria Oliveira', 'maria@email.com',  '$2a$hash_fake_12', '1998-05-15', '000.000.000-12', 2, 1, 1, 'Q 2',    'Rua 2',  'Bairro B', 'São Paulo',      'SP', '01005000'),
+('60000000-0000-0000-0000-000000000013', '50000000-0000-0000-0000-000000000001', 'Pedro Santos',   'pedro@email.com',  '$2a$hash_fake_13', '1995-10-10', '000.000.000-13', 2, 1, 1, 'Q 3',    'Rua 3',  'Bairro C', 'São Paulo',      'SP', '01006000'),
+('60000000-0000-0000-0000-000000000014', '50000000-0000-0000-0000-000000000001', 'Ana Costa',      'ana@email.com',    '$2a$hash_fake_14', '2002-12-05', '000.000.000-14', 2, 1, 1, 'Q 4',    'Rua 4',  'Bairro D', 'São Paulo',      'SP', '01007000'),
+('60000000-0000-0000-0000-000000000015', '50000000-0000-0000-0000-000000000002', 'Felipe Almeida', 'felipe@email.com', '$2a$hash_fake_15', '1993-08-30', '000.000.000-15', 2, 1, 1, 'Lote 1', 'Rua 5',  'Bairro E', 'Rio de Janeiro', 'RJ', '20004000'),
+('60000000-0000-0000-0000-000000000016', '50000000-0000-0000-0000-000000000002', 'Camila Rocha',   'camila@email.com', '$2a$hash_fake_16', '1997-04-25', '000.000.000-16', 2, 1, 1, 'Lote 2', 'Rua 6',  'Bairro F', 'Rio de Janeiro', 'RJ', '20005000'),
+('60000000-0000-0000-0000-000000000017', '50000000-0000-0000-0000-000000000002', 'Diego Martins',  'diego@email.com',  '$2a$hash_fake_17', '1990-02-14', '000.000.000-17', 2, 0, 1, 'Lote 3', 'Rua 7',  'Bairro G', 'Rio de Janeiro', 'RJ', '20006000'),
+('60000000-0000-0000-0000-000000000018', '50000000-0000-0000-0000-000000000002', 'Letícia Gomes',  'leticia@email.com','$2a$hash_fake_18', '1999-11-18', '000.000.000-18', 2, 1, 1, 'Lote 4', 'Rua 8',  'Bairro H', 'Rio de Janeiro', 'RJ', '20007000'),
+('60000000-0000-0000-0000-000000000019', '50000000-0000-0000-0000-000000000003', 'Bruno Lima',     'bruno@email.com',  '$2a$hash_fake_19', '2005-03-08', '000.000.000-19', 2, 1, 1, 'Bloco B','Rua 9',  'Bairro I', 'Rio de Janeiro', 'RJ', '22003000'),
+('60000000-0000-0000-0000-000000000020', '50000000-0000-0000-0000-000000000003', 'Sofia Mendes',   'sofia@email.com',  '$2a$hash_fake_20', '2003-09-02', '000.000.000-20', 2, 1, 1, 'Bloco D','Rua 10', 'Bairro J', 'Rio de Janeiro', 'RJ', '22004000');
 
-INSERT INTO gestor (idGestor, idUsuario) VALUES
--- Gestor da Academia 1 (Usuário Carlos Silva)
-('EEEE3333-EEEE-3333-EEEE-333333333301', 'DDDD3333-DDDD-3333-DDDD-333333333301'),
--- Gestor da Academia 2 (Usuária Mariana Souza)
-('EEEE3333-EEEE-3333-EEEE-333333333302', 'DDDD3333-DDDD-3333-DDDD-333333333302'),
--- Gestor da Academia 3 (Usuário Roberto Alves)
-('EEEE3333-EEEE-3333-EEEE-333333333303', 'DDDD3333-DDDD-3333-DDDD-333333333303');
--- Vinculando o Carlos à FitZone Centro
-UPDATE academia 
-SET idGestor = 'EEEE3333-EEEE-3333-EEEE-333333333301' 
-WHERE idAcademia = 'AAAA1111-AAAA-1111-AAAA-111111111111';
--- Vinculando a Mariana à IronGym Cross
-UPDATE academia 
-SET idGestor = 'EEEE3333-EEEE-3333-EEEE-333333333302' 
-WHERE idAcademia = 'AAAA2222-AAAA-2222-AAAA-222222222222';
--- Vinculando o Roberto à Acqua Life Natação
-UPDATE academia 
-SET idGestor = 'EEEE3333-EEEE-3333-EEEE-333333333303' 
-WHERE idAcademia = 'AAAA3333-AAAA-3333-AAAA-333333333333';
+-- ---------------------------------------------------------------
+-- Gestores (tabela: Manager; completa o vínculo com Gym.IdGestor)
+-- ---------------------------------------------------------------
+INSERT INTO Manager (IdGestor, IdUsuario) VALUES
+('70000000-0000-0000-0000-000000000001', '60000000-0000-0000-0000-000000000003'),
+('70000000-0000-0000-0000-000000000002', '60000000-0000-0000-0000-000000000004'),
+('70000000-0000-0000-0000-000000000003', '60000000-0000-0000-0000-000000000005');
 
-INSERT INTO instrutor (idInstrutor, idUsuario, cref) VALUES
--- Instrutores da Academia 1 (São Paulo - SP)
--- Vinculado ao Fernando Personal
-('FFFF1111-FFFF-1111-FFFF-111111111101', 'DDDD1111-DDDD-1111-DDDD-111111111101', '123456-G/SP'),
--- Vinculado à Juliana Cross
-('FFFF1111-FFFF-1111-FFFF-111111111102', 'DDDD1111-DDDD-1111-DDDD-111111111102', '654321-G/SP'),
--- Instrutores da Academia 2 (Rio de Janeiro - RJ)
--- Vinculado ao Thiago Monstro
-('FFFF1111-FFFF-1111-FFFF-111111111103', 'DDDD1111-DDDD-1111-DDDD-111111111103', '987654-G/RJ'),
--- Vinculado à Paula Coach
-('FFFF1111-FFFF-1111-FFFF-111111111104', 'DDDD1111-DDDD-1111-DDDD-111111111104', '456789-G/RJ'),
--- Instrutor da Academia 3 (Rio de Janeiro - RJ)
--- Vinculado ao Lucas Nadador
-('FFFF1111-FFFF-1111-FFFF-111111111105', 'DDDD1111-DDDD-1111-DDDD-111111111105', '321987-G/RJ');
+-- ---------------------------------------------------------------
+-- Instrutores (tabela: Instructor)
+-- ---------------------------------------------------------------
+INSERT INTO Instructor (IdInstrutor, IdUsuario, CREF) VALUES
+('80000000-0000-0000-0000-000000000001', '60000000-0000-0000-0000-000000000006', '123456-G/SP'),
+('80000000-0000-0000-0000-000000000002', '60000000-0000-0000-0000-000000000007', '654321-G/SP'),
+('80000000-0000-0000-0000-000000000003', '60000000-0000-0000-0000-000000000008', '987654-G/RJ'),
+('80000000-0000-0000-0000-000000000004', '60000000-0000-0000-0000-000000000009', '456789-G/RJ'),
+('80000000-0000-0000-0000-000000000005', '60000000-0000-0000-0000-000000000010', '321987-G/RJ');
 
-INSERT INTO planoContrato (idPlanoContrato, nome, descricao, valor) VALUES
-(1, 'Mensal FitZone', 'Acesso livre área de musculação', 120.00),
-(2, 'Trimestral Iron', 'Acesso Crossfit e LPO', 300.00),
-(3, 'Semestral Acqua', 'Natação 3x na semana', 500.00);
+-- ---------------------------------------------------------------
+-- Administradores (tabela: Administrator | Cargo: Recepcionista=1 / Personal=2 / Gerente=3 / Limpeza=4 / Outros=5)
+-- ---------------------------------------------------------------
+INSERT INTO Administrator (IdFuncionario, IdUsuario, Cargo) VALUES
+('90000000-0000-0000-0000-000000000001', '60000000-0000-0000-0000-000000000001', 3),
+('90000000-0000-0000-0000-000000000002', '60000000-0000-0000-0000-000000000002', 5);
 
-INSERT INTO contrato (idContrato, idPlanoContrato, mensalidade, status, caminhoPdf, dataFim, dataAssinatura) VALUES
--- Contratos da Academia 1 (Plano 1)
-('CCCC1111-CCCC-1111-CCCC-111111111101', 1, 120.00, 1, '/docs/contratos/aluno_01.pdf', '2026-12-31', '2026-01-10'),
-('CCCC1111-CCCC-1111-CCCC-111111111102', 1, 120.00, 1, '/docs/contratos/aluno_02.pdf', '2026-12-31', '2026-02-15'),
-('CCCC1111-CCCC-1111-CCCC-111111111103', 1, 120.00, 1, '/docs/contratos/aluno_03.pdf', '2026-12-31', '2026-03-20'),
-('CCCC1111-CCCC-1111-CCCC-111111111104', 1, 120.00, 1, '/docs/contratos/aluno_04.pdf', '2026-12-31', '2026-04-05'),
--- Contratos da Academia 2 (Plano 2)
-('CCCC1111-CCCC-1111-CCCC-111111111105', 2, 300.00, 1, '/docs/contratos/aluno_05.pdf', '2026-08-10', '2026-05-10'),
-('CCCC1111-CCCC-1111-CCCC-111111111106', 2, 300.00, 1, '/docs/contratos/aluno_06.pdf', '2026-09-12', '2026-06-12'),
-('CCCC1111-CCCC-1111-CCCC-111111111107', 2, 300.00, 1, '/docs/contratos/aluno_07.pdf', '2026-10-01', '2026-07-01'),
-('CCCC1111-CCCC-1111-CCCC-111111111108', 2, 300.00, 1, '/docs/contratos/aluno_08.pdf', '2026-11-20', '2026-08-20'),
--- Contratos da Academia 3 (Plano 3)
-('CCCC1111-CCCC-1111-CCCC-111111111109', 3, 500.00, 1, '/docs/contratos/aluno_09.pdf', '2026-11-05', '2026-05-05'),
-('CCCC1111-CCCC-1111-CCCC-111111111110', 3, 500.00, 1, '/docs/contratos/aluno_10.pdf', '2027-01-15', '2026-07-15');
+-- ---------------------------------------------------------------
+-- Alunos (tabela: Member)
+-- ---------------------------------------------------------------
+INSERT INTO Member (IdAluno, IdUsuario, IdInstrutor, IdContrato, Objetivo) VALUES
+('A0000000-0000-0000-0000-000000000001', '60000000-0000-0000-0000-000000000011', '80000000-0000-0000-0000-000000000001', '40000000-0000-0000-0000-000000000001', 'Hipertrofia'),
+('A0000000-0000-0000-0000-000000000002', '60000000-0000-0000-0000-000000000012', '80000000-0000-0000-0000-000000000001', '40000000-0000-0000-0000-000000000002', 'Emagrecimento'),
+('A0000000-0000-0000-0000-000000000003', '60000000-0000-0000-0000-000000000013', '80000000-0000-0000-0000-000000000002', '40000000-0000-0000-0000-000000000003', 'Condicionamento Físico'),
+('A0000000-0000-0000-0000-000000000004', '60000000-0000-0000-0000-000000000014', '80000000-0000-0000-0000-000000000002', '40000000-0000-0000-0000-000000000004', 'Saúde e Bem-estar'),
+('A0000000-0000-0000-0000-000000000005', '60000000-0000-0000-0000-000000000015', '80000000-0000-0000-0000-000000000003', '40000000-0000-0000-0000-000000000005', 'Ganho de Força'),
+('A0000000-0000-0000-0000-000000000006', '60000000-0000-0000-0000-000000000016', '80000000-0000-0000-0000-000000000003', '40000000-0000-0000-0000-000000000006', 'Resistência Muscular'),
+('A0000000-0000-0000-0000-000000000007', '60000000-0000-0000-0000-000000000017', '80000000-0000-0000-0000-000000000004', '40000000-0000-0000-0000-000000000007', 'Competição Crossfit'),
+('A0000000-0000-0000-0000-000000000008', '60000000-0000-0000-0000-000000000018', '80000000-0000-0000-0000-000000000004', '40000000-0000-0000-0000-000000000008', 'Mobilidade e Flexibilidade'),
+('A0000000-0000-0000-0000-000000000009', '60000000-0000-0000-0000-000000000019', '80000000-0000-0000-0000-000000000005', '40000000-0000-0000-0000-000000000009', 'Aprender a nadar'),
+('A0000000-0000-0000-0000-000000000010', '60000000-0000-0000-0000-000000000020', '80000000-0000-0000-0000-000000000005', '40000000-0000-0000-0000-000000000010', 'Treino para Triatlo');
 
-INSERT INTO aluno (idAluno, idUsuario, IdInstrutor, idContrato, objetivo) VALUES
--- Alunos da Academia 1 (FitZone) -> Treinando com Fernando (FFFF...01) e Juliana (FFFF...02)
-('BBBB2222-BBBB-2222-BBBB-222222222201', 'DDDD2222-DDDD-2222-DDDD-222222222201', 'FFFF1111-FFFF-1111-FFFF-111111111101', 'CCCC1111-CCCC-1111-CCCC-111111111101', 'Hipertrofia'),
-('BBBB2222-BBBB-2222-BBBB-222222222202', 'DDDD2222-DDDD-2222-DDDD-222222222202', 'FFFF1111-FFFF-1111-FFFF-111111111101', 'CCCC1111-CCCC-1111-CCCC-111111111102', 'Emagrecimento'),
-('BBBB2222-BBBB-2222-BBBB-222222222203', 'DDDD2222-DDDD-2222-DDDD-222222222203', 'FFFF1111-FFFF-1111-FFFF-111111111102', 'CCCC1111-CCCC-1111-CCCC-111111111103', 'Condicionamento Físico'),
-('BBBB2222-BBBB-2222-BBBB-222222222204', 'DDDD2222-DDDD-2222-DDDD-222222222204', 'FFFF1111-FFFF-1111-FFFF-111111111102', 'CCCC1111-CCCC-1111-CCCC-111111111104', 'Saúde e Bem-estar'),
--- Alunos da Academia 2 (IronGym) -> Treinando com Thiago (FFFF...03) e Paula (FFFF...04)
-('BBBB2222-BBBB-2222-BBBB-222222222205', 'DDDD2222-DDDD-2222-DDDD-222222222205', 'FFFF1111-FFFF-1111-FFFF-111111111103', 'CCCC1111-CCCC-1111-CCCC-111111111105', 'Ganho de Força'),
-('BBBB2222-BBBB-2222-BBBB-222222222206', 'DDDD2222-DDDD-2222-DDDD-222222222206', 'FFFF1111-FFFF-1111-FFFF-111111111103', 'CCCC1111-CCCC-1111-CCCC-111111111106', 'Resistência Muscular'),
-('BBBB2222-BBBB-2222-BBBB-222222222207', 'DDDD2222-DDDD-2222-DDDD-222222222207', 'FFFF1111-FFFF-1111-FFFF-111111111104', 'CCCC1111-CCCC-1111-CCCC-111111111107', 'Competição Crossfit'),
-('BBBB2222-BBBB-2222-BBBB-222222222208', 'DDDD2222-DDDD-2222-DDDD-222222222208', 'FFFF1111-FFFF-1111-FFFF-111111111104', 'CCCC1111-CCCC-1111-CCCC-111111111108', 'Mobilidade e Flexibilidade'),
--- Alunos da Academia 3 (Acqua Life) -> Treinando com Lucas (FFFF...05)
-('BBBB2222-BBBB-2222-BBBB-222222222209', 'DDDD2222-DDDD-2222-DDDD-222222222209', 'FFFF1111-FFFF-1111-FFFF-111111111105', 'CCCC1111-CCCC-1111-CCCC-111111111109', 'Aprender a nadar'),
-('BBBB2222-BBBB-2222-BBBB-222222222210', 'DDDD2222-DDDD-2222-DDDD-222222222210', 'FFFF1111-FFFF-1111-FFFF-111111111105', 'CCCC1111-CCCC-1111-CCCC-111111111110', 'Treino para Triatlo');
+-- ---------------------------------------------------------------
+-- Telefones (tabelas: UserPhone / GymPhone)
+-- ---------------------------------------------------------------
+INSERT INTO UserPhone (IdTelefone, IdUsuario, Telefone) VALUES
+('B0000000-0000-0000-0000-000000000001', '60000000-0000-0000-0000-000000000011', '61999990001'),
+('B0000000-0000-0000-0000-000000000002', '60000000-0000-0000-0000-000000000012', '61999990002'),
+('B0000000-0000-0000-0000-000000000003', '60000000-0000-0000-0000-000000000003', '11988880001'),
+('B0000000-0000-0000-0000-000000000004', '60000000-0000-0000-0000-000000000006', '11988880002');
 
----------------------------------------------------------------------------------------------------------
--- Parei aqui
----------------------------------------------------------------------------------------------------------
+INSERT INTO GymPhone (IdTelefone, IdAcademia, Telefone) VALUES
+('B1000000-0000-0000-0000-000000000001', '50000000-0000-0000-0000-000000000001', '1133330001'),
+('B1000000-0000-0000-0000-000000000002', '50000000-0000-0000-0000-000000000002', '2133330002'),
+('B1000000-0000-0000-0000-000000000003', '50000000-0000-0000-0000-000000000003', '2133330003');
 
-INSERT INTO funcionario (
-    idFuncionario, idUsuario, cargo
-)
-VALUES
+-- ---------------------------------------------------------------
+-- Frequência de treinos (tabela: Attendance)
+-- ---------------------------------------------------------------
+INSERT INTO Attendance (IdFrequencia, IdAluno, TempoTreinoMinutos, Data) VALUES
+('C0000000-0000-0000-0000-000000000001', 'A0000000-0000-0000-0000-000000000001', 60, '2026-07-01'),
+('C0000000-0000-0000-0000-000000000002', 'A0000000-0000-0000-0000-000000000001', 45, '2026-07-03'),
+('C0000000-0000-0000-0000-000000000003', 'A0000000-0000-0000-0000-000000000002', 50, '2026-07-01'),
+('C0000000-0000-0000-0000-000000000004', 'A0000000-0000-0000-0000-000000000005', 75, '2026-07-02'),
+('C0000000-0000-0000-0000-000000000005', 'A0000000-0000-0000-0000-000000000009', 40, '2026-07-04');
+
+-- ---------------------------------------------------------------
+-- Histórico de XP (tabela: XpHistory | IdUsuario = usuário do aluno)
+-- ---------------------------------------------------------------
+INSERT INTO XpHistory (IdXp, IdUsuario, XpGanho, Data, Motivo) VALUES
+('D0000000-0000-0000-0000-000000000001', '60000000-0000-0000-0000-000000000011', 10, '2026-07-01', 'Treino completo'),
+('D0000000-0000-0000-0000-000000000002', '60000000-0000-0000-0000-000000000011', 50, '2026-07-03', 'Frequência semanal'),
+('D0000000-0000-0000-0000-000000000003', '60000000-0000-0000-0000-000000000012', 10, '2026-07-01', 'Treino completo'),
+('D0000000-0000-0000-0000-000000000004', '60000000-0000-0000-0000-000000000019', 30, '2026-07-04', 'Meta mensal atingida');
+
+-- ---------------------------------------------------------------
+-- Log de atividade (tabela: ActivityLog | Acao é placeholder — ver observação no topo do script)
+-- ---------------------------------------------------------------
+INSERT INTO ActivityLog (IdLog, IdUsuario, DataHora, Acao, DispositivoLogado, Localizacao) VALUES
+('E0000000-0000-0000-0000-000000000001', '60000000-0000-0000-0000-000000000011', '2026-07-01T08:15:00', 1, 'Android - App Vitalitas', 'São Paulo, SP'),
+('E0000000-0000-0000-0000-000000000002', '60000000-0000-0000-0000-000000000003', '2026-07-01T09:00:00', 1, 'Windows - Chrome', 'São Paulo, SP'),
+('E0000000-0000-0000-0000-000000000003', '60000000-0000-0000-0000-000000000019', '2026-07-02T18:40:00', 2, 'iOS - App Vitalitas', 'Rio de Janeiro, RJ');
+
+-- ---------------------------------------------------------------
+-- Agenda (tabela: Schedule | StatusAgenda: Agendado=1 / Cancelado=2 / Concluido=3)
+-- IdAgenda é IDENTITY — não é informado no INSERT.
+-- ---------------------------------------------------------------
+INSERT INTO Schedule (IdInstrutor, IdAcademia, Status, Data) VALUES
+('80000000-0000-0000-0000-000000000001', '50000000-0000-0000-0000-000000000001', 1, '2026-08-10T08:00:00'),
+('80000000-0000-0000-0000-000000000003', '50000000-0000-0000-0000-000000000002', 3, '2026-08-08T10:00:00'),
+('80000000-0000-0000-0000-000000000005', '50000000-0000-0000-0000-000000000003', 2, '2026-08-12T14:00:00');
+
+-- ---------------------------------------------------------------
+-- Fichas (tabela: TrainingSheet)
+-- IdAvaliacao: sem tabela de origem no schema atual (Avaliacao removida) — GUID fictício.
+-- ---------------------------------------------------------------
+INSERT INTO TrainingSheet (IdFicha, IdAvaliacao, NomeFicha, Observacoes) VALUES
+('F0000000-0000-0000-0000-000000000001', 'FFFFFFFF-0000-0000-0000-000000000001', 'Ficha A', 'Ficha inicial'),
+('F0000000-0000-0000-0000-000000000002', 'FFFFFFFF-0000-0000-0000-000000000002', 'Ficha B', 'Ficha intermediária');
+
+-- ---------------------------------------------------------------
+-- Fichas médicas (tabela: MedicalRecord)
+-- ---------------------------------------------------------------
+INSERT INTO MedicalRecord (IdFicha, IdAluno, Alergia, Restricao, Lesao, Cirurgia, ProblemaSaude, UsoMedicamento) VALUES
+('F1000000-0000-0000-0000-000000000001', 'A0000000-0000-0000-0000-000000000001', 'Poeira',   'Nenhuma', 'Nenhuma', 'Nenhuma', 'Asma',     'Nenhum'),
+('F1000000-0000-0000-0000-000000000002', 'A0000000-0000-0000-0000-000000000005', 'Nenhuma',  'Joelho',  'Menisco', 'Nenhuma', 'Nenhum',   'Nenhum');
+
+-- ---------------------------------------------------------------
+-- Treinos (tabela: Workout | Tipo: Hipertrofia=1 / Emagrecimento=2 / Resistencia=3 / Funcional=4 / Outros=5)
+-- Exercicio é JSON: Dictionary<string, List<Exercicio { Nome, Series, Repeticoes }>>
+-- ---------------------------------------------------------------
+INSERT INTO Workout (IdTreino, IdFicha, Exercicio, Tipo, NomeTreino) VALUES
 (
-'aaaa1111-aaaa-4c2e-9c1a-aaaaaaaaaaaa',
-'0cadf8ca-20d2-4e8e-8f80-de475c099a28',
-'Gerente'
-);
-
-INSERT INTO agenda (
-    idAgenda, status, data
-)
-VALUES
-(
-1,
-'Agendado',
-CAST('2026-05-10T08:00:00' AS DATETIME)
-),
-(
-2,
-'Confirmado',
-CAST('2026-05-12T10:00:00' AS DATETIME)
-);
-
-INSERT INTO logAtividade (
-    idLog, acao, dataHora
-)
-VALUES
-('10000000-0000-0000-0000-000000000001','Login',GETDATE()),
-('20000000-0000-0000-0000-000000000002','Cadastro',GETDATE());
-
-INSERT INTO xpHistorico (
-    idXp, motivo, data, xpGanho
-)
-VALUES
-('30000000-0000-0000-0000-000000000003','Treino completo',GETDATE(),10),
-('40000000-0000-0000-0000-000000000004','Frequência semanal',GETDATE(),50);
-
-INSERT INTO avaliacao (
-    idAvaliacao, idAluno, sexo, data, peso, altura,
-    idade, imc, glicemia, pa, densidade,
-    tr, se, pt, ax, si, ab, cx, ptrrlh,
-    umero, femur, pMagro, pGordo, pViscera,
-    pOsseo, torax, abdomen, quadril,
-    bracoD, bracoE, coxaD, coxaE,
-    pernaD, pernaE, deltoide, idInstrutor
-)
-VALUES
-(
-'50000000-0000-0000-0000-000000000005',
-'11111111-aaaa-4c2e-9c1a-aaaaaaaaaaaa',
-'Masculino',
-GETDATE(),
-80,1.80,30,24.7,90,12,1.2,
-1,1,1,1,1,1,1,1,
-1,1,70,10,5,
-15,95,85,90,
-30,30,50,50,
-35,35,12,
-'b1f9c2e4-1d6b-4c2e-9c9a-3e3c7d1a1111'
-),
-(
-'60000000-0000-0000-0000-000000000006',
-'22222222-bbbb-4c2e-9c1a-bbbbbbbbbbbb',
-'Feminino',
-GETDATE(),
-65,1.65,28,23.8,85,11,1.1,
-1,1,1,1,1,1,1,1,
-1,1,55,12,4,
-14,90,80,95,
-28,28,48,48,
-34,34,10,
-'c2e7d9a1-7a3b-4d1a-b2e4-9a1c7e2b2222'
-);
-
-INSERT INTO ficha (
-    idFicha, nomeFicha, observacoes, idAvaliacao, idAluno
-)
-VALUES
-(
-'70000000-0000-0000-0000-000000000007',
-'Ficha A',
-'Ficha inicial',
-'50000000-0000-0000-0000-000000000005',
-'11111111-aaaa-4c2e-9c1a-aaaaaaaaaaaa'
-),
-(
-'80000000-0000-0000-0000-000000000008',
-'Ficha B',
-'Ficha intermediária',
-'60000000-0000-0000-0000-000000000006',
-'22222222-bbbb-4c2e-9c1a-bbbbbbbbbbbb'
-);
-
-INSERT INTO treino (
-    idTreino,
-    nomeTreino,
-    idFicha,
-    exercicio
-)
-VALUES
-(
+    'F2000000-0000-0000-0000-000000000001',
+    'F0000000-0000-0000-0000-000000000001',
+    N'{
+        "A": [
+            {"Nome": "Supino Reto",      "Series": 4, "Repeticoes": 10},
+            {"Nome": "Supino Inclinado", "Series": 3, "Repeticoes": 10},
+            {"Nome": "Crucifixo",        "Series": 3, "Repeticoes": 12},
+            {"Nome": "Triceps Pulley",   "Series": 3, "Repeticoes": 12}
+        ],
+        "B": [
+            {"Nome": "Puxada Frontal",  "Series": 4, "Repeticoes": 10},
+            {"Nome": "Remada Curvada",  "Series": 3, "Repeticoes": 10},
+            {"Nome": "Rosca Direta",    "Series": 3, "Repeticoes": 12}
+        ]
+    }',
     1,
-    'Treino ABC',
-    '70000000-0000-0000-0000-000000000007',
-    '{
-        "A": [
-            {"nome": "Supino Reto", "series": 4, "reps": 10},
-            {"nome": "Supino Inclinado", "series": 3, "reps": 10},
-            {"nome": "Crucifixo", "series": 3, "reps": 12},
-            {"nome": "Triceps Pulley", "series": 3, "reps": 12}
-        ],
-        "B": [
-            {"nome": "Puxada Frontal", "series": 4, "reps": 10},
-            {"nome": "Remada Curvada", "series": 3, "reps": 10},
-            {"nome": "Rosca Direta", "series": 3, "reps": 12},
-            {"nome": "Rosca Alternada", "series": 3, "reps": 12}
-        ],
-        "C": [
-            {"nome": "Agachamento", "series": 4, "reps": 10},
-            {"nome": "Leg Press", "series": 3, "reps": 12},
-            {"nome": "Cadeira Extensora", "series": 3, "reps": 12},
-            {"nome": "Panturrilha", "series": 4, "reps": 15}
-        ]
-    }'
+    'Treino ABC'
 ),
 (
-    2,
-    'Treino AB',
-    '80000000-0000-0000-0000-000000000008',
-    '{
-        "A": [
-            {"nome": "Supino Reto", "series": 4, "reps": 10},
-            {"nome": "Supino Inclinado", "series": 3, "reps": 10},
-            {"nome": "Triceps Testa", "series": 3, "reps": 12},
-            {"nome": "Triceps Corda", "series": 3, "reps": 12}
-        ],
-        "B": [
-            {"nome": "Puxada Frontal", "series": 4, "reps": 10},
-            {"nome": "Remada Baixa", "series": 3, "reps": 10},
-            {"nome": "Rosca Direta", "series": 3, "reps": 12},
-            {"nome": "Rosca Martelo", "series": 3, "reps": 12},
-            {"nome": "Agachamento", "series": 4, "reps": 10},
-            {"nome": "Leg Press", "series": 3, "reps": 12}
-        ]
-    }'
-);
-
-INSERT INTO video (
-    idVideo, dataUpload, titulo, caminhoArquivo, idAcademia
-)
-VALUES
-(
-1,
-GETDATE(),
-'Tutorial Supino',
-'supino.mp4',
-'f3c2a111-aaaa-4b2e-9c1a-111111111111'
-);
-
-INSERT INTO telefoneUsuario (
-    telefone, idUsuario
-)
-VALUES
-('61999990001','230e0d15-3fe0-4a23-ad1f-562d47de2b12'),
-('61999990002','de18ef7e-7f09-4c39-a2fb-1ba0ae699efb');
-
-INSERT INTO telefoneAcademia (
-    telefone, idAcademia
-)
-VALUES
-('6133330001','f3c2a111-aaaa-4b2e-9c1a-111111111111');
-
-INSERT INTO frequencia (
-    idFrequencia, idAluno, data, tempoTreino
-)
-VALUES
-(
-'90000000-0000-0000-0000-000000000009',
-'11111111-aaaa-4c2e-9c1a-aaaaaaaaaaaa',
-CAST('2026-05-01' AS DATE),
-60
-);
-
-INSERT INTO usuarioLog (
-    idUsuario, idLog
-)
-VALUES
-('230e0d15-3fe0-4a23-ad1f-562d47de2b12','10000000-0000-0000-0000-000000000001'),
-('de18ef7e-7f09-4c39-a2fb-1ba0ae699efb','20000000-0000-0000-0000-000000000002');
-
-INSERT INTO agendaProfessor (
-    idAgenda, idInstrutor
-)
-VALUES
-(1,'b1f9c2e4-1d6b-4c2e-9c9a-3e3c7d1a1111');
-
-INSERT INTO usuarioAcademia (
-    idAcademia, idUsuario
-)
-VALUES
-('f3c2a111-aaaa-4b2e-9c1a-111111111111','230e0d15-3fe0-4a23-ad1f-562d47de2b12'),
-('f3c2a111-aaaa-4b2e-9c1a-111111111111','de18ef7e-7f09-4c39-a2fb-1ba0ae699efb');
-
-INSERT INTO xpAluno (
-    idXp, idAluno
-)
-VALUES
-('30000000-0000-0000-0000-000000000003','11111111-aaaa-4c2e-9c1a-aaaaaaaaaaaa'),
-('40000000-0000-0000-0000-000000000004','22222222-bbbb-4c2e-9c1a-bbbbbbbbbbbb');
-
-INSERT INTO fichaMedica (
-    idFicha, idAluno, alergia, restricao,
-    lesao, cirurgia, problemaSaude, usoMedicamento
-)
-VALUES
-(
-'a0000000-0000-0000-0000-000000000010',
-'11111111-aaaa-4c2e-9c1a-aaaaaaaaaaaa',
-'Poeira',
-'Nenhuma',
-'Nenhuma',
-'Nenhuma',
-'Asma',
-'Nenhum'
-);
-
-
-/*
-
--- ============================================================
--- PLANOS DE LICENÇA
--- ============================================================
-INSERT INTO planoLicenca (idPlanoLicenca, nome, descricao, valor) VALUES
-(1, 'Plano Starter',  'Ideal para estúdios e pequenas academias. Limite de 200 alunos.', 149.90),
-(2, 'Plano Pro',      'Para academias em crescimento. Limite de 500 alunos e suporte prioritário.', 299.90),
-(3, 'Plano Premium',  'Acesso a todos os módulos, alunos ilimitados e integrações exclusivas.', 499.90);
-
--- ============================================================
--- LICENÇAS
--- ============================================================
-INSERT INTO licenca (idLicenca, idPlano, mensalidade, status, tipo, dataFim, dataAssinatura, caminhoPdf) VALUES
-('11111111-1111-1111-1111-111111111111', 1, 149.90, 'Ativa',   'Mensal', CONVERT(DATETIME,'2026-12-31',120), CONVERT(DATETIME,'2025-01-15',120), '/docs/licencas/licenca_starter_1.pdf'),
-('22222222-2222-2222-2222-222222222222', 2, 299.90, 'Ativa',   'Anual',  CONVERT(DATETIME,'2027-05-10',120), CONVERT(DATETIME,'2026-05-10',120), '/docs/licencas/licenca_pro_1.pdf'),
-('33333333-3333-3333-3333-333333333333', 3, 499.90, 'Vencida', 'Mensal', CONVERT(DATETIME,'2025-12-31',120), CONVERT(DATETIME,'2024-01-20',120), '/docs/licencas/licenca_premium_old.pdf');
-
--- ============================================================
--- ACADEMIAS  (idGestor preenchido depois do INSERT em gestor)
--- ============================================================
-INSERT INTO academia (idAcademia, idLicenca, idGestor, nomeAcademia, cnpj, quadra, rua, bairro, cidade, estado, cep, tipoAcademia, emailInstitucional) VALUES
-('AAAA1111-AAAA-1111-AAAA-111111111111', '11111111-1111-1111-1111-111111111111', NULL, 'FitZone Centro',     '12345678000190', 'Quadra 10', 'Av. Principal',  'Centro',     'São Paulo',      'SP', '01001000', 'Musculação e Funcional', 'contato@fitzone.com.br'),
-('AAAA2222-AAAA-2222-AAAA-222222222222', '22222222-2222-2222-2222-222222222222', NULL, 'IronGym Cross',      '98765432000180', 'Lote 5',    'Rua das Pedras', 'Bela Vista', 'Rio de Janeiro', 'RJ', '20001000', 'Crossfit',               'admin@irongym.com.br'),
-('AAAA3333-AAAA-3333-AAAA-333333333333', '33333333-3333-3333-3333-333333333333', NULL, 'Acqua Life Natação', '45678912000170', 'Bloco C',   'Av. Atlântica',  'Copacabana', 'Rio de Janeiro', 'RJ', '22001000', 'Natação e Hidro',        'gerencia@acqualife.com.br');
-
--- ============================================================
--- USUÁRIOS
--- ============================================================
-INSERT INTO usuario (idUsuario, idAcademia, nome, email, senha, dataNascimento, cpf, tipoUsuario, ativo, flag, quadra, rua, bairro, cidade, estado, cep) VALUES
--- Administradores (tipo 4)
-('DDDD4444-DDDD-4444-DDDD-444444444401', 'AAAA1111-AAAA-1111-AAAA-111111111111', 'Admin Master',     'admin@sistema.com',    'hash_senha', CONVERT(DATE,'1985-01-10',120), '00000000001', 4, 1, 1, 'Q 1',    'Rua Alfa',       'Centro',     'São Paulo',      'SP', '01000000'),
-('DDDD4444-DDDD-4444-DDDD-444444444402', 'AAAA1111-AAAA-1111-AAAA-111111111111', 'Suporte Técnico',  'suporte@sistema.com',  'hash_senha', CONVERT(DATE,'1990-05-20',120), '00000000002', 4, 1, 1, 'Q 2',    'Rua Beta',       'Centro',     'São Paulo',      'SP', '01000000'),
--- Gestores (tipo 3)
-('DDDD3333-DDDD-3333-DDDD-333333333301', 'AAAA1111-AAAA-1111-AAAA-111111111111', 'Carlos Silva',     'carlos@fitzone.com',   'hash_senha', CONVERT(DATE,'1980-03-15',120), '00000000003', 3, 1, 1, 'Q 10',   'Av. Principal',  'Centro',     'São Paulo',      'SP', '01001000'),
-('DDDD3333-DDDD-3333-DDDD-333333333302', 'AAAA2222-AAAA-2222-AAAA-222222222222', 'Mariana Souza',    'mariana@irongym.com',  'hash_senha', CONVERT(DATE,'1982-07-22',120), '00000000004', 3, 1, 1, 'Lote 5', 'Rua das Pedras', 'Bela Vista', 'Rio de Janeiro', 'RJ', '20001000'),
-('DDDD3333-DDDD-3333-DDDD-333333333303', 'AAAA3333-AAAA-3333-AAAA-333333333333', 'Roberto Alves',    'roberto@acqualife.com','hash_senha', CONVERT(DATE,'1975-11-30',120), '00000000005', 3, 1, 1, 'Bloco C','Av. Atlântica',  'Copacabana', 'Rio de Janeiro', 'RJ', '22001000'),
--- Instrutores (tipo 1)
-('DDDD1111-DDDD-1111-DDDD-111111111101', 'AAAA1111-AAAA-1111-AAAA-111111111111', 'Fernando Personal','fernando@fitzone.com', 'hash_senha', CONVERT(DATE,'1992-04-10',120), '00000000006', 1, 1, 1, 'Q 12',   'Rua X',          'Jardins',    'São Paulo',      'SP', '01002000'),
-('DDDD1111-DDDD-1111-DDDD-111111111102', 'AAAA1111-AAAA-1111-AAAA-111111111111', 'Juliana Cross',    'juliana@fitzone.com',  'hash_senha', CONVERT(DATE,'1995-09-05',120), '00000000007', 1, 1, 1, 'Q 14',   'Rua Y',          'Pinheiros',  'São Paulo',      'SP', '01003000'),
-('DDDD1111-DDDD-1111-DDDD-111111111103', 'AAAA2222-AAAA-2222-AAAA-222222222222', 'Thiago Monstro',   'thiago@irongym.com',   'hash_senha', CONVERT(DATE,'1990-12-12',120), '00000000008', 1, 1, 1, 'Lote 1', 'Rua Z',          'Centro',     'Rio de Janeiro', 'RJ', '20002000'),
-('DDDD1111-DDDD-1111-DDDD-111111111104', 'AAAA2222-AAAA-2222-AAAA-222222222222', 'Paula Coach',      'paula@irongym.com',    'hash_senha', CONVERT(DATE,'1994-02-28',120), '00000000009', 1, 1, 1, 'Lote 2', 'Rua W',          'Lapa',       'Rio de Janeiro', 'RJ', '20003000'),
-('DDDD1111-DDDD-1111-DDDD-111111111105', 'AAAA3333-AAAA-3333-AAAA-333333333333', 'Lucas Nadador',    'lucas@acqualife.com',  'hash_senha', CONVERT(DATE,'1988-06-14',120), '00000000010', 1, 1, 1, 'Bloco A','Rua V',          'Ipanema',    'Rio de Janeiro', 'RJ', '22002000'),
--- Alunos (tipo 2)
-('DDDD2222-DDDD-2222-DDDD-222222222201', 'AAAA1111-AAAA-1111-AAAA-111111111111', 'João Pereira',     'joao@email.com',    'hash_senha', CONVERT(DATE,'2000-01-20',120), '00000000011', 2, 1, 1, 'Q 1',    'Rua 1',  'Bairro A', 'São Paulo',      'SP', '01004000'),
-('DDDD2222-DDDD-2222-DDDD-222222222202', 'AAAA1111-AAAA-1111-AAAA-111111111111', 'Maria Oliveira',   'maria@email.com',   'hash_senha', CONVERT(DATE,'1998-05-15',120), '00000000012', 2, 1, 1, 'Q 2',    'Rua 2',  'Bairro B', 'São Paulo',      'SP', '01005000'),
-('DDDD2222-DDDD-2222-DDDD-222222222203', 'AAAA1111-AAAA-1111-AAAA-111111111111', 'Pedro Santos',     'pedro@email.com',   'hash_senha', CONVERT(DATE,'1995-10-10',120), '00000000013', 2, 1, 1, 'Q 3',    'Rua 3',  'Bairro C', 'São Paulo',      'SP', '01006000'),
-('DDDD2222-DDDD-2222-DDDD-222222222204', 'AAAA1111-AAAA-1111-AAAA-111111111111', 'Ana Costa',        'ana@email.com',     'hash_senha', CONVERT(DATE,'2002-12-05',120), '00000000014', 2, 1, 1, 'Q 4',    'Rua 4',  'Bairro D', 'São Paulo',      'SP', '01007000'),
-('DDDD2222-DDDD-2222-DDDD-222222222205', 'AAAA2222-AAAA-2222-AAAA-222222222222', 'Felipe Almeida',   'felipe@email.com',  'hash_senha', CONVERT(DATE,'1993-08-30',120), '00000000015', 2, 1, 1, 'Lote 1', 'Rua 5',  'Bairro E', 'Rio de Janeiro', 'RJ', '20004000'),
-('DDDD2222-DDDD-2222-DDDD-222222222206', 'AAAA2222-AAAA-2222-AAAA-222222222222', 'Camila Rocha',     'camila@email.com',  'hash_senha', CONVERT(DATE,'1997-04-25',120), '00000000016', 2, 1, 1, 'Lote 2', 'Rua 6',  'Bairro F', 'Rio de Janeiro', 'RJ', '20005000'),
-('DDDD2222-DDDD-2222-DDDD-222222222207', 'AAAA2222-AAAA-2222-AAAA-222222222222', 'Diego Martins',    'diego@email.com',   'hash_senha', CONVERT(DATE,'1990-02-14',120), '00000000017', 2, 1, 1, 'Lote 3', 'Rua 7',  'Bairro G', 'Rio de Janeiro', 'RJ', '20006000'),
-('DDDD2222-DDDD-2222-DDDD-222222222208', 'AAAA2222-AAAA-2222-AAAA-222222222222', 'Letícia Gomes',    'leticia@email.com', 'hash_senha', CONVERT(DATE,'1999-11-18',120), '00000000018', 2, 1, 1, 'Lote 4', 'Rua 8',  'Bairro H', 'Rio de Janeiro', 'RJ', '20007000'),
-('DDDD2222-DDDD-2222-DDDD-222222222209', 'AAAA3333-AAAA-3333-AAAA-333333333333', 'Bruno Lima',       'bruno@email.com',   'hash_senha', CONVERT(DATE,'2005-03-08',120), '00000000019', 2, 1, 1, 'Bloco B','Rua 9',  'Bairro I', 'Rio de Janeiro', 'RJ', '22003000'),
-('DDDD2222-DDDD-2222-DDDD-222222222210', 'AAAA3333-AAAA-3333-AAAA-333333333333', 'Sofia Mendes',     'sofia@email.com',   'hash_senha', CONVERT(DATE,'2003-09-02',120), '00000000020', 2, 1, 1, 'Bloco D','Rua 10', 'Bairro J', 'Rio de Janeiro', 'RJ', '22004000');
-
--- ============================================================
--- GESTORES
--- ============================================================
-INSERT INTO gestor (idGestor, idUsuario) VALUES
-('EEEE3333-EEEE-3333-EEEE-333333333301', 'DDDD3333-DDDD-3333-DDDD-333333333301'),
-('EEEE3333-EEEE-3333-EEEE-333333333302', 'DDDD3333-DDDD-3333-DDDD-333333333302'),
-('EEEE3333-EEEE-3333-EEEE-333333333303', 'DDDD3333-DDDD-3333-DDDD-333333333303');
-
-UPDATE academia SET idGestor = 'EEEE3333-EEEE-3333-EEEE-333333333301' WHERE idAcademia = 'AAAA1111-AAAA-1111-AAAA-111111111111';
-UPDATE academia SET idGestor = 'EEEE3333-EEEE-3333-EEEE-333333333302' WHERE idAcademia = 'AAAA2222-AAAA-2222-AAAA-222222222222';
-UPDATE academia SET idGestor = 'EEEE3333-EEEE-3333-EEEE-333333333303' WHERE idAcademia = 'AAAA3333-AAAA-3333-AAAA-333333333333';
-
--- ============================================================
--- INSTRUTORES
--- ============================================================
-INSERT INTO instrutor (idInstrutor, idUsuario, cref) VALUES
-('FFFF1111-FFFF-1111-FFFF-111111111101', 'DDDD1111-DDDD-1111-DDDD-111111111101', '123456-G/SP'),
-('FFFF1111-FFFF-1111-FFFF-111111111102', 'DDDD1111-DDDD-1111-DDDD-111111111102', '654321-G/SP'),
-('FFFF1111-FFFF-1111-FFFF-111111111103', 'DDDD1111-DDDD-1111-DDDD-111111111103', '987654-G/RJ'),
-('FFFF1111-FFFF-1111-FFFF-111111111104', 'DDDD1111-DDDD-1111-DDDD-111111111104', '456789-G/RJ'),
-('FFFF1111-FFFF-1111-FFFF-111111111105', 'DDDD1111-DDDD-1111-DDDD-111111111105', '321987-G/RJ');
-
--- ============================================================
--- PLANOS DE CONTRATO
--- ============================================================
-INSERT INTO planoContrato (idPlanoContrato, nome, descricao, valor) VALUES
-(1, 'Mensal FitZone',  'Acesso livre área de musculação', 120.00),
-(2, 'Trimestral Iron', 'Acesso Crossfit e LPO',           300.00),
-(3, 'Semestral Acqua', 'Natação 3x na semana',            500.00);
-
--- ============================================================
--- CONTRATOS
--- ============================================================
-INSERT INTO contrato (idContrato, idPlanoContrato, mensalidade, status, caminhoPdf, dataFim, dataAssinatura) VALUES
-('CCCC1111-CCCC-1111-CCCC-111111111101', 1, 120.00, 1, '/docs/contratos/aluno_01.pdf', CONVERT(DATETIME,'2026-12-31',120), CONVERT(DATETIME,'2026-01-10',120)),
-('CCCC1111-CCCC-1111-CCCC-111111111102', 1, 120.00, 1, '/docs/contratos/aluno_02.pdf', CONVERT(DATETIME,'2026-12-31',120), CONVERT(DATETIME,'2026-02-15',120)),
-('CCCC1111-CCCC-1111-CCCC-111111111103', 1, 120.00, 1, '/docs/contratos/aluno_03.pdf', CONVERT(DATETIME,'2026-12-31',120), CONVERT(DATETIME,'2026-03-20',120)),
-('CCCC1111-CCCC-1111-CCCC-111111111104', 1, 120.00, 1, '/docs/contratos/aluno_04.pdf', CONVERT(DATETIME,'2026-12-31',120), CONVERT(DATETIME,'2026-04-05',120)),
-('CCCC1111-CCCC-1111-CCCC-111111111105', 2, 300.00, 1, '/docs/contratos/aluno_05.pdf', CONVERT(DATETIME,'2026-08-10',120), CONVERT(DATETIME,'2026-05-10',120)),
-('CCCC1111-CCCC-1111-CCCC-111111111106', 2, 300.00, 1, '/docs/contratos/aluno_06.pdf', CONVERT(DATETIME,'2026-09-12',120), CONVERT(DATETIME,'2026-06-12',120)),
-('CCCC1111-CCCC-1111-CCCC-111111111107', 2, 300.00, 1, '/docs/contratos/aluno_07.pdf', CONVERT(DATETIME,'2026-10-01',120), CONVERT(DATETIME,'2026-07-01',120)),
-('CCCC1111-CCCC-1111-CCCC-111111111108', 2, 300.00, 1, '/docs/contratos/aluno_08.pdf', CONVERT(DATETIME,'2026-11-20',120), CONVERT(DATETIME,'2026-08-20',120)),
-('CCCC1111-CCCC-1111-CCCC-111111111109', 3, 500.00, 1, '/docs/contratos/aluno_09.pdf', CONVERT(DATETIME,'2026-11-05',120), CONVERT(DATETIME,'2026-05-05',120)),
-('CCCC1111-CCCC-1111-CCCC-111111111110', 3, 500.00, 1, '/docs/contratos/aluno_10.pdf', CONVERT(DATETIME,'2027-01-15',120), CONVERT(DATETIME,'2026-07-15',120));
-
--- ============================================================
--- ALUNOS
--- ============================================================
-INSERT INTO aluno (idAluno, idUsuario, IdInstrutor, idContrato, objetivo) VALUES
-('BBBB2222-BBBB-2222-BBBB-222222222201', 'DDDD2222-DDDD-2222-DDDD-222222222201', 'FFFF1111-FFFF-1111-FFFF-111111111101', 'CCCC1111-CCCC-1111-CCCC-111111111101', 'Hipertrofia'),
-('BBBB2222-BBBB-2222-BBBB-222222222202', 'DDDD2222-DDDD-2222-DDDD-222222222202', 'FFFF1111-FFFF-1111-FFFF-111111111101', 'CCCC1111-CCCC-1111-CCCC-111111111102', 'Emagrecimento'),
-('BBBB2222-BBBB-2222-BBBB-222222222203', 'DDDD2222-DDDD-2222-DDDD-222222222203', 'FFFF1111-FFFF-1111-FFFF-111111111102', 'CCCC1111-CCCC-1111-CCCC-111111111103', 'Condicionamento Físico'),
-('BBBB2222-BBBB-2222-BBBB-222222222204', 'DDDD2222-DDDD-2222-DDDD-222222222204', 'FFFF1111-FFFF-1111-FFFF-111111111102', 'CCCC1111-CCCC-1111-CCCC-111111111104', 'Saúde e Bem-estar'),
-('BBBB2222-BBBB-2222-BBBB-222222222205', 'DDDD2222-DDDD-2222-DDDD-222222222205', 'FFFF1111-FFFF-1111-FFFF-111111111103', 'CCCC1111-CCCC-1111-CCCC-111111111105', 'Ganho de Força'),
-('BBBB2222-BBBB-2222-BBBB-222222222206', 'DDDD2222-DDDD-2222-DDDD-222222222206', 'FFFF1111-FFFF-1111-FFFF-111111111103', 'CCCC1111-CCCC-1111-CCCC-111111111106', 'Resistência Muscular'),
-('BBBB2222-BBBB-2222-BBBB-222222222207', 'DDDD2222-DDDD-2222-DDDD-222222222207', 'FFFF1111-FFFF-1111-FFFF-111111111104', 'CCCC1111-CCCC-1111-CCCC-111111111107', 'Competição Crossfit'),
-('BBBB2222-BBBB-2222-BBBB-222222222208', 'DDDD2222-DDDD-2222-DDDD-222222222208', 'FFFF1111-FFFF-1111-FFFF-111111111104', 'CCCC1111-CCCC-1111-CCCC-111111111108', 'Mobilidade e Flexibilidade'),
-('BBBB2222-BBBB-2222-BBBB-222222222209', 'DDDD2222-DDDD-2222-DDDD-222222222209', 'FFFF1111-FFFF-1111-FFFF-111111111105', 'CCCC1111-CCCC-1111-CCCC-111111111109', 'Aprender a nadar'),
-('BBBB2222-BBBB-2222-BBBB-222222222210', 'DDDD2222-DDDD-2222-DDDD-222222222210', 'FFFF1111-FFFF-1111-FFFF-111111111105', 'CCCC1111-CCCC-1111-CCCC-111111111110', 'Treino para Triatlo');
-
--- ============================================================
--- FUNCIONÁRIOS
--- ============================================================
-INSERT INTO funcionario (idFuncionario, idUsuario, cargo) VALUES
-('AAAA1111-AAAA-4C2E-9C1A-AAAAAAAAAAAA', 'DDDD3333-DDDD-3333-DDDD-333333333301', 'Gerente');
-
--- ============================================================
--- AGENDA
--- status INT: 1=Agendado  2=Confirmado
--- ============================================================
-INSERT INTO agenda (idAgenda, idInstrutor, idAcademia, status, data) VALUES
-(1, 'FFFF1111-FFFF-1111-FFFF-111111111101', 'AAAA1111-AAAA-1111-AAAA-111111111111', 1, CONVERT(DATETIME,'2026-05-10 08:00:00',120)),
-(2, 'FFFF1111-FFFF-1111-FFFF-111111111103', 'AAAA2222-AAAA-2222-AAAA-222222222222', 2, CONVERT(DATETIME,'2026-05-12 10:00:00',120));
-
--- ============================================================
--- LOG DE ATIVIDADE
--- acao INT: 1=Login  2=Cadastro
--- ============================================================
-INSERT INTO logAtividade (idLog, idUsuario, acao, dataHora) VALUES
-('10000000-0000-0000-0000-000000000001', 'DDDD2222-DDDD-2222-DDDD-222222222201', 1, GETDATE()),
-('20000000-0000-0000-0000-000000000002', 'DDDD2222-DDDD-2222-DDDD-222222222202', 2, GETDATE());
-
--- ============================================================
--- HISTÓRICO XP
--- ============================================================
-INSERT INTO xpHistorico (idXp, motivo, data, xpGanho) VALUES
-('30000000-0000-0000-0000-000000000003', 'Treino completo',    GETDATE(), 10),
-('40000000-0000-0000-0000-000000000004', 'Frequência semanal', GETDATE(), 50);
-
--- ============================================================
--- AVALIAÇÕES
--- ============================================================
-INSERT INTO avaliacao (
-    idAvaliacao, idAluno, sexo, data, peso, altura,
-    idade, imc, glicemia, pa, densidade,
-    tr, se, pt, ax, si, ab, cx, ptrrlh,
-    umero, femur, pMagro, pGordo, pViscera,
-    pOsseo, torax, abdomen, quadril,
-    bracoD, bracoE, coxaD, coxaE,
-    pernaD, pernaE, deltoide, idInstrutor
-) VALUES
-(
-    '50000000-0000-0000-0000-000000000005',
-    'BBBB2222-BBBB-2222-BBBB-222222222201',
-    'Masculino', GETDATE(),
-    80, 1.80, 30, 24.7, 90, 12, 1.2,
-    1,1,1,1,1,1,1,1,1,1,
-    70,10,5,15,95,85,90,30,30,50,50,35,35,12,
-    'FFFF1111-FFFF-1111-FFFF-111111111101'
-),
-(
-    '60000000-0000-0000-0000-000000000006',
-    'BBBB2222-BBBB-2222-BBBB-222222222202',
-    'Feminino', GETDATE(),
-    65, 1.65, 28, 23.8, 85, 11, 1.1,
-    1,1,1,1,1,1,1,1,1,1,
-    55,12,4,14,90,80,95,28,28,48,48,34,34,10,
-    'FFFF1111-FFFF-1111-FFFF-111111111101'
-);
-
--- ============================================================
--- FICHAS
--- ============================================================
-INSERT INTO ficha (idFicha, nomeFicha, observacoes, idAvaliacao, idAluno) VALUES
-('70000000-0000-0000-0000-000000000007', 'Ficha A', 'Ficha inicial',       '50000000-0000-0000-0000-000000000005', 'BBBB2222-BBBB-2222-BBBB-222222222201'),
-('80000000-0000-0000-0000-000000000008', 'Ficha B', 'Ficha intermediária', '60000000-0000-0000-0000-000000000006', 'BBBB2222-BBBB-2222-BBBB-222222222202');
-
--- ============================================================
--- TREINOS
--- ============================================================
-INSERT INTO treino (idTreino, nomeTreino, idFicha, exercicio) VALUES
-(
-    1, 'Treino ABC',
-    '70000000-0000-0000-0000-000000000007',
+    'F2000000-0000-0000-0000-000000000002',
+    'F0000000-0000-0000-0000-000000000002',
     N'{
         "A": [
-            {"nome": "Supino Reto",      "series": 4, "reps": 10},
-            {"nome": "Supino Inclinado", "series": 3, "reps": 10},
-            {"nome": "Crucifixo",        "series": 3, "reps": 12},
-            {"nome": "Triceps Pulley",   "series": 3, "reps": 12}
-        ],
-        "B": [
-            {"nome": "Puxada Frontal",   "series": 4, "reps": 10},
-            {"nome": "Remada Curvada",   "series": 3, "reps": 10},
-            {"nome": "Rosca Direta",     "series": 3, "reps": 12},
-            {"nome": "Rosca Alternada",  "series": 3, "reps": 12}
-        ],
-        "C": [
-            {"nome": "Agachamento",       "series": 4, "reps": 10},
-            {"nome": "Leg Press",         "series": 3, "reps": 12},
-            {"nome": "Cadeira Extensora", "series": 3, "reps": 12},
-            {"nome": "Panturrilha",       "series": 4, "reps": 15}
+            {"Nome": "Agachamento",       "Series": 4, "Repeticoes": 10},
+            {"Nome": "Leg Press",         "Series": 3, "Repeticoes": 12},
+            {"Nome": "Cadeira Extensora", "Series": 3, "Repeticoes": 12},
+            {"Nome": "Panturrilha",       "Series": 4, "Repeticoes": 15}
         ]
-    }'
-),
-(
-    2, 'Treino AB',
-    '80000000-0000-0000-0000-000000000008',
-    N'{
-        "A": [
-            {"nome": "Supino Reto",      "series": 4, "reps": 10},
-            {"nome": "Supino Inclinado", "series": 3, "reps": 10},
-            {"nome": "Triceps Testa",    "series": 3, "reps": 12},
-            {"nome": "Triceps Corda",    "series": 3, "reps": 12}
-        ],
-        "B": [
-            {"nome": "Puxada Frontal",   "series": 4, "reps": 10},
-            {"nome": "Remada Baixa",     "series": 3, "reps": 10},
-            {"nome": "Rosca Direta",     "series": 3, "reps": 12},
-            {"nome": "Rosca Martelo",    "series": 3, "reps": 12},
-            {"nome": "Agachamento",      "series": 4, "reps": 10},
-            {"nome": "Leg Press",        "series": 3, "reps": 12}
-        ]
-    }'
+    }',
+    3,
+    'Treino Inferior'
 );
 
--- ============================================================
--- VÍDEOS
--- ============================================================
-INSERT INTO video (idVideo, dataUpload, titulo, caminhoArquivo, idAcademia) VALUES
-(1, GETDATE(), 'Tutorial Supino', 'supino.mp4', 'AAAA1111-AAAA-1111-AAAA-111111111111');
-
--- ============================================================
--- TELEFONES DE USUÁRIO
--- ============================================================
-INSERT INTO telefoneUsuario (telefone, idUsuario) VALUES
-('61999990001', 'DDDD2222-DDDD-2222-DDDD-222222222201'),
-('61999990002', 'DDDD2222-DDDD-2222-DDDD-222222222202');
-
--- ============================================================
--- TELEFONES DE ACADEMIA
--- ============================================================
-INSERT INTO telefoneAcademia (telefone, idAcademia) VALUES
-('6133330001', 'AAAA1111-AAAA-1111-AAAA-111111111111');
-
--- ============================================================
--- FREQUÊNCIA
--- ============================================================
-INSERT INTO frequencia (idFrequencia, idAluno, data, tempoTreino) VALUES
-('90000000-0000-0000-0000-000000000009', 'BBBB2222-BBBB-2222-BBBB-222222222201', CONVERT(DATE,'2026-05-01',120), 60);
-
--- ============================================================
--- USUARIO LOG
--- ============================================================
-INSERT INTO usuarioLog (idUsuario, idLog) VALUES
-('DDDD2222-DDDD-2222-DDDD-222222222201', '10000000-0000-0000-0000-000000000001'),
-('DDDD2222-DDDD-2222-DDDD-222222222202', '20000000-0000-0000-0000-000000000002');
-
--- ============================================================
--- AGENDA PROFESSOR
--- ============================================================
-INSERT INTO agendaProfessor (idAgenda, idInstrutor) VALUES
-(1, 'FFFF1111-FFFF-1111-FFFF-111111111101'),
-(2, 'FFFF1111-FFFF-1111-FFFF-111111111103');
-
--- ============================================================
--- USUARIO ACADEMIA
--- ============================================================
-INSERT INTO usuarioAcademia (idAcademia, idUsuario) VALUES
-('AAAA1111-AAAA-1111-AAAA-111111111111', 'DDDD2222-DDDD-2222-DDDD-222222222201'),
-('AAAA1111-AAAA-1111-AAAA-111111111111', 'DDDD2222-DDDD-2222-DDDD-222222222202');
-
--- ============================================================
--- XP ALUNO
--- ============================================================
-INSERT INTO xpAluno (idXp, idAluno) VALUES
-('30000000-0000-0000-0000-000000000003', 'BBBB2222-BBBB-2222-BBBB-222222222201'),
-('40000000-0000-0000-0000-000000000004', 'BBBB2222-BBBB-2222-BBBB-222222222202');
-
--- ============================================================
--- FICHA MÉDICA
--- ============================================================
-INSERT INTO fichaMedica (idFicha, idAluno, alergia, restricao, lesao, cirurgia, problemaSaude, usoMedicamento) VALUES
-(
-    'A0000000-0000-0000-0000-000000000010',
-    'BBBB2222-BBBB-2222-BBBB-222222222201',
-    'Poeira', 'Nenhuma', 'Nenhuma', 'Nenhuma', 'Asma', 'Nenhum'
-);
-*/
+-- ---------------------------------------------------------------
+-- Refresh tokens
+-- ---------------------------------------------------------------
+INSERT INTO RefreshToken (IdRefreshToken, TokenHash, DataExpiracao, Revogado, IdUsuario) VALUES
+('F3000000-0000-0000-0000-000000000001', 'fake_token_hash_0001', '2026-09-01T00:00:00', 0, '60000000-0000-0000-0000-000000000011'),
+('F3000000-0000-0000-0000-000000000002', 'fake_token_hash_0002', '2026-08-15T00:00:00', 1, '60000000-0000-0000-0000-000000000003');
+GO

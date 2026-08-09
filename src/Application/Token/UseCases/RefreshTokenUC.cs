@@ -1,14 +1,13 @@
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using Application.Compartilhado;
+using Application.Shared;
 using Application.Token.Interfaces;
 using Application.Token.Service;
 using Application.Token.Settings;
 using Domain.Features.Token.Entities;
 using Domain.Features.Token.Interfaces;
-using Microsoft.Extensions.Options;
-using static Application.Usuarios.Common.Response.UsuarioRS;
+using static Application.Features.Users.Common.Response.UserRS;
 
 namespace Application.Token.UseCases
 {
@@ -21,11 +20,11 @@ namespace Application.Token.UseCases
         public RefreshTokenUC(
             ITokenService tokenService,
             IRefreshTokenRepository refreshTokenRepository,
-            IOptions<RefreshTokenSettings> settings)
+            RefreshTokenSettings settings)
         {
             _tokenService = tokenService;
             _refreshTokenRepository = refreshTokenRepository;
-            _settings = settings.Value;
+            _settings = settings;
         }
 
         public RefreshResponse Refresh(string accessToken, string refreshToken)
@@ -38,8 +37,7 @@ namespace Application.Token.UseCases
             // 2. Extract identity from verified claims — never from request body
             var userId = principal.FindFirst("IdUsuario")?.Value;
             var tipoUsuario = principal.FindFirst("TipoUsuario")?.Value;
-            var tenantId = principal.FindFirst("TenantId")?.Value;
-            if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(tipoUsuario) || string.IsNullOrWhiteSpace(tenantId))
+            if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(tipoUsuario))
                 throw new UnauthorizedAccessException();
 
             // 3. Hash the incoming token and look up by hash only
@@ -59,7 +57,7 @@ namespace Application.Token.UseCases
                 throw new UnauthorizedAccessException();
 
             // 7–8. Generate new token pair
-            var newAccessToken = _tokenService.GenerateToken(userId, tipoUsuario, tenantId);
+            var newAccessToken = _tokenService.GenerateToken(userId, tipoUsuario);
             var newRawToken = GenerateRawToken();
             var newTokenHash = ComputeHash(newRawToken);
 
@@ -70,12 +68,12 @@ namespace Application.Token.UseCases
             _refreshTokenRepository.Save(new RefreshToken(
                 Guid.NewGuid(),
                 newTokenHash,
-                DateTime.UtcNow.AddDays(_settings.RefreshTokenDurationInDays),
+                DateTime.UtcNow.AddDays(_settings.DurationInDays),
                 false,
                 stored.IdUsuario
             ));
 
-            var status = new StatusHTTP("Token renovado com sucesso", 200, true);
+            var status = new HttpStatus("Token renovado com sucesso", 200, true);
             return new RefreshResponse(newAccessToken, newRawToken, status);
         }
 

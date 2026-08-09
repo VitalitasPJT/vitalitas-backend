@@ -1,11 +1,11 @@
-using Application.Usuarios.Common.Interfaces;
-using Application.Usuarios.Common.UseCases;
-using Application.Usuarios.Aluno.Interfaces;
-using Application.Usuarios.Aluno.UseCases;
-using Application.Usuarios.Gestor.Interfaces;
-using Application.Usuarios.Gestor.UseCases;
-using Application.Fichas.FichaMedica.Interfaces;
-using Application.Fichas.FichaMedica.UseCases;
+using Application.Features.Users.Common.Interfaces;
+using Application.Features.Users.Common.UseCases;
+using Application.Features.Users.Member.Interfaces;
+using Application.Features.Users.Member.UseCases;
+using Application.Features.Users.Manager.Interfaces;
+using Application.Features.Users.Manager.UseCases;
+using Application.Features.Records.MedicalRecord.Interfaces;
+using Application.Features.Records.MedicalRecord.UseCases;
 using Application.Token.Interfaces;
 using Application.Token.UseCases;
 using Application.Token.Settings;
@@ -29,25 +29,25 @@ namespace Application.Extensions
 
         private static IServiceCollection AddUsuarioFeature(this IServiceCollection services)
         {
-            services.AddScoped<IUsuarioUseCase, UsuarioUC>();
+            services.AddScoped<IUserUseCase, UserUC>();
             return services;
         }
 
         private static IServiceCollection AddAlunoFeature(this IServiceCollection services)
         {
-            services.AddScoped<IAlunoUseCase, AlunoUC>();
+            services.AddScoped<IMemberUseCase, MemberUC>();
             return services;
         }
 
         private static IServiceCollection AddGestorFeature(this IServiceCollection services)
         {
-            services.AddScoped<IGestorUseCase, GestorUC>();
+            services.AddScoped<IManagerUseCase, ManagerUC>();
             return services;
         }
 
         private static IServiceCollection AddFichaMedicaFeature(this IServiceCollection services)
         {
-            services.AddScoped<IFichaMedicaUseCase, FichaMedicaUC>();
+            services.AddScoped<IMedicalRecordUseCase, MedicalRecordUC>();
             return services;
         }
 

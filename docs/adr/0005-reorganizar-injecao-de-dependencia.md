@@ -24,7 +24,7 @@ Duas perguntas foram resolvidas explicitamente antes da implementação:
 
 ```csharp
 builder.Services.AddApplicationServices(builder.Configuration);
-builder.Services.AddInfrastructureServices();
+builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddApiServices();
 ```
 

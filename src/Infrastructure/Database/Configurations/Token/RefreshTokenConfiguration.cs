@@ -8,12 +8,15 @@ namespace Infrastructure.Database.Configurations.Token
     {
         public void Configure(EntityTypeBuilder<RefreshToken> builder)
         {
-            builder.HasKey(e => e.IdRefreshToken);
-            builder.Property(e => e.TokenHash).HasMaxLength(255).IsRequired();
+            builder.ToTable("RefreshToken");
 
-            builder.HasIndex(e => e.TokenHash);
-            builder.HasIndex(e => e.IdUsuario);
-            builder.HasIndex(e => new { e.IdAcademia, e.IdRefreshToken });
+            builder.HasKey(r => r.IdRefreshToken);
+            builder.Property(r => r.IdRefreshToken).ValueGeneratedNever();
+
+            builder.Property(r => r.TokenHash).HasColumnName("TokenHash").HasMaxLength(500).IsRequired();
+            builder.Property(r => r.DataExpiracao).HasColumnName("DataExpiracao").IsRequired();
+            builder.Property(r => r.Revogado).HasColumnName("Revogado").IsRequired();
+            builder.Property(r => r.IdUsuario).IsRequired();
         }
     }
 }

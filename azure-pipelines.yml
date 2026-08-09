@@ -1,0 +1,113 @@
+# Pipeline de CI para o Vitalitas Backend (.NET 9 / EF Core / Azure SQL).
+# Build + testes unitários (se existirem). Aplicar migrations no Azure SQL
+# fica como passo manual/opcional documentado no final deste arquivo — ver
+# ADR-0010 (docs/adr/0010-adocao-ef-core-azure-sql.md) sobre por que a
+# aplicação automática de migrations no pipeline não está habilitada por padrão.
+
+trigger:
+  branches:
+    include:
+      - prd
+      - des
+      - feat/*
+
+pr:
+  branches:
+    include:
+      - prd
+      - des
+
+pool:
+  vmImage: "ubuntu-latest"
+
+variables:
+  buildConfiguration: "Release"
+  solution: "Vitalitas.sln"
+  dotnetSdkVersion: "9.0.x"
+
+stages:
+  - stage: Build
+    displayName: "Build e Testes"
+    jobs:
+      - job: BuildAndTest
+        displayName: "dotnet build + dotnet test"
+        steps:
+          - task: UseDotNet@2
+            displayName: "Instalar .NET SDK $(dotnetSdkVersion)"
+            inputs:
+              packageType: "sdk"
+              version: "$(dotnetSdkVersion)"
+
+          - task: DotNetCoreCLI@2
+            displayName: "dotnet restore"
+            inputs:
+              command: "restore"
+              projects: "$(solution)"
+
+          - task: DotNetCoreCLI@2
+            displayName: "dotnet build"
+            inputs:
+              command: "build"
+              projects: "$(solution)"
+              arguments: "--configuration $(buildConfiguration) --no-restore"
+
+          # Roda os testes unitários apenas se existir algum projeto de teste no
+          # repositório (ainda não existe nenhum — ver README, seção de testes).
+          - bash: |
+              set -e
+              if find . -iregex '.*\(Tests\|Test\)\.csproj$' -not -path '*/bin/*' -not -path '*/obj/*' | grep -q .; then
+                echo "##[section]Projetos de teste encontrados, executando dotnet test..."
+                dotnet test "$(solution)" --configuration $(buildConfiguration) --no-build --logger trx --results-directory "$(Agent.TempDirectory)/TestResults"
+              else
+                echo "##[warning]Nenhum projeto de teste (*Tests.csproj) encontrado no repositório. Etapa de testes pulada."
+              fi
+            displayName: "dotnet test (se houver projetos de teste)"
+
+          - task: PublishTestResults@2
+            displayName: "Publicar resultados de teste"
+            condition: succeededOrFailed()
+            inputs:
+              testResultsFormat: "VSTest"
+              testResultsFiles: "$(Agent.TempDirectory)/TestResults/*.trx"
+              failTaskOnFailedTests: true
+            continueOnError: true
+
+# ---------------------------------------------------------------------------
+# TEMPLATE (opcional/comentado) — aplicar as migrations do EF Core no Azure
+# SQL centralizado via CLI, a partir do pipeline.
+#
+# Só habilite isto conscientemente: como o banco é compartilhado por todo o
+# time (ver AVISO CRÍTICO DE WORKFLOW no README), aplicar migrations
+# automaticamente a cada build pode gerar corrida entre deploys/dev locais.
+# Prefira rodar esse passo manualmente ou atrás de um gate de aprovação
+# (environment com approval no Azure DevOps), nunca a cada PR.
+#
+# - stage: DatabaseMigration
+#   displayName: "Aplicar Migrations (Azure SQL) — manual/gated"
+#   dependsOn: Build
+#   condition: succeeded()
+#   jobs:
+#     - deployment: ApplyMigrations
+#       displayName: "dotnet ef database update"
+#       environment: "vitalitas-azure-sql-producao" # configure approvals aqui
+#       strategy:
+#         runOnce:
+#           deploy:
+#             steps:
+#               - task: UseDotNet@2
+#                 inputs:
+#                   packageType: "sdk"
+#                   version: "$(dotnetSdkVersion)"
+#               - bash: dotnet tool restore
+#                 displayName: "Restaurar dotnet-ef (.config/dotnet-tools.json)"
+#               - bash: |
+#                   dotnet ef database update \
+#                     --project src/Infrastructure/Vitalitas.Infrastructure.csproj \
+#                     --startup-project src/API/Vitalitas.API.csproj
+#                 displayName: "dotnet ef database update"
+#                 env:
+#                   # Nunca commitar a connection string real. Configure-a como
+#                   # variável secreta do pipeline (Library > Variable Groups),
+#                   # mapeada para ConnectionStrings__ConexaoPadrao.
+#                   ConnectionStrings__ConexaoPadrao: $(ConexaoPadrao)
+# ---------------------------------------------------------------------------
