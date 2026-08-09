@@ -7,9 +7,9 @@ namespace Infrastructure.Repositories.Token
 {
     public class RefreshTokenRepository : IRefreshTokenRepository
     {
-        private readonly VitalitasDbContext _context;
+        private readonly AppDbContext _context;
 
-        public RefreshTokenRepository(VitalitasDbContext context)
+        public RefreshTokenRepository(AppDbContext context)
         {
             _context = context;
         }

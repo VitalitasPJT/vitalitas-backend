@@ -11,8 +11,8 @@ namespace Infrastructure.Database.Configurations.Gym
         {
             builder.ToTable("Gym");
 
-            builder.HasKey(a => a.IdAcadenia);
-            builder.Property(a => a.IdAcadenia).ValueGeneratedNever();
+            builder.HasKey(a => a.IdAcademia);
+            builder.Property(a => a.IdAcademia).ValueGeneratedNever();
 
             builder.Property(a => a.IdLicenca).IsRequired();
             builder.Property(a => a.IdGestor).IsRequired();

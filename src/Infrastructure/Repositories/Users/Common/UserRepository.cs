@@ -4,7 +4,6 @@ using Domain.Features.Users.Common.Interfaces;
 using Domain.ValueObjects;
 using Dapper;
 using Infrastructure.Database.Connections;
-using Infrastructure.Records;
 using Domain.Enums;
 using System.Data;
 using System.Collections.Generic;

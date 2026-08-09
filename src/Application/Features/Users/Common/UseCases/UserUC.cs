@@ -35,7 +35,7 @@ namespace Application.Features.Users.Common.UseCases
             if (usuario == null)
                 throw new UnauthorizedAccessException("Credenciais inválidas");
 
-            var accessToken = _tokenService.GenerateToken(usuario.IdUsuario.ToString(), usuario.TipoUsuario.ToString());
+            var accessToken = _tokenService.GenerateToken(usuario.IdUsuario.ToString(), usuario.TipoUsuario.ToString(), usuario.IdAcademia.ToString());
 
             var rawRefreshToken = GenerateRawToken();
             var tokenHash = ComputeHash(rawRefreshToken);
@@ -43,7 +43,7 @@ namespace Application.Features.Users.Common.UseCases
             _refreshTokenRepository.Save(new RefreshToken(
                 Guid.NewGuid(),
                 tokenHash,
-                DateTime.UtcNow.AddDays(_refreshTokenSettings.DurationInDays),
+                DateTime.UtcNow.AddDays(_refreshTokenSettings.RefreshTokenDurationInDays),
                 false,
                 usuario.IdUsuario
             ));
