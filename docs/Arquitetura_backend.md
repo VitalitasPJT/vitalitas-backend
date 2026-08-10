@@ -82,6 +82,8 @@ Tabela de tradução dos termos de negócio, caso você esteja acostumado com os
 
 Uma coisa importante: **só os nomes técnicos mudaram** (pasta, arquivo, nome de classe). O que já estava em português dentro do banco de dados como texto de negócio, ou em nomes de campo específicos, não foi mexido — só a "casca" que organiza o código.
 
+> Lista completa de tudo que foi traduzido (entidades, enums, value objects, verbos de Request/Response e pastas) está em [`Glossario_Nomenclatura.md`](Glossario_Nomenclatura.md).
+
 ---
 
 ## 4. As quatro camadas, uma por uma
