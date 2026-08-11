@@ -28,11 +28,13 @@ namespace Application.Features.Users.Manager.Request
             public string Cep { get; set; }
         }
 
-        // Discriminador polimórfico nativo do System.Text.Json: o campo "tipoUsuario"
+        // Discriminador polimórfico nativo do System.Text.Json: o campo "TipoUsuario"
         // dentro do JSON de Perfil decide, no model binding, qual subtipo é
-        // desserializado. Requisição com "tipoUsuario" ausente/desconhecido já
+        // desserializado. Requisição com "TipoUsuario" ausente/desconhecido já
         // falha o binding com 400 estruturado antes de chegar na action.
-        [JsonPolymorphic(TypeDiscriminatorPropertyName = "tipoUsuario")]
+        // Nome em PascalCase pra bater com o resto do contrato (PropertyNamingPolicy
+        // = null em Program.cs — nenhum campo desta API vira camelCase).
+        [JsonPolymorphic(TypeDiscriminatorPropertyName = "TipoUsuario")]
         [JsonDerivedType(typeof(CreateMemberProfileRequest), "Aluno")]
         [JsonDerivedType(typeof(CreateInstructorProfileRequest), "Instrutor")]
         [JsonDerivedType(typeof(CreateEmployeeProfileRequest), "Administrador")]

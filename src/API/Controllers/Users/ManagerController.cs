@@ -24,12 +24,6 @@ namespace API.Controllers.Users
     public class ManagerController : ControllerBase
     {
         private readonly IManagerUseCase _gestorUseCase;
-
-        // Mapa de dispatch: tipo concreto do bloco Perfil (já resolvido pelo model
-        // binding polimórfico do System.Text.Json a partir do discriminador
-        // "tipoUsuario") -> role exigida pela matriz de permissões + delegate que
-        // monta o Constructor específico e chama o UseCase atômico certo.
-        // Adicionar um perfil novo (ex.: Gestor) é só adicionar uma entrada aqui.
         private readonly Dictionary<Type, (UserType TipoUsuario, Func<ConstructorUser, CreatePerfilRequest, CreateUserWithProfileResponse> Criar)> _criadoresDePerfil;
 
         public ManagerController(IManagerUseCase gestorUseCase)

@@ -1,4 +1,5 @@
 using API.Authorization;
+using API.Swagger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.OpenApi.Models;
@@ -88,6 +89,9 @@ builder.Services.AddSwaggerGen(options =>
             Array.Empty<string>()
         }
     });
+
+    options.SchemaFilter<PerfilRequestExampleSchemaFilter>();
+    options.OperationFilter<CriarUsuarioExamplesOperationFilter>();
 });
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
