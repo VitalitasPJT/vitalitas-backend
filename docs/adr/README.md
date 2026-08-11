@@ -15,6 +15,8 @@ Registro das decisões tomadas durante a revisão de arquitetura de 2026. Cada a
 | [0009](0009-gerenciamento-centralizado-de-versoes.md) | Gerenciamento centralizado de versões (Central Package Management) | Implementado |
 | [0010](0010-adocao-ef-core-azure-sql.md) | Adoção do EF Core Code-First para schema/migrations no Azure SQL | Implementado |
 | [0011](0011-adocao-user-secrets.md) | Adoção de `dotnet user-secrets` para segredos locais (supersede 0008) | Implementado |
+| [0012](0012-escopo-middleware-autenticacao-hu-01.md) | Escopo de "middleware" para a HU-01 (autenticação da API) | Aceito |
+| [0013](0013-authorizationpolicy-nomeadas.md) | Migração para `AuthorizationPolicy` nomeadas | Implementado |
 
 ## Formato
 

@@ -1,7 +1,9 @@
+using Domain.Enums;
+
 namespace API.Services
 {
     public interface IJwtService
     {
-        string GenerateToken(string userId, string tipoUsuario);
+        string GenerateToken(Guid userId, UserType tipoUsuario, Guid idAcademia);
     }
 }

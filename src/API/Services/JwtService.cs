@@ -1,4 +1,5 @@
 using Application.Token.Service;
+using Domain.Enums;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -22,7 +23,7 @@ namespace API.Services
             _durationMinutes = int.Parse(configuration["Jwt:DurationInMinutes"]!);
         }
 
-        public string GenerateToken(string userId, string tipoUsuario)
+        public string GenerateToken(Guid userId, UserType tipoUsuario, Guid idAcademia)
         {
             var role = MapRole(tipoUsuario);
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_key));
@@ -30,9 +31,10 @@ namespace API.Services
 
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, userId),
-                new Claim("IdUsuario", userId),
-                new Claim("TipoUsuario", tipoUsuario),
+                new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),
+                new Claim("IdUsuario", userId.ToString()),
+                new Claim("IdAcademia", idAcademia.ToString()),
+                new Claim("TipoUsuario", tipoUsuario.ToString()),
                 new Claim("Role", role),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
@@ -72,16 +74,15 @@ namespace API.Services
             }
         }
 
-        private static string MapRole(string tipoUsuario)
+        // Sem arm default: cobre exaustivamente os valores de UserType hoje. Se um
+        // perfil novo for adicionado ao enum sem entrar aqui, o compilador emite
+        // CS8509 (switch não exaustivo) em vez de falhar silenciosamente em runtime.
+        private static string MapRole(UserType tipoUsuario) => tipoUsuario switch
         {
-            return tipoUsuario switch
-            {
-                "Instrutor"     => "Instrutor",
-                "Aluno"         => "Aluno",
-                "Gestor"        => "Gestor",
-                "Administrador" => "Administrador",
-                _ => throw new InvalidOperationException($"TipoUsuario '{tipoUsuario}' nao possui mapeamento de Role configurado.")
-            };
-        }
+            UserType.Instrutor => "Instrutor",
+            UserType.Aluno => "Aluno",
+            UserType.Gestor => "Gestor",
+            UserType.Administrador => "Administrador"
+        };
     }
 }

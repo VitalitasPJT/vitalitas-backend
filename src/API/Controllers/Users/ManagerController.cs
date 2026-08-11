@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using API.Authorization;
 using API.Services;
 using static Application.Features.Users.Member.Request.MemberRQ;
 using static Application.Features.Users.Member.Response.MemberRP;
 using Application.Features.Users.Manager.Interfaces;
 using System;
+using System.Collections.Generic;
 using Application.Features.Users.Manager.Response;
 using static Application.Features.Users.Manager.Request.ManagerRQ;
 using Application.Features.Users.Common.Constructor;
@@ -12,62 +14,67 @@ using Application.Features.Users.Member.Constructor;
 using Application.Features.Users.Instructor.Constructor;
 using Application.Features.Users.Employee.Constructor;
 using Application.Features.Users.Manager.Constructor;
+using Domain.Enums;
 using Domain.ValueObjects;
 
 namespace API.Controllers.Users
 {
     [ApiController]
     [Route("gestor")]
-    [Authorize(Roles = "Gestor,Administrador")]
     public class ManagerController : ControllerBase
     {
         private readonly IManagerUseCase _gestorUseCase;
 
+        // Mapa de dispatch: tipo concreto do bloco Perfil (já resolvido pelo model
+        // binding polimórfico do System.Text.Json a partir do discriminador
+        // "tipoUsuario") -> role exigida pela matriz de permissões + delegate que
+        // monta o Constructor específico e chama o UseCase atômico certo.
+        // Adicionar um perfil novo (ex.: Gestor) é só adicionar uma entrada aqui.
+        private readonly Dictionary<Type, (UserType TipoUsuario, Func<ConstructorUser, CreatePerfilRequest, CreateUserWithProfileResponse> Criar)> _criadoresDePerfil;
+
         public ManagerController(IManagerUseCase gestorUseCase)
         {
             _gestorUseCase = gestorUseCase;
+
+            _criadoresDePerfil = new Dictionary<Type, (UserType, Func<ConstructorUser, CreatePerfilRequest, CreateUserWithProfileResponse>)>
+            {
+                [typeof(CreateMemberProfileRequest)] = (UserType.Aluno, (usuario, perfil) =>
+                {
+                    var p = (CreateMemberProfileRequest)perfil;
+                    return _gestorUseCase.CriarUsuarioAluno(usuario, new ConstructorMember(usuario.IdUsuario, p.IdInstrutor, p.IdContrato, p.Objetivo));
+                }),
+                [typeof(CreateInstructorProfileRequest)] = (UserType.Instrutor, (usuario, perfil) =>
+                {
+                    var p = (CreateInstructorProfileRequest)perfil;
+                    return _gestorUseCase.CriarUsuarioInstrutor(usuario, new ConstructorInstructor(usuario.IdUsuario, p.CREF));
+                }),
+                [typeof(CreateEmployeeProfileRequest)] = (UserType.Administrador, (usuario, perfil) =>
+                {
+                    var p = (CreateEmployeeProfileRequest)perfil;
+                    return _gestorUseCase.CriarUsuarioAdministrador(usuario, new ConstructorEmployee(usuario.IdUsuario, p.Cargo));
+                }),
+            };
         }
 
         [HttpPost("criar-usuario")]
+        [Authorize(Policy = AuthorizationPolicies.PodeGerenciarUsuarios)]
         [ApiExplorerSettings(GroupName = "Gestor")]
-        public ActionResult<CreateUserResponse> CriarUsuario([FromBody] CreateUserRequest usuario)
+        public ActionResult<CreateUserWithProfileResponse> CriarUsuario([FromBody] CreateUserWithProfileRequest request)
         {
-            try
-            {
-                var constructorUsuario = new ConstructorUser(usuario.IdAcademia, usuario.Nome, new Email(usuario.Email), usuario.Senha, usuario.DataNascimento, new CPF(usuario.Cpf), usuario.TipoUsuario, usuario.Quadra, usuario.Rua, usuario.Bairro, usuario.Cidade, usuario.Estado, usuario.Cep);
-                var response = _gestorUseCase.CriarUsuario(constructorUsuario);
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = "Erro interno do servidor", detalhe = ex.Message, StackTrace = ex.StackTrace });
-            }
-        }
+            if (!_criadoresDePerfil.TryGetValue(request.Perfil.GetType(), out var criador))
+                return BadRequest(new { message = "Tipo de perfil não reconhecido." });
 
-        [HttpPost("criar-aluno")]
-        [ApiExplorerSettings(GroupName = "Gestor")]
-        public ActionResult<CreateMemberResponse> CriarAluno([FromBody] CreateMemberRequest aluno)
-        {
-            try
-            {
-                var constructorAluno = new ConstructorMember(aluno.IdUsuario, aluno.IdInstrutor, aluno.IdContrato, aluno.Objetivo);
-                var response = _gestorUseCase.CriarAluno(constructorAluno);
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = "Erro interno do servidor", detalhe = ex.Message, StackTrace = ex.StackTrace });
-            }
-        }
+            // Matriz de permissões: só Gestor cria Administrador/Instrutor.
+            // Administrador só pode criar Aluno por aqui (Criar Alunos: Gestor+Admin).
+            if (criador.TipoUsuario != UserType.Aluno && User.FindFirst("Role")?.Value != "Gestor")
+                return Forbid();
 
-        [HttpPost("criar-instrutor")]
-        [ApiExplorerSettings(GroupName = "Gestor")]
-        public ActionResult<CreateInstructorResponse> CriarInstrutor([FromBody] CreateInstructorRequest instrutor)
-        {
             try
             {
-                var constructorInstrutor = new ConstructorInstructor(instrutor.IdUsuario, instrutor.CREF);
-                var response = _gestorUseCase.CriarInstrutor(constructorInstrutor);
+                var u = request.Usuario;
+                var constructorUsuario = new ConstructorUser(u.IdAcademia, u.Nome, new Email(u.Email), u.Senha, u.DataNascimento, new CPF(u.Cpf), criador.TipoUsuario, u.Quadra, u.Rua, u.Bairro, u.Cidade, u.Estado, u.Cep);
+
+                var response = criador.Criar(constructorUsuario, request.Perfil);
                 return Ok(response);
             }
             catch (Exception ex)
@@ -77,6 +84,7 @@ namespace API.Controllers.Users
         }
 
         [HttpGet("listar-alunos/{idAcademia}")]
+        [Authorize(Policy = AuthorizationPolicies.PodeGerenciarAlunos)]
         [ApiExplorerSettings(GroupName = "Gestor")]
         public ActionResult<ListMembersResponse> ListarAlunos([FromRoute] Guid idAcademia)
         {
@@ -92,6 +100,7 @@ namespace API.Controllers.Users
         }
 
         [HttpGet("listar-usuarios/{idAcademia}")]
+        [Authorize(Policy = AuthorizationPolicies.PodeGerenciarUsuarios)]
         [ApiExplorerSettings(GroupName = "Gestor")]
         public ActionResult<ListUsersResponse> ListarUsuarios([FromRoute] Guid idAcademia)
         {
@@ -108,6 +117,7 @@ namespace API.Controllers.Users
 
 
         [HttpGet("listar-usuario/{idUsuario}")]
+        [Authorize(Policy = AuthorizationPolicies.PodeGerenciarUsuarios)]
         [ApiExplorerSettings(GroupName = "Gestor")]
         public ActionResult<ListUsersResponse> ListarUsuario([FromRoute] Guid idUsuario)
         {

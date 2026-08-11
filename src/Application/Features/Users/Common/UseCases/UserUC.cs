@@ -35,7 +35,7 @@ namespace Application.Features.Users.Common.UseCases
             if (usuario == null)
                 throw new UnauthorizedAccessException("Credenciais inválidas");
 
-            var accessToken = _tokenService.GenerateToken(usuario.IdUsuario.ToString(), usuario.TipoUsuario.ToString());
+            var accessToken = _tokenService.GenerateToken(usuario.IdUsuario, usuario.TipoUsuario, usuario.IdAcademia);
 
             var rawRefreshToken = GenerateRawToken();
             var tokenHash = ComputeHash(rawRefreshToken);

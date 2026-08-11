@@ -23,7 +23,7 @@ namespace Infrastructure.Repositories.Users.Member
         {
             using var connection = _connectionFactory.CreateConnection();
 
-            var query = "UPDATE aluno SET objetivo = @novoobjetivo WHERE idAluno = @idaluno";
+            var query = "UPDATE [dbo].[Member] SET objetivo = @novoobjetivo WHERE idAluno = @idaluno";
             var parameters = new { idaluno, novoobjetivo };
 
             var rowsAffected = connection.Execute(query, parameters);
@@ -42,8 +42,8 @@ namespace Infrastructure.Repositories.Users.Member
             var query = @"
                 SELECT a.idAluno, u.idAcademia, a.idUsuario, a.objetivo,
                        u.nome, u.email, u.tipoUsuario
-                FROM aluno a
-                INNER JOIN usuario u ON a.idUsuario = u.idUsuario
+                FROM [dbo].[Member] a
+                INNER JOIN [dbo].[User] u ON a.idUsuario = u.idUsuario
                 WHERE a.idAluno = @idaluno";
 
             var parameters = new { idaluno = aluno };
@@ -61,7 +61,7 @@ namespace Infrastructure.Repositories.Users.Member
         {
             using var connection = _connectionFactory.CreateConnection();
             
-            string querySelect = "SELECT Senha FROM Usuario WHERE IdUsuario = @IdUsuario";
+            string querySelect = "SELECT Senha FROM [dbo].[User] WHERE IdUsuario = @IdUsuario";
             string senhaSalva = connection.QueryFirstOrDefault<string>(querySelect, new { IdUsuario = idusuario });
 
             if (senhaSalva == novasenha)
@@ -69,7 +69,7 @@ namespace Infrastructure.Repositories.Users.Member
                 throw new Exception("A nova senha não pode ser igual à senha atual.");
             }
 
-            string query = @"UPDATE Usuario SET Senha = @NovaSenha, flag = @Flag WHERE IdUsuario = @IdUsuario";
+            string query = @"UPDATE [dbo].[User] SET Senha = @NovaSenha, flag = @Flag WHERE IdUsuario = @IdUsuario";
 
             var linhasAfetadas = connection.Execute(query, new { NovaSenha = novasenha, Flag = false, IdUsuario = idusuario });
             return linhasAfetadas > 0;
@@ -79,7 +79,7 @@ namespace Infrastructure.Repositories.Users.Member
         {
             using var connection = _connectionFactory.CreateConnection();
 
-            var query = "UPDATE aluno SET IdInstrutor = @idprofessor WHERE IdAluno = @idaluno";
+            var query = "UPDATE [dbo].[Member] SET IdInstrutor = @idprofessor WHERE IdAluno = @idaluno";
             var parameters = new { idaluno, idprofessor };
 
             var rowsAffected = connection.Execute(query, parameters);
@@ -94,7 +94,7 @@ namespace Infrastructure.Repositories.Users.Member
         public Guid? ObterIdUsuarioPorAluno(Guid idAluno)
         {
             using var connection = _connectionFactory.CreateConnection();
-            var query = "SELECT idUsuario FROM aluno WHERE idAluno = @IdAluno";
+            var query = "SELECT idUsuario FROM [dbo].[Member] WHERE idAluno = @IdAluno";
             return connection.QueryFirstOrDefault<Guid?>(query, new { IdAluno = idAluno });
         }
     }

@@ -1,4 +1,6 @@
+using API.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.OpenApi.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -105,7 +107,36 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-builder.Services.AddAuthorization();
+// Fail-safe por padrão (ADR-0012): endpoints sem [Authorize]/[AllowAnonymous]
+// exigem usuário autenticado em vez de ficarem públicos por omissão.
+//
+// Policies nomeadas (em vez de [Authorize(Roles = "...")] soltos nos controllers):
+// a matriz de permissões por funcionalidade é a fonte de verdade de quem pode
+// chamar cada policy — ver docs/adr para o mapeamento completo.
+builder.Services.AddAuthorization(options =>
+{
+    options.FallbackPolicy = new AuthorizationPolicyBuilder()
+        .RequireAuthenticatedUser()
+        .Build();
+
+    options.AddPolicy(AuthorizationPolicies.PodeGerenciarUsuarios, policy =>
+        policy.RequireRole("Gestor", "Administrador"));
+
+    options.AddPolicy(AuthorizationPolicies.PodeGerenciarInstrutores, policy =>
+        policy.RequireRole("Gestor"));
+
+    options.AddPolicy(AuthorizationPolicies.PodeGerenciarAlunos, policy =>
+        policy.RequireRole("Gestor", "Administrador"));
+
+    options.AddPolicy(AuthorizationPolicies.PodeEditarFichaMedica, policy =>
+        policy.RequireRole("Instrutor"));
+
+    options.AddPolicy(AuthorizationPolicies.PodeTrocarSenha, policy =>
+        policy.RequireRole("Aluno"));
+
+    options.AddPolicy(AuthorizationPolicies.PodeAtualizarObjetivoAluno, policy =>
+        policy.RequireRole("Aluno", "Gestor", "Administrador"));
+});
 
 var app = builder.Build();
 

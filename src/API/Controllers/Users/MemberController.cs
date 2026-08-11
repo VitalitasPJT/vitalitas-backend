@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using API.Authorization;
 using API.Services;
 using static Application.Features.Users.Member.Request.MemberRQ;
 using static Application.Features.Users.Member.Response.MemberRP;
@@ -48,7 +49,7 @@ namespace API.Controllers.Users
         }
 
         [HttpPut("trocar-senha")]
-        [Authorize(Roles = "Aluno")]
+        [Authorize(Policy = AuthorizationPolicies.PodeTrocarSenha)]
         [ApiExplorerSettings(GroupName = "Aluno")]
         public ActionResult<ChangePasswordResponse> TrocarSenha([FromBody] ChangePasswordRequest reset)
         {
@@ -70,7 +71,7 @@ namespace API.Controllers.Users
         }
 
         [HttpPut("vincular-instrutor")]
-        [Authorize(Roles = "Gestor,Administrador")]
+        [Authorize(Policy = AuthorizationPolicies.PodeGerenciarAlunos)]
         [ApiExplorerSettings(GroupName = "Aluno")]
         public ActionResult<LinkInstructorResponse> VincularInstrutor([FromBody] LinkInstructorRequest request)
         {
@@ -90,7 +91,7 @@ namespace API.Controllers.Users
         }
 
         [HttpPut("atualizar-objetivo")]
-        [Authorize(Roles = "Aluno,Gestor,Administrador")]
+        [Authorize(Policy = AuthorizationPolicies.PodeAtualizarObjetivoAluno)]
         [ApiExplorerSettings(GroupName = "Aluno")]
         public ActionResult<UpdateGoalResponse> AtualizarObjetivo([FromBody] UpdateGoalRequest objetivo)
         {

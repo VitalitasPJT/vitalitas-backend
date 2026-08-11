@@ -1,4 +1,5 @@
 using Application.Features.Records.MedicalRecord.Interfaces;
+using API.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static Application.Features.Records.MedicalRecord.Request.MedicalRecordRQ;
@@ -9,7 +10,11 @@ namespace API.Controllers.Records
 {
     [ApiController]
     [Route("ficha-medica")]
-    [Authorize(Roles = "Gestor,Administrador")]
+    // Matriz de permissões: "Ficha médica base — editar" é exclusiva do Instrutor
+    // (Gestor/Administrador não editam ficha médica). Corrigido de
+    // "Gestor,Administrador" para essa policy durante a migração para
+    // AuthorizationPolicy nomeadas — ver ADR-0013.
+    [Authorize(Policy = AuthorizationPolicies.PodeEditarFichaMedica)]
     public class MedicalRecordController : Controller
     {
         private readonly IMedicalRecordUseCase _fichaMedicaUseCase;

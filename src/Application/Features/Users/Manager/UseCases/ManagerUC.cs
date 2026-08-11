@@ -29,39 +29,26 @@ namespace Application.Features.Users.Manager.UseCases
             _gestorRepository = gestorrepository;
         }
 
-        public CreateUserResponse CriarUsuario(ConstructorUser usuario)
-        {
-            var novoUsuario = new User(
-                usuario.IdUsuario,
-                usuario.IdAcademia,
-                usuario.Nome.Valor,
-                usuario.Email,
-                usuario.Senha,
-                usuario.DataNascimento,
-                usuario.CPF,
-                usuario.TipoUsuario,
-                usuario.Ativo,
-                usuario.Flag,
-                usuario.Quadra,
-                usuario.Rua,
-                usuario.Bairro,
-                usuario.Cidade,
-                usuario.Estado,
-                usuario.CEP
-            );
-            var (sucesso, idUsuario) = _gestorRepository.CriarUsuario(novoUsuario);
-            if (!sucesso)
-            {
-                var status = new HttpStatus("Erro ao criar usuário", 500, false);
-                var response = new CreateUserResponse(Guid.Empty, status);
-                return response;
-            }
-            var status_success = new HttpStatus("Usuário criado com sucesso", 201, true);
-            var response_success = new CreateUserResponse(idUsuario, status_success);
-            return response_success;
-        }
+        private static User NovoUsuario(ConstructorUser usuario) => new User(
+            usuario.IdUsuario,
+            usuario.IdAcademia,
+            usuario.Nome.Valor,
+            usuario.Email,
+            usuario.Senha,
+            usuario.DataNascimento,
+            usuario.CPF,
+            usuario.TipoUsuario,
+            usuario.Ativo,
+            usuario.Flag,
+            usuario.Quadra,
+            usuario.Rua,
+            usuario.Bairro,
+            usuario.Cidade,
+            usuario.Estado,
+            usuario.CEP
+        );
 
-        public CreateMemberResponse CriarAluno(ConstructorMember aluno)
+        public CreateUserWithProfileResponse CriarUsuarioAluno(ConstructorUser usuario, ConstructorMember aluno)
         {
             var novoAluno = new Domain.Features.Users.Member.Entities.Member(
                 aluno.IdAluno,
@@ -70,49 +57,43 @@ namespace Application.Features.Users.Manager.UseCases
                 aluno.IdContrato,
                 aluno.Objetivo
             );
-            var (sucesso, idAluno) = _gestorRepository.CriarAluno(novoAluno);
+            var (sucesso, idUsuario, idAluno) = _gestorRepository.CriarUsuarioAluno(NovoUsuario(usuario), novoAluno);
             if (!sucesso)
             {
                 var status = new HttpStatus("Erro ao criar aluno", 500, false);
-                var response = new CreateMemberResponse(Guid.Empty, status);
-                return response;
+                return new CreateUserWithProfileResponse(Guid.Empty, Guid.Empty, status);
             }
             var status_success = new HttpStatus("Aluno criado com sucesso", 201, true);
-            var response_success = new CreateMemberResponse(idAluno, status_success);
-            return response_success;
+            return new CreateUserWithProfileResponse(idUsuario, idAluno, status_success);
         }
 
-        public CreateInstructorResponse CriarInstrutor(ConstructorInstructor instrutor)
+        public CreateUserWithProfileResponse CriarUsuarioInstrutor(ConstructorUser usuario, ConstructorInstructor instrutor)
         {
             var novoInstrutor = new Domain.Features.Users.Instructor.Entities.Instructor(
                 instrutor.IdInstrutor,
                 instrutor.IdUsuario,
                 instrutor.CREF
             );
-            var (sucesso, idInstrutor) = _gestorRepository.CriarInstrutor(novoInstrutor);
+            var (sucesso, idUsuario, idInstrutor) = _gestorRepository.CriarUsuarioInstrutor(NovoUsuario(usuario), novoInstrutor);
             if (!sucesso)
             {
                 var status = new HttpStatus("Erro ao criar instrutor", 500, false);
-                var response = new CreateInstructorResponse(Guid.Empty, status);
-                return response;
+                return new CreateUserWithProfileResponse(Guid.Empty, Guid.Empty, status);
             }
             var status_success = new HttpStatus("Instrutor criado com sucesso", 201, true);
-            var response_success = new CreateInstructorResponse(idInstrutor, status_success);
-            return response_success;
+            return new CreateUserWithProfileResponse(idUsuario, idInstrutor, status_success);
         }
 
-        public CreateEmployeeResponse CriarFuncionario(ConstructorEmployee funcionario)
+        public CreateUserWithProfileResponse CriarUsuarioAdministrador(ConstructorUser usuario, ConstructorEmployee funcionario)
         {
-            var (sucesso, idFuncionario) = _gestorRepository.CriarFuncionario(funcionario.IdUsuario, funcionario.Cargo);
+            var (sucesso, idUsuario, idFuncionario) = _gestorRepository.CriarUsuarioAdministrador(NovoUsuario(usuario), funcionario.Cargo);
             if (!sucesso)
             {
-                var status = new HttpStatus("Erro ao criar funcionário", 500, false);
-                var response = new CreateEmployeeResponse(Guid.Empty, status);
-                return response;
+                var status = new HttpStatus("Erro ao criar administrador", 500, false);
+                return new CreateUserWithProfileResponse(Guid.Empty, Guid.Empty, status);
             }
-            var status_success = new HttpStatus("Funcionário criado com sucesso", 201, true);
-            var response_success = new CreateEmployeeResponse(idFuncionario, status_success);
-            return response_success;
+            var status_success = new HttpStatus("Administrador criado com sucesso", 201, true);
+            return new CreateUserWithProfileResponse(idUsuario, idFuncionario, status_success);
         }
 
         public CreateManagerResponse CriarGestor(ConstructorManager gestor)

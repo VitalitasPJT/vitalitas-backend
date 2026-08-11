@@ -19,8 +19,7 @@
 
 * **[.NET SDK 9.0+](https://dotnet.microsoft.com/download)** — se sua máquina só tiver outra major version instalada (8 ou 10), o `global.json` do repo já orienta o SDK a rodar mesmo assim (`rollForward: latestMajor`).
 * Acesso ao **Azure SQL Database** do time — peça as credenciais a quem administra o Azure do projeto (login SQL + senha).
-* Seu login com **permissão no banco `sql-db-vitalitas`** especificamente (não basta o login existir no servidor). Quem tiver acesso admin precisa rodar `CREATE USER [SeuLogin] FOR LOGIN [SeuLogin];` + `ALTER ROLE db_owner ADD MEMBER [SeuLogin];` no Query Editor desse banco — ver Troubleshooting.
-* Seu IP liberado no firewall do Azure SQL: Portal Azure → recurso do **servidor** SQL (`server-sql-vitalitas`) → **Segurança → Rede** → aba **Regras de firewall** → adicionar seu IPv4. Sem isso, todo comando abaixo falha por timeout/conexão recusada.
+* Seu login com **permissão no banco `sql-db-vitalitas`** especificamente (não basta o login existir no servidor) e seu IP liberado no firewall do Azure SQL.
 
 ## ⚠️ Banco compartilhado — leia antes de mexer em schema
 
@@ -42,7 +41,7 @@ dotnet tool restore
 
 # 2. Configurar segredos locais (connection string + chave JWT)
 cd src/API
-dotnet user-secrets set "ConnectionStrings:ConexaoPadrao" "Server={server}.database.windows.net,1433;Initial Catalog=sql-db-vitalitas;Persist Security Info=False;User ID={login};Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+dotnet user-secrets set "ConnectionStrings:ConexaoPadrao" "Server=tcp:server-sql-vitalitas.database.windows.net,1433;Initial Catalog=sql-db-vitalitas;Persist Security Info=False;User ID={Coloque seu login};Password={Coloque sua senha};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
 dotnet user-secrets set "Jwt:Key" "SUA_CHAVE_SECRETA_LOCAL_COM_PELO_MENOS_32_CARACTERES"
 cd ../..
 

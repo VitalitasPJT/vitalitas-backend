@@ -16,10 +16,9 @@ namespace Application.Features.Users.Manager.Interfaces
 {
     public interface IManagerUseCase
     {
-        CreateUserResponse CriarUsuario(ConstructorUser usuario);
-        CreateMemberResponse CriarAluno(ConstructorMember aluno);
-        CreateInstructorResponse CriarInstrutor(ConstructorInstructor instrutor);
-        CreateEmployeeResponse CriarFuncionario(ConstructorEmployee funcionario);
+        CreateUserWithProfileResponse CriarUsuarioAluno(ConstructorUser usuario, ConstructorMember aluno);
+        CreateUserWithProfileResponse CriarUsuarioInstrutor(ConstructorUser usuario, ConstructorInstructor instrutor);
+        CreateUserWithProfileResponse CriarUsuarioAdministrador(ConstructorUser usuario, ConstructorEmployee funcionario);
         CreateManagerResponse CriarGestor(ConstructorManager gestor);
         ListMembersResponse ListarAlunos(Guid idAcademia);
         ListUsersResponse ListarUsuarios(Guid idAcademia);

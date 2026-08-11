@@ -82,7 +82,7 @@ namespace Infrastructure.Repositories.Users.Common
         {
             using var connection = _connectionFactory.CreateConnection();
 
-            string query = @"INSERT INTO LogAtividade 
+            string query = @"INSERT INTO [dbo].[ActivityLog] 
             (IdLog, IdUsuario, DataHora, Acao, DispositivoLogado, Localizacao) 
             VALUES 
             (@IdLog, @IdUsuario, @DataHora, @Acao, @DispositivoLogado, @Localizacao);";
@@ -105,7 +105,7 @@ namespace Infrastructure.Repositories.Users.Common
         {
             using var connection = _connectionFactory.CreateConnection();
 
-            string query = "SELECT TipoUsuario FROM Usuario WHERE IdUsuario = @IdUsuario";
+            string query = "SELECT TipoUsuario FROM [dbo].[User] WHERE IdUsuario = @IdUsuario";
 
             var tipoUsuario = connection.QueryFirstOrDefault<int?>(query, new { IdUsuario = idUsuario });
 
@@ -116,7 +116,7 @@ namespace Infrastructure.Repositories.Users.Common
 
         public Guid GetIdAcademia(Guid idUsuario) {
             using var connection = _connectionFactory.CreateConnection();
-            string query = "SELECT IdAcademia FROM Usuario WHERE IdUsuario = @IdUsuario";
+            string query = "SELECT IdAcademia FROM [dbo].[User] WHERE IdUsuario = @IdUsuario";
             var idAcademia = connection.QueryFirstOrDefault<Guid?>(query, new { IdUsuario = idUsuario });
 
             if (idAcademia == null)
@@ -148,7 +148,7 @@ namespace Infrastructure.Repositories.Users.Common
         {
             using var connection = _connectionFactory.CreateConnection();
 
-            string querySelect = "SELECT Senha FROM Usuario WHERE IdUsuario = @IdUsuario";
+            string querySelect = "SELECT Senha FROM [dbo].[User] WHERE IdUsuario = @IdUsuario";
             string senhaSalva = connection.QueryFirstOrDefault<string>(querySelect, new { IdUsuario = idusuario });
 
             if (senhaSalva == novasenha)
@@ -156,7 +156,7 @@ namespace Infrastructure.Repositories.Users.Common
                 throw new Exception("A nova senha não pode ser igual à senha atual.");
             }
 
-            string queryUpdate = @"UPDATE Usuario SET Senha = @NovaSenha, flag = @Flag WHERE IdUsuario = @IdUsuario";
+            string queryUpdate = @"UPDATE [dbo].[User] SET Senha = @NovaSenha, flag = @Flag WHERE IdUsuario = @IdUsuario";
 
             var linhasAfetadas = connection.Execute(queryUpdate, new { NovaSenha = novasenha, Flag = false, IdUsuario = idusuario });
             

@@ -19,7 +19,7 @@ namespace Infrastructure.Repositories.Token
         {
             using var connection = _connectionFactory.CreateConnection();
             string query = @"
-                INSERT INTO refreshToken (idRefreshToken, tokenHash, dataExpiracao, revogado, idUsuario)
+                INSERT INTO [dbo].[RefreshToken] (idRefreshToken, tokenHash, dataExpiracao, revogado, idUsuario)
                 VALUES (@IdRefreshToken, @TokenHash, @DataExpiracao, @Revogado, @IdUsuario)";
 
             connection.Execute(query, new
@@ -41,7 +41,7 @@ namespace Infrastructure.Repositories.Token
                        dataExpiracao  AS DataExpiracao,
                        revogado       AS Revogado,
                        idUsuario      AS UsuarioId
-                FROM refreshToken
+                FROM [dbo].[RefreshToken]
                 WHERE tokenHash = @TokenHash";
 
             var record = connection.QueryFirstOrDefault<RefreshTokenDB>(query, new { TokenHash = tokenHash });
@@ -61,7 +61,7 @@ namespace Infrastructure.Repositories.Token
         {
             using var connection = _connectionFactory.CreateConnection();
             string query = @"
-                UPDATE refreshToken
+                UPDATE [dbo].[RefreshToken]
                 SET revogado = 1
                 WHERE idRefreshToken = @IdRefreshToken";
 

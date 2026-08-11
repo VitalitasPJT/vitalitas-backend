@@ -11,10 +11,9 @@ namespace Domain.Features.Users.Manager.Interfaces
     public interface IManagerRepository
     {
         //Implementado
-        (bool, Guid) CriarUsuario(User usuario);
-        (bool, Guid) CriarAluno(Domain.Features.Users.Member.Entities.Member aluno);
-        (bool, Guid) CriarInstrutor(Domain.Features.Users.Instructor.Entities.Instructor instrutor);
-        (bool, Guid) CriarFuncionario(Guid idUsuario, Role cargo);
+        (bool sucesso, Guid idUsuario, Guid idAluno) CriarUsuarioAluno(User usuario, Domain.Features.Users.Member.Entities.Member aluno);
+        (bool sucesso, Guid idUsuario, Guid idInstrutor) CriarUsuarioInstrutor(User usuario, Domain.Features.Users.Instructor.Entities.Instructor instrutor);
+        (bool sucesso, Guid idUsuario, Guid idFuncionario) CriarUsuarioAdministrador(User usuario, Role cargo);
         (bool, Guid) CriarGestor(Guid idUsuario);
         List<dynamic> ListarAlunos(Guid idAcademia);
         List<dynamic> ListarUsuarios(Guid idAcademia);

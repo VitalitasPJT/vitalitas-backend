@@ -23,7 +23,7 @@ namespace Infrastructure.Repositories.Records.MedicalRecord
         public (bool, Guid) CriarFichaMedica(Domain.Features.Records.MedicalRecord.Entities.MedicalRecord fichaMedica)
         {
             using var connection = _connectionFactory.CreateConnection();
-            string query = @"INSERT INTO [dbo].[] (idFicha, idAluno, alergia, restricao, lesao, cirurgia, problemaSaude, usoMedicamento)
+            string query = @"INSERT INTO [dbo].[MedicalRecord] (idFicha, idAluno, alergia, restricao, lesao, cirurgia, problemaSaude, usoMedicamento)
                             VALUES (@IdFicha, @IdAluno, @Alergia, @Restricao, @Lesao, @Cirurgia, @ProblemaSaude, @UsoMedicamento)";
             var parameters = new
             {
