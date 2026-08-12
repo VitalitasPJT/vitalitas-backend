@@ -2,11 +2,13 @@ using Domain.Features.Users.Common.Interfaces;
 using Domain.Features.Users.Member.Interfaces;
 using Domain.Features.Users.Manager.Interfaces;
 using Domain.Features.Records.MedicalRecord.Interfaces;
+using Domain.Features.Shared.Interfaces;
 using Domain.Features.Token.Interfaces;
 using Infrastructure.Repositories.Users.Common;
 using Infrastructure.Repositories.Users.Member;
 using Infrastructure.Repositories.Users.Manager;
 using Infrastructure.Repositories.Records.MedicalRecord;
+using Infrastructure.Repositories.ActivityLog;
 using Infrastructure.Repositories.Token;
 using Infrastructure.Database.Connections;
 using Infrastructure.Database.Context;
@@ -34,6 +36,7 @@ namespace Infrastructure.Extensions
             services.AddAlunoFeature();
             services.AddGestorFeature();
             services.AddFichaMedicaFeature();
+            services.AddActivityLogFeature();
             services.AddTokenFeature();
 
             return services;
@@ -60,6 +63,12 @@ namespace Infrastructure.Extensions
         private static IServiceCollection AddFichaMedicaFeature(this IServiceCollection services)
         {
             services.AddScoped<IMedicalRecordRepository, MedicalRecordRepository>();
+            return services;
+        }
+
+        private static IServiceCollection AddActivityLogFeature(this IServiceCollection services)
+        {
+            services.AddScoped<IActivityLogRepository, ActivityLogRepository>();
             return services;
         }
 

@@ -78,7 +78,7 @@ namespace Infrastructure.Repositories.Users.Common
             return usuarioEncontrado;
         }
 
-        public ActivityLog RegistrarAcao(Guid idusuario, int acao, string dispositivoLogado, string localizacao)
+        public Domain.Features.Shared.Entities.ActivityLog RegistrarAcao(Guid idusuario, int acao, string dispositivoLogado, string localizacao)
         {
             using var connection = _connectionFactory.CreateConnection();
 
@@ -87,7 +87,7 @@ namespace Infrastructure.Repositories.Users.Common
             VALUES 
             (@IdLog, @IdUsuario, @DataHora, @Acao, @DispositivoLogado, @Localizacao);";
 
-            var logAtividade = new ActivityLog(idusuario, (LogAction)acao, dispositivoLogado, localizacao);
+            var logAtividade = new Domain.Features.Shared.Entities.ActivityLog(idusuario, (LogAction)acao, dispositivoLogado, localizacao);
 
             connection.Execute(query, new
             {

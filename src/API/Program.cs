@@ -140,6 +140,9 @@ builder.Services.AddAuthorization(options =>
 
     options.AddPolicy(AuthorizationPolicies.PodeAtualizarObjetivoAluno, policy =>
         policy.RequireRole("Aluno", "Gestor", "Administrador"));
+
+    options.AddPolicy(AuthorizationPolicies.PodeVerLogs, policy =>
+        policy.RequireRole("Gestor", "Administrador"));
 });
 
 var app = builder.Build();
@@ -201,3 +204,8 @@ static void ValidateJwtConfiguration(IConfiguration configuration)
             "JWT configuration is invalid: 'Jwt:DurationInMinutes' must be a positive integer.");
     }
 }
+
+// Necessário pro WebApplicationFactory<Program> dos testes de integração
+// (tests/API.IntegrationTests) enxergar essa classe de fora do assembly —
+// top-level statements geram um Program implícito e internal por padrão.
+public partial class Program { }

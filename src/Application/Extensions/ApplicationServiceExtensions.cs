@@ -6,6 +6,8 @@ using Application.Features.Users.Manager.Interfaces;
 using Application.Features.Users.Manager.UseCases;
 using Application.Features.Records.MedicalRecord.Interfaces;
 using Application.Features.Records.MedicalRecord.UseCases;
+using Application.Features.ActivityLog.Interfaces;
+using Application.Features.ActivityLog.UseCases;
 using Application.Token.Interfaces;
 using Application.Token.UseCases;
 using Application.Token.Settings;
@@ -22,6 +24,7 @@ namespace Application.Extensions
             services.AddAlunoFeature();
             services.AddGestorFeature();
             services.AddFichaMedicaFeature();
+            services.AddActivityLogFeature();
             services.AddTokenFeature(configuration);
 
             return services;
@@ -48,6 +51,12 @@ namespace Application.Extensions
         private static IServiceCollection AddFichaMedicaFeature(this IServiceCollection services)
         {
             services.AddScoped<IMedicalRecordUseCase, MedicalRecordUC>();
+            return services;
+        }
+
+        private static IServiceCollection AddActivityLogFeature(this IServiceCollection services)
+        {
+            services.AddScoped<IActivityLogUseCase, ActivityLogUC>();
             return services;
         }
 

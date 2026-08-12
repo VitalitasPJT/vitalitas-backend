@@ -12,5 +12,6 @@ namespace API.Authorization
         public const string PodeEditarFichaMedica = nameof(PodeEditarFichaMedica);
         public const string PodeTrocarSenha = nameof(PodeTrocarSenha);
         public const string PodeAtualizarObjetivoAluno = nameof(PodeAtualizarObjetivoAluno);
+        public const string PodeVerLogs = nameof(PodeVerLogs);
     }
 }

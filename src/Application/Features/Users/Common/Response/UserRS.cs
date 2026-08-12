@@ -45,10 +45,10 @@ namespace Application.Features.Users.Common.Response
 
         public class AddLogResponse
         {
-            public ActivityLog logResgistrado { get; set; }
+            public Domain.Features.Shared.Entities.ActivityLog logResgistrado { get; set; }
             public HttpStatus Status { get; set; }
 
-            public AddLogResponse(ActivityLog logResgistrado, HttpStatus status)
+            public AddLogResponse(Domain.Features.Shared.Entities.ActivityLog logResgistrado, HttpStatus status)
             {
                 this.logResgistrado = logResgistrado;
                 Status = status;
